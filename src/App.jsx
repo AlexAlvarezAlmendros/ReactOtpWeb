@@ -8,11 +8,10 @@ function App () {
   const { cards: mappedCards } = useCards()
   return (
     <>
-      <Header title='React OTP Web' />
+      <Header/>
       <main className="container">
         <Cards cards={mappedCards} />
       </main>
-      <Footer />
     </>
   )
 }
