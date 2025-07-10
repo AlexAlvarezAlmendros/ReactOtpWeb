@@ -2,11 +2,11 @@ import './Header.css'
 
 function Header ({ children }) {
   return (
-    <header className="header">
+    <header className='header'>
       <img
-        src="/img/logoLowRes.webp"
-        alt="Logo"
-        className="logo"
+        src='/img/logoLowRes.webp'
+        alt='Logo'
+        className='logo'
       />
       <button>Inicio</button>
       <button>Artistas</button>

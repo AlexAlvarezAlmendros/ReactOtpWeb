@@ -2,7 +2,7 @@ import Card from '../Card/Card.jsx'
 import './CardList.css'
 export function CardList ({ cards }) {
   return (
-    <div className="card-list">
+    <div className='card-list'>
       {cards.map((card) => (
         <Card
           key={card.id}
@@ -17,7 +17,7 @@ export function CardList ({ cards }) {
 
 export function CardListEmpty () {
   return (
-    <div className="card-list-empty">
+    <div className='card-list-empty'>
       <p>No data available</p>
     </div>
   )
