@@ -1,7 +1,7 @@
 function Contacto () {
   return (
     <>
-      Nada
+        <p>En construcción</p>
     </>
   )
 }
