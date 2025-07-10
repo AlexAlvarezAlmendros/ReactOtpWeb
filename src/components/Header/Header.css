@@ -9,10 +9,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   gap: 1rem;
   box-shadow: 0 0px 20px rgba(14, 14, 14, 0.63);
-  
 }
 
 .header button {
