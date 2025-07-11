@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const EVENTS_ENDPOINT = 'http://localhost:5001/api/events'
+const EVENTS_ENDPOINT = `${import.meta.env.VITE_API_URL}/events`
 
 /**
  * Custom hook para obtener la lista de eventos desde la API.
@@ -44,8 +44,8 @@ export function useEvents () {
         // nuestros componentes. Esto nos protege de cambios en la API.
         const mappedCards = eventsFromApi.map((event) => ({
           id: event._id,
-          name: event.name,
-          location: event.location,
+          title: event.name,
+          subtitle: event.location,
           colaborators: event.colaborators,
           youtubeLink: event.youtubeLink,
           instagramLink: event.instagramLink,

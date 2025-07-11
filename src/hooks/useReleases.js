@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const RELEASES_ENDPOINT = 'http://localhost:5001/api/releases'
+const RELEASES_ENDPOINT = `${import.meta.env.VITE_API_URL}/releases`
 
 /**
  * Custom hook para obtener la lista de lanzamientos desde la API.

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const ARTISTS_ENDPOINT = 'http://localhost:5001/api/artists'
+const ARTISTS_ENDPOINT = `${import.meta.env.VITE_API_URL}/artists`
 
 /**
  * Custom hook para obtener la lista de artistas desde la API.
@@ -44,8 +44,8 @@ export function useArtists () {
         // nuestros componentes. Esto nos protege de cambios en la API.
         const mappedCards = artistsFromApi.map((artist) => ({
           id: artist._id,
-          name: artist.name,
-          genre: artist.genre,
+          title: artist.name,
+          subtitle: artist.genre,
           spotifyLink: artist.spotifyLink,
           youtubeLink: artist.youtubeLink,
           appleMusicLink: artist.appleMusicLink,

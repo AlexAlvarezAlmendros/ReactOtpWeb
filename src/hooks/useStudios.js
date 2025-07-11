@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const STUDIOS_ENDPOINT = 'http://localhost:5001/api/studios'
+const STUDIOS_ENDPOINT = `${import.meta.env.VITE_API_URL}/studios`
 
 /**
  * Custom hook para obtener la lista de estudios desde la API.
@@ -44,8 +44,8 @@ export function useStudios () {
         // nuestros componentes. Esto nos protege de cambios en la API.
         const mappedCards = studiosFromApi.map((studio) => ({
           id: studio._id,
-          name: studio.name,
-          location: studio.location,
+          title: studio.name,
+          subtitle: studio.location,
           colaborators: studio.colaborators,
           youtubeLink: studio.youtubeLink,
           instagramLink: studio.instagramLink,

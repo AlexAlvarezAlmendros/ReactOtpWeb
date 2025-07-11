@@ -7,7 +7,7 @@ function Eventos () {
     <>
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
-      {!loading && <Cards cards={events} />}
+      {!loading && <Cards cards={events} type={'event'} />}
     </>
   )
 }

@@ -7,7 +7,7 @@ function Artistas () {
     <>
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
-      {!loading && <Cards cards={artists} />}
+      {!loading && <Cards cards={artists} type={'artist'} />}
     </>
   )
 }
