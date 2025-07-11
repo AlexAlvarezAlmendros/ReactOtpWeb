@@ -1,18 +1,19 @@
 import './Header.css'
+import { NavLink } from 'react-router'
 
 function Header ({ children }) {
   return (
-    <header className="header">
+    <header className='header'>
       <img
-        src="/img/logoLowRes.webp"
-        alt="Logo"
-        className="logo"
+        src='/img/logoLowRes.webp'
+        alt='Logo'
+        className='logo'
       />
-      <button>Inicio</button>
-      <button>Artistas</button>
-      <button>Eventos</button>
-      <button>Estudios</button>
-      <button>Contacto</button>
+      <NavLink to="/">Inicio</NavLink>
+      <NavLink to="/artistas">Artistas</NavLink>
+      <NavLink to="/eventos">Eventos</NavLink>
+      <NavLink to="/estudios">Estudios</NavLink>
+      <NavLink to="/contacto">Contacto</NavLink>
       {children}
     </header>
   )

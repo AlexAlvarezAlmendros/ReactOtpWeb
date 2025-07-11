@@ -1,13 +1,13 @@
-import { useReleases } from '../hooks/useReleases'
+import { useArtists } from '../hooks/useArtists'
 import { Cards } from '../components/CardList/CardList'
 
 function Artistas () {
-  const { cards, loading, error } = useReleases()
+  const { artists, loading, error } = useArtists()
   return (
     <>
-       {loading && <p>Cargando...</p>}
-       {error && <p>Error: {error}</p>}
-       {!loading && <Cards cards={cards} />}
+      {loading && <p>Cargando...</p>}
+      {error && <p>Error: {error}</p>}
+      {!loading && <Cards cards={artists} type={'artist'} />}
     </>
   )
 }

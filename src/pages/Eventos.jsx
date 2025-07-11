@@ -1,13 +1,13 @@
-import { useReleases } from '../hooks/useReleases'
+import { useEvents } from '../hooks/useEvents'
 import { Cards } from '../components/CardList/CardList'
 
 function Eventos () {
-  const { cards, loading, error } = useReleases()
+  const { events, loading, error } = useEvents()
   return (
     <>
-       {loading && <p>Cargando...</p>}
-       {error && <p>Error: {error}</p>}
-       {!loading && <Cards cards={cards} />}
+      {loading && <p>Cargando...</p>}
+      {error && <p>Error: {error}</p>}
+      {!loading && <Cards cards={events} type={'event'} />}
     </>
   )
 }

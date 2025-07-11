@@ -14,7 +14,7 @@ function RootLayout () {
       <main className='container'>
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
