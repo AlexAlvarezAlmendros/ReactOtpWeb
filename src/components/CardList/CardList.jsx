@@ -21,12 +21,10 @@ export function CardList ({ cards, type }) {
 
   return (
     <div className='card-list'>
-      {cards.map((card) => (
+      {cards.map(card => (
         <CardComponent
-          title={card.title}
-          resume={card.subtitle}
-          {...card}
-        />
+          key={card.id}
+          card={card}/>
       ))}
     </div>
   )

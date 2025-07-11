@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const RELEASES_ENDPOINT = `${import.meta.env.VITE_API_URL}/releases`
-
+const API_URL = import.meta.env.VITE_API_URL
+const RELEASES_ENDPOINT = `${API_URL}/releases`
 /**
  * Custom hook para obtener la lista de lanzamientos desde la API.
  *
@@ -37,7 +37,6 @@ export function useReleases () {
         if (!response.ok) {
           throw new Error(`Error al obtener los lanzamientos: ${response.statusText}`)
         }
-
         const releasesFromApi = await response.json()
 
         // Mapeamos la respuesta de la API a la estructura que necesitan
@@ -62,6 +61,7 @@ export function useReleases () {
       } catch (e) {
         // Si el error es por abortar la petición, no hacemos nada.
         if (e.name !== 'AbortError') {
+          console.error(e)
           setError(e.message)
         }
       } finally {

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const STUDIOS_ENDPOINT = `${import.meta.env.VITE_API_URL}/studios`
+const API_URL = import.meta.env.VITE_API_URL
+const STUDIOS_ENDPOINT = `${API_URL}/studios`
 
 /**
  * Custom hook para obtener la lista de estudios desde la API.

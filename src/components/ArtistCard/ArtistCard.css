@@ -27,13 +27,20 @@
     margin: 0rem;
 }
 
-.card button {
+.card a {
+    padding: 8px;
     font-size: 2rem;
     margin: 0rem;
     background-color: transparent;
     border: none;
     cursor: pointer;
     color: #ffffff;
+}
+
+.card a:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+  color: #ffffff;
 }
 
 .card__buttons {

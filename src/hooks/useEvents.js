@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 
 // La URL base de tu API. Es una buena práctica tenerla en una constante.
 // En un proyecto real, esto vendría de una variable de entorno.
-const EVENTS_ENDPOINT = `${import.meta.env.VITE_API_URL}/events`
+const API_URL = import.meta.env.VITE_API_URL
+const EVENTS_ENDPOINT = `${API_URL}/events`
 
 /**
  * Custom hook para obtener la lista de eventos desde la API.
