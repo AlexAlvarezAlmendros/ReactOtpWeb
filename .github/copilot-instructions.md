@@ -23,6 +23,7 @@ React OTP Web is a migration of an existing .NET/Blazor application to a React-b
 - No explicit testing framework is set up yet. Consider adding Jest or React Testing Library for unit tests.
 
 ## Patterns and Conventions
+- **Code Style**: The project strictly follows **JavaScript Standard** linting rules - 100% compliance is required.
 - **Component Communication**: Props are used for passing data between components.
 - **State Management**: Local state is managed using React hooks (`useState`, `useEffect`).
 - **Error Handling**: Components display error messages when API calls fail (e.g., `Inicio.jsx`).

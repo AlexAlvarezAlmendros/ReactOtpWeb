@@ -23,15 +23,13 @@
 }
 
 .createCardModal {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #fff;
+	align-self: center;
+	justify-self: center;
+	width: fit-content;
+	background-color: #363636;
 	border-radius: 8px;
 	padding: 2rem;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -39,7 +37,7 @@
 }
 
 .createCardModal h2 {
-	color: #333;
+	color: #ffffff;
 }
 
 .createCardModal__buttons {
@@ -89,7 +87,7 @@
 
 .createCardModal__form label {
 	font-size: 1rem;
-	color: #333;
+	color: #ffffff;
 	font-weight: bold;
 	text-align: left;
 }
@@ -135,4 +133,17 @@
     .form-submit {
         grid-column: auto;
     }
+}
+
+.error-messages {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-top: 16px;
+}
+
+.error-messages p {
+  color: #721c24;
+  margin: 0;
 }

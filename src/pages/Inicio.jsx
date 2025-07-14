@@ -10,7 +10,6 @@ function Inicio () {
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
       {!loading && <Cards cards={cards} type={'release'} />}
-      <CreateCard type={'release'} />
     </>
   )
 }
