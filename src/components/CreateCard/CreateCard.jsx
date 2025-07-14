@@ -14,10 +14,6 @@ export default function CreateCard () {
 
   return (
     <>
-    <button className='create-card' aria-label='Crear nueva tarjeta'>
-        <FontAwesomeIcon icon={['fas', 'plus']} />
-    </button>
-
     <div className='createCardModal'>
         <h2>{selectedForm ? `Crear nueva tarjeta de ${selectedForm}` : 'Que quieres añadir?'}</h2>
         <div className='createCardModal__buttons'>
