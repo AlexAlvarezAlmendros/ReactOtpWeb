@@ -96,7 +96,7 @@ export default function ReleaseForm () {
             <select id="type" name="type" required>
             <option value="">Seleccione un tipo</option>
             <option value="song">Song</option>
-            <option value="album">Album</option>
+            <option value="album">Álbum</option>
             <option value="ep">EP</option>
             <option value="videoclip">Videoclip</option>
             </select>

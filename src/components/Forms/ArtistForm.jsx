@@ -52,13 +52,13 @@ export default function ArtistForm () {
     <section>
         <form onSubmit={handleSubmit} className="createCardModal__form">
         <div className="form-group">
-            <label htmlFor="title">Título*</label>
-            <input type="text" id="title" name="title" required />
+            <label htmlFor="name">Nombre*</label>
+            <input type="text" id="name" name="name" required />
         </div>
 
         <div className="form-group">
-            <label htmlFor="artist">Artista*</label>
-            <input type="text" id="artist" name="artist" required />
+            <label htmlFor="genre">Genero*</label>
+            <input type="text" id="genre" name="genre" required />
         </div>
 
         <div className="form-group">
@@ -95,10 +95,10 @@ export default function ArtistForm () {
             <label htmlFor="type">Tipo</label>
             <select id="type" name="type" required>
             <option value="">Seleccione un tipo</option>
-            <option value="song">Song</option>
-            <option value="album">Album</option>
-            <option value="ep">EP</option>
-            <option value="videoclip">Videoclip</option>
+            <option value="Producer">Productor</option>
+            <option value="Singer">Cantante</option>
+            <option value="Filmmaker">Filmaker</option>
+            <option value="Developer">Developer</option>
             </select>
         </div>
 

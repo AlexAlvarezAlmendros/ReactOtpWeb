@@ -19,16 +19,16 @@ export default function CreateCard () {
     </button>
 
     <div className='createCardModal'>
-        <h2>Crear nueva tarjeta</h2>
+        <h2>{selectedForm ? `Crear nueva tarjeta de ${selectedForm}` : 'Que quieres añadir?'}</h2>
         <div className='createCardModal__buttons'>
-            <button onClick={() => handleFormSelect('release')}>Nuevo Release</button>
-            <button onClick={() => handleFormSelect('artist')}>Nuevo Artista</button>
-            <button onClick={() => handleFormSelect('event')}>Nuevo Evento</button>
+            <button onClick={() => handleFormSelect('Release')}>Nuevo Release</button>
+            <button onClick={() => handleFormSelect('Artista')}>Nuevo Artista</button>
+            <button onClick={() => handleFormSelect('Evento')}>Nuevo Evento</button>
         </div>
 
-        {selectedForm === 'release' && <ReleaseForm />}
-        {selectedForm === 'artist' && <ArtistForm />}
-        {selectedForm === 'event' && <EventForm />}
+        {selectedForm === 'Release' && <ReleaseForm />}
+        {selectedForm === 'Artista' && <ArtistForm />}
+        {selectedForm === 'Evento' && <EventForm />}
     </div>
     </>
   )

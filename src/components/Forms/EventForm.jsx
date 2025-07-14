@@ -57,8 +57,13 @@ export default function EventForm () {
         </div>
 
         <div className="form-group">
-            <label htmlFor="artist">Artista*</label>
-            <input type="text" id="artist" name="artist" required />
+            <label htmlFor="location">Ubicacion*</label>
+            <input type="text" id="location" name="location" required />
+        </div>
+
+        <div className="form-group">
+            <label htmlFor="colaborators">Colaboradores*</label>
+            <input type="text" id="colaborators" name="colaborators" required />
         </div>
 
         <div className="form-group">
@@ -67,18 +72,8 @@ export default function EventForm () {
         </div>
 
         <div className="form-group">
-            <label htmlFor="spotify">Spotify URL</label>
-            <input type="url" id="spotify" name="spotify" />
-        </div>
-
-        <div className="form-group">
             <label htmlFor="youtube">Youtube URL</label>
             <input type="url" id="youtube" name="youtube" />
-        </div>
-
-        <div className="form-group">
-            <label htmlFor="apple">Apple URL</label>
-            <input type="url" id="apple" name="apple" />
         </div>
 
         <div className="form-group">
@@ -86,19 +81,14 @@ export default function EventForm () {
             <input type="url" id="instagram" name="instagram" />
         </div>
 
-        <div className="form-group">
-            <label htmlFor="soundcloud">SoundCloud URL</label>
-            <input type="url" id="soundcloud" name="soundcloud" />
-        </div>
-
         <div className="form-group form-group--full-width">
             <label htmlFor="type">Tipo</label>
             <select id="type" name="type" required>
             <option value="">Seleccione un tipo</option>
-            <option value="song">Song</option>
-            <option value="album">Album</option>
-            <option value="ep">EP</option>
-            <option value="videoclip">Videoclip</option>
+            <option value="Concert">Concierto</option>
+            <option value="Festival">Festival</option>
+            <option value="Showcase">Showcase</option>
+            <option value="Party">Party</option>
             </select>
         </div>
 
