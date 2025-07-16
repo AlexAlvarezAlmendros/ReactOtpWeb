@@ -1,5 +1,6 @@
 import './ArtistCard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { NavLink } from 'react-router-dom'
 
 function ArtistCard ({ card }) {
   return (
