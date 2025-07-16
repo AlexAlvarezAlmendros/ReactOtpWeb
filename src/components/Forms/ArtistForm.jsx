@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
+import { useCreateArtist } from '../../hooks/useCreateArtist.js'
 
-export default function ArtistForm () {
+export default function ArtistForm ({ onSuccess }) {
   const [errors, setErrors] = useState([])
+  const { createArtist, loading, error: apiError } = useCreateArtist()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const data = Object.fromEntries(formData.entries())
@@ -12,11 +14,11 @@ export default function ArtistForm () {
     const validationErrors = []
 
     // Validación del título
-    if (data.title.length > 60) {
+    if (data.title && data.title.length > 60) {
       validationErrors.push('El título no puede tener más de 60 caracteres')
     }
     // Validación del artista
-    if (data.artist.length > 60) {
+    if (data.artist && data.artist.length > 60) {
       validationErrors.push('El artista no puede tener más de 60 caracteres')
     }
 
@@ -43,10 +45,28 @@ export default function ArtistForm () {
       return
     }
 
+    try {
     // Limpiar errores si todo está bien
-    setErrors([])
-    // Aquí puedes agregar la lógica para procesar los datos válidos
-    console.log('Datos del formulario:', data)
+      setErrors([])
+      const artistData = {
+        name: data.name,
+        genre: data.genre,
+        img: data.img || '',
+        spotifyLink: data.spotify || '',
+        youtubeLink: data.youtube || '',
+        appleMusicLink: data.apple || '',
+        instagramLink: data.instagram || '',
+        soundcloudLink: data.soundcloud || '',
+        artistType: data.type,
+        userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
+      }
+
+      await createArtist(artistData)
+      event.target.reset() // Limpiar el formulario después de enviar
+      onSuccess?.('Artista creado con éxito') // Callback para manejar el éxito, si es necesario
+    } catch (error) {
+      setErrors([apiError || 'Error al crear el artista: ' + error.message])
+    }
   }
   return (
     <section>
@@ -102,10 +122,11 @@ export default function ArtistForm () {
             </select>
         </div>
 
-        <button type="submit" className="form-submit">
-            Crear Tarjeta
+        <button type="submit" className="form-submit" disabled={loading}>
+            {loading ? 'Creando...' : 'Crear Artista'}
         </button>
         </form>
+
         {errors.length > 0 && (
         <div className="error-messages">
             {errors.map((error, index) => (

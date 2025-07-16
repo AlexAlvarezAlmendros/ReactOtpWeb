@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
+import { useCreateEvent } from '../../hooks/useCreateEvent.js'
 
-export default function EventForm () {
+export default function EventForm ({ onSuccess }) {
   const [errors, setErrors] = useState([])
+  const { createEvent, loading, error: apiError } = useCreateEvent()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const data = Object.fromEntries(formData.entries())
@@ -12,22 +14,19 @@ export default function EventForm () {
     const validationErrors = []
 
     // Validación del título
-    if (data.title.length > 60) {
+    if (data.title && data.title.length > 60) {
       validationErrors.push('El título no puede tener más de 60 caracteres')
     }
     // Validación del artista
-    if (data.artist.length > 60) {
+    if (data.artist && data.artist.length > 60) {
       validationErrors.push('El artista no puede tener más de 60 caracteres')
     }
 
     // Validación de URLs (máximo 150 caracteres)
     const urlFields = [
       'img',
-      'spotify',
       'youtube',
-      'apple',
-      'instagram',
-      'soundcloud'
+      'instagram'
     ]
     for (const field of urlFields) {
       if (data[field] && data[field].length > 300) {
@@ -43,10 +42,29 @@ export default function EventForm () {
       return
     }
 
+    try {
     // Limpiar errores si todo está bien
-    setErrors([])
-    // Aquí puedes agregar la lógica para procesar los datos válidos
-    console.log('Datos del formulario:', data)
+      setErrors([])
+
+      const eventData = {
+        name: data.title,
+        location: data.location,
+        colaborators: data.colaborators,
+        img: data.img || '',
+        youtubeLink: data.youtube || '',
+        instagramLink: data.instagram || '',
+        detailpageUrl: data.detailpageUrl || '',
+        eventType: data.type,
+        date: new Date().toISOString(),
+        userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
+      }
+
+      await createEvent(eventData)
+      event.target.reset() // Limpiar el formulario después de enviar
+      onSuccess?.('Evento creado con éxito') // Callback para manejar el éxito, si es necesario
+    } catch (error) {
+      setErrors([apiError || 'Error al crear el evento: ' + error.message])
+    }
   }
   return (
     <section>
@@ -92,10 +110,11 @@ export default function EventForm () {
             </select>
         </div>
 
-        <button type="submit" className="form-submit">
-            Crear Tarjeta
+        <button type="submit" className="form-submit" disabled={loading}>
+            {loading ? 'Creando...' : 'Crear Evento'}
         </button>
         </form>
+
         {errors.length > 0 && (
         <div className="error-messages">
             {errors.map((error, index) => (
