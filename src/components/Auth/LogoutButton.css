@@ -1,0 +1,26 @@
+.logout-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-name {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.logout-button {
+  background-color: #dc354652;
+  color: white;
+  border: solid 1px #dc3545;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333b2;
+}

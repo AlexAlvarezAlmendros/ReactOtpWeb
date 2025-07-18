@@ -7,7 +7,7 @@
   color: #ffffff;
   padding: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
   box-shadow: 0 0px 20px rgba(14, 14, 14, 0.63);
@@ -54,4 +54,21 @@
   height: auto;
   margin-right: 1rem;
   rotate: -10deg;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-left: 30dvw;
+}
+
+.auth-section {
+  display: flex;
+  align-items: center;
+}
+
+.auth-loading {
+  color: #ccc;
+  font-size: 14px;
 }

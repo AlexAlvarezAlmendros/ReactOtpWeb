@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client'
+import { Auth0Provider } from '@auth0/auth0-react'
 import Inicio from './pages/Inicio.jsx'
 import Artistas from './pages/Artistas.jsx'
 import Contacto from './pages/Contacto.jsx'
@@ -42,6 +43,28 @@ const router = createBrowserRouter([
   }
 ])
 
+const domain = import.meta.env.VITE_AUTH0_DOMAIN
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE
+const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI || window.location.origin
+
+// Configurar authorizationParams solo si audience está definido
+const authorizationParams = {
+  redirect_uri: redirectUri
+}
+
+if (audience) {
+  authorizationParams.audience = audience
+}
+
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <Auth0Provider
+    domain={domain}
+    clientId={clientId}
+    authorizationParams={authorizationParams}
+    useRefreshTokens={true}
+    cacheLocation="localstorage"
+  >
+    <RouterProvider router={router} />
+  </Auth0Provider>
 )

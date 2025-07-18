@@ -1,0 +1,21 @@
+.protected-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.access-denied {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #dc3545;
+  font-weight: bold;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin: 10px;
+}
