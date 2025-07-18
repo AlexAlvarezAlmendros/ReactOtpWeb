@@ -1,0 +1,23 @@
+.header-section {
+    width: fit-content;
+    max-width: 90vw;
+    position: relative; /* Esto permitirá posicionar la imagen2 con respecto a este contenedor */
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: fit-content;
+}
+
+.image1, .image2 {
+    width: 80%; /* Ajusta esto según necesites */
+    height: auto; /* Para mantener la proporción */
+}
+
+.image2 {
+    position: absolute;
+    top: 20%;
+    left: 47%;
+    transform: translateX(-50%); /* Centra la imagen 2 horizontalmente respecto al contenedor .header */
+    z-index: 2; /* Asegura que la imagen 2 esté sobre la imagen 1 */
+    width: 30vw; /* Ajusta esto para cambiar el tamaño de la imagen 2 */
+}

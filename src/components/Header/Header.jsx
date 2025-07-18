@@ -10,7 +10,7 @@ function Header ({ children }) {
   return (
     <header className='header'>
       <img
-        src='/img/logoLowRes.webp'
+        src='/img/otpLogo2.png'
         alt='Logo'
         className='logo'
       />
