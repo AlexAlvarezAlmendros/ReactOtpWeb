@@ -48,6 +48,17 @@
     cursor: pointer;
     color: #ffffff;
     text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.2rem;
+    border-radius: 4px;
+}
+
+.card a:hover {
+    transform: scale(1.05);
+}
+
+.card a:active {
+    transform: scale(0.95);
 }
 
 .card__buttons {
