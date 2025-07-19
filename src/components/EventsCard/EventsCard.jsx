@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import './EventsCard.css'
+import '../Card.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function EventsCard ({ card }) {

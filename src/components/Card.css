@@ -1,0 +1,59 @@
+.card {
+    background-color: #0e0e0e;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-radius: 8px;
+    border: 1px solid #1b1b1b;
+    padding: 1rem;
+    width: fit-content;
+    gap: 1rem;
+}
+
+.card img {
+    width: calc(100% + 2rem);
+    height: auto;
+    aspect-ratio: 1 1;
+    object-fit: cover;
+    border-radius: 8px 8px 0px 0px;
+    margin: -1rem -1rem 0 -1rem;
+}
+
+.card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    color: #ffffff;
+    gap: 0.5rem;
+}
+
+.card h2 {
+    font-size: 2rem;
+    font-weight: 100;
+    margin: 0rem;
+}
+
+.card p {
+    font-size: 1rem;
+    font-weight: 100;
+    margin: 0rem;
+}
+
+.card a {
+    font-size: 2rem;
+    margin-top: 1rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.card__buttons {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+

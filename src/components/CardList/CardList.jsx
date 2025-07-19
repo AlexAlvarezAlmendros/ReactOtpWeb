@@ -1,14 +1,12 @@
 import ArtistCard from '../ArtistCard/ArtistCard.jsx'
 import EventsCard from '../EventsCard/EventsCard.jsx'
 import ReleaseCard from '../ReleaseCard/ReleaseCard.jsx'
-import StudioCard from '../StudioCard/StudioCard.jsx'
 import './CardList.css'
 
 const cardComponents = {
   artist: ArtistCard,
   release: ReleaseCard,
-  event: EventsCard,
-  studio: StudioCard
+  event: EventsCard
 }
 
 export function CardList ({ cards, type }) {
