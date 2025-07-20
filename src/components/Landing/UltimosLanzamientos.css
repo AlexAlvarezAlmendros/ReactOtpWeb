@@ -1,0 +1,22 @@
+.ultimos-lanzamientos-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  margin-left: 2rem;
+  text-align: start;
+}
+
+.ultimos-lanzamientos-list {
+  display: flex;
+  justify-content: center;
+  padding-inline: 10rem;
+  gap: 1rem;
+}
+
+
+@media (max-width: 768px) {
+  .ultimos-lanzamientos-title {
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+}

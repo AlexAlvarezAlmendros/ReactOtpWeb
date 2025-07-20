@@ -1,4 +1,4 @@
-import './ArtistCard.css'
+import '../Card.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ function ArtistCard ({ card }) {
     <article className='card'>
       <img src={card.img} alt='Portada de la obra' />
       <h2>{card.title}</h2>
-      <p>{card.resume}</p>
+      <p>{card.genre}</p>
       <div className='card__buttons'>
         <NavLink to={card.spotifyLink} aria-label='Spotify'><FontAwesomeIcon icon={['fab', 'spotify']} /></NavLink>
         <NavLink to={card.youtubeLink} aria-label='Youtube'><FontAwesomeIcon icon={['fab', 'youtube']} /></NavLink>

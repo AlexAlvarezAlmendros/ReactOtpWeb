@@ -6,6 +6,7 @@ function Eventos () {
   const { events, loading, error } = useEvents()
   return (
     <>
+      <h1>Últimos Eventos</h1>
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
       {!loading && <Cards cards={events} type={'event'} />}
