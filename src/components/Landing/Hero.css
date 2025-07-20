@@ -138,6 +138,7 @@
   font-weight: bold;
   transition: background-color 0.3s ease;
   text-transform: uppercase;
+  font-size: 1.3rem;;
 }
 
 .hero-cta:hover {
