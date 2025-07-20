@@ -8,7 +8,7 @@ export function UltimosLanzamientos () {
   const [filters] = useState({
     count: 3,
     sortBy: 'date',
-    sortOrder: 'desc'
+    sortOrder: 'asc'
   })
 
   const {

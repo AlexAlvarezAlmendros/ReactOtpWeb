@@ -37,3 +37,7 @@ yarn-error.log*
 INSTRUCCIONES_AUTH0.md
 src/components/Auth/DebugAuth.css
 src/components/Auth/DebugAuth.jsx
+SPOTIFY_INTEGRATION_FRONTEND.md
+TESTING_STATUS.md
+docs/SPOTIFY_INTEGRATION.md
+PHASE_6_TESTING_COMPLETED.md
