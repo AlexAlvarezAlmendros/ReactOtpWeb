@@ -2,7 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { useCreateEvent } from '../../hooks/useCreateEvent.js'
 
-export default function EventForm ({ onSuccess }) {
+export default function EventForm ({ onSuccess, initialData = null, isEditMode = false }) {
+  console.log('🎪 EventForm - initialData:', initialData)
+  console.log('🎪 EventForm - isEditMode:', isEditMode)
+  
   const [errors, setErrors] = useState([])
   const { createEvent, loading, error: apiError } = useCreateEvent()
 
@@ -43,7 +46,7 @@ export default function EventForm ({ onSuccess }) {
     }
 
     try {
-    // Limpiar errores si todo está bien
+      // Limpiar errores si todo está bien
       setErrors([])
 
       const eventData = {
@@ -59,49 +62,95 @@ export default function EventForm ({ onSuccess }) {
         userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
       }
 
-      await createEvent(eventData)
-      event.target.reset() // Limpiar el formulario después de enviar
-      onSuccess?.('Evento creado con éxito') // Callback para manejar el éxito, si es necesario
+      if (isEditMode) {
+        // En modo edición, pasar los datos al callback onSuccess
+        onSuccess?.(eventData)
+      } else {
+        // En modo creación, usar el hook de createEvent
+        await createEvent(eventData)
+        event.target.reset() // Limpiar el formulario después de enviar
+        onSuccess?.('Evento creado con éxito')
+      }
     } catch (error) {
       setErrors([apiError || 'Error al crear el evento: ' + error.message])
     }
   }
+
   return (
     <section>
         <form onSubmit={handleSubmit} className="createCardModal__form">
         <div className="form-group">
             <label htmlFor="title">Título*</label>
-            <input type="text" id="title" name="title" required />
+            <input 
+              type="text" 
+              id="title" 
+              name="title" 
+              defaultValue={initialData?.title || initialData?.name || ''} 
+              required 
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="location">Ubicacion*</label>
-            <input type="text" id="location" name="location" required />
+            <input 
+              type="text" 
+              id="location" 
+              name="location" 
+              defaultValue={initialData?.location || ''} 
+              required 
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="colaborators">Colaboradores*</label>
-            <input type="text" id="colaborators" name="colaborators" required />
+            <input 
+              type="text" 
+              id="colaborators" 
+              name="colaborators" 
+              defaultValue={initialData?.colaborators || ''} 
+              required 
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="img">Imagen URL*</label>
-            <input type="url" id="img" name="img" required />
+            <input 
+              type="url" 
+              id="img" 
+              name="img" 
+              defaultValue={initialData?.img || ''} 
+              required 
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="youtube">Youtube URL</label>
-            <input type="url" id="youtube" name="youtube" />
+            <input 
+              type="url" 
+              id="youtube" 
+              name="youtube" 
+              defaultValue={initialData?.youtubeLink || ''} 
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="instagram">Instagram URL</label>
-            <input type="url" id="instagram" name="instagram" />
+            <input 
+              type="url" 
+              id="instagram" 
+              name="instagram" 
+              defaultValue={initialData?.instagramLink || ''} 
+            />
         </div>
 
         <div className="form-group form-group--full-width">
             <label htmlFor="type">Tipo</label>
-            <select id="type" name="type" required>
+            <select 
+              id="type" 
+              name="type" 
+              defaultValue={initialData?.eventType || initialData?.type || ''} 
+              required
+            >
             <option value="">Seleccione un tipo</option>
             <option value="Concert">Concierto</option>
             <option value="Festival">Festival</option>
@@ -111,7 +160,10 @@ export default function EventForm ({ onSuccess }) {
         </div>
 
         <button type="submit" className="form-submit" disabled={loading}>
-            {loading ? 'Creando...' : 'Crear Evento'}
+            {isEditMode 
+              ? (loading ? 'Actualizando...' : 'Actualizar Evento')
+              : (loading ? 'Creando...' : 'Crear Evento')
+            }
         </button>
         </form>
 

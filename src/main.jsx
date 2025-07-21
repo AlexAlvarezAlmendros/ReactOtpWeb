@@ -6,6 +6,7 @@ import Contacto from './pages/Contacto.jsx'
 import Estudios from './pages/Estudios.jsx'
 import Eventos from './pages/Eventos.jsx'
 import Create from './pages/Create.jsx'
+import Discografia from './pages/Discografia.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '/eventos',
         element: <Eventos />
+      },
+      {
+        path: '/discografia',
+        element: <Discografia />
       },
       {
         path: '/crear',

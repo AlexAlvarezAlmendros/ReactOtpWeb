@@ -1,50 +1,134 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useCreateRelease } from '../../hooks/useCreateReleases.js'
+import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 
-export default function ReleaseForm ({ onSuccess }) {
+export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode = false }) {
+  console.log('🎵 ReleaseForm - initialData:', initialData)
+  console.log('🎵 ReleaseForm - isEditMode:', isEditMode)
+  
   const [errors, setErrors] = useState([])
+  const [formData, setFormData] = useState({
+    title: initialData?.title || '',
+    subtitle: initialData?.subtitle || '',
+    img: initialData?.img || '',
+    date: initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : '',
+    type: initialData?.type || initialData?.releaseType || '',
+    spotifyLink: initialData?.spotifyLink || '',
+    youtubeLink: initialData?.youtubeLink || '',
+    appleMusicLink: initialData?.appleMusicLink || initialData?.appleLink || '',
+    instagramLink: initialData?.instagramLink || '',
+    soundcloudLink: initialData?.soundcloudLink || '',
+    beatStarsLink: initialData?.beatStarsLink || '',
+    twitterLink: initialData?.twitterLink || '',
+    video: initialData?.video || '',
+    ubicacion: initialData?.ubicacion || ''
+  })
+  
+  console.log('🎵 ReleaseForm - formData inicial:', formData)
   const { createRelease, loading, error: apiError } = useCreateRelease()
 
-  const handleSubmit = async (event) => {
+  const handleSpotifyImport = useCallback((spotifyData) => {
+    console.log('📥 Datos recibidos en handleSpotifyImport:', spotifyData)
+    
+    // Los datos vienen en spotifyData.data
+    const actualData = spotifyData.data || spotifyData
+    
+    console.log('📋 Datos procesados:', actualData)
+    
+    // Formatear fecha para input date (YYYY-MM-DD)
+    let formattedDate = ''
+    if (actualData.date) {
+      try {
+        const date = new Date(actualData.date)
+        formattedDate = date.toISOString().split('T')[0]
+      } catch (error) {
+        console.warn('Error formateando fecha:', error)
+      }
+    }
+    
+    // Mapear datos de Spotify a campos del formulario
+    setFormData(prev => ({
+      ...prev,
+      title: actualData.title || prev.title,
+      subtitle: actualData.artist || actualData.subtitle || prev.subtitle,
+      img: actualData.img || prev.img,
+      spotifyLink: actualData.spotifyLink || prev.spotifyLink,
+      type: actualData.type || prev.type,
+      appleMusicLink: actualData.appleMusicLink || prev.appleMusicLink,
+      youtubeLink: actualData.youtubeMusicLink || prev.youtubeLink,
+      soundcloudLink: actualData.soundcloudLink || prev.soundcloudLink,
+      date: formattedDate || prev.date
+    }))
+    
+    console.log('✅ Formulario actualizado con datos de Spotify')
+  }, [])
+
+  const handleReset = useCallback(() => {
+    // Limpiar el formulario
+    setFormData({
+      title: '',
+      subtitle: '',
+      img: '',
+      date: '',
+      type: '',
+      spotifyLink: '',
+      youtubeLink: '',
+      appleMusicLink: '',
+      instagramLink: '',
+      soundcloudLink: '',
+      beatStarsLink: '',
+      twitterLink: '',
+      video: '',
+      ubicacion: ''
+    })
+  }, [])
+
+  const handleInputChange = useCallback((e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }, [])
+
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault()
-    const formData = new FormData(event.target)
-    const data = Object.fromEntries(formData.entries())
 
     const validationErrors = []
 
     // Validación del título
-    if (data.title && data.title.length > 60) {
+    if (formData.title && formData.title.length > 60) {
       validationErrors.push('El título no puede tener más de 60 caracteres')
     }
     // Validación del artista
-    if (data.subtitle && data.subtitle.length > 60) {
+    if (formData.subtitle && formData.subtitle.length > 60) {
       validationErrors.push('El artista no puede tener más de 60 caracteres')
     }
 
     // Validación de URLs (máximo 500 caracteres)
     const urlFields = [
-      'img',
-      'spotifyLink',
-      'youtubeLink',
-      'appleMusicLink',
-      'instagramLink',
-      'soundcloudLink',
-      'beatStarsLink',
-      'twitterLink',
-      'video'
+      { field: 'img', name: 'imagen' },
+      { field: 'spotifyLink', name: 'Spotify' },
+      { field: 'youtubeLink', name: 'YouTube' },
+      { field: 'appleMusicLink', name: 'Apple Music' },
+      { field: 'instagramLink', name: 'Instagram' },
+      { field: 'soundcloudLink', name: 'SoundCloud' },
+      { field: 'beatStarsLink', name: 'BeatStars' },
+      { field: 'twitterLink', name: 'Twitter' },
+      { field: 'video', name: 'video' }
     ]
 
-    for (const field of urlFields) {
-      if (data[field] && data[field].length > 500) {
+    for (const { field, name } of urlFields) {
+      if (formData[field] && formData[field].length > 500) {
         validationErrors.push(
-          `La URL de ${field} no puede tener más de 500 caracteres`
+          `La URL de ${name} no puede tener más de 500 caracteres`
         )
       }
     }
 
     // Validación de ubicación
-    if (data.ubicacion && data.ubicacion.length > 100) {
+    if (formData.ubicacion && formData.ubicacion.length > 100) {
       validationErrors.push('La ubicación no puede tener más de 100 caracteres')
     }
 
@@ -55,83 +139,191 @@ export default function ReleaseForm ({ onSuccess }) {
     }
 
     try {
-    // Limpiar errores si todo está bien
+      // Limpiar errores si todo está bien
       setErrors([])
 
       // Construir el objeto según la estructura requerida por la API
       const releaseData = {
-        title: data.title,
-        subtitle: data.subtitle,
-        spotifyLink: data.spotifyLink || '',
-        youtubeLink: data.video || '',
-        appleMusicLink: data.appleMusicLink || '',
-        instagramLink: data.instagramLink || '',
-        soundCloudLink: data.soundCloudLink || '',
-        beatStarsLink: data.beatStarsLink || '',
-        img: data.img || '',
-        releaseType: data.releaseType,
-        date: new Date().toISOString(),
+        title: formData.title,
+        subtitle: formData.subtitle,
+        spotifyLink: formData.spotifyLink || '',
+        youtubeLink: formData.video || '',
+        appleMusicLink: formData.appleMusicLink || '',
+        instagramLink: formData.instagramLink || '',
+        soundCloudLink: formData.soundcloudLink || '',
+        beatStarsLink: formData.beatStarsLink || '',
+        img: formData.img || '',
+        releaseType: formData.type,
+        date: formData.date || new Date().toISOString(),
         userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
       }
 
-      await createRelease(releaseData)
-      event.target.reset() // Limpiar el formulario después de enviar
-      onSuccess?.('Release creado con éxito') // Callback para manejar el éxito, si es necesario
+      if (isEditMode) {
+        // En modo edición, pasar los datos al callback onSuccess
+        onSuccess?.(releaseData)
+      } else {
+        // En modo creación, usar el hook de createRelease
+        await createRelease(releaseData)
+        
+        // Limpiar el formulario después de enviar
+        setFormData({
+          title: '',
+          subtitle: '',
+          img: '',
+          date: '',
+          type: '',
+          spotifyLink: '',
+          youtubeLink: '',
+          appleMusicLink: '',
+          instagramLink: '',
+          soundcloudLink: '',
+          beatStarsLink: '',
+          twitterLink: '',
+          video: '',
+          ubicacion: ''
+        })
+        
+        onSuccess?.('Release creado con éxito')
+      }
     } catch (error) {
       setErrors([apiError || 'Error al crear el release: ' + error.message])
     }
-  }
+  }, [formData, createRelease, apiError, onSuccess])
   return (
     <section>
+        {/* Componente de importación de Spotify - Solo en modo creación */}
+        {!isEditMode && (
+          <SpotifyImport
+            onDataImported={handleSpotifyImport}
+            onReset={handleReset}
+            type="release"
+          />
+        )}
+
         <form onSubmit={handleSubmit} className="createCardModal__form">
         <div className="form-group">
             <label htmlFor="title">Título*</label>
-            <input type="text" id="title" name="title" required />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              required
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="artist">Artista*</label>
-            <input type="text" id="artist" name="subtitle" required />
+            <input
+              type="text"
+              id="artist"
+              name="subtitle"
+              value={formData.subtitle}
+              onChange={handleInputChange}
+              required
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="img">Imagen URL*</label>
-            <input type="url" id="img" name="img" required />
+            <input
+              type="url"
+              id="img"
+              name="img"
+              value={formData.img}
+              onChange={handleInputChange}
+              required
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="spotify">Spotify URL</label>
-            <input type="url" id="spotify" name="spotifyLink" />
+            <input
+              type="url"
+              id="spotify"
+              name="spotifyLink"
+              value={formData.spotifyLink}
+              onChange={handleInputChange}
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="apple">Apple URL</label>
-            <input type="url" id="apple" name="appleMusicLink" />
+            <input
+              type="url"
+              id="apple"
+              name="appleMusicLink"
+              value={formData.appleMusicLink}
+              onChange={handleInputChange}
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="instagram">Instagram URL</label>
-            <input type="url" id="instagram" name="instagramLink" />
+            <input
+              type="url"
+              id="instagram"
+              name="instagramLink"
+              value={formData.instagramLink}
+              onChange={handleInputChange}
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="soundcloud">SoundCloud URL</label>
-            <input type="url" id="soundcloud" name="soundCloudLink" />
+            <input
+              type="url"
+              id="soundcloud"
+              name="soundcloudLink"
+              value={formData.soundcloudLink}
+              onChange={handleInputChange}
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="beatstars">BeatStars URL</label>
-            <input type="url" id="beatstars" name="beatStarsLink" />
+            <input
+              type="url"
+              id="beatstars"
+              name="beatStarsLink"
+              value={formData.beatStarsLink}
+              onChange={handleInputChange}
+            />
         </div>
 
         <div className="form-group">
             <label htmlFor="video">Video URL</label>
-            <input type="url" id="video" name="video" placeholder="URL del video (YouTube embed)" />
+            <input
+              type="url"
+              id="video"
+              name="video"
+              value={formData.video}
+              onChange={handleInputChange}
+              placeholder="URL del video (YouTube embed)"
+            />
+        </div>
+
+        <div className="form-group">
+            <label htmlFor="date">Fecha de lanzamiento</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+            />
         </div>
 
         <div className="form-group form-group--full-width">
             <label htmlFor="type">Tipo</label>
-            <select id="type" name="releaseType" required>
+            <select
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleInputChange}
+              required
+            >
             <option value="">Seleccione un tipo</option>
             <option value="Song">Song</option>
             <option value="Album">Álbum</option>
@@ -141,7 +333,10 @@ export default function ReleaseForm ({ onSuccess }) {
         </div>
 
         <button type="submit" className="form-submit" disabled={loading}>
-            {loading ? 'Creando...' : 'Crear Release'}
+            {isEditMode 
+              ? (loading ? 'Actualizando...' : 'Actualizar Release')
+              : (loading ? 'Creando...' : 'Crear Release')
+            }
         </button>
         </form>
 

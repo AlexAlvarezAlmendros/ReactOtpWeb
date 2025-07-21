@@ -13,7 +13,7 @@
 .card img {
     width: calc(100% + 2rem);
     height: auto;
-    aspect-ratio: 1 1;
+    aspect-ratio: 1;
     object-fit: cover;
     border-radius: 8px 8px 0px 0px;
     margin: -1rem -1rem 0 -1rem;
@@ -26,6 +26,8 @@
     text-align: start;
     color: #ffffff;
     gap: 0.5rem;
+    flex-grow: 1;
+    justify-content: space-between;
 }
 
 .card h2 {
