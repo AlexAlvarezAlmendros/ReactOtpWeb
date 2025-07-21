@@ -3,19 +3,24 @@ import { useState, useCallback } from 'react'
 import { useCreateArtist } from '../../hooks/useCreateArtist.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 
-export default function ArtistForm ({ onSuccess }) {
+export default function ArtistForm ({ onSuccess, initialData = null, isEditMode = false }) {
+  console.log('🎨 ArtistForm - initialData:', initialData)
+  console.log('🎨 ArtistForm - isEditMode:', isEditMode)
+  
   const [errors, setErrors] = useState([])
   const [formData, setFormData] = useState({
-    name: '',
-    genre: '',
-    img: '',
-    spotify: '',
-    youtube: '',
-    apple: '',
-    instagram: '',
-    soundcloud: '',
-    type: ''
+    name: initialData?.name || initialData?.title || '',
+    genre: initialData?.genre || '',
+    img: initialData?.img || '',
+    spotify: initialData?.spotify || initialData?.spotifyLink || '',
+    youtube: initialData?.youtube || initialData?.youtubeLink || '',
+    apple: initialData?.apple || initialData?.appleLink || '',
+    instagram: initialData?.instagram || initialData?.instagramLink || '',
+    soundcloud: initialData?.soundcloud || initialData?.soundcloudLink || '',
+    type: initialData?.type || initialData?.artistType || ''
   })
+  
+  console.log('🎨 ArtistForm - formData inicial:', formData)
   const { createArtist, loading, error: apiError } = useCreateArtist()
 
   const handleSpotifyImport = useCallback((spotifyData) => {
@@ -36,6 +41,21 @@ export default function ArtistForm ({ onSuccess }) {
     }))
     
     console.log('✅ Formulario de artista actualizado con datos de Spotify')
+  }, [])
+
+  const handleReset = useCallback(() => {
+    // Limpiar el formulario de artista
+    setFormData({
+      name: '',
+      genre: '',
+      img: '',
+      spotify: '',
+      youtube: '',
+      apple: '',
+      instagram: '',
+      soundcloud: '',
+      type: ''
+    })
   }, [])
 
   const handleInputChange = useCallback((e) => {
@@ -99,33 +119,43 @@ export default function ArtistForm ({ onSuccess }) {
         userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
       }
 
-      await createArtist(artistData)
-      
-      // Limpiar el formulario después de enviar
-      setFormData({
-        name: '',
-        genre: '',
-        img: '',
-        spotify: '',
-        youtube: '',
-        apple: '',
-        instagram: '',
-        soundcloud: '',
-        type: ''
-      })
-      
-      onSuccess?.('Artista creado con éxito') // Callback para manejar el éxito, si es necesario
+      if (isEditMode) {
+        // En modo edición, pasar los datos al callback onSuccess
+        onSuccess?.(artistData)
+      } else {
+        // En modo creación, usar el hook de createArtist
+        await createArtist(artistData)
+        
+        // Limpiar el formulario después de enviar
+        setFormData({
+          name: '',
+          genre: '',
+          img: '',
+          spotify: '',
+          youtube: '',
+          apple: '',
+          instagram: '',
+          soundcloud: '',
+          type: ''
+        })
+        
+        onSuccess?.('Artista creado con éxito')
+      }
     } catch (error) {
       setErrors([apiError || 'Error al crear el artista: ' + error.message])
     }
-  }, [formData, createArtist, apiError, onSuccess])
+  }, [formData, createArtist, apiError, onSuccess, isEditMode])
+  
   return (
     <section>
-        {/* Componente de importación de Spotify */}
-        <SpotifyImport
-          onDataImported={handleSpotifyImport}
-          type="artist"
-        />
+        {/* Componente de importación de Spotify - Solo en modo creación */}
+        {!isEditMode && (
+          <SpotifyImport
+            onDataImported={handleSpotifyImport}
+            onReset={handleReset}
+            type="artist"
+          />
+        )}
 
         <form onSubmit={handleSubmit} className="createCardModal__form">
         <div className="form-group">
@@ -237,7 +267,10 @@ export default function ArtistForm ({ onSuccess }) {
         </div>
 
         <button type="submit" className="form-submit" disabled={loading}>
-            {loading ? 'Creando...' : 'Crear Artista'}
+            {isEditMode 
+              ? (loading ? 'Actualizando...' : 'Actualizar Artista')
+              : (loading ? 'Creando...' : 'Crear Artista')
+            }
         </button>
         </form>
 

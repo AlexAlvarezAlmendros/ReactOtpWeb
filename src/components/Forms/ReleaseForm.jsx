@@ -3,24 +3,29 @@ import { useState, useCallback } from 'react'
 import { useCreateRelease } from '../../hooks/useCreateReleases.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 
-export default function ReleaseForm ({ onSuccess }) {
+export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode = false }) {
+  console.log('🎵 ReleaseForm - initialData:', initialData)
+  console.log('🎵 ReleaseForm - isEditMode:', isEditMode)
+  
   const [errors, setErrors] = useState([])
   const [formData, setFormData] = useState({
-    title: '',
-    subtitle: '',
-    img: '',
-    date: '',
-    type: '',
-    spotifyLink: '',
-    youtubeLink: '',
-    appleMusicLink: '',
-    instagramLink: '',
-    soundcloudLink: '',
-    beatStarsLink: '',
-    twitterLink: '',
-    video: '',
-    ubicacion: ''
+    title: initialData?.title || '',
+    subtitle: initialData?.subtitle || '',
+    img: initialData?.img || '',
+    date: initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : '',
+    type: initialData?.type || initialData?.releaseType || '',
+    spotifyLink: initialData?.spotifyLink || '',
+    youtubeLink: initialData?.youtubeLink || '',
+    appleMusicLink: initialData?.appleMusicLink || initialData?.appleLink || '',
+    instagramLink: initialData?.instagramLink || '',
+    soundcloudLink: initialData?.soundcloudLink || '',
+    beatStarsLink: initialData?.beatStarsLink || '',
+    twitterLink: initialData?.twitterLink || '',
+    video: initialData?.video || '',
+    ubicacion: initialData?.ubicacion || ''
   })
+  
+  console.log('🎵 ReleaseForm - formData inicial:', formData)
   const { createRelease, loading, error: apiError } = useCreateRelease()
 
   const handleSpotifyImport = useCallback((spotifyData) => {
@@ -57,6 +62,26 @@ export default function ReleaseForm ({ onSuccess }) {
     }))
     
     console.log('✅ Formulario actualizado con datos de Spotify')
+  }, [])
+
+  const handleReset = useCallback(() => {
+    // Limpiar el formulario
+    setFormData({
+      title: '',
+      subtitle: '',
+      img: '',
+      date: '',
+      type: '',
+      spotifyLink: '',
+      youtubeLink: '',
+      appleMusicLink: '',
+      instagramLink: '',
+      soundcloudLink: '',
+      beatStarsLink: '',
+      twitterLink: '',
+      video: '',
+      ubicacion: ''
+    })
   }, [])
 
   const handleInputChange = useCallback((e) => {
@@ -133,38 +158,47 @@ export default function ReleaseForm ({ onSuccess }) {
         userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
       }
 
-      await createRelease(releaseData)
-      
-      // Limpiar el formulario después de enviar
-      setFormData({
-        title: '',
-        subtitle: '',
-        img: '',
-        date: '',
-        type: '',
-        spotifyLink: '',
-        youtubeLink: '',
-        appleMusicLink: '',
-        instagramLink: '',
-        soundcloudLink: '',
-        beatStarsLink: '',
-        twitterLink: '',
-        video: '',
-        ubicacion: ''
-      })
-      
-      onSuccess?.('Release creado con éxito') // Callback para manejar el éxito, si es necesario
+      if (isEditMode) {
+        // En modo edición, pasar los datos al callback onSuccess
+        onSuccess?.(releaseData)
+      } else {
+        // En modo creación, usar el hook de createRelease
+        await createRelease(releaseData)
+        
+        // Limpiar el formulario después de enviar
+        setFormData({
+          title: '',
+          subtitle: '',
+          img: '',
+          date: '',
+          type: '',
+          spotifyLink: '',
+          youtubeLink: '',
+          appleMusicLink: '',
+          instagramLink: '',
+          soundcloudLink: '',
+          beatStarsLink: '',
+          twitterLink: '',
+          video: '',
+          ubicacion: ''
+        })
+        
+        onSuccess?.('Release creado con éxito')
+      }
     } catch (error) {
       setErrors([apiError || 'Error al crear el release: ' + error.message])
     }
   }, [formData, createRelease, apiError, onSuccess])
   return (
     <section>
-        {/* Componente de importación de Spotify */}
-        <SpotifyImport
-          onDataImported={handleSpotifyImport}
-          type="release"
-        />
+        {/* Componente de importación de Spotify - Solo en modo creación */}
+        {!isEditMode && (
+          <SpotifyImport
+            onDataImported={handleSpotifyImport}
+            onReset={handleReset}
+            type="release"
+          />
+        )}
 
         <form onSubmit={handleSubmit} className="createCardModal__form">
         <div className="form-group">
@@ -299,7 +333,10 @@ export default function ReleaseForm ({ onSuccess }) {
         </div>
 
         <button type="submit" className="form-submit" disabled={loading}>
-            {loading ? 'Creando...' : 'Crear Release'}
+            {isEditMode 
+              ? (loading ? 'Actualizando...' : 'Actualizar Release')
+              : (loading ? 'Creando...' : 'Crear Release')
+            }
         </button>
         </form>
 

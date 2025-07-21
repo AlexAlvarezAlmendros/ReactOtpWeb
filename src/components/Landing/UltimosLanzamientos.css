@@ -7,7 +7,6 @@
 }
 
 .ultimos-lanzamientos-list {
-  display: flex;
   justify-content: center;
   padding-inline: 10rem;
   gap: 1rem;

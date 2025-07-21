@@ -77,6 +77,13 @@ export const useAuth = () => {
       return token
     } catch (error) {
       console.error('Error obteniendo token:', error)
+      
+      // Si falla la obtención silenciosa del token por refresh token faltante
+      if (error.error === 'missing_refresh_token' || error.message?.includes('Missing Refresh Token')) {
+        console.warn('🔄 Missing refresh token, necesario volver a autenticarse')
+        throw new Error('Sesión expirada. Por favor, vuelve a iniciar sesión.')
+      }
+      
       throw new Error('No se pudo obtener el token de acceso')
     }
   }
