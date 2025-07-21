@@ -16,11 +16,6 @@ export default function CreateCard () {
 
   const handleSuccess = (message) => {
     setSuccessMessage(message)
-
-    setTimeout(() => {
-      setSelectedForm(null)
-      setSuccessMessage('')
-    }, 10000)
   }
 
   return (

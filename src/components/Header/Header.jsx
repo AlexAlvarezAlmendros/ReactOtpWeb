@@ -9,30 +9,37 @@ function Header ({ children }) {
 
   return (
     <header className='header'>
-      <img
-        src='/img/otpLogo2.png'
-        alt='Logo'
-        className='logo'
-      />
-      <nav className='nav-links'>
-        <NavLink to="/">Inicio</NavLink>
-        <NavLink to="/artistas">Artistas</NavLink>
-        <NavLink to="/eventos">Eventos</NavLink>
-        <NavLink to="/estudios">Estudios</NavLink>
-        <NavLink to="/contacto">Contacto</NavLink>
-      </nav>
-      <div className="auth-section">
-        {isLoading
-          ? (
-            <div className="auth-loading">Cargando...</div>
-            )
-          : isAuthenticated
+      <div className='header-content'>
+        <div className='logo-section'>
+          <img
+            src='/img/otpLogo2.png'
+            alt='Logo'
+            className='logo'
+          />
+        </div>
+        
+        <nav className='nav-links'>
+          <NavLink to="/">Inicio</NavLink>
+          <NavLink to="/artistas">Artistas</NavLink>
+          <NavLink to="/eventos">Eventos</NavLink>
+          <NavLink to="/discografia">Discografía</NavLink>
+          <NavLink to="/estudios">Estudios</NavLink>
+          <NavLink to="/contacto">Contacto</NavLink>
+        </nav>
+        
+        <div className="auth-section">
+          {isLoading
             ? (
-              <LogoutButton />
+              <div className="auth-loading">Cargando...</div>
               )
-            : (
-              <LoginButton />
-              )}
+            : isAuthenticated
+              ? (
+                <LogoutButton />
+                )
+              : (
+                <LoginButton />
+                )}
+        </div>
       </div>
       {children}
     </header>

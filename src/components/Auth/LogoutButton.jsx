@@ -6,7 +6,6 @@ export default function LogoutButton () {
 
   return (
     <div className="logout-container">
-      <span className="user-name">Hola, {user?.name}</span>
       <button
         className="logout-button"
         onClick={logout}
