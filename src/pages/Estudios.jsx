@@ -140,17 +140,14 @@ function Estudios () {
               )}
             </div>
           ))}
-          
-          <div className="service-card cta-card">
-            <button 
-              className="cta-button"
+          <button 
+              className="cta-button cta-card"
               role="button"
               aria-haspopup="dialog"
               onClick={() => alert('Funcionalidad de reserva próximamente')}
             >
               Reserva una Sesión
             </button>
-          </div>
         </div>
       </div>
     </section>

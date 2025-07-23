@@ -181,8 +181,8 @@
 .cta-button {
   width: 100%;
   padding: 16px 24px;
-  background-color: #FFD400;
-  color: #000;
+  background-color: #ff003c;
+  color: #ffffff;
   border: none;
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
@@ -195,9 +195,9 @@
 }
 
 .cta-button:hover {
-  background-color: #E6C000;
+  background-color: #ff003c;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 212, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
 }
 
 .cta-button:disabled {
@@ -281,22 +281,4 @@
 
 .service-image {
   will-change: transform;
-}
-
-/* === 8. VARIABLES CSS PARA MANTENIMIENTO === */
-:root {
-  --color-primary: #FF2255;
-  --color-secondary: #FFD400;
-  --color-background: #0E0E0E;
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #CCCCCC;
-  --color-text-muted: #B3B3B3;
-  --spacing-xs: 8px;
-  --spacing-sm: 16px;
-  --spacing-md: 24px;
-  --spacing-lg: 32px;
-  --spacing-xl: 48px;
-  --spacing-xxl: 96px;
-  --radius-sm: 12px;
-  --radius-md: 16px;
 }
