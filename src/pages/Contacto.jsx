@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useContact } from '../hooks/useContact'
 import './Contacto.css'
+import Footer from '../components/Footer/Footer'
 
 function Contacto () {
   const [formData, setFormData] = useState({
@@ -10,6 +11,12 @@ function Contacto () {
     subject: '',
     message: ''
   })
+
+  // Estados para newsletter
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterLoading, setNewsletterLoading] = useState(false)
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false)
+  const [newsletterError, setNewsletterError] = useState(null)
 
   const { sendMessage, loading, error, success, reset } = useContact()
 
@@ -45,7 +52,44 @@ function Contacto () {
     }
   }
 
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault()
+    setNewsletterLoading(true)
+    setNewsletterError(null)
+    setNewsletterSuccess(false)
+
+    try {
+      // Validar email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(newsletterEmail)) {
+        throw new Error('Por favor, introduce un email válido')
+      }
+
+      // Simular envío a la API de newsletter
+      // En un caso real, esto sería una llamada a tu endpoint de newsletter
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      
+      setNewsletterSuccess(true)
+      setNewsletterEmail('')
+      
+      // Limpiar el mensaje de éxito después de 5 segundos
+      setTimeout(() => {
+        setNewsletterSuccess(false)
+      }, 5000)
+      
+    } catch (error) {
+      setNewsletterError(error.message)
+      // Limpiar el mensaje de error después de 5 segundos
+      setTimeout(() => {
+        setNewsletterError(null)
+      }, 5000)
+    } finally {
+      setNewsletterLoading(false)
+    }
+  }
+
   return (
+    <>
     <section className="contacto-section">
       <div className="contacto-container">
         {/* Encabezado de sección */}
@@ -83,6 +127,50 @@ function Contacto () {
               <h3>Ubicación</h3>
               <p>Av Europa, Carrer de Dinamarca, 35</p>
               <p>08700 Igualada, Barcelona</p>
+            </div>
+
+            {/* Newsletter Subscription */}
+            <div className="newsletter-card">
+              <div className="newsletter-content">
+                <div className="newsletter-icon">
+                  <NewsletterIcon />
+                </div>
+                <h3>Newsletter</h3>
+                <p>Suscríbete para recibir novedades sobre lanzamientos, eventos y noticias de nuestros artistas.</p>
+                <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
+                  <div className="newsletter-input-group">
+                    <input
+                      type="email"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      className="newsletter-input"
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className={`newsletter-button ${newsletterLoading ? 'loading' : ''}`}
+                      disabled={newsletterLoading}
+                    >
+                      {newsletterLoading ? 'Enviando...' : 'Suscribirse'}
+                    </button>
+                  </div>
+                  
+                  {newsletterSuccess && (
+                    <div className="newsletter-status success">
+                      <SuccessIcon />
+                      ¡Te has suscrito correctamente!
+                    </div>
+                  )}
+                  
+                  {newsletterError && (
+                    <div className="newsletter-status error">
+                      <ErrorIcon />
+                      {newsletterError}
+                    </div>
+                  )}
+                </form>
+              </div>
             </div>
           </div>
 
@@ -197,12 +285,13 @@ function Contacto () {
             
             <div className="form-info">
               <p>* Campos obligatorios</p>
-              <p>Máximo 5 mensajes por hora por IP para prevenir spam.</p>
             </div>
           </form>
         </div>
       </div>
     </section>
+    <Footer />
+    </>
   )
 }
 
@@ -245,6 +334,14 @@ const ErrorIcon = () => (
     <circle cx="12" cy="12" r="10"/>
     <line x1="15" y1="9" x2="9" y2="15"/>
     <line x1="9" y1="9" x2="15" y2="15"/>
+  </svg>
+)
+
+const NewsletterIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-label="Newsletter">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    <path d="M7 10l5 3 5-3"/>
   </svg>
 )
 

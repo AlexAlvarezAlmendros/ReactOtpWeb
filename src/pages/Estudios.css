@@ -46,7 +46,6 @@
   border-radius: 16px;
   padding: 24px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
   position: relative;
   overflow: hidden;
 }

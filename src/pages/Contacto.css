@@ -91,6 +91,169 @@
   line-height: 1.5;
 }
 
+/* === NEWSLETTER CARD === */
+.newsletter-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #333;
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff003c, transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.newsletter-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 0, 60, 0.2);
+  border-color: #ff003c;
+}
+
+.newsletter-content {
+  position: relative;
+  z-index: 1;
+}
+
+.newsletter-icon {
+  color: #ff003c;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-card h3 {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: white;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.newsletter-card p {
+  font-size: 0.875rem;
+  color: #CCCCCC;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.newsletter-form {
+  width: 100%;
+}
+
+.newsletter-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 12px 16px;
+  background-color: #333;
+  border: 2px solid #444;
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.875rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.newsletter-input::placeholder {
+  color: #888;
+}
+
+.newsletter-button {
+  padding: 12px 20px;
+  background-color: #ff003c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  position: relative;
+}
+
+.newsletter-button:hover:not(:disabled) {
+  background-color: #e6003a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
+}
+
+.newsletter-button:disabled {
+  background-color: #666;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.newsletter-button.loading::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.newsletter-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.newsletter-status.success {
+  background-color: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.newsletter-status.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
 /* === FORMULARIO === */
 .contact-form {
   background-color: #0E0E0E;
@@ -276,7 +439,8 @@
     gap: 16px;
   }
   
-  .info-card {
+  .info-card,
+  .newsletter-card {
     padding: 20px;
   }
   
@@ -287,19 +451,36 @@
   .form-group {
     margin-bottom: 20px;
   }
+  
+  .newsletter-input-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .newsletter-button {
+    width: 100%;
+  }
 }
 
 /* === ACCESIBILIDAD === */
 @media (prefers-reduced-motion: reduce) {
   .info-card,
+  .newsletter-card,
   .submit-button,
+  .newsletter-button,
   .form-input,
   .form-select,
-  .form-textarea {
+  .form-textarea,
+  .newsletter-input {
     transition: none;
   }
   
-  .submit-button.loading::after {
+  .submit-button.loading::after,
+  .newsletter-button.loading::after {
+    animation: none;
+  }
+  
+  .newsletter-card::before {
     animation: none;
   }
 }
