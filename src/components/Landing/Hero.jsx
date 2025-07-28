@@ -1,4 +1,5 @@
 import './Hero.css'
+import { NavLink } from 'react-router'
 
 export function Hero () {
   return (
@@ -23,8 +24,8 @@ export function Hero () {
           <h1 className='hero-title'>OTHER PEOPLE RECORDS</h1>
           <p className='hero-subtitle'>Trap & Rap Live - Producción y Distribución</p>
           <div className='hero-buttons'>
-            <button className='hero-cta'>Booking</button>
-            <button className='hero-cta'>Escuchar</button>
+            <NavLink className='hero-cta' to="/contacto">Booking</NavLink>
+            <NavLink target="_blank" className='hero-cta' to="https://open.spotify.com/playlist/0dn9LnyS9u2kbBGTPKAHPz?si=ba612b6413ea40ad">Escuchar</NavLink>
           </div>
         </div>
       </div>
