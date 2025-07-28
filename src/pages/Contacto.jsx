@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useContact } from '../hooks/useContact'
+import { useNewsletter } from '../hooks/useNewsletter'
 import './Contacto.css'
 import Footer from '../components/Footer/Footer'
 
@@ -14,11 +15,15 @@ function Contacto () {
 
   // Estados para newsletter
   const [newsletterEmail, setNewsletterEmail] = useState('')
-  const [newsletterLoading, setNewsletterLoading] = useState(false)
-  const [newsletterSuccess, setNewsletterSuccess] = useState(false)
-  const [newsletterError, setNewsletterError] = useState(null)
 
   const { sendMessage, loading, error, success, reset } = useContact()
+  const { 
+    subscribe: subscribeNewsletter, 
+    loading: newsletterLoading, 
+    error: newsletterError, 
+    success: newsletterSuccess,
+    reset: resetNewsletter 
+  } = useNewsletter()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -30,6 +35,15 @@ function Contacto () {
     // Limpiar mensajes de estado cuando el usuario empiece a escribir
     if (error || success) {
       reset()
+    }
+  }
+
+  const handleNewsletterEmailChange = (e) => {
+    setNewsletterEmail(e.target.value)
+    
+    // Limpiar mensajes de estado cuando el usuario empiece a escribir
+    if (newsletterError || newsletterSuccess) {
+      resetNewsletter()
     }
   }
 
@@ -54,37 +68,32 @@ function Contacto () {
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault()
-    setNewsletterLoading(true)
-    setNewsletterError(null)
-    setNewsletterSuccess(false)
 
     try {
-      // Validar email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(newsletterEmail)) {
-        throw new Error('Por favor, introduce un email válido')
+      const result = await subscribeNewsletter(newsletterEmail, 'contact-page')
+      
+      if (result.success) {
+        // Limpiar el email solo si la suscripción fue exitosa
+        setNewsletterEmail('')
+        
+        // Auto-limpiar el mensaje de éxito después de 5 segundos
+        setTimeout(() => {
+          resetNewsletter()
+        }, 5000)
+      } else {
+        // Para casos como "ya suscrito", no limpiamos el email
+        // y el mensaje de error se auto-limpia después de 5 segundos
+        setTimeout(() => {
+          resetNewsletter()
+        }, 5000)
       }
-
-      // Simular envío a la API de newsletter
-      // En un caso real, esto sería una llamada a tu endpoint de newsletter
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      setNewsletterSuccess(true)
-      setNewsletterEmail('')
-      
-      // Limpiar el mensaje de éxito después de 5 segundos
-      setTimeout(() => {
-        setNewsletterSuccess(false)
-      }, 5000)
       
     } catch (error) {
-      setNewsletterError(error.message)
-      // Limpiar el mensaje de error después de 5 segundos
+      console.error('Error al suscribir a newsletter:', error)
+      // Auto-limpiar el mensaje de error después de 5 segundos
       setTimeout(() => {
-        setNewsletterError(null)
+        resetNewsletter()
       }, 5000)
-    } finally {
-      setNewsletterLoading(false)
     }
   }
 
@@ -142,7 +151,7 @@ function Contacto () {
                     <input
                       type="email"
                       value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      onChange={handleNewsletterEmailChange}
                       placeholder="tu@email.com"
                       className="newsletter-input"
                       required
@@ -159,7 +168,7 @@ function Contacto () {
                   {newsletterSuccess && (
                     <div className="newsletter-status success">
                       <SuccessIcon />
-                      ¡Te has suscrito correctamente!
+                      ¡Te has suscrito correctamente a nuestra newsletter!
                     </div>
                   )}
                   
