@@ -94,9 +94,9 @@ function Footer () {
             <p>&copy; {year} Other People Records. Todos los derechos reservados.</p>
           </div>
           <div className='footer-legal'>
-            <a href='/privacidad'>Política de Privacidad</a>
-            <a href='/terminos'>Términos de Uso</a>
-            <a href='/cookies'>Política de Cookies</a>
+            <NavLink to='/privacidad'>Política de Privacidad</NavLink>
+            <NavLink to='/terminos'>Términos de Uso</NavLink>
+            <NavLink to='/cookies'>Política de Cookies</NavLink>
           </div>
         </div>
       </div>
