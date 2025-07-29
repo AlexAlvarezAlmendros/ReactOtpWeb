@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './ReservaModal.css'
 
 function ReservaModal ({ isOpen, onClose, onSubmit }) {
@@ -13,6 +13,47 @@ function ReservaModal ({ isOpen, onClose, onSubmit }) {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
+
+  // Controlar el scroll del body cuando el modal está abierto
+  useEffect(() => {
+    if (isOpen) {
+      // Guardar el scroll actual
+      const scrollY = window.scrollY
+      
+      // Deshabilitar scroll del body
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = '100%'
+      document.body.style.overflow = 'hidden'
+      
+      return () => {
+        // Restaurar el scroll del body al cerrar el modal
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.width = ''
+        document.body.style.overflow = ''
+        
+        // Restaurar la posición del scroll
+        window.scrollTo(0, scrollY)
+      }
+    }
+  }, [isOpen])
+
+  // Manejar tecla Escape para cerrar el modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape)
+      return () => {
+        document.removeEventListener('keydown', handleEscape)
+      }
+    }
+  }, [isOpen, onClose])
 
   const servicios = [
     'Grabación',
