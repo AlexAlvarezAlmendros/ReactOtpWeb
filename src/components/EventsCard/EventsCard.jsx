@@ -18,7 +18,8 @@ function EventsCard ({ card }) {
       <div className='card-content'>
         <div>
           <h2>{card.title}</h2>
-          <p>{card.resume}</p>
+          <h2>{card.colaborators}</h2>
+          <p>{card.subtitle}</p>
         </div>
         <div className='card__buttons'>
           {availableLinks.map((item, index) => (
