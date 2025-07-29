@@ -278,6 +278,100 @@
   will-change: transform;
 }
 
+/* === 8. NOTIFICACIÓN DE ÉXITO === */
+.success-notification {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.success-content {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 
+    0 10px 25px rgba(72, 187, 120, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 400px;
+  position: relative;
+}
+
+.success-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.success-text h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.success-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.success-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  opacity: 0.8;
+}
+
+.success-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive para notificación */
+@media (max-width: 768px) {
+  .success-notification {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .success-content {
+    padding: 1rem;
+  }
+
+  .success-text h3 {
+    font-size: 1rem;
+  }
+
+  .success-text p {
+    font-size: 0.875rem;
+  }
+}
+
 .service-image {
   will-change: transform;
 }

@@ -1,6 +1,13 @@
+import React, { useState } from 'react'
 import './Estudios.css'
+import ReservaModal from '../components/ReservaModal/ReservaModal'
+import { useReserva } from '../hooks/useReserva'
 
 function Estudios () {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const { enviarReserva, isLoading, error } = useReserva()
+
   const services = [
     {
       id: 1,
@@ -93,6 +100,27 @@ function Estudios () {
     }
   }
 
+  const handleReservaClick = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleSubmitReserva = async (datosReserva) => {
+    try {
+      await enviarReserva(datosReserva)
+      setShowSuccessMessage(true)
+      setTimeout(() => {
+        setShowSuccessMessage(false)
+      }, 5000)
+    } catch (error) {
+      // El error ya se maneja en el hook
+      console.error('Error en reserva:', error)
+    }
+  }
+
   return (
     <section className="estudios-section">
       <div className="estudios-container">
@@ -144,12 +172,39 @@ function Estudios () {
               className="cta-button cta-card"
               role="button"
               aria-haspopup="dialog"
-              onClick={() => alert('Funcionalidad de reserva próximamente')}
+              onClick={handleReservaClick}
             >
               Reserva una Sesión
             </button>
         </div>
       </div>
+
+      {/* Mensaje de éxito */}
+      {showSuccessMessage && (
+        <div className="success-notification">
+          <div className="success-content">
+            <div className="success-icon">✅</div>
+            <div className="success-text">
+              <h3>¡Reserva enviada correctamente!</h3>
+              <p>Te contactaremos pronto para confirmar tu sesión de estudio.</p>
+            </div>
+            <button 
+              className="success-close"
+              onClick={() => setShowSuccessMessage(false)}
+              aria-label="Cerrar notificación"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de reserva */}
+      <ReservaModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitReserva}
+      />
     </section>
   )
 }
