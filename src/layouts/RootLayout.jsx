@@ -2,6 +2,8 @@ import { Outlet } from 'react-router-dom'
 import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
+import MobileNavContainer from '../components/MobileNav/MobileNavContainer'
+import { MobileNavProvider } from '../contexts/MobileNavContext'
 
 /**
  * Componente de plantilla que define la estructura principal de la página
@@ -11,10 +13,13 @@ import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 function RootLayout () {
   return (
     <ErrorBoundary>
-      <Header />
-      <main className='container'>
-        <Outlet />
-      </main>
+      <MobileNavProvider>
+        <Header />
+        <MobileNavContainer />
+        <main className='container'>
+          <Outlet />
+        </main>
+      </MobileNavProvider>
     </ErrorBoundary>
   )
 }

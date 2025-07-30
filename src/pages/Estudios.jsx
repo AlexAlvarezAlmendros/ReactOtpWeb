@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Estudios.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
 import { useReserva } from '../hooks/useReserva'
+import Footer from '../components/Footer/Footer'
 
 function Estudios () {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -122,7 +123,8 @@ function Estudios () {
   }
 
   return (
-    <section className="estudios-section">
+    <>
+      <section className="estudios-section">
       <div className="estudios-container">
         {/* Encabezado de sección */}
         <header className="estudios-header">
@@ -206,6 +208,8 @@ function Estudios () {
         onSubmit={handleSubmitReserva}
       />
     </section>
+    <Footer />
+    </>
   )
 }
 

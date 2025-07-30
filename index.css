@@ -3,6 +3,7 @@ body {
     color: #ffffff;
     font-family: 'Montserrat', sans-serif;
     margin: 0px;
+    padding: 0px;
     overflow-x: hidden; /* Previene scroll horizontal */
 }
 
