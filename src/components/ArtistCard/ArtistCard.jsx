@@ -19,7 +19,6 @@ function ArtistCard ({ card }) {
       <div className='card-content'>
         <div>
           <h2>{card.title}</h2>
-          <p>{card.genre}</p>
         </div>
         <div className='card__buttons'>
           {availableLinks.map((item, index) => (

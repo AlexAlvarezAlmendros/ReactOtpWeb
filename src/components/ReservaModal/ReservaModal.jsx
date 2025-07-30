@@ -334,10 +334,9 @@ function ReservaModal ({ isOpen, onClose, onSubmit }) {
             <li>Las reservas están sujetas a disponibilidad</li>
             <li>Te contactaremos en 24-48 horas para confirmar</li>
             <li>Horario de estudio: 9:00 - 20:00</li>
-            <li>Puedes cancelar hasta 24h antes sin coste</li>
           </ul>
         </div>
-      </div>
+      </div> 
     </div>
   )
 }
