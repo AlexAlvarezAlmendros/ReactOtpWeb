@@ -1,7 +1,6 @@
 .header {
   position: sticky;
   position: -webkit-sticky; /* Para Safari */
-  width: 100%;
   top: 0;
   background: #2b2b2bce;
   backdrop-filter: blur(8px);
@@ -10,6 +9,8 @@
   padding: 1rem;
   box-shadow: 0 0px 20px rgba(14, 14, 14, 0.63);
   z-index: 15;
+  isolation: isolate;
+  min-height: 20px;
 }
 
 .header-content {

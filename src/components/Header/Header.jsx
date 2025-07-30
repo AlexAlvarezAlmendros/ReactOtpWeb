@@ -3,10 +3,12 @@ import { NavLink } from 'react-router'
 import { useAuth } from '../../hooks/useAuth'
 import LoginButton from '../Auth/LoginButton'
 import LogoutButton from '../Auth/LogoutButton'
-import MobileNav from '../MobileNav/MobileNav'
+import MobileNavToggle from '../MobileNav/MobileNavToggle'
+import { useMobileNavContext } from '../../contexts/MobileNavContext'
 
 function Header ({ children }) {
   const { isAuthenticated, isLoading } = useAuth()
+  const { isOpen, togglePanel } = useMobileNavContext()
 
   return (
     <header className='header'>
@@ -41,7 +43,8 @@ function Header ({ children }) {
                 <LoginButton />
                 )}
         </div>
-        <MobileNav />
+        
+        <MobileNavToggle isOpen={isOpen} onToggle={togglePanel} />
       </div>
       {children}
     </header>

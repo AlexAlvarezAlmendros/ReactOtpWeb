@@ -26,6 +26,13 @@ function MobileNavPanel ({ isOpen, onClose }) {
           alt="Other People Records"
           className="mobile-nav-logo"
         />
+        <button 
+          className="mobile-nav-close" 
+          onClick={onClose}
+          aria-label="Cerrar menú"
+        >
+          <span className="close-icon">×</span>
+        </button>
       </div>
 
       {/* Enlaces de navegación */}
