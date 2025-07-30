@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 import { useAuth } from '../../hooks/useAuth'
 import LoginButton from '../Auth/LoginButton'
 import LogoutButton from '../Auth/LogoutButton'
+import MobileNav from '../MobileNav/MobileNav'
 
 function Header ({ children }) {
   const { isAuthenticated, isLoading } = useAuth()
@@ -40,6 +41,7 @@ function Header ({ children }) {
                 <LoginButton />
                 )}
         </div>
+        <MobileNav />
       </div>
       {children}
     </header>

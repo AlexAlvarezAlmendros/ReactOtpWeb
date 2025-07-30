@@ -1,0 +1,131 @@
+.mobile-nav-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 320px;
+  height: 100vh;
+  background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 25;
+  transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-nav-panel.open {
+  right: 0;
+}
+
+/* Header del panel */
+.mobile-nav-header {
+  padding: 2rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.mobile-nav-logo {
+  width: 80px;
+  height: auto;
+  filter: brightness(1.1);
+}
+
+/* Enlaces de navegación */
+.mobile-nav-links {
+  flex: 1;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  transition: width 0.3s ease;
+}
+
+.mobile-nav-link:hover::before,
+.mobile-nav-link.active::before {
+  width: 100%;
+}
+
+.mobile-nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
+}
+
+.mobile-nav-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Sección de autenticación */
+.mobile-nav-auth {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.mobile-auth-loading {
+  color: #ccc;
+  font-size: 14px;
+}
+
+/* Animaciones de entrada */
+.mobile-nav-panel .mobile-nav-link {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideInFromRight 0.5s ease forwards;
+}
+
+.mobile-nav-panel.open .mobile-nav-link:nth-child(1) { animation-delay: 0.1s; }
+.mobile-nav-panel.open .mobile-nav-link:nth-child(2) { animation-delay: 0.15s; }
+.mobile-nav-panel.open .mobile-nav-link:nth-child(3) { animation-delay: 0.2s; }
+.mobile-nav-panel.open .mobile-nav-link:nth-child(4) { animation-delay: 0.25s; }
+.mobile-nav-panel.open .mobile-nav-link:nth-child(5) { animation-delay: 0.3s; }
+.mobile-nav-panel.open .mobile-nav-link:nth-child(6) { animation-delay: 0.35s; }
+
+@keyframes slideInFromRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .mobile-nav-panel {
+    width: 90%;
+  }
+  
+  .mobile-nav-link {
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+/* Focus states para accesibilidad */
+.mobile-nav-link:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: -2px;
+}
