@@ -84,6 +84,16 @@ export const usePermissions = () => {
         if (shouldLog) {
           console.log('🟢 User permissions mapped')
         }
+      } else if (roles.includes('Artist') || roles.includes('Artista') || roles.includes('artist') || roles.includes('artista')) {
+        permissionsResult = [
+          'read:releases', 'write:releases',
+          'read:artists', 'write:artists',
+          'read:events', 'write:events',
+          'read:studios'
+        ]
+        if (shouldLog) {
+          console.log('🟢 Artist permissions mapped')
+        }
       }
     } else {
       if (shouldLog) {
@@ -160,6 +170,7 @@ export const usePermissions = () => {
     isAdmin: hasPermission('admin:all') || hasRole('admin'),
     isEditor: hasRole('editor'),
     isUser: hasRole('user'),
+    isArtist: hasRole('Artist') || hasRole('Artista') || hasRole('artist') || hasRole('artista'),
 
     // Datos sin procesar (ya memoizados)
     permissions,

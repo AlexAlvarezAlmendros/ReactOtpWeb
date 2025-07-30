@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { useCreateEvent } from '../../hooks/useCreateEvent.js'
+import { useAuth } from '../../hooks/useAuth.js'
 
 export default function EventForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎪 EventForm - initialData:', initialData)
   console.log('🎪 EventForm - isEditMode:', isEditMode)
   
+  const { user } = useAuth()
   const [errors, setErrors] = useState([])
   const { createEvent, loading, error: apiError } = useCreateEvent()
 
@@ -59,7 +61,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
         detailpageUrl: data.detailpageUrl || '',
         eventType: data.type,
         date: new Date().toISOString(),
-        userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
+        userId: user?.sub || null
       }
 
       if (isEditMode) {

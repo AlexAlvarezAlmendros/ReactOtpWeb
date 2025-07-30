@@ -14,7 +14,7 @@ import './ManageCards.css'
 
 function ManageCards () {
   const { user, isAuthenticated } = useAuth()
-  const { isAdmin } = usePermissions()
+  const { isAdmin, isArtist } = usePermissions()
   const { deleteItem, loading: deleteLoading, error: deleteError } = useDelete()
   
   const [activeTab, setActiveTab] = useState('releases')
@@ -23,7 +23,17 @@ function ManageCards () {
   const [editModal, setEditModal] = useState(null) // { item, type }
 
   // Configurar filtros basados en permisos
+  // - Admin: Ve todas las cards del sistema (sin filtros)
+  // - Otros roles (incluyendo Artist): Solo ven las cards que han creado (filtro por userId)
   const filterOptions = isAdmin ? {} : { userId: user?.sub }
+
+  // Debug: Log del rol y filtros aplicados
+  console.log('🎭 ManageCards - Role Info:', {
+    isAdmin,
+    isArtist,
+    userId: user?.sub,
+    filterOptions
+  })
 
   // Hooks para obtener datos
   const { 
@@ -169,9 +179,15 @@ function ManageCards () {
     }
 
     if (items.length === 0) {
+      const noItemsMessage = isAdmin 
+        ? `No hay ${activeTab} en el sistema.`
+        : isArtist 
+          ? `No has creado ningún ${activeTab.slice(0, -1)} aún.`
+          : `No has creado ${activeTab} aún.`
+      
       return (
         <div className="no-items">
-          <p>No hay {activeTab} {isAdmin ? 'en el sistema' : 'creados por ti'}.</p>
+          <p>{noItemsMessage}</p>
         </div>
       )
     }
@@ -211,7 +227,14 @@ function ManageCards () {
 
   return (
     <div className="manage-cards">
-      <h2>{isAdmin ? 'Gestionar todos los elementos' : 'Mis elementos creados'}</h2>
+      <h2>
+        {isAdmin 
+          ? 'Gestionar todos los elementos' 
+          : isArtist 
+            ? 'Mis obras creadas' 
+            : 'Mis elementos creados'
+        }
+      </h2>
       
       {deleteSuccess && <div className="success-message">{deleteSuccess}</div>}
       {deleteError && (
