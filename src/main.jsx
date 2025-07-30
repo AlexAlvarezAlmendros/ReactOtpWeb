@@ -7,6 +7,9 @@ import Estudios from './pages/Estudios.jsx'
 import Eventos from './pages/Eventos.jsx'
 import Create from './pages/Create.jsx'
 import Discografia from './pages/Discografia.jsx'
+import Privacidad from './pages/Privacidad.jsx'
+import Terminos from './pages/Terminos.jsx'
+import Cookies from './pages/Cookies.jsx'
 import NotFound from './pages/NotFound.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -44,6 +47,18 @@ const router = createBrowserRouter([
       {
         path: '/crear',
         element: <Create />
+      },
+      {
+        path: '/privacidad',
+        element: <Privacidad />
+      },
+      {
+        path: '/terminos',
+        element: <Terminos />
+      },
+      {
+        path: '/cookies',
+        element: <Cookies />
       },
       {
         path: '*',
