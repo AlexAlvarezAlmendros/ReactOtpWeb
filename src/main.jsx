@@ -15,6 +15,7 @@ import Cookies from './pages/Cookies.jsx'
 import NotFound from './pages/NotFound.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import RootLayout from './layouts/RootLayout.jsx'
 
 const router = createBrowserRouter([
@@ -100,6 +101,7 @@ createRoot(document.getElementById('root')).render(
     useRefreshTokens={true}
     cacheLocation="localstorage"
   >
+    <SpeedInsights />
     <RouterProvider router={router} />
   </Auth0Provider>
 )
