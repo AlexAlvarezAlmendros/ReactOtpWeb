@@ -1,0 +1,140 @@
+/* Importamos los estilos base */
+@import './Privacidad.css';
+
+/* Estilos específicos para Cookies */
+.legal-header h1 {
+  background: linear-gradient(135deg, #ff003c, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cookie-summary {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.cookie-summary h3 {
+  color: #8b5cf6;
+  margin: 0 0 1rem;
+}
+
+.cookie-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.cookie-type-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cookie-type-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.cookie-type-card h3 {
+  color: #8b5cf6;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.technical-cookies {
+  border-left: 4px solid #22c55e;
+}
+
+.analytics-cookies {
+  border-left: 4px solid #3b82f6;
+}
+
+.auth-cookies {
+  border-left: 4px solid #f59e0b;
+}
+
+.browser-config {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.browser-config h3 {
+  color: #8b5cf6;
+  margin: 0 0 1.5rem;
+}
+
+.browser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.browser-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.browser-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.browser-item h4 {
+  color: white;
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.browser-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.auth0-info {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.auth0-info h3 {
+  color: #f59e0b;
+  margin: 0 0 1rem;
+}
+
+.no-tracking {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.no-tracking h3 {
+  color: #22c55e;
+  margin: 0 0 1rem;
+}
+
+.no-tracking .highlight {
+  color: #22c55e;
+  font-weight: 600;
+}

@@ -1,0 +1,357 @@
+/* Artista Detail Page Styles */
+.artista-section {
+  margin-top: 96px;
+  padding: 0 24px;
+  color: white;
+  min-height: calc(100vh - 96px);
+}
+
+.artista-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: start;
+}
+
+/* === BOTÓN DE VOLVER DISCRETO === */
+.back-button-subtle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 12px;
+  background: transparent;
+  color: #999;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  margin-bottom: 32px;
+  border: 1px solid #333;
+}
+
+.back-button-subtle:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #666;
+}
+
+/* === ENCABEZADO DEL ARTISTA === */
+.artista-header {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 64px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #333;
+}
+
+.artista-image-container {
+  flex-shrink: 0;
+}
+
+.artista-image {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.artista-main-info {
+  flex: 1;
+}
+
+.artista-title {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: white;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+}
+
+.artista-underline {
+  width: 80px;
+  height: 4px;
+  background-color: #ff003c;
+  margin: 0 0 16px 0;
+}
+
+.artista-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.artista-genre {
+  font-size: 1.125rem;
+  color: #CCCCCC;
+  font-weight: 500;
+}
+
+.artista-type {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === CONTENIDO PRINCIPAL === */
+.artista-content {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* === TÍTULOS DE SECCIÓN === */
+.section-title {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: white;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-underline {
+  width: 60px;
+  height: 3px;
+  background-color: #ff003c;
+  margin: 0 0 32px 0;
+}
+
+/* === SECCIÓN DE PROYECTOS === */
+.artista-projects {
+  margin-bottom: 32px;
+}
+
+.projects-loading {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.no-projects {
+  text-align: center;
+  padding: 64px 32px;
+  background-color: #0E0E0E;
+  border-radius: 12px;
+  border: 2px dashed #333;
+}
+
+.no-projects p {
+  color: #999;
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+/* === SECCIÓN DE ENLACES SOCIALES === */
+.artista-social {
+  margin-bottom: 32px;
+}
+
+.social-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.social-link-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background-color: #0E0E0E;
+  border: 2px solid #333;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--social-color);
+  transition: left 0.3s ease;
+}
+
+.social-link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: var(--social-color);
+}
+
+.social-link-card:hover::before {
+  left: 0;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--social-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.social-label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.social-link-card:hover .social-label {
+  color: var(--social-color);
+}
+
+/* === CONTENEDOR DE ERROR === */
+.error-container {
+  text-align: center;
+  padding: 64px 32px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.error-container h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.error-container p {
+  font-size: 1.125rem;
+  color: #CCCCCC;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 900px) {
+  .artista-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .artista-title {
+    font-size: 2.5rem;
+  }
+  
+  .artista-content {
+    gap: 48px;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .social-links-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .artista-section {
+    padding: 0 16px;
+  }
+  
+  .artista-title {
+    font-size: 2rem;
+  }
+  
+  .artista-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .artista-meta {
+    justify-content: center;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .social-link-card {
+    padding: 16px;
+  }
+  
+  .social-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+  
+  .social-label {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .artista-header {
+    gap: 20px;
+  }
+  
+  .artista-title {
+    font-size: 1.75rem;
+  }
+  
+  .artista-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+  }
+  
+  .back-button-subtle {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* === ACCESIBILIDAD === */
+@media (prefers-reduced-motion: reduce) {
+  .social-link-card,
+  .back-button-subtle,
+  .social-link-card::before {
+    transition: none;
+  }
+}
+
+/* Focus visible para navegación por teclado */
+.back-button-subtle:focus-visible,
+.social-link-card:focus-visible {
+  outline: 2px solid #ff003c;
+  outline-offset: 2px;
+}

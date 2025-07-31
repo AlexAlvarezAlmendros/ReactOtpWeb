@@ -1,0 +1,25 @@
+.login-button {
+  background-color: #00000069;
+  border: solid 1px #808080b7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #000000b9;
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-loading {
+  padding: 10px;
+  color: #666;
+  font-style: italic;
+}

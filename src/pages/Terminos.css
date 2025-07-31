@@ -1,0 +1,69 @@
+/* Importamos los estilos base */
+@import './Privacidad.css';
+
+/* Estilos específicos para Términos de Uso */
+.legal-header h1 {
+  background: linear-gradient(135deg, #ff003c, #ff8a00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.service-highlight {
+  background: linear-gradient(135deg, rgba(255, 0, 60, 0.1), rgba(255, 138, 0, 0.1));
+  border: 1px solid rgba(255, 138, 0, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.service-highlight h3 {
+  color: #ff8a00;
+  margin: 0 0 1rem;
+}
+
+.obligations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.obligation-item {
+  background: rgba(255, 138, 0, 0.1);
+  border: 1px solid rgba(255, 138, 0, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.obligation-item h4 {
+  color: #ff8a00;
+  margin: 0 0 1rem;
+}
+
+.limitation-box {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.limitation-box h3 {
+  color: #ef4444;
+  margin: 0 0 1rem;
+}
+
+.pricing-note {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.pricing-note h4 {
+  color: #22c55e;
+  margin: 0 0 0.5rem;
+}

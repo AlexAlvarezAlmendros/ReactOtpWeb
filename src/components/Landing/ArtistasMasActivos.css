@@ -1,0 +1,19 @@
+.artistas-activos-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  margin-left: 2rem;
+  text-align: start;
+}
+
+.artistas-activos-list {
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .ultimos-lanzamientos-title {
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+}

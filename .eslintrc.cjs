@@ -2,27 +2,27 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es2020: true,
+    es2020: true
   },
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true,
-    },
+      jsx: true
+    }
   },
   extends: [
     'standard',
-    'plugin:react-hooks/recommended',
+    'plugin:react-hooks/recommended'
   ],
   plugins: ['react-refresh'],
   settings: {
     react: {
-      version: 'detect',
-    },
+      version: 'detect'
+    }
   },
   rules: {
     'react-refresh/only-export-components': 'warn',
-    'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-  },
+    'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }]
+  }
 }

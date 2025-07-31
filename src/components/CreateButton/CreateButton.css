@@ -1,0 +1,25 @@
+.create-card-button{
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	justify-content: center;
+	align-items: center;
+	background-color: #f0f0f0;
+	border-radius: 50%;
+	border: 1px dashed #ccc;
+	cursor: pointer;
+	aspect-ratio: 1;
+	padding: 0.5rem;
+	z-index: 11;
+}
+
+.create-card-button:hover{
+	transform: scale(1.1);
+	transition: transform 0.2s ease-in-out;
+}
+
+.create-card-button svg {
+	width: 2rem;
+	height: 2rem;
+	color: #333;
+}

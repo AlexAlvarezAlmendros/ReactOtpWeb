@@ -1,15 +1,28 @@
-import Card from '../Card/Card.jsx'
+import ArtistCard from '../ArtistCard/ArtistCard.jsx'
+import EventsCard from '../EventsCard/EventsCard.jsx'
+import ReleaseCard from '../ReleaseCard/ReleaseCard.jsx'
 import './CardList.css'
-export function CardList ({ cards }) {
+
+const cardComponents = {
+  artist: ArtistCard,
+  release: ReleaseCard,
+  event: EventsCard
+}
+
+export function CardList ({ cards, type }) {
+  const CardComponent = cardComponents[type]
+
+  if (!CardComponent) {
+    console.error(`Error: Tipo de tarjeta desconocido "${type}"`)
+    return null
+  }
+
   return (
-    <div className="card-list">
-      {cards.map((card) => (
-        <Card
+    <div className='card-list'>
+      {cards.map(card => (
+        <CardComponent
           key={card.id}
-          title={card.title}
-          resume={card.subtitle}
-          img={card.img}
-        />
+          card={card}/>
       ))}
     </div>
   )
@@ -17,13 +30,13 @@ export function CardList ({ cards }) {
 
 export function CardListEmpty () {
   return (
-    <div className="card-list-empty">
+    <div className='card-list-empty'>
       <p>No data available</p>
     </div>
   )
 }
 
-export function Cards ({ cards }) {
+export function Cards ({ cards, type }) {
   const hasCards = cards?.length > 0
-  return hasCards ? <CardList cards={cards} /> : <CardListEmpty />
+  return hasCards ? <CardList cards={cards} type={type} /> : <CardListEmpty />
 }
