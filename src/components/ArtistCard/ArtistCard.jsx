@@ -15,10 +15,14 @@ function ArtistCard ({ card }) {
 
   return (
     <article className='card'>
-      <img src={card.img} alt='Portada de la obra' />
+      <NavLink to={`/artistas/${card.id}`} className="card-image-link">
+        <img src={card.img} alt='Portada de la obra' />
+      </NavLink>
       <div className='card-content'>
         <div>
-          <h2>{card.title}</h2>
+          <NavLink to={`/artistas/${card.id}`} className="card-title-link">
+            <h2>{card.title}</h2>
+          </NavLink>
         </div>
         <div className='card__buttons'>
           {availableLinks.map((item, index) => (

@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client'
 import { Auth0Provider } from '@auth0/auth0-react'
 import Inicio from './pages/Inicio.jsx'
 import Artistas from './pages/Artistas.jsx'
+import ArtistaDetalle from './pages/ArtistaDetalle.jsx'
 import Contacto from './pages/Contacto.jsx'
 import Estudios from './pages/Estudios.jsx'
 import Eventos from './pages/Eventos.jsx'
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/artistas',
         element: <Artistas />
+      },
+      {
+        path: '/artistas/:id',
+        element: <ArtistaDetalle />
       },
       {
         path: '/contacto',
