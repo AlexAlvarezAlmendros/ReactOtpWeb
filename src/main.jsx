@@ -15,8 +15,15 @@ import Cookies from './pages/Cookies.jsx'
 import NotFound from './pages/NotFound.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { SpeedInsights } from "@vercel/speed-insights/react"
 import RootLayout from './layouts/RootLayout.jsx'
+import { lazy, Suspense } from 'react'
+
+// Importación lazy de SpeedInsights para evitar problemas de build
+const SpeedInsights = lazy(() => 
+  import('@vercel/speed-insights/react').then(module => ({
+    default: module.SpeedInsights
+  })).catch(() => ({ default: () => null }))
+)
 
 const router = createBrowserRouter([
   {
@@ -101,7 +108,9 @@ createRoot(document.getElementById('root')).render(
     useRefreshTokens={true}
     cacheLocation="localstorage"
   >
-    <SpeedInsights />
+    <Suspense fallback={null}>
+      <SpeedInsights />
+    </Suspense>
     <RouterProvider router={router} />
   </Auth0Provider>
 )
