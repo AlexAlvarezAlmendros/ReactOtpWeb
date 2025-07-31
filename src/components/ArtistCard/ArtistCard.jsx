@@ -15,17 +15,25 @@ function ArtistCard ({ card }) {
 
   return (
     <article className='card'>
-      <img src={card.img} alt='Portada de la obra' />
+      <NavLink to={`/artistas/${card.id}`} className="card-image-link">
+        <img src={card.img} alt='Portada de la obra' />
+      </NavLink>
       <div className='card-content'>
         <div>
           <h2>{card.title}</h2>
         </div>
         <div className='card__buttons'>
           {availableLinks.map((item, index) => (
-            <NavLink key={index} to={item.link} aria-label={item.label}>
+            <a 
+              key={index} 
+              href={item.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label={item.label}
+            >
               <FontAwesomeIcon icon={item.icon} />
               {showLabels && <span style={{ marginLeft: '8px' }}>{item.label}</span>}
-            </NavLink>
+            </a>
           ))}
         </div>
       </div>

@@ -5,7 +5,7 @@ import ProtectedComponent from '../Auth/ProtectedComponent'
 
 export default function CreateButton () {
   return (
-    <ProtectedComponent permission="create:content">
+    <ProtectedComponent permission="write:releases">
       <NavLink to='/crear' className='create-card-button' aria-label='Crear nueva tarjeta'>
           <FontAwesomeIcon icon={['fas', 'plus']} />
       </NavLink>

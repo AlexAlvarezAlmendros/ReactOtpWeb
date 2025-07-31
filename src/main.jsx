@@ -2,9 +2,11 @@ import { createRoot } from 'react-dom/client'
 import { Auth0Provider } from '@auth0/auth0-react'
 import Inicio from './pages/Inicio.jsx'
 import Artistas from './pages/Artistas.jsx'
+import ArtistaDetalle from './pages/ArtistaDetalle.jsx'
 import Contacto from './pages/Contacto.jsx'
 import Estudios from './pages/Estudios.jsx'
 import Eventos from './pages/Eventos.jsx'
+import EventoDetalle from './pages/EventoDetalle.jsx'
 import Create from './pages/Create.jsx'
 import Discografia from './pages/Discografia.jsx'
 import Privacidad from './pages/Privacidad.jsx'
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
         element: <Artistas />
       },
       {
+        path: '/artistas/:id',
+        element: <ArtistaDetalle />
+      },
+      {
         path: '/contacto',
         element: <Contacto />
       },
@@ -39,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: '/eventos',
         element: <Eventos />
+      },
+      {
+        path: '/eventos/:id',
+        element: <EventoDetalle />
       },
       {
         path: '/discografia',

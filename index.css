@@ -1,3 +1,24 @@
+:root {
+    --primary-color: #007bff;
+    --primary-color-dark: #0056b3;
+    --accent-color: #28a745;
+    --error-color: #dc3545;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #e9ecef;
+    --background-color: #ffffff;
+}
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-primary: #ffffff;
+        --text-secondary: #adb5bd;
+        --border-color: #495057;
+        --background-color: #000000;
+    }
+}
+
 body {
     background-color: #000000;
     color: #ffffff;

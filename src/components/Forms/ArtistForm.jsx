@@ -1,12 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useCallback } from 'react'
 import { useCreateArtist } from '../../hooks/useCreateArtist.js'
+import { useAuth } from '../../hooks/useAuth.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 
 export default function ArtistForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎨 ArtistForm - initialData:', initialData)
   console.log('🎨 ArtistForm - isEditMode:', isEditMode)
   
+  const { user } = useAuth()
   const [errors, setErrors] = useState([])
   const [formData, setFormData] = useState({
     name: initialData?.name || initialData?.title || '',
@@ -116,7 +118,7 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
         instagramLink: formData.instagram || '',
         soundcloudLink: formData.soundcloud || '',
         artistType: formData.type,
-        userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
+        userId: user?.sub || null
       }
 
       if (isEditMode) {

@@ -1,12 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useCallback } from 'react'
 import { useCreateRelease } from '../../hooks/useCreateReleases.js'
+import { useAuth } from '../../hooks/useAuth.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 
 export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎵 ReleaseForm - initialData:', initialData)
   console.log('🎵 ReleaseForm - isEditMode:', isEditMode)
   
+  const { user } = useAuth()
   const [errors, setErrors] = useState([])
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
@@ -155,7 +157,7 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
         img: formData.img || '',
         releaseType: formData.type,
         date: formData.date || new Date().toISOString(),
-        userId: '9416c0b4-59d5-4b7b-8ef6-b5b9f39454a4'
+        userId: user?.sub || null
       }
 
       if (isEditMode) {
