@@ -1,0 +1,395 @@
+/* Evento Detail Page Styles */
+.evento-section {
+  margin-top: 96px;
+  padding: 0 24px;
+  color: white;
+  min-height: calc(100vh - 96px);
+}
+
+.evento-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: start;
+}
+
+/* === BOTÓN DE VOLVER DISCRETO === */
+.back-button-subtle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 12px;
+  background: transparent;
+  color: #999;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  margin-bottom: 32px;
+  border: 1px solid #333;
+}
+
+.back-button-subtle:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #666;
+}
+
+/* === ENCABEZADO DEL EVENTO === */
+.evento-header {
+  display: flex;
+  align-items: start;
+  gap: 32px;
+  margin-bottom: 64px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #333;
+}
+
+.evento-image-container {
+  flex-shrink: 0;
+}
+
+.evento-image {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.evento-main-info {
+  flex: 1;
+}
+
+.evento-title {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: white;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+}
+
+.evento-underline {
+  width: 80px;
+  height: 4px;
+  background-color: #ff003c;
+  margin: 0 0 16px 0;
+}
+
+.evento-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.evento-date,
+.evento-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  color: #CCCCCC;
+}
+
+.evento-date svg,
+.evento-location svg {
+  color: #ff003c;
+  font-size: 1rem;
+}
+
+.evento-type {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+}
+
+.evento-colaborators {
+  margin-top: 20px;
+}
+
+.evento-colaborators h3 {
+  font-size: 1.125rem;
+  color: white;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.evento-colaborators p {
+  font-size: 1rem;
+  color: #CCCCCC;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* === CONTENIDO PRINCIPAL === */
+.evento-content {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* === TÍTULOS DE SECCIÓN === */
+.section-title {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: white;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-underline {
+  width: 60px;
+  height: 3px;
+  background-color: #ff003c;
+  margin: 0 0 32px 0;
+}
+
+/* === SECCIÓN DE MAPA === */
+.evento-map {
+  margin-bottom: 32px;
+}
+
+.map-container {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.map-address {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  color: #CCCCCC;
+  margin: 0;
+  padding: 16px 20px;
+  background-color: #0E0E0E;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.map-address svg {
+  color: #ff003c;
+  font-size: 1rem;
+}
+
+/* === SECCIÓN DE DESCRIPCIÓN === */
+.evento-description {
+  margin-bottom: 32px;
+}
+
+.evento-description p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #CCCCCC;
+  margin: 0;
+  text-align: justify;
+}
+
+/* === SECCIÓN DE ENLACES SOCIALES === */
+.evento-social {
+  margin-bottom: 32px;
+}
+
+.social-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.social-link-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background-color: #0E0E0E;
+  border: 2px solid #333;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--social-color);
+  transition: left 0.3s ease;
+}
+
+.social-link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: var(--social-color);
+}
+
+.social-link-card:hover::before {
+  left: 0;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--social-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.social-label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.social-link-card:hover .social-label {
+  color: var(--social-color);
+}
+
+/* === CONTENEDOR DE ERROR === */
+.error-container {
+  text-align: center;
+  padding: 64px 32px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.error-container h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.error-container p {
+  font-size: 1.125rem;
+  color: #CCCCCC;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 900px) {
+  .evento-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .evento-title {
+    font-size: 2.5rem;
+  }
+  
+  .evento-content {
+    gap: 48px;
+  }
+  
+  .evento-meta {
+    align-items: center;
+  }
+  
+  .social-links-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .evento-section {
+    padding: 0 16px;
+  }
+  
+  .evento-title {
+    font-size: 2rem;
+  }
+  
+  .evento-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .evento-meta {
+    align-items: center;
+  }
+  
+  .social-link-card {
+    padding: 16px;
+  }
+  
+  .social-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+  
+  .social-label {
+    font-size: 0.875rem;
+  }
+  
+  .map-address {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .evento-header {
+    gap: 20px;
+  }
+  
+  .evento-title {
+    font-size: 1.75rem;
+  }
+  
+  .evento-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+  }
+  
+  .back-button-subtle {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* === ACCESIBILIDAD === */
+@media (prefers-reduced-motion: reduce) {
+  .social-link-card,
+  .back-button-subtle,
+  .social-link-card::before {
+    transition: none;
+  }
+}
+
+/* Focus visible para navegación por teclado */
+.back-button-subtle:focus-visible,
+.social-link-card:focus-visible {
+  outline: 2px solid #ff003c;
+  outline-offset: 2px;
+}

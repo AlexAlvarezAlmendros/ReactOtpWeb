@@ -15,7 +15,9 @@ function EventsCard ({ card }) {
   return (
     <article className='card'>
       <div className="card-image-link">
-        <img src={card.img} alt='Portada de la obra' />
+        <NavLink to={`/eventos/${card.id}`} className="card-image-link">
+          <img src={card.img} alt='Portada de la obra' />
+        </NavLink>
       </div>
       <div className='card-content'>
         <div>
