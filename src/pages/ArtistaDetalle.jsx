@@ -80,9 +80,6 @@ function ArtistaDetalle () {
             <h1 className="artista-title">{artist.title}</h1>
             <div className="artista-underline"></div>
             <div className="artista-meta">
-              {artist.subtitle && (
-                <span className="artista-genre">{artist.subtitle}</span>
-              )}
               {artist.artistType && (
                 <span className="artista-type">{artist.artistType}</span>
               )}
