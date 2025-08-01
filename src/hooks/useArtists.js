@@ -47,7 +47,7 @@ export function useArtists (options = {}) {
     page = 1,
     count = 100,
     sortBy = 'createdAt',
-    sortOrder = 'desc'
+    sortOrder = 'asc'
   } = options
 
   const buildQueryParams = useCallback(() => {
