@@ -17,6 +17,8 @@ import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
 import { lazy, Suspense } from 'react'
+import { Analytics } from "@vercel/analytics/react"
+
 
 // Importación lazy de SpeedInsights para evitar problemas de build
 const SpeedInsights = lazy(() => 
