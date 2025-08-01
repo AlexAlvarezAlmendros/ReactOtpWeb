@@ -13,13 +13,13 @@ function Header ({ children }) {
   return (
     <header className='header'>
       <div className='header-content'>
-        <div className='logo-section'>
+        <NavLink to="/" className='logo-section'>
           <img
             src='/img/otpLogo2.png'
             alt='Logo'
             className='logo'
           />
-        </div>
+        </NavLink>
         
         <nav className='nav-links'>
           <NavLink to="/">Inicio</NavLink>

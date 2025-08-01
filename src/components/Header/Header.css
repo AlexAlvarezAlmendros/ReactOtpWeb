@@ -28,6 +28,33 @@
   align-items: center;
 }
 
+.logo-section {
+  background: transparent!important;
+  border: none!important;
+  cursor: pointer!important;
+  transition: none!important;
+  text-decoration: none!important;
+  white-space: nowrap!important;
+}
+
+.logo-section.active {
+  background: transparent!important;
+  border: none!important;
+  cursor: pointer!important;
+  transition: none!important;
+  text-decoration: none!important;
+  white-space: nowrap!important;
+}
+
+.logo-section:hover {
+  background: transparent!important;
+  border: none!important;
+  cursor: pointer!important;
+  transition: none!important;
+  text-decoration: none!important;
+  white-space: nowrap!important;
+}
+
 .logo {
   position: fixed;
   top: 1rem;
