@@ -32,7 +32,7 @@ export function useReleases (options = {}) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [pagination, setPagination] = useState({
-    page: 0,
+    page: 1,
     count: 100,
     total: 0,
     pages: 0
@@ -44,7 +44,7 @@ export function useReleases (options = {}) {
     dateMin,
     dateMax,
     userId,
-    page = 0,
+    page = 1,
     count = 100,
     sortBy = 'date',
     sortOrder = 'desc'
