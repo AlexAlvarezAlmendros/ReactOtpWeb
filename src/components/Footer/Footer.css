@@ -592,3 +592,9 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, #ff003c, transparent);
 }
+
+a{
+  color: #ff003c;
+  text-decoration: underline;
+  transition: color 0.3s ease;  
+}

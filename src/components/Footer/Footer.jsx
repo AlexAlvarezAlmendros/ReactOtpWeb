@@ -93,6 +93,9 @@ function Footer () {
           <div className='footer-copyright'>
             <p>&copy; {year} Other People Records. Todos los derechos reservados.</p>
           </div>
+          <div className='footer-copyright'>
+            <p>Diseñado y programado por <a href='https://github.com/AlexAlvarezAlmendros' target='_blank' rel='noopener noreferrer'>Alex Alvarez Almendros</a></p>
+          </div>
           <div className='footer-legal'>
             <NavLink to='/privacidad'>Política de Privacidad</NavLink>
             <NavLink to='/terminos'>Términos de Uso</NavLink>
