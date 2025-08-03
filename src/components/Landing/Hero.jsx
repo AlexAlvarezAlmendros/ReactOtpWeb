@@ -22,7 +22,9 @@ export function Hero () {
         <img src="/img/logo.gif" alt="Logo" className='hero-logo' />
         <div className='hero-text'>
           <h1 className='hero-title'>OTHER PEOPLE RECORDS</h1>
+          {/*
           <p className='hero-subtitle'>Trap & Rap Live - Producción y Distribución</p>
+          */}
           <div className='hero-buttons'>
             <NavLink className='hero-cta' to="/contacto">Booking</NavLink>
             <NavLink target="_blank" className='hero-cta' to="https://open.spotify.com/playlist/0dn9LnyS9u2kbBGTPKAHPz?si=ba612b6413ea40ad">Escuchar</NavLink>
