@@ -68,7 +68,17 @@ export function useEvent (eventId) {
         description: eventFromApi.description || '',
         colaborators: eventFromApi.colaborators || '',
         createdAt: eventFromApi.createdAt,
-        updatedAt: eventFromApi.updatedAt
+        updatedAt: eventFromApi.updatedAt,
+        // Campos de tickets
+        ticketsEnabled: eventFromApi.ticketsEnabled || false,
+        ticketPrice: eventFromApi.ticketPrice || 0,
+        totalTickets: eventFromApi.totalTickets || 0,
+        availableTickets: eventFromApi.availableTickets || 0,
+        ticketsSold: eventFromApi.ticketsSold || 0,
+        ticketCurrency: eventFromApi.ticketCurrency || 'EUR',
+        saleStartDate: eventFromApi.saleStartDate || null,
+        saleEndDate: eventFromApi.saleEndDate || null,
+        externalTicketUrl: eventFromApi.externalTicketUrl || ''
       }
 
       setEvent(mappedEvent)

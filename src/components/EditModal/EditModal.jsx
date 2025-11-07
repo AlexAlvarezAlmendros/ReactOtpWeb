@@ -27,6 +27,7 @@ function EditModal ({ item, type, onClose, onSuccess }) {
 
   const getFormComponent = () => {
     console.log('🔍 Datos para editar:', item)
+    console.log('🔍 Descripción del item:', item?.description)
     console.log('🔍 Tipo:', type)
     
     const formProps = {

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCreateEvent } from '../../hooks/useCreateEvent.js'
 import { useAuth } from '../../hooks/useAuth.js'
 
@@ -9,12 +9,29 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
   
   const { user } = useAuth()
   const [errors, setErrors] = useState([])
+  const [ticketsEnabled, setTicketsEnabled] = useState(initialData?.ticketsEnabled || false)
+  const [externalTickets, setExternalTickets] = useState(initialData?.externalTicketUrl ? true : false)
   const { createEvent, loading, error: apiError } = useCreateEvent()
+
+  // Actualizar el estado cuando initialData cambie
+  useEffect(() => {
+    if (initialData?.ticketsEnabled !== undefined) {
+      setTicketsEnabled(initialData.ticketsEnabled)
+    }
+    if (initialData?.externalTicketUrl) {
+      setExternalTickets(true)
+    }
+  }, [initialData])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const data = Object.fromEntries(formData.entries())
+
+    console.log('📝 Raw form data:', data)
+    console.log('📝 ticketsEnabled value:', data.ticketsEnabled)
+    console.log('📝 externalTickets checkbox:', data.externalTickets)
+    console.log('📝 externalTicketUrl field:', data.externalTicketUrl)
 
     const validationErrors = []
 
@@ -51,18 +68,75 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
       // Limpiar errores si todo está bien
       setErrors([])
 
+      // El checkbox devuelve 'on' cuando está marcado, o undefined cuando no lo está
+      const isTicketsEnabled = data.ticketsEnabled === 'on' || data.ticketsEnabled === 'true'
+
       const eventData = {
         name: data.title,
         location: data.location,
         colaborators: data.colaborators,
+        description: data.description || '',
         img: data.img || '',
         youtubeLink: data.youtube || '',
         instagramLink: data.instagram || '',
         detailpageUrl: data.detailpageUrl || '',
         eventType: data.type,
         date: new Date().toISOString(),
-        userId: user?.sub || null
+        userId: user?.sub || null,
+        // Campos de tickets
+        ticketsEnabled: isTicketsEnabled
       }
+
+      // Solo agregar campos de tickets si están habilitados
+      if (isTicketsEnabled) {
+        // Si es venta por terceros, solo guardar la URL
+        const isExternalTickets = data.externalTickets === 'on' || data.externalTickets === 'true'
+        
+        if (isExternalTickets) {
+          eventData.externalTicketUrl = data.externalTicketUrl || ''
+          // No enviar campos de venta interna cuando son tickets externos
+          // El backend los mantendrá con sus valores actuales o por defecto
+        } else {
+          // Venta interna normal
+          eventData.externalTicketUrl = ''
+          eventData.ticketPrice = parseFloat(data.ticketPrice) || 0
+          eventData.totalTickets = parseInt(data.totalTickets) || 0
+        
+        // En modo edición, solo actualizar availableTickets si totalTickets cambió
+        if (isEditMode && initialData?.totalTickets !== undefined) {
+          // Si el total de tickets cambió, recalcular disponibles
+          if (parseInt(data.totalTickets) !== initialData.totalTickets) {
+            const ticketsSold = initialData.ticketsSold || 0
+            eventData.availableTickets = Math.max(0, parseInt(data.totalTickets) - ticketsSold)
+          }
+          // Si no cambió, no enviar availableTickets para no sobreescribirlo
+        } else {
+          // En modo creación, availableTickets = totalTickets
+          eventData.availableTickets = parseInt(data.totalTickets) || 0
+        }
+        
+        // Las fechas se envían solo si tienen valor, independientemente del estado del checkbox
+        if (data.saleStartDate) {
+          eventData.saleStartDate = new Date(data.saleStartDate).toISOString()
+        } else {
+          eventData.saleStartDate = null
+        }
+        
+        if (data.saleEndDate) {
+          eventData.saleEndDate = new Date(data.saleEndDate).toISOString()
+          } else {
+            eventData.saleEndDate = null
+          }
+        }
+      } else {
+        // Si se deshabilitan los tickets, resetear todos los valores
+        eventData.externalTicketUrl = ''
+        eventData.ticketPrice = 0
+        eventData.totalTickets = 0
+        eventData.availableTickets = 0
+        eventData.saleStartDate = null
+        eventData.saleEndDate = null
+      }      console.log('📦 Event data to send:', eventData)
 
       if (isEditMode) {
         // En modo edición, pasar los datos al callback onSuccess
@@ -146,6 +220,17 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
         </div>
 
         <div className="form-group form-group--full-width">
+            <label htmlFor="description">Descripción</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows="5"
+              placeholder="Describe el evento, artistas, horarios, etc."
+              defaultValue={initialData?.description || ''} 
+            />
+        </div>
+
+        <div className="form-group form-group--full-width">
             <label htmlFor="type">Tipo</label>
             <select 
               id="type" 
@@ -160,6 +245,108 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
             <option value="Party">Party</option>
             </select>
         </div>
+
+        {/* Sección de Tickets */}
+        <div className="form-group form-group--full-width">
+            <label htmlFor="ticketsEnabled">
+              <input 
+                type="checkbox" 
+                id="ticketsEnabled" 
+                name="ticketsEnabled"
+                value="true"
+                defaultChecked={initialData?.ticketsEnabled || false}
+                onChange={(e) => setTicketsEnabled(e.target.checked)}
+                style={{ width: 'auto', marginRight: '8px' }}
+              />
+              Habilitar venta de entradas
+            </label>
+        </div>
+
+        {ticketsEnabled && (
+          <>
+            {/* Checkbox para entradas por terceros */}
+            <div className="form-group form-group--full-width">
+              <label htmlFor="externalTickets">
+                <input 
+                  type="checkbox" 
+                  id="externalTickets" 
+                  name="externalTickets"
+                  value="true"
+                  defaultChecked={initialData?.externalTicketUrl ? true : false}
+                  onChange={(e) => setExternalTickets(e.target.checked)}
+                  style={{ width: 'auto', marginRight: '8px' }}
+                />
+                Entradas vendidas por terceros
+              </label>
+            </div>
+
+            {/* Si es por terceros, mostrar solo URL */}
+            {externalTickets ? (
+              <div className="form-group form-group--full-width">
+                <label htmlFor="externalTicketUrl">URL de venta externa*</label>
+                <input 
+                  type="url" 
+                  id="externalTicketUrl" 
+                  name="externalTicketUrl" 
+                  placeholder="https://ticketmaster.com/evento"
+                  defaultValue={initialData?.externalTicketUrl || ''} 
+                  required={externalTickets}
+                />
+                <small style={{ color: '#999', display: 'block', marginTop: '4px' }}>
+                  Los usuarios serán redirigidos a esta URL para comprar las entradas
+                </small>
+              </div>
+            ) : (
+              <>
+                {/* Campos de venta interna */}
+                <div className="form-group">
+                    <label htmlFor="ticketPrice">Precio por entrada (€)*</label>
+                    <input 
+                      type="number" 
+                      id="ticketPrice" 
+                      name="ticketPrice" 
+                      step="0.01"
+                      min="0"
+                      defaultValue={initialData?.ticketPrice || ''} 
+                      required={ticketsEnabled && !externalTickets}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="totalTickets">Cantidad total de entradas*</label>
+                    <input 
+                      type="number" 
+                      id="totalTickets" 
+                      name="totalTickets" 
+                      min="1"
+                      defaultValue={initialData?.totalTickets || ''} 
+                      required={ticketsEnabled && !externalTickets}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="saleStartDate">Fecha inicio de venta</label>
+                    <input 
+                      type="datetime-local" 
+                      id="saleStartDate" 
+                      name="saleStartDate" 
+                      defaultValue={initialData?.saleStartDate ? new Date(initialData.saleStartDate).toISOString().slice(0, 16) : ''} 
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="saleEndDate">Fecha fin de venta</label>
+                    <input 
+                      type="datetime-local" 
+                      id="saleEndDate" 
+                      name="saleEndDate" 
+                      defaultValue={initialData?.saleEndDate ? new Date(initialData.saleEndDate).toISOString().slice(0, 16) : ''} 
+                    />
+                </div>
+              </>
+            )}
+          </>
+        )}
 
         <button type="submit" className="form-submit" disabled={loading}>
             {isEditMode 

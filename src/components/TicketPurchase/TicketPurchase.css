@@ -1,0 +1,415 @@
+.ticket-purchase {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2e 50%, #1a1a1a 100%);
+  border-radius: 16px;
+  padding: 24px;
+  border: 2px solid #ff003c40;
+  margin: 32px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-purchase::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 0, 60, 0.1) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ticket-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ticket-icon {
+  font-size: 3rem;
+  animation: bounce 2s infinite;
+  flex-shrink: 0;
+}
+
+.ticket-info {
+  flex: 1;
+  width: 100%;
+}
+
+.ticket-info h3 {
+  font-size: 1.75rem;
+  margin: 0 0 12px 0;
+  background: linear-gradient(90deg, #fff, #ff003c, #fff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+.ticket-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ticket-price .price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff003c;
+}
+
+.ticket-price .per-ticket {
+  font-size: 0.875rem;
+  color: #999;
+}
+
+.ticket-availability {
+  margin-bottom: 0;
+}
+
+.ticket-availability .available {
+  color: #4ade80;
+}
+
+.ticket-availability .sold-out {
+  color: #ef4444;
+}
+
+.sale-status-message {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.sale-status-message .status-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.sale-status-message.not-started {
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid #eab308;
+  color: #fbbf24;
+}
+
+.sale-status-message.ended {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+.sale-status-message.sold-out {
+  background: rgba(156, 163, 175, 0.1);
+  border: 1px solid #9ca3af;
+  color: #9ca3af;
+}
+
+.btn-buy-tickets {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+  overflow: hidden;
+}
+
+.btn-buy-tickets::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-buy-tickets:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-buy-tickets:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(255, 0, 60, 0.6);
+}
+
+.ticket-form {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  border-top: 1px solid #ff003c40;
+  padding-top: 24px;
+}
+
+.ticket-form .form-group {
+  margin-bottom: 16px;
+}
+
+.ticket-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 500;
+}
+
+.ticket-form input,
+.ticket-form select {
+  width: 100%;
+  padding: 12px;
+  background: #0E0E0E;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+}
+
+.ticket-form input:focus,
+.ticket-form select:focus {
+  outline: none;
+  border-color: #ff003c;
+}
+
+.ticket-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #0E0E0E;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-size: 1.25rem;
+}
+
+.ticket-total strong {
+  color: #ff003c;
+  font-size: 1.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-cancel,
+.btn-checkout {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid #333;
+  color: #999;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.btn-checkout {
+  background: #ff003c;
+  color: white;
+}
+
+.btn-checkout:hover:not(:disabled) {
+  background: #cc0030;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 0, 60, 0.3);
+}
+
+.btn-checkout:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.payment-info {
+  text-align: center;
+  margin-top: 16px;
+  color: #999;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* Estilos para entradas externas */
+.ticket-purchase.external-tickets {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2e 50%, #1a1a1a 100%);
+  border: 2px solid #ff003c40;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-purchase.external-tickets::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 0, 60, 0.1) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.external-ticket-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.ticket-icon {
+  font-size: 4rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.external-ticket-card .ticket-info h3 {
+  font-size: 1.75rem;
+  margin: 0;
+  background: linear-gradient(90deg, #fff, #ff003c, #fff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.external-description {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 400px;
+  margin: 0;
+}
+
+.btn-external-tickets {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-external-tickets::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-external-tickets:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-external-tickets:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(255, 0, 60, 0.6);
+}
+
+.btn-external-tickets span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-external-tickets svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.btn-external-tickets:hover svg {
+  transform: translateX(5px);
+}
+
+.external-note {
+  color: #999;
+  font-size: 0.875rem;
+  margin: 0;
+}
+

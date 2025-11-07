@@ -27,6 +27,10 @@ export function useUpdate () {
     setLoading(true)
     setError(null)
 
+    console.log('🔄 useUpdate - Type:', type)
+    console.log('🔄 useUpdate - ID:', id)
+    console.log('🔄 useUpdate - Data to send:', data)
+
     try {
       // Obtener el token de acceso para la autenticación
       const token = await getToken()
@@ -56,6 +60,8 @@ export function useUpdate () {
         body: JSON.stringify(data)
       })
 
+      console.log('🔄 useUpdate - Response status:', response.status)
+
       if (!response.ok) {
         if (response.status === 404) {
           throw new Error('El elemento no existe')
@@ -65,6 +71,7 @@ export function useUpdate () {
           throw new Error('No estás autenticado')
         } else if (response.status === 400) {
           const errorData = await response.json()
+          console.error('❌ Backend error details:', errorData)
           throw new Error(errorData.message || 'Datos inválidos')
         } else {
           throw new Error(`Error al actualizar: ${response.status}`)
@@ -72,6 +79,7 @@ export function useUpdate () {
       }
 
       const updatedItem = await response.json()
+      console.log('🔄 useUpdate - Updated item received:', updatedItem)
       return updatedItem
     } catch (err) {
       console.error('Error al actualizar elemento:', err)
