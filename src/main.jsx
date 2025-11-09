@@ -96,10 +96,6 @@ const router = createBrowserRouter([
         element: <AdminUsers />
       },
       {
-        path: '/debug/tickets',
-        element: <DebugTickets />
-      },
-      {
         path: '*',
         element: <NotFound />
       }
