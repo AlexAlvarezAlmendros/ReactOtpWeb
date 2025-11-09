@@ -121,7 +121,7 @@ function TicketPurchase ({ event }) {
         <div className='ticket-icon'>
           🎫
         </div>
-        <div className='ticket-info'>
+        <div className='ticket-infoExternas'>
           <h3>Entradas Disponibles</h3>
           <div className='ticket-price'>
             <span className='price'>{event.ticketPrice}€</span>
