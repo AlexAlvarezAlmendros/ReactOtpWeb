@@ -109,7 +109,21 @@ export function useEvents (options = {}) {
         eventType: event.eventType,
         location: event.location,
         date: event.date,
-        img: event.img
+        img: event.img,
+        // Campos adicionales
+        name: event.name,
+        colaborators: event.colaborators,
+        description: event.description,
+        // Campos de tickets
+        ticketsEnabled: event.ticketsEnabled || false,
+        ticketPrice: event.ticketPrice || 0,
+        totalTickets: event.totalTickets || 0,
+        availableTickets: event.availableTickets || 0,
+        ticketsSold: event.ticketsSold || 0,
+        ticketCurrency: event.ticketCurrency || 'EUR',
+        saleStartDate: event.saleStartDate || null,
+        saleEndDate: event.saleEndDate || null,
+        externalTicketUrl: event.externalTicketUrl || ''
       }))
 
       setEvents(mappedCards)

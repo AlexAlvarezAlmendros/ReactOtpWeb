@@ -63,6 +63,58 @@
     justify-content: center;
 }
 
+/* Botón de comprar entradas en la card */
+.btn-buy-tickets-card {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 16px;
+    margin: 8px 0;
+    background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-buy-tickets-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-buy-tickets-card:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-buy-tickets-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(255, 0, 60, 0.6);
+}
+
+.btn-buy-tickets-card svg {
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+}
+
 .card-image-link {
     width: calc(100% + 2rem)!important;
     margin: -1rem -1rem 0 -1rem!important;

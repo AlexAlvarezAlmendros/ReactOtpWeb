@@ -12,6 +12,25 @@ function EventsCard ({ card }) {
 
   const showLabels = availableLinks.length === 1
 
+  // Verificar si tiene entradas disponibles y dentro de fecha
+  const hasAvailableTickets = () => {
+    if (!card.ticketsEnabled) return false
+    
+    // Si son entradas externas, solo verificar que esté habilitado
+    if (card.externalTicketUrl) return true
+    
+    // Para entradas internas, verificar disponibilidad y fechas
+    if (card.availableTickets <= 0) return false
+
+    const now = new Date()
+    if (card.saleStartDate && now < new Date(card.saleStartDate)) return false
+    if (card.saleEndDate && now > new Date(card.saleEndDate)) return false
+
+    return true
+  }
+
+  const ticketsAvailable = hasAvailableTickets()
+
   return (
     <article className='card'>
       <div className="card-image-link">
@@ -25,6 +44,31 @@ function EventsCard ({ card }) {
           <h2>{card.colaborators}</h2>
           <p>{card.subtitle}</p>
         </div>
+        
+        {/* Mostrar botón de compra si hay entradas disponibles */}
+        {ticketsAvailable && (
+          card.externalTicketUrl ? (
+            <a 
+              href={card.externalTicketUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-buy-tickets-card"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FontAwesomeIcon icon={['fas', 'ticket-alt']} />
+              Entradas
+            </a>
+          ) : (
+            <NavLink 
+              to={`/eventos/${card.id}`} 
+              className="btn-buy-tickets-card"
+            >
+              <FontAwesomeIcon icon={['fas', 'ticket-alt']} />
+              Entradas
+            </NavLink>
+          )
+        )}
+
         <div className='card__buttons'>
           {availableLinks.map((item, index) => (
             <NavLink key={index} to={item.link} aria-label={item.label}>

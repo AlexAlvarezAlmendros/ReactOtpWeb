@@ -1,12 +1,31 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { useEvent } from '../hooks/useEvent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
+import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
 import './EventoDetalle.css'
 
 function EventoDetalle () {
   const { id } = useParams()
+  const [searchParams] = useSearchParams()
   const { event, loading, error } = useEvent(id)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+  // Detectar si volvemos de un pago exitoso
+  useEffect(() => {
+    if (searchParams.get('success') === 'true') {
+      setShowSuccessMessage(true)
+
+      // Limpiar el parámetro de la URL
+      window.history.replaceState({}, '', `/eventos/${id}`)
+
+      // Ocultar mensaje después de 5 segundos
+      setTimeout(() => {
+        setShowSuccessMessage(false)
+      }, 5000)
+    }
+  }, [searchParams, id])
 
   if (loading) {
     return <LoadingSpinner message="Cargando evento..." />
@@ -94,6 +113,17 @@ function EventoDetalle () {
   return (
     <section className="evento-section">
       <div className="evento-container">
+        {/* Mensaje de éxito */}
+        {showSuccessMessage && (
+          <div className="success-notification">
+            <div className="success-icon">✓</div>
+            <div>
+              <h3>¡Compra exitosa!</h3>
+              <p>Recibirás tus entradas por email en breve.</p>
+            </div>
+          </div>
+        )}
+
         {/* Botón de volver discreto */}
         <Link to="/eventos" className="back-button-subtle">
           <FontAwesomeIcon icon={['fas', 'arrow-left']} />
@@ -139,6 +169,18 @@ function EventoDetalle () {
         </header>
 
         <div className="evento-content">
+          {/* Descripción del evento */}
+          {event.description && (
+            <div className="evento-description">
+              <h2 className="section-title">Descripción</h2>
+              <div className="section-underline"></div>
+              <p>{event.description}</p>
+            </div>
+          )}
+
+          {/* NUEVO: Componente de compra de tickets */}
+          <TicketPurchase event={event} />
+
           {/* Sección de Ubicación */}
           {event.colaborators && (
             <div className="evento-map">
@@ -147,15 +189,6 @@ function EventoDetalle () {
               <div className="map-container">
                 {generateMapIframe(event.location)}
               </div>
-            </div>
-          )}
-
-          {/* Descripción del evento */}
-          {event.description && (
-            <div className="evento-description">
-              <h2 className="section-title">Descripción</h2>
-              <div className="section-underline"></div>
-              <p>{event.description}</p>
             </div>
           )}
 

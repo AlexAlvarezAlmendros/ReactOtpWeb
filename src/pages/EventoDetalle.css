@@ -35,6 +35,55 @@
   border-color: #666;
 }
 
+/* === NOTIFICACIÓN DE ÉXITO === */
+.success-notification {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
+  border: 2px solid #4ade80;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  animation: slideDown 0.5s ease-out;
+}
+
+.success-icon {
+  width: 48px;
+  height: 48px;
+  background: #4ade80;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.success-notification h3 {
+  margin: 0 0 4px 0;
+  color: #4ade80;
+  font-size: 1.25rem;
+}
+
+.success-notification p {
+  margin: 0;
+  color: #CCCCCC;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* === ENCABEZADO DEL EVENTO === */
 .evento-header {
   display: flex;
