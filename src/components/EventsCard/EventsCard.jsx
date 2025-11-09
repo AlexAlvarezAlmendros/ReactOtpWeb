@@ -41,8 +41,11 @@ function EventsCard ({ card }) {
       <div className='card-content'>
         <div>
           <h2>{card.title}</h2>
-          <h2>{card.colaborators}</h2>
-          <p>{card.subtitle}</p>
+          <h2 className="colaborators">{card.colaborators}</h2>
+          <p className="event-location">
+            <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
+            {card.subtitle}
+          </p>
         </div>
         
         {/* Mostrar botón de compra si hay entradas disponibles */}

@@ -36,10 +36,28 @@
     text-align: start!important;
 }
 
+.card h2.colaborators {
+    font-size: 1.2rem;
+    color: #999;
+    font-weight: 100;
+}
+
 .card p {
     font-size: 1rem;
     font-weight: 100;
     margin: 0rem;
+}
+
+.card p.event-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ccc;
+}
+
+.card p.event-location svg {
+    font-size: 0.9rem;
+    color: #ff003c;
 }
 
 .card a {
