@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useCallback } from 'react'
 
 // Estado global para tracking de logs de Auth (compartido entre todas las instancias)
 const globalAuthLogTracker = {
@@ -46,19 +46,19 @@ export const useAuth = () => {
     }
   }, [shouldLogAuth, isLoading, isAuthenticated, user, error])
 
-  const login = () => {
+  const login = useCallback(() => {
     loginWithRedirect()
-  }
+  }, [loginWithRedirect])
 
-  const logoutUser = () => {
+  const logoutUser = useCallback(() => {
     logout({
       logoutParams: {
         returnTo: window.location.origin
       }
     })
-  }
+  }, [logout])
 
-  const getToken = async () => {
+  const getToken = useCallback(async () => {
     try {
       if (!isAuthenticated) {
         throw new Error('Usuario no autenticado')
@@ -86,7 +86,7 @@ export const useAuth = () => {
       
       throw new Error('No se pudo obtener el token de acceso')
     }
-  }
+  }, [isAuthenticated, getAccessTokenSilently])
 
   return {
     user,

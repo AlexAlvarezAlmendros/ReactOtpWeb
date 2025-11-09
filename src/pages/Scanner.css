@@ -1,0 +1,196 @@
+.scanner-page {
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0E0E0E 0%, #1a1a1a 100%);
+}
+
+.scanner-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2e 50%, #1a1a1a 100%);
+  border: 2px solid #ff003c40;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(255, 0, 60, 0.2);
+}
+
+.scanner-container h1 {
+  font-size: 2rem;
+  margin: 0 0 16px 0;
+  text-align: center;
+  background: linear-gradient(90deg, #fff, #ff003c, #fff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.scanner-instructions {
+  text-align: center;
+  color: #ccc;
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.qr-reader {
+  margin: 24px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Sobrescribir estilos de html5-qrcode */
+#qr-reader {
+  border: 2px solid #ff003c40 !important;
+}
+
+#qr-reader__dashboard_section {
+  background: #1a1a1a !important;
+  padding: 16px !important;
+}
+
+#qr-reader__dashboard_section button {
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 12px 24px !important;
+  color: white !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+#qr-reader__dashboard_section button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.4) !important;
+}
+
+#qr-reader__scan_region {
+  border: 2px solid #ff003c !important;
+}
+
+.scanner-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.scanner-error p {
+  color: #ef4444;
+  margin: 0;
+  font-weight: 600;
+}
+
+.scanner-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.scanning-animation {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #ff003c40;
+  border-top-color: #ff003c;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.scanner-status p {
+  color: #ccc;
+  margin: 0;
+}
+
+.btn-back-scanner {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 2px solid #333;
+  color: #999;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+}
+
+.btn-back-scanner:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: #666;
+}
+
+.scanner-access-denied {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  text-align: center;
+}
+
+.scanner-access-denied h1 {
+  font-size: 2rem;
+  color: #ef4444;
+}
+
+.scanner-access-denied p {
+  font-size: 1.125rem;
+  color: #ccc;
+}
+
+.scanner-access-denied button {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scanner-access-denied button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .scanner-container {
+    padding: 20px;
+  }
+
+  .scanner-container h1 {
+    font-size: 1.5rem;
+  }
+
+  #qr-reader {
+    width: 100% !important;
+  }
+}

@@ -13,6 +13,10 @@ import Privacidad from './pages/Privacidad.jsx'
 import Terminos from './pages/Terminos.jsx'
 import Cookies from './pages/Cookies.jsx'
 import NotFound from './pages/NotFound.jsx'
+import TicketInfo from './pages/TicketInfo.jsx'
+import Scanner from './pages/Scanner.jsx'
+import AdminUsers from './pages/AdminUsers.jsx'
+import DebugTickets from './pages/DebugTickets.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
@@ -79,6 +83,22 @@ const router = createBrowserRouter([
       {
         path: '/cookies',
         element: <Cookies />
+      },
+      {
+        path: '/ticket/:validationCode',
+        element: <TicketInfo />
+      },
+      {
+        path: '/scanner',
+        element: <Scanner />
+      },
+      {
+        path: '/admin/users',
+        element: <AdminUsers />
+      },
+      {
+        path: '/debug/tickets',
+        element: <DebugTickets />
       },
       {
         path: '*',

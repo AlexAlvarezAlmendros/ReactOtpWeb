@@ -21,3 +21,4 @@ export { useStripe } from './useStripe'
 export { useStudios } from './useStudios'
 // export { useTabNavigation } from './useTabNavigation' // TODO: Implementar o eliminar archivo vacío
 export { useUpdate } from './useUpdate'
+export { useUser } from './useUser'

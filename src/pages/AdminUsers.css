@@ -1,0 +1,280 @@
+.admin-users {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0E0E0E 0%, #1a1a1a 100%);
+}
+
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-header h1 {
+  font-size: 2rem;
+  margin: 0;
+  background: linear-gradient(90deg, #fff, #ff003c, #fff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.btn-back-admin {
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid #333;
+  color: #999;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back-admin:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: #666;
+}
+
+.search-bar {
+  margin-bottom: 24px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.users-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2e 50%, #1a1a1a 100%);
+  border: 2px solid #ff003c40;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff003c;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table-container {
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table thead {
+  background: #0E0E0E;
+  border-bottom: 2px solid #ff003c40;
+}
+
+.users-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.users-table tbody tr {
+  border-bottom: 1px solid #333;
+  transition: background 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+  background: rgba(255, 0, 60, 0.05);
+}
+
+.users-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.users-table td {
+  padding: 16px;
+  color: #ccc;
+}
+
+.no-results {
+  text-align: center !important;
+  color: #999 !important;
+  padding: 32px !important;
+  font-style: italic;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-admin {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid #ffd700;
+  color: #ffd700;
+}
+
+.role-staff {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+}
+
+.role-user {
+  background: rgba(156, 163, 175, 0.1);
+  border: 1px solid #9ca3af;
+  color: #9ca3af;
+}
+
+.role-select {
+  padding: 8px 12px;
+  background: #0E0E0E;
+  border: 2px solid #333;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.role-select:hover {
+  border-color: #ff003c;
+}
+
+.role-select:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.access-denied,
+.admin-error {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  text-align: center;
+}
+
+.access-denied h1,
+.admin-error h1 {
+  font-size: 2rem;
+  color: #ef4444;
+}
+
+.access-denied p,
+.admin-error p {
+  font-size: 1.125rem;
+  color: #ccc;
+}
+
+.access-denied button,
+.admin-error button {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.access-denied button:hover,
+.admin-error button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .users-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .users-table {
+    min-width: 600px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 12px 8px;
+    font-size: 0.875rem;
+  }
+}
