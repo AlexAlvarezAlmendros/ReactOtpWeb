@@ -174,7 +174,10 @@ function EventoDetalle () {
             <div className="evento-description">
               <h2 className="section-title">Descripción</h2>
               <div className="section-underline"></div>
-              <p>{event.description}</p>
+              <div 
+                className="rich-text-content"
+                dangerouslySetInnerHTML={{ __html: event.description }}
+              />
             </div>
           )}
 

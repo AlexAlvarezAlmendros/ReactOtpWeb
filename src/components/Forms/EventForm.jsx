@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { useCreateEvent } from '../../hooks/useCreateEvent.js'
 import { useAuth } from '../../hooks/useAuth.js'
+import RichTextEditor from '../RichTextEditor/RichTextEditor.jsx'
 
 export default function EventForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎪 EventForm - initialData:', initialData)
@@ -11,6 +12,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
   const [errors, setErrors] = useState([])
   const [ticketsEnabled, setTicketsEnabled] = useState(initialData?.ticketsEnabled || false)
   const [externalTickets, setExternalTickets] = useState(initialData?.externalTicketUrl ? true : false)
+  const [description, setDescription] = useState(initialData?.description || '')
   const { createEvent, loading, error: apiError } = useCreateEvent()
 
   // Actualizar el estado cuando initialData cambie
@@ -20,6 +22,9 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
     }
     if (initialData?.externalTicketUrl) {
       setExternalTickets(true)
+    }
+    if (initialData?.description !== undefined) {
+      setDescription(initialData.description)
     }
   }, [initialData])
 
@@ -75,7 +80,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
         name: data.title,
         location: data.location,
         colaborators: data.colaborators,
-        description: data.description || '',
+        description: description || '',
         img: data.img || '',
         youtubeLink: data.youtube || '',
         instagramLink: data.instagram || '',
@@ -145,6 +150,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
         // En modo creación, usar el hook de createEvent
         await createEvent(eventData)
         event.target.reset() // Limpiar el formulario después de enviar
+        setDescription('') // Limpiar el editor de texto
         onSuccess?.('Evento creado con éxito')
       }
     } catch (error) {
@@ -232,12 +238,10 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
 
         <div className="form-group form-group--full-width">
             <label htmlFor="description">Descripción</label>
-            <textarea 
-              id="description" 
-              name="description" 
-              rows="5"
+            <RichTextEditor
+              value={description}
+              onChange={setDescription}
               placeholder="Describe el evento, artistas, horarios, etc."
-              defaultValue={initialData?.description || ''} 
             />
         </div>
 

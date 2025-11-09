@@ -1,0 +1,158 @@
+.rich-text-editor {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+/* Barra de herramientas */
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px;
+  background-color: #0e0e0e;
+  border-bottom: 1px solid #333;
+}
+
+.editor-toolbar button {
+  padding: 6px 10px;
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-toolbar button:hover {
+  background-color: #333;
+  border-color: #666;
+  color: #ffffff;
+}
+
+.editor-toolbar button.is-active {
+  background-color: #ff003c;
+  border-color: #ff003c;
+  color: #ffffff;
+}
+
+.editor-toolbar .separator {
+  width: 1px;
+  background-color: #333;
+  margin: 0 4px;
+}
+
+/* Contenedor del editor */
+.tiptap-editor {
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 16px;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.6;
+  outline: none;
+}
+
+.tiptap-editor:focus {
+  outline: none;
+}
+
+/* Placeholder */
+.tiptap-editor p.is-editor-empty:first-child::before {
+  color: #999;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Estilos del contenido */
+.tiptap-editor h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.tiptap-editor h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.tiptap-editor h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.tiptap-editor p {
+  margin: 0 0 1rem 0;
+  color: #CCCCCC;
+}
+
+.tiptap-editor strong {
+  color: white;
+  font-weight: 600;
+}
+
+.tiptap-editor em {
+  font-style: italic;
+}
+
+.tiptap-editor s {
+  text-decoration: line-through;
+}
+
+.tiptap-editor ul,
+.tiptap-editor ol {
+  margin: 0 0 1rem 1.5rem;
+  padding: 0;
+  color: #CCCCCC;
+}
+
+.tiptap-editor li {
+  margin-bottom: 0.5rem;
+}
+
+.tiptap-editor a,
+.tiptap-editor .editor-link {
+  color: #ff003c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tiptap-editor a:hover,
+.tiptap-editor .editor-link:hover {
+  color: #cc0030;
+}
+
+/* Scrollbar personalizada */
+.tiptap-editor::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tiptap-editor::-webkit-scrollbar-track {
+  background: #0e0e0e;
+}
+
+.tiptap-editor::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.tiptap-editor::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

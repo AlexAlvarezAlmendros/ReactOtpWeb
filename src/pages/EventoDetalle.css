@@ -247,6 +247,77 @@
   text-align: justify;
 }
 
+/* === RICH TEXT CONTENT === */
+.rich-text-content {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #CCCCCC;
+}
+
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3 {
+  color: white;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rich-text-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.rich-text-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.rich-text-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.rich-text-content p {
+  margin-bottom: 1rem;
+}
+
+.rich-text-content strong {
+  color: white;
+  font-weight: 600;
+}
+
+.rich-text-content em {
+  font-style: italic;
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.rich-text-content li {
+  margin-bottom: 0.5rem;
+}
+
+.rich-text-content a {
+  color: #ff003c;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.rich-text-content a:hover {
+  color: #cc0030;
+}
+
+.rich-text-content blockquote {
+  border-left: 4px solid #ff003c;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #999;
+}
+
 /* === SECCIÓN DE ENLACES SOCIALES === */
 .evento-social {
   margin-bottom: 32px;
