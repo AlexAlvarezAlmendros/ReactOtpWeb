@@ -171,6 +171,7 @@
   margin-top: 24px;
   border-top: 1px solid #ff003c40;
   padding-top: 24px;
+  width: 100%;
 }
 
 .ticket-form .form-group {
