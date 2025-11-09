@@ -88,7 +88,7 @@ function TicketPurchase ({ event }) {
           <div className='ticket-icon'>
             🎫
           </div>
-          <div className='ticket-info'>
+          <div className='ticket-infoExternas'>
             <h3>Entradas Disponibles</h3>
             <p className='external-description'>
               Las entradas para este evento se gestionan a través de una plataforma externa
@@ -155,10 +155,13 @@ function TicketPurchase ({ event }) {
 
       {isSaleActive() && !showForm && (
         <button
-          className='btn-buy-tickets'
+          className='btn-external-tickets'
           onClick={() => setShowForm(true)}
         >
-          Comprar Entradas
+          <span>Comprar Entradas</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 3L9 4L14.5 9.5H3V10.5H14.5L9 16L10 17L17 10L10 3Z" fill="currentColor"/>
+            </svg>
         </button>
       )}
 

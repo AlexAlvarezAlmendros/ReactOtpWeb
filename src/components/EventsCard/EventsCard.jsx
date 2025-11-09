@@ -72,14 +72,17 @@ function EventsCard ({ card }) {
           )
         )}
 
-        <div className='card__buttons'>
-          {availableLinks.map((item, index) => (
-            <NavLink key={index} to={item.link} aria-label={item.label}>
-              <FontAwesomeIcon icon={item.icon} />
-              {showLabels && <span style={{ marginLeft: '8px' }}>{item.label}</span>}
-            </NavLink>
-          ))}
-        </div>
+        {/* Mostrar botones sociales solo si NO hay entradas disponibles */}
+        {!ticketsAvailable && availableLinks.length > 0 && (
+          <div className='card__buttons'>
+            {availableLinks.map((item, index) => (
+              <NavLink key={index} to={item.link} aria-label={item.label}>
+                <FontAwesomeIcon icon={item.icon} />
+                {showLabels && <span style={{ marginLeft: '8px' }}>{item.label}</span>}
+              </NavLink>
+            ))}
+          </div>
+        )}
       </div>
     </article>
   )

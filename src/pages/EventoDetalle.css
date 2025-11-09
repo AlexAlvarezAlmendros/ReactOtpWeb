@@ -442,3 +442,11 @@
   outline: 2px solid #ff003c;
   outline-offset: 2px;
 }
+.ticket-infoExternas{
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: linear-gradient(135deg, #0E0E0E 0%, #1a1a1a 100%); */
+    flex-direction: column;
+}

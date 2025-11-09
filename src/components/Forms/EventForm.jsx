@@ -81,7 +81,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
         instagramLink: data.instagram || '',
         detailpageUrl: data.detailpageUrl || '',
         eventType: data.type,
-        date: new Date().toISOString(),
+        date: data.eventDate ? new Date(data.eventDate).toISOString() : new Date().toISOString(),
         userId: user?.sub || null,
         // Campos de tickets
         ticketsEnabled: isTicketsEnabled
@@ -184,6 +184,17 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
               id="colaborators" 
               name="colaborators" 
               defaultValue={initialData?.colaborators || ''} 
+              required 
+            />
+        </div>
+
+        <div className="form-group">
+            <label htmlFor="eventDate">Fecha del evento*</label>
+            <input 
+              type="datetime-local" 
+              id="eventDate" 
+              name="eventDate" 
+              defaultValue={initialData?.date ? new Date(initialData.date).toISOString().slice(0, 16) : ''} 
               required 
             />
         </div>
