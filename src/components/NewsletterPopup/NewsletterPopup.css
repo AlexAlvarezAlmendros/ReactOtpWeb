@@ -1,0 +1,395 @@
+/* Overlay del popup */
+.newsletter-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Contenedor del popup */
+.newsletter-popup-container {
+  background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+  border-radius: 16px;
+  border: 1px solid #333;
+  max-width: 540px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.4s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Botón de cerrar */
+.newsletter-popup-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ccc;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.newsletter-popup-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Contenido del popup */
+.newsletter-popup-content {
+  padding: 48px 40px;
+  text-align: center;
+}
+
+/* Icono principal */
+.newsletter-popup-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  border-radius: 50%;
+  margin-bottom: 24px;
+  color: white;
+  box-shadow: 0 8px 24px rgba(255, 0, 60, 0.4);
+}
+
+/* Título */
+.newsletter-popup-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Descripción */
+.newsletter-popup-description {
+  font-size: 1rem;
+  color: #cccccc;
+  margin: 0 0 32px 0;
+  line-height: 1.6;
+}
+
+/* Lista de beneficios */
+.newsletter-popup-benefits {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.benefit-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 0, 60, 0.3);
+  transform: translateX(4px);
+}
+
+.benefit-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 0, 60, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff003c;
+}
+
+.benefit-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.benefit-text strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: block;
+}
+
+.benefit-text span {
+  font-size: 0.8rem;
+  color: #999999;
+  display: block;
+}
+
+/* Formulario */
+.newsletter-popup-form {
+  margin-bottom: 16px;
+}
+
+.newsletter-popup-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.newsletter-popup-input {
+  flex: 1;
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.newsletter-popup-input:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.newsletter-popup-input::placeholder {
+  color: #666;
+}
+
+.newsletter-popup-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.newsletter-popup-button {
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
+}
+
+.newsletter-popup-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6003a 0%, #b30028 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 0, 60, 0.5);
+}
+
+.newsletter-popup-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.newsletter-popup-button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.newsletter-popup-button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mensajes de estado */
+.newsletter-popup-status {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.newsletter-popup-status.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.newsletter-popup-status.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* Footer del popup */
+.newsletter-popup-footer {
+  font-size: 0.75rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .newsletter-popup-overlay {
+    padding: 16px;
+  }
+
+  .newsletter-popup-content {
+    padding: 32px 24px;
+  }
+
+  .newsletter-popup-title {
+    font-size: 1.5rem;
+  }
+
+  .newsletter-popup-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .newsletter-popup-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .newsletter-popup-input-group {
+    flex-direction: column;
+  }
+
+  .newsletter-popup-button {
+    width: 100%;
+  }
+
+  .newsletter-popup-benefits {
+    gap: 12px;
+  }
+
+  .benefit-item {
+    padding: 10px;
+  }
+
+  .benefit-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .benefit-text strong {
+    font-size: 0.85rem;
+  }
+
+  .benefit-text span {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletter-popup-title {
+    font-size: 1.3rem;
+  }
+
+  .newsletter-popup-description {
+    font-size: 0.9rem;
+  }
+
+  .newsletter-popup-content {
+    padding: 24px 20px;
+  }
+}
+
+/* Reducir animaciones para usuarios con preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .newsletter-popup-overlay,
+  .newsletter-popup-container,
+  .newsletter-popup-close,
+  .benefit-item,
+  .newsletter-popup-button,
+  .newsletter-popup-status {
+    animation: none;
+    transition: none;
+  }
+
+  .newsletter-popup-close:hover {
+    transform: none;
+  }
+
+  .benefit-item:hover {
+    transform: none;
+  }
+
+  .newsletter-popup-button:hover:not(:disabled) {
+    transform: none;
+  }
+}

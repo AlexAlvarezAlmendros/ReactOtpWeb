@@ -1,0 +1,340 @@
+/* Sección de Próximos Eventos */
+.proximos-eventos-section {
+  margin-bottom: 64px;
+}
+
+.proximos-eventos-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  margin-left: 2rem;
+  text-align: start;
+}
+
+.proximos-eventos-list {
+  justify-content: center;
+  gap: 1rem;
+}
+
+.no-eventos {
+  text-align: center;
+  color: #999;
+  font-size: 1.125rem;
+  padding: 48px 24px;
+}
+
+/* Vista Destacada para Un Solo Evento */
+.evento-destacado {
+  display: flex;
+  gap: 32px;
+  background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+  border-radius: 16px;
+  border: 1px solid #333;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin: 0 2rem;
+  transition: all 0.3s ease;
+}
+
+.evento-destacado:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  border-color: #444;
+}
+
+.evento-destacado-imagen {
+  flex-shrink: 0;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.evento-destacado-imagen img {
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.evento-destacado:hover .evento-destacado-imagen img {
+  transform: scale(1.05);
+}
+
+.evento-destacado-info {
+  flex: 1;
+  padding: 48px 48px 48px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.evento-destacado-header {
+  flex: 1;
+}
+
+.evento-destacado-titulo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.evento-destacado-underline {
+  width: 80px;
+  height: 4px;
+  background-color: #ff003c;
+  margin: 0 0 24px 0;
+}
+
+.evento-destacado-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.evento-destacado-fecha,
+.evento-destacado-ubicacion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.25rem;
+  color: #CCCCCC;
+}
+
+.evento-destacado-fecha svg,
+.evento-destacado-ubicacion svg {
+  color: #ff003c;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.evento-destacado-acciones {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+/* Botón de Comprar Entradas */
+.evento-destacado-btn-comprar {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+}
+
+.evento-destacado-btn-comprar:hover {
+  background: linear-gradient(135deg, #e6003a 0%, #b30028 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255, 0, 60, 0.6);
+}
+
+.evento-destacado-btn-comprar svg {
+  font-size: 1.25rem;
+}
+
+/* Botón de Ver Detalles */
+.evento-destacado-btn-detalles {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: white;
+  border: 2px solid #ff003c;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.evento-destacado-btn-detalles:hover {
+  background: #ff003c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+}
+
+.evento-destacado-btn-detalles svg {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.evento-destacado-btn-detalles:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .evento-destacado {
+    margin: 0 1rem;
+  }
+
+  .evento-destacado-imagen {
+    width: 350px;
+    height: 350px;
+  }
+
+  .evento-destacado-info {
+    padding: 32px 32px 32px 16px;
+  }
+
+  .evento-destacado-titulo {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .evento-destacado {
+    flex-direction: column;
+    margin: 0 1rem;
+  }
+
+  .evento-destacado-imagen {
+    width: 100%;
+    height: 300px;
+  }
+
+  .evento-destacado-info {
+    padding: 32px;
+  }
+
+  .evento-destacado-titulo {
+    font-size: 2rem;
+  }
+
+  .evento-destacado-meta {
+    gap: 12px;
+  }
+
+  .evento-destacado-fecha,
+  .evento-destacado-ubicacion {
+    font-size: 1.125rem;
+  }
+
+  .evento-destacado-acciones {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .proximos-eventos-title {
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+
+  .evento-destacado {
+    margin: 0 0.5rem;
+  }
+
+  .evento-destacado-imagen {
+    height: 250px;
+  }
+
+  .evento-destacado-info {
+    padding: 24px;
+  }
+
+  .evento-destacado-titulo {
+    font-size: 1.75rem;
+  }
+
+  .evento-destacado-btn-comprar,
+  .evento-destacado-btn-detalles {
+    padding: 14px 24px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .evento-destacado-titulo {
+    font-size: 1.5rem;
+  }
+
+  .evento-destacado-acciones {
+    flex-direction: column;
+  }
+
+  .evento-destacado-btn-comprar,
+  .evento-destacado-btn-detalles {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .evento-destacado-fecha,
+  .evento-destacado-ubicacion {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .evento-destacado-imagen {
+    height: 200px;
+  }
+
+  .evento-destacado-info {
+    padding: 20px;
+  }
+
+  .evento-destacado-titulo {
+    font-size: 1.3rem;
+  }
+
+  .evento-destacado-underline {
+    width: 60px;
+    height: 3px;
+  }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .evento-destacado,
+  .evento-destacado-imagen img,
+  .evento-destacado-btn-comprar,
+  .evento-destacado-btn-detalles,
+  .evento-destacado-btn-detalles svg {
+    transition: none;
+  }
+
+  .evento-destacado:hover {
+    transform: none;
+  }
+
+  .evento-destacado:hover .evento-destacado-imagen img {
+    transform: none;
+  }
+
+  .evento-destacado-btn-comprar:hover,
+  .evento-destacado-btn-detalles:hover {
+    transform: none;
+  }
+
+  .evento-destacado-btn-detalles:hover svg {
+    transform: none;
+  }
+}
+
+/* Focus visible para navegación por teclado */
+.evento-destacado-btn-comprar:focus-visible,
+.evento-destacado-btn-detalles:focus-visible {
+  outline: 2px solid #ff003c;
+  outline-offset: 2px;
+}

@@ -12,6 +12,18 @@ function EventsCard ({ card }) {
 
   const showLabels = availableLinks.length === 1
 
+  // Formatear fecha
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
   // Verificar si tiene entradas disponibles y dentro de fecha
   const hasAvailableTickets = () => {
     if (!card.ticketsEnabled) return false
@@ -41,7 +53,12 @@ function EventsCard ({ card }) {
       <div className='card-content'>
         <div>
           <h2>{card.title}</h2>
-          <h2 className="colaborators">{card.colaborators}</h2>
+          {card.date && (
+            <p className="event-date">
+              <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
+              {formatDate(card.date)}
+            </p>
+          )}
           <p className="event-location">
             <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
             {card.subtitle}
