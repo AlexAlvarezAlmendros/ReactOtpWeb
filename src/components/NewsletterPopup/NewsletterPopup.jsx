@@ -94,8 +94,8 @@ function NewsletterPopup () {
                 <MusicIcon />
               </div>
               <div className="benefit-text">
-                <strong>Beats exclusivos</strong>
-                <span>Acceso anticipado a producciones</span>
+                <strong>Beats únicos</strong>
+                <span>Acceso exclusivo a beats de nuestros productores</span>
               </div>
             </div>
 
@@ -115,7 +115,7 @@ function NewsletterPopup () {
               </div>
               <div className="benefit-text">
                 <strong>Próximos eventos</strong>
-                <span>No te pierdas ninguna actuación</span>
+                <span>No te pierdas ningun showcase</span>
               </div>
             </div>
 
