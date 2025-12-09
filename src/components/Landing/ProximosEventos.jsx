@@ -114,6 +114,9 @@ export function ProximosEventos () {
     )
   }
 
+  // Si no hay eventos, no mostrar nada
+  if (!loading && !error && cards.length === 0) return null
+
   // Vista normal para múltiples eventos
   return (
     <section>
@@ -126,9 +129,7 @@ export function ProximosEventos () {
             <Cards cards={cards} type={'event'} />
           </>
         )}
-        {!loading && !error && cards.length === 0 && (
-          <p className='no-eventos'>No hay eventos próximos programados</p>
-        )}
+
       </div>
     </section>
   )
