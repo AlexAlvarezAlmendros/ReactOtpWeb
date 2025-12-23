@@ -1,0 +1,235 @@
+.newsletters-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.newsletters-page h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 48px;
+  color: #ffffff;
+}
+
+/* Newsletter Destacada */
+.featured-newsletter {
+  margin-bottom: 64px;
+}
+
+.featured-label {
+  display: inline-block;
+  background: #ff003c;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.featured-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 500px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 48px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.featured-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.featured-card:hover::before {
+  transform: scale(1.05);
+}
+
+.featured-card:hover {
+  transform: translateY(-4px);
+  border-color: #ff003c;
+  box-shadow: 0 8px 32px rgba(255, 0, 60, 0.3);
+}
+
+.featured-content {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 16px;
+}
+
+.featured-date {
+  color: #cccccc;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.featured-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+.featured-cta {
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+  background-color: #ff003c;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.4);
+}
+
+.featured-card:hover .featured-cta {
+  background-color: #e6003a;
+  transform: translateX(4px);
+  box-shadow: 0 6px 16px rgba(255, 0, 60, 0.6);
+}
+
+/* Newsletters Anteriores */
+.older-newsletters {
+  margin-top: 64px;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 32px;
+  color: #ffffff;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #ff003c;
+}
+
+.newsletters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.newsletter-item {
+  background-color: #0e0e0e;
+  border: 1px solid #1b1b1b;
+  border-radius: 8px;
+  padding: 24px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.newsletter-item:hover {
+  border-color: #ff003c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 0, 60, 0.2);
+}
+
+.newsletter-item-date {
+  color: #999999;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.newsletter-item-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.newsletter-item-preview {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #cccccc;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .newsletters-page h1 {
+    font-size: 2rem;
+    margin-bottom: 32px;
+  }
+
+  .featured-card {
+    min-height: 400px;
+    padding: 32px 24px;
+  }
+
+  .featured-title {
+    font-size: 1.75rem;
+  }
+
+  .featured-cta {
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .newsletters-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletters-page {
+    padding: 32px 16px;
+  }
+
+  .newsletters-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .featured-title {
+    font-size: 1.5rem;
+  }
+}

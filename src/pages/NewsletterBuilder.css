@@ -1,0 +1,276 @@
+.newsletter-builder {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--text-color, #fff);
+}
+
+.builder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.builder-header h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: #ffffff;
+}
+
+.builder-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-preview,
+.btn-save,
+.btn-back {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-preview {
+  background-color: var(--secondary-color, #333);
+  color: white;
+}
+
+.btn-save {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #e0e0e0;
+}
+
+.btn-save:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-save:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  color: #666;
+}
+
+.btn-back {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Form Sections */
+.builder-form {
+  display: grid;
+  gap: 2rem;
+}
+
+.form-section {
+  background: rgba(25, 25, 25, 0.5);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-family: inherit;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Selection Lists */
+.selection-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.selection-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.selection-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.selection-item.selected {
+  border-color: var(--primary-color, #007bff);
+  background: rgba(0, 123, 255, 0.1);
+}
+
+.selection-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.selection-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.selection-title {
+  display: block;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selection-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Discounts */
+.discount-form {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr auto;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.btn-add {
+  padding: 0.75rem;
+  background: var(--primary-color, #007bff);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.active-discounts {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.discount-tag {
+  background: rgba(0, 123, 255, 0.2);
+  border: 1px solid rgba(0, 123, 255, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.discount-tag button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 0.5;
+}
+
+/* Preview Modal */
+.preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.preview-content {
+  background: #111;
+  width: 90%;
+  max-width: 800px;
+  height: 90%;
+  border-radius: 12px;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.preview-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #000;
+  /* High contrast */
+  border: 2px solid #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+  /* Ensure above everything */
+  display: flex;
+  /* Center X */
+  align-items: center;
+  /* Center Y */
+  justify-content: center;
+}
+
+/* Mock email container removed in favor of real viewer */
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .builder-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}

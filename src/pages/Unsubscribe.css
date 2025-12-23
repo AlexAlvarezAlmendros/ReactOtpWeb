@@ -1,0 +1,335 @@
+.unsubscribe-page {
+  min-height: 100vh;
+  background-color: #000000;
+  padding: 80px 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unsubscribe-container {
+  max-width: 600px;
+  width: 100%;
+  background-color: #0e0e0e;
+  border: 1px solid #1b1b1b;
+  border-radius: 12px;
+  padding: 48px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Header */
+.unsubscribe-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.unsubscribe-header .header-icon {
+  font-size: 4rem;
+  color: #ff003c;
+  margin-bottom: 16px;
+}
+
+.unsubscribe-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* States */
+.unsubscribe-state {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.unsubscribe-state .state-icon {
+  font-size: 4rem;
+  margin-bottom: 24px;
+}
+
+.unsubscribe-state h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.unsubscribe-state p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #cccccc;
+  margin-bottom: 12px;
+}
+
+/* Loading State */
+.unsubscribe-state.loading .state-icon {
+  color: #ff003c;
+}
+
+/* Success State */
+.unsubscribe-state.success .state-icon {
+  color: #22c55e;
+}
+
+.success-email {
+  font-weight: 600;
+  color: #ffffff !important;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+}
+
+/* Error State */
+.unsubscribe-state.error .state-icon {
+  color: #ef4444;
+}
+
+.error-message {
+  font-weight: 600;
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+}
+
+/* Initial State */
+.unsubscribe-state.initial h2 {
+  margin-bottom: 16px;
+}
+
+.unsubscribe-state.initial p {
+  margin-bottom: 24px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #e6003a 0%, #b30029 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 0, 60, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #cccccc;
+  border: 2px solid #333333;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  color: #ffffff;
+  border-color: #666666;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-link {
+  display: block;
+  margin-top: 24px;
+  color: #999999;
+  text-decoration: underline;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+  color: #ff003c;
+}
+
+/* Manual Form */
+.unsubscribe-form-container {
+  padding: 24px 0;
+}
+
+.unsubscribe-form-container h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.unsubscribe-form-container > p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #cccccc;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.unsubscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-input {
+  background-color: #1a1a1a;
+  border: 2px solid #333333;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.form-input::placeholder {
+  color: #666666;
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 0.875rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.form-actions .btn-primary,
+.form-actions .btn-secondary {
+  flex: 1;
+}
+
+/* Footer */
+.unsubscribe-footer {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #1b1b1b;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  color: #999999;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.footer-text a {
+  color: #ff003c;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.footer-text a:hover {
+  color: #e6003a;
+}
+
+.footer-text.small {
+  font-size: 0.75rem;
+  color: #666666;
+  margin-top: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .unsubscribe-page {
+    padding: 60px 16px 32px;
+  }
+
+  .unsubscribe-container {
+    padding: 32px 24px;
+  }
+
+  .unsubscribe-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .unsubscribe-header .header-icon {
+    font-size: 3rem;
+  }
+
+  .unsubscribe-state .state-icon {
+    font-size: 3rem;
+  }
+
+  .unsubscribe-state h2 {
+    font-size: 1.25rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .unsubscribe-container {
+    padding: 24px 16px;
+  }
+
+  .unsubscribe-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 0.875rem;
+    padding: 10px 20px;
+  }
+}

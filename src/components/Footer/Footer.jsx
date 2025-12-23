@@ -28,6 +28,8 @@ function Footer () {
               <NavLink to="/artistas">Artistas</NavLink>
               <NavLink to="/eventos">Eventos</NavLink>
               <NavLink to="/discografia">Discografía</NavLink>
+              <NavLink to="/beats">Beats</NavLink>
+              <NavLink to="/newsletters">Newsletters</NavLink>
               <NavLink to="/estudios">Estudios</NavLink>
               <NavLink to="/contacto">Contacto</NavLink>
             </nav>
@@ -56,7 +58,7 @@ function Footer () {
               </div>
               <div className='contact-item'>
                 <PhoneIcon />
-                <span>+34 656 852 437</span>
+                <span>+34 625 02 90 56</span>
               </div>
               <div className='contact-item'>
                 <LocationIcon />

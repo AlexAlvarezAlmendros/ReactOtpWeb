@@ -18,7 +18,7 @@ export function useDelete () {
 
   /**
    * Elimina un elemento por su tipo e ID
-   * @param {string} type - Tipo de elemento ('release', 'artist', 'event')
+   * @param {string} type - Tipo de elemento ('release', 'artist', 'event', 'beat', 'newsletter')
    * @param {string} id - ID del elemento a eliminar
    * @returns {Promise<boolean>} - true si se eliminó correctamente
    */
@@ -41,6 +41,12 @@ export function useDelete () {
           break
         case 'event':
           endpoint = `${API_URL}/events/${id}`
+          break
+        case 'beat':
+          endpoint = `${API_URL}/beats/${id}`
+          break
+        case 'newsletter':
+          endpoint = `${API_URL}/newsletters/${id}`
           break
         default:
           throw new Error(`Tipo de elemento no válido: ${type}`)

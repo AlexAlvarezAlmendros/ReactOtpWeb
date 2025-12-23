@@ -1,0 +1,667 @@
+.newsletter-viewer {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 48px 24px;
+	color: #fff;
+	min-height: 100vh;
+	font-family: 'Montserrat', sans-serif;
+	overflow-x: hidden;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.cards-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 24px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.newsletter-header {
+	text-align: center;
+	margin-bottom: 64px;
+	padding-bottom: 32px;
+	border-bottom: 1px solid #333;
+}
+
+.newsletter-title {
+	font-size: 3.5rem;
+	font-weight: 700;
+	margin: 0 0 16px 0;
+	line-height: 1.2;
+	color: #ffffff;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.newsletter-date {
+	display: block;
+	margin-top: 16px;
+	color: #999999;
+	font-size: 0.875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.newsletter-section {
+	margin-bottom: 64px;
+}
+
+.section-title {
+	font-size: 1.75rem;
+	font-weight: 600;
+	margin-bottom: 32px;
+	color: #ffffff;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	position: relative;
+	padding-bottom: 12px;
+	text-align: left;
+}
+
+.section-title::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 60px;
+	height: 3px;
+	background-color: #ff003c;
+}
+
+/* Vista Destacada para Un Solo Evento */
+.evento-destacado {
+  display: flex;
+  gap: 32px;
+  background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+  border-radius: 16px;
+  border: 1px solid #333;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.evento-destacado:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  border-color: #444;
+}
+
+.evento-destacado-imagen {
+  flex-shrink: 0;
+  width: 400px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.evento-destacado-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.evento-destacado:hover .evento-destacado-imagen img {
+  transform: scale(1.05);
+}
+
+.evento-destacado-info {
+  flex: 1;
+  padding: 48px 48px 48px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.evento-destacado-header {
+  flex: 1;
+}
+
+.evento-destacado-titulo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.evento-destacado-underline {
+  width: 80px;
+  height: 4px;
+  background-color: #ff003c;
+  margin: 0 0 24px 0;
+}
+
+.evento-destacado-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.evento-destacado-fecha,
+.evento-destacado-ubicacion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.25rem;
+  color: #CCCCCC;
+}
+
+.evento-destacado-fecha svg,
+.evento-destacado-ubicacion svg {
+  color: #ff003c;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.evento-destacado-acciones {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+/* Botón de Comprar Entradas */
+.evento-destacado-btn-comprar {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+}
+
+.evento-destacado-btn-comprar:hover {
+  background: linear-gradient(135deg, #e6003a 0%, #b30028 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255, 0, 60, 0.6);
+}
+
+.evento-destacado-btn-comprar svg {
+  font-size: 1.25rem;
+}
+
+/* Botón de Ver Detalles */
+.evento-destacado-btn-detalles {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: white;
+  border: 2px solid #ff003c;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.evento-destacado-btn-detalles:hover {
+  background: #ff003c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+}
+
+.evento-destacado-btn-detalles svg {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.evento-destacado-btn-detalles:hover svg {
+  transform: translateX(4px);
+}
+
+/* Discounts */
+.discounts-container {
+	background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+	border: 1px solid #333;
+	border-radius: 12px;
+	padding: 48px;
+	text-align: center;
+	margin-bottom: 64px;
+	position: relative;
+}
+
+.discounts-container.blurred {
+	overflow: hidden;
+}
+
+.subscription-required-message {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+	background: rgba(0, 0, 0, 0.9);
+	padding: 32px 48px;
+	border-radius: 12px;
+	border: 2px solid #ff003c;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	box-shadow: 0 8px 32px rgba(255, 0, 60, 0.3);
+}
+
+.subscription-required-message svg {
+	font-size: 3rem;
+	color: #ff003c;
+}
+
+.subscription-required-message p {
+	margin: 0;
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #ffffff;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	text-align: center;
+	max-width: 400px;
+}
+
+.discounts-grid {
+	position: relative;
+}
+
+.blur-content {
+	filter: blur(8px);
+	pointer-events: none;
+	user-select: none;
+}
+
+.discounts-container h2 {
+	color: #ffffff;
+	font-size: 1.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 32px;
+}
+
+.discount-card {
+	margin-top: 24px;
+	display: inline-block;
+	background: #0e0e0e;
+	padding: 32px 48px;
+	border-radius: 8px;
+	border: 1px solid #1b1b1b;
+	width: 100%;
+	max-width: 400px;
+}
+
+.discount-code {
+	display: block;
+	font-size: 2.5rem;
+	font-weight: 800;
+	color: #ff003c;
+	letter-spacing: 2px;
+	margin-bottom: 12px;
+}
+
+.discount-desc {
+	font-size: 1.125rem;
+	color: #cccccc;
+}
+
+/* Subscribe CTA */
+.subscribe-cta {
+	text-align: center;
+	padding: 64px 48px;
+	background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+	border-radius: 12px;
+	margin-top: 64px;
+	border: 1px solid #333;
+}
+
+.subscribe-cta p {
+	color: #cccccc;
+	font-size: 1.125rem;
+	line-height: 1.7;
+	max-width: 600px;
+	margin: 0 auto 32px;
+}
+
+.newsletter-form-viewer {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.newsletter-input-wrapper {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.newsletter-input-viewer {
+	flex: 1;
+	padding: 16px 20px;
+	font-size: 1rem;
+	background-color: #1a1a1a;
+	border: 2px solid #333;
+	border-radius: 8px;
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+	transition: all 0.3s ease;
+}
+
+.newsletter-input-viewer:focus {
+	outline: none;
+	border-color: #ff003c;
+	box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.newsletter-input-viewer::placeholder {
+	color: #666;
+}
+
+.newsletter-button-viewer {
+	padding: 16px 32px;
+	font-size: 1rem;
+	font-weight: 700;
+	background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+}
+
+.newsletter-button-viewer:hover:not(:disabled) {
+	background: #e6003a;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(255, 0, 60, 0.4);
+}
+
+.newsletter-button-viewer:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.newsletter-button-viewer.loading {
+	opacity: 0.8;
+}
+
+.newsletter-status {
+	padding: 16px 20px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 0.95rem;
+	animation: slideDown 0.3s ease;
+}
+
+.newsletter-status.success {
+	background-color: rgba(34, 197, 94, 0.1);
+	border: 1px solid rgba(34, 197, 94, 0.3);
+	color: #22c55e;
+}
+
+.newsletter-status.error {
+	background-color: rgba(239, 68, 68, 0.1);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	color: #ef4444;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.btn-subscribe {
+	display: inline-block;
+	padding: 16px 48px;
+	font-size: 1.125rem;
+	font-weight: 700;
+	background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+	color: white;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-decoration: none;
+	box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+}
+
+.btn-subscribe:hover {
+	background: #e6003a;
+	transform: translateY(-2px);
+	box-shadow: 0 8px 30px rgba(255, 0, 60, 0.6);
+}
+
+/* Loading & Error */
+.loading-container,
+.error-container {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 24px;
+	color: white;
+}
+
+.error-container h1 {
+	font-size: 4rem;
+	font-weight: 700;
+	color: #ff003c;
+	margin: 0;
+}
+
+.error-container p {
+	font-size: 1.125rem;
+	color: #cccccc;
+}
+
+.error-container a {
+	color: #ff003c;
+	text-decoration: none;
+	font-weight: 600;
+	transition: color 0.3s ease;
+}
+
+.error-container a:hover {
+	color: #e6003a;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+	.evento-destacado {
+		flex-direction: column;
+	}
+
+	.evento-destacado-imagen {
+		width: 100%;
+		height: 300px;
+	}
+
+	.evento-destacado-info {
+		padding: 32px;
+	}
+
+	.evento-destacado-titulo {
+		font-size: 2rem;
+	}
+
+	.evento-destacado-meta {
+		gap: 12px;
+	}
+
+	.evento-destacado-fecha,
+	.evento-destacado-ubicacion {
+		font-size: 1.125rem;
+	}
+
+	.evento-destacado-acciones {
+		margin-top: 24px;
+	}
+}
+
+@media (max-width: 768px) {
+	.newsletter-viewer {
+		padding: 32px 16px;
+	}
+
+	.newsletter-title {
+		font-size: 2rem;
+	}
+
+	.newsletter-header {
+		margin-bottom: 48px;
+	}
+
+	.subscription-required-message {
+		padding: 24px 32px;
+	}
+
+	.subscription-required-message svg {
+		font-size: 2.5rem;
+	}
+
+	.subscription-required-message p {
+		font-size: 1rem;
+		max-width: 280px;
+	}
+
+	.section-title {
+		font-size: 1.5rem;
+	}
+
+	.newsletter-section {
+		margin-bottom: 48px;
+	}
+
+	.discounts-container,
+	.subscribe-cta {
+		padding: 32px 24px;
+	}
+
+	.newsletter-input-wrapper {
+		flex-direction: column;
+	}
+
+	.newsletter-button-viewer {
+		width: 100%;
+		padding: 16px;
+	}
+
+	.discount-code {
+		font-size: 2rem;
+	}
+
+	.evento-destacado-imagen {
+		height: 250px;
+	}
+
+	.evento-destacado-info {
+		padding: 24px;
+	}
+
+	.evento-destacado-titulo {
+		font-size: 1.75rem;
+	}
+
+	.evento-destacado-btn-comprar,
+	.evento-destacado-btn-detalles {
+		padding: 14px 24px;
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.evento-destacado-acciones {
+		flex-direction: column;
+	}
+
+	.evento-destacado-btn-comprar,
+	.evento-destacado-btn-detalles {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.evento-destacado-fecha,
+	.evento-destacado-ubicacion {
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.newsletter-title {
+		font-size: 1.5rem;
+	}
+
+	.section-title {
+		font-size: 1.25rem;
+	}
+
+	.evento-destacado-imagen {
+		height: 200px;
+	}
+
+	.evento-destacado-info {
+		padding: 20px;
+	}
+
+	.evento-destacado-titulo {
+		font-size: 1.3rem;
+	}
+
+	.evento-destacado-underline {
+		width: 60px;
+		height: 3px;
+	}
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+	.evento-destacado,
+	.evento-destacado-imagen img,
+	.evento-destacado-btn-comprar,
+	.evento-destacado-btn-detalles,
+	.evento-destacado-btn-detalles svg {
+		transition: none;
+	}
+
+	.evento-destacado:hover,
+	.evento-destacado:hover .evento-destacado-imagen img,
+	.evento-destacado-btn-comprar:hover,
+	.evento-destacado-btn-detalles:hover,
+	.evento-destacado-btn-detalles:hover svg {
+		transform: none;
+	}
+}
+
+/* Focus visible para navegación por teclado */
+.evento-destacado-btn-comprar:focus-visible,
+.evento-destacado-btn-detalles:focus-visible {
+	outline: 2px solid #ff003c;
+	outline-offset: 2px;
+}

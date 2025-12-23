@@ -26,6 +26,7 @@ function Header ({ children }) {
           <NavLink to="/artistas">Artistas</NavLink>
           <NavLink to="/eventos">Eventos</NavLink>
           <NavLink to="/discografia">Discografía</NavLink>
+          <NavLink to="/beats">Beats</NavLink>
           <NavLink to="/estudios">Estudios</NavLink>
           <NavLink to="/contacto">Contacto</NavLink>
         </nav>

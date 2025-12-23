@@ -4,12 +4,16 @@ import { usePermissions } from '../../hooks/usePermissions'
 import { useReleases } from '../../hooks/useReleases'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
+import { useBeats } from '../../hooks/useBeats'
 import { useDelete } from '../../hooks/useDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReleaseCard from '../ReleaseCard/ReleaseCard'
 import ArtistCard from '../ArtistCard/ArtistCard'
 import EventsCard from '../EventsCard/EventsCard'
+import BeatCard from '../BeatCard/BeatCard'
+import NewsletterCard from '../NewsletterCard/NewsletterCard'
 import EditModal from '../EditModal/EditModal'
+import { useNewsletters } from '../../hooks/useNewsletters'
 import './ManageCards.css'
 
 function ManageCards () {
@@ -26,14 +30,6 @@ function ManageCards () {
   // - Admin: Ve todas las cards del sistema (sin filtros)
   // - Otros roles (incluyendo Artist): Solo ven las cards que han creado (filtro por userId)
   const filterOptions = isAdmin ? {} : { userId: user?.sub }
-
-  // Debug: Log del rol y filtros aplicados
-  console.log('🎭 ManageCards - Role Info:', {
-    isAdmin,
-    isArtist,
-    userId: user?.sub,
-    filterOptions
-  })
 
   // Hooks para obtener datos
   const { 
@@ -56,6 +52,20 @@ function ManageCards () {
     error: eventsError, 
     refetch: refetchEvents 
   } = useEvents(filterOptions)
+
+  const {
+    beats,
+    loading: beatsLoading,
+    error: beatsError,
+    refetch: refetchBeats
+  } = useBeats(filterOptions)
+
+  const {
+    newsletters,
+    loading: newslettersLoading,
+    error: newslettersError,
+    refetch: refetchNewsletters
+  } = useNewsletters(filterOptions)
 
   // Función para manejar la eliminación
   const handleDelete = async (type, id, title) => {
@@ -88,6 +98,12 @@ function ManageCards () {
           break
         case 'event':
           refetchEvents()
+          break
+        case 'beat':
+          refetchBeats()
+          break
+        case 'newsletter':
+          refetchNewsletters()
           break
       }
 
@@ -122,6 +138,12 @@ function ManageCards () {
         break
       case 'event':
         refetchEvents()
+        break
+      case 'beat':
+        refetchBeats()
+        break
+      case 'newsletter':
+        refetchNewsletters()
         break
     }
     
@@ -168,6 +190,16 @@ function ManageCards () {
         loading = eventsLoading
         error = eventsError
         break
+      case 'beats':
+        items = beats || []
+        loading = beatsLoading
+        error = beatsError
+        break
+      case 'newsletters':
+        items = newsletters || []
+        loading = newslettersLoading
+        error = newslettersError
+        break
     }
 
     if (loading) {
@@ -196,28 +228,40 @@ function ManageCards () {
       <div className="cards-grid">
         {items.map((item) => {
           const CardComponent = activeTab === 'releases' ? ReleaseCard :
-                               activeTab === 'artists' ? ArtistCard : EventsCard
+                               activeTab === 'artists' ? ArtistCard :
+                               activeTab === 'events' ? EventsCard :
+                               activeTab === 'beats' ? BeatCard : NewsletterCard
+          
+          // Support both 'id' and '_id' for MongoDB documents
+          const itemId = item.id || item._id
           
           return (
-            <div key={item.id} className="card-container">
-              <CardComponent card={item} />
-              <div className="card-actions">
-                <button 
-                  className="edit-button"
-                  onClick={() => handleEdit(activeTab.slice(0, -1), item)}
-                  title="Editar"
-                >
-                  <FontAwesomeIcon icon="edit" />
-                </button>
-                <button 
-                  className="delete-button"
-                  onClick={() => handleDelete(activeTab.slice(0, -1), item.id, item.title || item.name)}
-                  disabled={deleteLoading}
-                  title="Eliminar"
-                >
-                  <FontAwesomeIcon icon="trash" />
-                </button>
-              </div>
+            <div key={itemId} className="card-container">
+              <CardComponent 
+                card={item}
+                onEdit={() => handleEdit(activeTab.slice(0, -1), item)}
+                onDelete={() => handleDelete(activeTab.slice(0, -1), itemId, item.title || item.name)}
+              />
+              
+              {activeTab !== 'newsletters' && (
+                <div className="card-actions">
+                    <button 
+                    className="edit-button"
+                    onClick={() => handleEdit(activeTab.slice(0, -1), item)}
+                    title="Editar"
+                    >
+                    <FontAwesomeIcon icon="edit" />
+                    </button>
+                    <button 
+                    className="delete-button"
+                    onClick={() => handleDelete(activeTab.slice(0, -1), itemId, item.title || item.name)}
+                    disabled={deleteLoading}
+                    title="Eliminar"
+                    >
+                    <FontAwesomeIcon icon="trash" />
+                    </button>
+                </div>
+              )}
             </div>
           )
         })}
@@ -279,6 +323,18 @@ function ManageCards () {
           onClick={() => setActiveTab('events')}
         >
           Eventos
+        </button>
+        <button 
+          className={activeTab === 'beats' ? 'active' : ''}
+          onClick={() => setActiveTab('beats')}
+        >
+          Beats
+        </button>
+        <button 
+          className={activeTab === 'newsletters' ? 'active' : ''}
+          onClick={() => setActiveTab('newsletters')}
+        >
+          Newsletters
         </button>
       </div>
 

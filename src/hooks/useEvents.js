@@ -40,6 +40,7 @@ export function useEvents (options = {}) {
 
   const {
     type,
+    title, // Will be mapped to 'name' for backend
     location,
     dateMin,
     dateMax,
@@ -55,6 +56,7 @@ export function useEvents (options = {}) {
 
     // Filtros
     if (type) params.append('type', type)
+    if (title) params.append('name', title) // Map title to name
     if (location) params.append('location', location)
     if (dateMin) params.append('dateMin', dateMin)
     if (dateMax) params.append('dateMax', dateMax)
@@ -69,7 +71,7 @@ export function useEvents (options = {}) {
     params.append('sortOrder', sortOrder)
 
     return params.toString()
-  }, [type, location, dateMin, dateMax, userId, page, count, sortBy, sortOrder])
+  }, [type, title, location, dateMin, dateMax, userId, page, count, sortBy, sortOrder])
 
   const getEvents = useCallback(async (signal) => {
     try {

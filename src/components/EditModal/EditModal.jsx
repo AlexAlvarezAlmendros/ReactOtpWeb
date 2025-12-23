@@ -3,14 +3,19 @@ import { useUpdate } from '../../hooks/useUpdate'
 import ReleaseForm from '../Forms/ReleaseForm'
 import ArtistForm from '../Forms/ArtistForm'
 import EventForm from '../Forms/EventForm'
+import BeatForm from '../Forms/BeatForm'
+import NewsletterForm from '../Forms/NewsletterForm'
 import './EditModal.css'
 
 function EditModal ({ item, type, onClose, onSuccess }) {
   const { updateItem, loading, error } = useUpdate()
   const [updateSuccess, setUpdateSuccess] = useState('')
 
+  // Support both 'id' and '_id' for MongoDB documents
+  const itemId = item.id || item._id
+
   const handleSuccess = async (formData) => {
-    const result = await updateItem(type, item.id, formData)
+    const result = await updateItem(type, itemId, formData)
     
     if (result) {
       setUpdateSuccess(`${item.title || item.name} actualizado correctamente`)
@@ -43,6 +48,10 @@ function EditModal ({ item, type, onClose, onSuccess }) {
         return <ArtistForm {...formProps} />
       case 'event':
         return <EventForm {...formProps} />
+      case 'beat':
+        return <BeatForm {...formProps} />
+      case 'newsletter':
+        return <NewsletterForm {...formProps} />
       default:
         return <div>Tipo de formulario no válido</div>
     }
@@ -52,7 +61,13 @@ function EditModal ({ item, type, onClose, onSuccess }) {
     <div className="edit-modal-overlay">
       <div className="edit-modal">
         <div className="edit-modal-header">
-          <h2>Editar {type === 'release' ? 'Release' : type === 'artist' ? 'Artista' : 'Evento'}</h2>
+          <h2>Editar {
+            type === 'release' ? 'Release' : 
+            type === 'artist' ? 'Artista' : 
+            type === 'event' ? 'Evento' : 
+            type === 'beat' ? 'Beat' : 
+            'Newsletter'
+          }</h2>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         

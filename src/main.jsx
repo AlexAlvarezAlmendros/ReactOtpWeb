@@ -9,13 +9,17 @@ import Eventos from './pages/Eventos.jsx'
 import EventoDetalle from './pages/EventoDetalle.jsx'
 import Create from './pages/Create.jsx'
 import Discografia from './pages/Discografia.jsx'
+import Beats from './pages/Beats.jsx'
 import Privacidad from './pages/Privacidad.jsx'
 import Terminos from './pages/Terminos.jsx'
 import Cookies from './pages/Cookies.jsx'
 import NotFound from './pages/NotFound.jsx'
 import TicketInfo from './pages/TicketInfo.jsx'
 import Scanner from './pages/Scanner.jsx'
-import AdminUsers from './pages/AdminUsers.jsx'
+import NewsletterBuilder from './pages/NewsletterBuilder.jsx'
+import NewsletterViewer from './pages/NewsletterViewer.jsx'
+import Newsletters from './pages/Newsletters.jsx'
+import Unsubscribe from './pages/Unsubscribe.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
@@ -68,6 +72,10 @@ const router = createBrowserRouter([
         element: <Discografia />
       },
       {
+        path: '/beats',
+        element: <Beats />
+      },
+      {
         path: '/crear',
         element: <Create />
       },
@@ -92,8 +100,20 @@ const router = createBrowserRouter([
         element: <Scanner />
       },
       {
-        path: '/admin/users',
-        element: <AdminUsers />
+        path: '/admin/newsletter',
+        element: <NewsletterBuilder />
+      },
+      {
+        path: '/newsletters',
+        element: <Newsletters />
+      },
+      {
+        path: '/news/:slug',
+        element: <NewsletterViewer />
+      },
+      {
+        path: '/unsubscribe',
+        element: <Unsubscribe />
       },
       {
         path: '*',

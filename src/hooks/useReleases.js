@@ -40,6 +40,7 @@ export function useReleases (options = {}) {
 
   const {
     type,
+    title,
     subtitle,
     dateMin,
     dateMax,
@@ -55,6 +56,7 @@ export function useReleases (options = {}) {
 
     // Filtros
     if (type) params.append('type', type)
+    if (title) params.append('title', title)
     if (subtitle) params.append('subtitle', subtitle)
     if (dateMin) params.append('dateMin', dateMin)
     if (dateMax) params.append('dateMax', dateMax)
@@ -69,7 +71,7 @@ export function useReleases (options = {}) {
     params.append('sortOrder', sortOrder)
 
     return params.toString()
-  }, [type, subtitle, dateMin, dateMax, userId, page, count, sortBy, sortOrder])
+  }, [type, title, subtitle, dateMin, dateMax, userId, page, count, sortBy, sortOrder])
 
   const getReleases = useCallback(async (signal) => {
     try {
@@ -108,7 +110,12 @@ export function useReleases (options = {}) {
         video: release.video,
         releaseType: release.releaseType,
         date: release.date,
-        img: release.img
+        img: release.img,
+        // Beats fields
+        bpm: release.bpm,
+        price: release.price,
+        producer: release.producer,
+        artist: release.artist // Ensure artist is mapped if present on beats
       }))
 
       setReleases(mappedCards)

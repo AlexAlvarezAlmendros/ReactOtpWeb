@@ -66,6 +66,13 @@ function MobileNavPanel ({ isOpen, onClose }) {
           Discografía
         </NavLink>
         <NavLink 
+          to="/beats" 
+          onClick={handleLinkClick}
+          className="mobile-nav-link"
+        >
+          Beats
+        </NavLink>
+        <NavLink 
           to="/estudios" 
           onClick={handleLinkClick}
           className="mobile-nav-link"

@@ -1,12 +1,14 @@
 import ArtistCard from '../ArtistCard/ArtistCard.jsx'
 import EventsCard from '../EventsCard/EventsCard.jsx'
 import ReleaseCard from '../ReleaseCard/ReleaseCard.jsx'
+import BeatCard from '../BeatCard/BeatCard.jsx'
 import './CardList.css'
 
 const cardComponents = {
   artist: ArtistCard,
   release: ReleaseCard,
-  event: EventsCard
+  event: EventsCard,
+  beat: BeatCard
 }
 
 export function CardList ({ cards, type }) {
@@ -21,7 +23,7 @@ export function CardList ({ cards, type }) {
     <div className='card-list'>
       {cards.map(card => (
         <CardComponent
-          key={card.id}
+          key={card._id || card.id}
           card={card}/>
       ))}
     </div>

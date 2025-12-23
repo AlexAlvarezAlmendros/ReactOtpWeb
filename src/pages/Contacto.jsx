@@ -126,7 +126,7 @@ function Contacto () {
                 <PhoneIcon />
               </div>
               <h3>Teléfono</h3>
-              <p>+34 656 852 437</p>
+              <p>+34 625 02 90 56</p>
             </div>
 
             <div className="info-card">
