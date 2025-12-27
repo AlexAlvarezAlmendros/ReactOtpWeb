@@ -128,9 +128,10 @@ const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
 const audience = import.meta.env.VITE_AUTH0_AUDIENCE
 const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI || window.location.origin
 
-// Configurar authorizationParams solo si audience está definido
+// Configurar authorizationParams con scope offline_access para refresh tokens
 const authorizationParams = {
-  redirect_uri: redirectUri
+  redirect_uri: redirectUri,
+  scope: 'openid profile email offline_access' // offline_access es CRÍTICO para refresh tokens
 }
 
 if (audience) {
