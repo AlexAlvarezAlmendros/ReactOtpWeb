@@ -2,6 +2,7 @@ import ArtistCard from '../ArtistCard/ArtistCard.jsx'
 import EventsCard from '../EventsCard/EventsCard.jsx'
 import ReleaseCard from '../ReleaseCard/ReleaseCard.jsx'
 import BeatCard from '../BeatCard/BeatCard.jsx'
+import { SkeletonList } from '../Skeleton/Skeleton.jsx'
 import './CardList.css'
 
 const cardComponents = {
@@ -38,7 +39,11 @@ export function CardListEmpty () {
   )
 }
 
-export function Cards ({ cards, type }) {
+export function Cards ({ cards, type, loading = false, skeletonCount = 6 }) {
+  if (loading) {
+    return <SkeletonList count={skeletonCount} />
+  }
+  
   const hasCards = cards?.length > 0
   return hasCards ? <CardList cards={cards} type={type} /> : <CardListEmpty />
 }

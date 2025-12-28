@@ -24,13 +24,8 @@ export function UltimosLanzamientos () {
     <section>
       <h2 className='ultimos-lanzamientos-title'>Últimos lanzamientos</h2>
       <div className='ultimos-lanzamientos-list'>
-        {loading && <p>Cargando...</p>}
         {error && <p>Error: {error}</p>}
-        {!loading && !error && (
-          <>
-            <Cards cards={cards} type={'release'} />
-          </>
-        )}
+        <Cards cards={cards} type={'release'} loading={loading} skeletonCount={3} />
       </div>
     </section>
   )

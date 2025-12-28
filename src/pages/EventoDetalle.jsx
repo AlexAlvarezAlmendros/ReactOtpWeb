@@ -4,6 +4,7 @@ import { useEvent } from '../hooks/useEvent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
+import LazyImage from '../components/LazyImage/LazyImage'
 import './EventoDetalle.css'
 
 function EventoDetalle () {
@@ -133,7 +134,7 @@ function EventoDetalle () {
         {/* Encabezado del evento */}
         <header className="evento-header">
           <div className="evento-image-container">
-            <img 
+            <LazyImage
               src={event.img} 
               alt={`Imagen de ${event.title}`}
               className="evento-image"

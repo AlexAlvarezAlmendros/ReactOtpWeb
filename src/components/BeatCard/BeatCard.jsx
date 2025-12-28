@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
+import LazyImage from '../LazyImage/LazyImage'
 import '../Card.css'
 
 function BeatCard ({ card }) {
@@ -48,7 +49,7 @@ function BeatCard ({ card }) {
     <>
       <article className='card'>
         <div className="card-image-link">
-          <img src={imageUrl} alt={`Portada de ${card.title}`} />
+          <LazyImage src={imageUrl} alt={`Portada de ${card.title}`} />
         </div>
         <div className='card-content'>
           <div>

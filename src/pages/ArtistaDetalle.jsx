@@ -4,6 +4,7 @@ import { useArtistReleases } from '../hooks/useArtistReleases'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import ReleaseCard from '../components/ReleaseCard/ReleaseCard'
+import LazyImage from '../components/LazyImage/LazyImage'
 import './ArtistaDetalle.css'
 
 function ArtistaDetalle () {
@@ -70,7 +71,7 @@ function ArtistaDetalle () {
         {/* Encabezado del artista */}
         <header className="artista-header">
           <div className="artista-image-container">
-            <img 
+            <LazyImage
               src={artist.img} 
               alt={`Imagen de ${artist.title}`}
               className="artista-image"

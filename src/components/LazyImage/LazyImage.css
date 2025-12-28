@@ -1,0 +1,34 @@
+.lazy-image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.lazy-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-image.loading {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+  position: relative;
+}
+
+/* Asegurar que el skeleton se muestre correctamente */
+.lazy-image-container .skeleton-image-standalone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

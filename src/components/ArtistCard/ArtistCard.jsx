@@ -1,6 +1,7 @@
 import '../Card.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink } from 'react-router-dom'
+import LazyImage from '../LazyImage/LazyImage'
 
 function ArtistCard ({ card }) {
   const availableLinks = [
@@ -16,7 +17,7 @@ function ArtistCard ({ card }) {
   return (
     <article className='card'>
       <NavLink to={`/artistas/${card.id}`} className="card-image-link">
-        <img src={card.img} alt='Portada de la obra' />
+        <LazyImage src={card.img} alt='Portada de la obra' />
       </NavLink>
       <div className='card-content'>
         <div>

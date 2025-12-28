@@ -7,9 +7,8 @@ function Discografia () {
   return (
 	<>
 	<h1>Nuestra Discografía</h1>
-	  {loading && <p>Cargando...</p>}
 	  {error && <p>Error: {error}</p>}
-	  {!loading && <Cards cards={releases} type={'release'} />}
+	  <Cards cards={releases} type={'release'} loading={loading} />
 	  <CreateButton />
 	</>
   )

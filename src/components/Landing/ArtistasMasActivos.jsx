@@ -24,13 +24,8 @@ export function ArtistasMasActivos () {
     <section>
       <h2 className='artistas-activos-title'>Artistas más activos</h2>
       <div className='artistas-activos-list'>
-        {loading && <p>Cargando...</p>}
         {error && <p>Error: {error}</p>}
-        {!loading && !error && (
-          <>
-            <Cards cards={cards} type={'artist'} />
-          </>
-        )}
+        <Cards cards={cards} type={'artist'} loading={loading} skeletonCount={3} />
       </div>
     </section>
   )

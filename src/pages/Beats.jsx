@@ -8,9 +8,8 @@ function Beats () {
   return (
     <>
       <h1>Nuestros Beats</h1>
-      {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
-      {!loading && <Cards cards={beats} type={'beat'} />}
+      <Cards cards={beats} type={'beat'} loading={loading} />
       <CreateButton />
     </>
   )

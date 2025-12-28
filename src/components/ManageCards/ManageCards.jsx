@@ -16,6 +16,7 @@ import NewsletterCard from '../NewsletterCard/NewsletterCard'
 import FileCard from '../FileCard/FileCard'
 import EditModal from '../EditModal/EditModal'
 import { useNewsletters } from '../../hooks/useNewsletters'
+import { SkeletonList } from '../Skeleton/Skeleton'
 import './ManageCards.css'
 
 function ManageCards () {
@@ -247,7 +248,7 @@ function ManageCards () {
     }
 
     if (loading) {
-      return <div className="loading">Cargando...</div>
+      return <SkeletonList count={6} />
     }
 
     if (error) {

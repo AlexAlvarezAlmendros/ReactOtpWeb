@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './ProximosEventos.css'
 import { Cards } from '../CardList/CardList'
 import { useEvents } from '../../hooks/useEvents'
+import LazyImage from '../LazyImage/LazyImage'
 
 export function ProximosEventos () {
   const [currentPage] = useState(1)
@@ -58,7 +59,7 @@ export function ProximosEventos () {
         <h2 className='proximos-eventos-title'>Próximo evento</h2>
         <div className='evento-destacado'>
           <div className='evento-destacado-imagen'>
-            <img src={event.img} alt={event.title} />
+            <LazyImage src={event.img} alt={event.title} />
           </div>
           <div className='evento-destacado-info'>
             <div className='evento-destacado-header'>
@@ -122,14 +123,8 @@ export function ProximosEventos () {
     <section>
       <h2 className='proximos-eventos-title'>Próximos eventos</h2>
       <div className='proximos-eventos-list'>
-        {loading && <p>Cargando...</p>}
         {error && <p>Error: {error}</p>}
-        {!loading && !error && cards.length > 0 && (
-          <>
-            <Cards cards={cards} type={'event'} />
-          </>
-        )}
-
+        <Cards cards={cards} type={'event'} loading={loading} skeletonCount={3} />
       </div>
     </section>
   )
