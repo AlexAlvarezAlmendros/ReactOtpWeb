@@ -135,7 +135,20 @@ function Estudios () {
         {/* Grid de servicios */}
         <div className="services-grid">
           {services.map((service) => (
-            <div key={service.id} className={`service-card ${service.type}`}>
+            <div 
+              key={service.id} 
+              className={`service-card ${service.type}`}
+              onClick={handleReservaClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  handleReservaClick()
+                }
+              }}
+              style={{ cursor: 'pointer' }}
+            >
               {service.type === 'icon' ? (
                 <>
                   <div className="service-icon">

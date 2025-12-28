@@ -27,6 +27,12 @@
   animation: slideIn 0.3s ease-out;
   position: relative;
   border: 1px solid #333;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+
+.reserva-modal::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
 }
 
 .modal-header {
