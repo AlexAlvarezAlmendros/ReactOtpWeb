@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './ImageUploader.css'
 
@@ -9,18 +9,45 @@ import './ImageUploader.css'
  * @param {string} props.label - Etiqueta del campo
  * @param {Function} props.onChange - Callback con el archivo seleccionado
  * @param {string} props.currentImageUrl - URL de imagen actual (modo edición)
+ * @param {File} props.selectedFile - Archivo seleccionado previamente (para persistencia)
  * @param {string} props.accept - Tipos de archivo aceptados
  */
 export function ImageUploader ({
   label = 'Imagen de portada',
   onChange,
   currentImageUrl = '',
+  selectedFile: externalSelectedFile = null,
   accept = 'image/jpeg,image/jpg,image/png,image/webp,image/gif'
 }) {
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(externalSelectedFile)
   const [previewUrl, setPreviewUrl] = useState(currentImageUrl)
   const [error, setError] = useState(null)
   const fileInputRef = useRef(null)
+
+  // Sincronizar con el archivo externo si cambia
+  useEffect(() => {
+    if (externalSelectedFile && externalSelectedFile !== selectedFile) {
+      setSelectedFile(externalSelectedFile)
+      // Crear preview del archivo externo
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result)
+      }
+      reader.readAsDataURL(externalSelectedFile)
+    } else if (!externalSelectedFile && selectedFile) {
+      // Si el archivo externo se eliminó, limpiar
+      setSelectedFile(null)
+      setPreviewUrl(currentImageUrl)
+    }
+  }, [externalSelectedFile])
+
+  // Sincronizar previewUrl con currentImageUrl cuando cambie
+  useEffect(() => {
+    // Solo actualizar si no hay archivo seleccionado localmente
+    if (!selectedFile && currentImageUrl !== previewUrl) {
+      setPreviewUrl(currentImageUrl)
+    }
+  }, [currentImageUrl, selectedFile, previewUrl])
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0]

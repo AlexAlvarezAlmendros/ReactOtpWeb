@@ -169,6 +169,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
             label="Imagen de portada*"
             onChange={setImageFile}
             currentImageUrl={initialData?.img || ''}
+            selectedFile={imageFile}
           />
         </div>
 

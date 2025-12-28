@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFileUpload } from '../../hooks/useFileUpload'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './FileUploader.css'
@@ -11,19 +11,36 @@ import './FileUploader.css'
  * @param {string} props.label - Etiqueta del campo
  * @param {Function} props.onUploadSuccess - Callback cuando se sube exitosamente
  * @param {Object} props.metadata - Metadatos adicionales para el archivo
+ * @param {Object} props.existingFile - Archivo ya subido previamente (para edición)
  */
 export function FileUploader ({
   fileType = 'audio',
   accept = '.mp3,.wav,.ogg,.flac',
   label = 'Seleccionar archivo',
   onUploadSuccess,
-  metadata = {}
+  metadata = {},
+  existingFile = null
 }) {
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
+  const [displayedUploadedFile, setDisplayedUploadedFile] = useState(null)
   const fileInputRef = useRef(null)
 
   const { uploadFile, uploading, progress, error, uploadedFile, reset } = useFileUpload(fileType)
+
+  // Sincronizar con archivo existente cuando cambie
+  useEffect(() => {
+    if (existingFile) {
+      setDisplayedUploadedFile(existingFile)
+    }
+  }, [existingFile])
+
+  // Actualizar displayedUploadedFile cuando se sube un nuevo archivo
+  useEffect(() => {
+    if (uploadedFile) {
+      setDisplayedUploadedFile(uploadedFile)
+    }
+  }, [uploadedFile])
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0]
@@ -71,6 +88,7 @@ export function FileUploader ({
   const handleCancel = () => {
     setSelectedFile(null)
     setPreviewUrl(null)
+    setDisplayedUploadedFile(null)
     reset()
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
@@ -91,7 +109,7 @@ export function FileUploader ({
         {label}
       </label>
 
-      {!uploadedFile && !uploading && (
+      {!displayedUploadedFile && !uploading && (
         <>
           <div className="file-input-wrapper">
             <input
@@ -170,14 +188,14 @@ export function FileUploader ({
         </div>
       )}
 
-      {uploadedFile && (
+      {displayedUploadedFile && (
         <div className="upload-success">
           <FontAwesomeIcon icon="check-circle" className="success-icon" />
           <div className="success-info">
             <span className="success-message">¡Archivo subido exitosamente!</span>
-            <span className="file-url">{uploadedFile.originalName}</span>
+            <span className="file-url">{displayedUploadedFile.originalName}</span>
             <a
-              href={uploadedFile.secureUrl}
+              href={displayedUploadedFile.secureUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="file-link"

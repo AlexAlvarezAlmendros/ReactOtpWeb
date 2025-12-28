@@ -211,6 +211,7 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
             label="Imagen de portada*"
             onChange={setImageFile}
             currentImageUrl={formData.img}
+            selectedFile={imageFile}
           />
         </div>
 

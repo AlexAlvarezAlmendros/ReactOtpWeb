@@ -16,12 +16,13 @@
   background-color: #1b1b1b;
   color: #ffffff;
   border-radius: 12px;
-  max-width: 600px;
+  max-width: 1200px;
   width: 100%;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .edit-modal-header {
@@ -57,6 +58,12 @@
   overflow-y: auto;
   flex: 1;
   position: relative;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+
+.edit-modal-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
 }
 
 .success-message {

@@ -116,7 +116,44 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
 
       // Initialize licenses if provided
       if (initialData.licenses) {
-        setLicenses(initialData.licenses)
+        // Transformar las licencias del backend para incluir uploadedFiles
+        const transformedLicenses = initialData.licenses.map(license => {
+          const uploadedFiles = {}
+          
+          // Si hay URL de MP3, crear objeto uploadedFile
+          if (license.files?.mp3Url) {
+            uploadedFiles.mp3 = {
+              secureUrl: license.files.mp3Url,
+              originalName: 'MP3 File',
+              fileType: 'audio'
+            }
+          }
+          
+          // Si hay URL de WAV, crear objeto uploadedFile
+          if (license.files?.wavUrl) {
+            uploadedFiles.wav = {
+              secureUrl: license.files.wavUrl,
+              originalName: 'WAV File',
+              fileType: 'audio'
+            }
+          }
+          
+          // Si hay URL de STEMS, crear objeto uploadedFile
+          if (license.files?.stemsUrl) {
+            uploadedFiles.stems = {
+              secureUrl: license.files.stemsUrl,
+              originalName: 'STEMS Archive',
+              fileType: 'archive'
+            }
+          }
+          
+          return {
+            ...license,
+            uploadedFiles
+          }
+        })
+        
+        setLicenses(transformedLicenses)
       }
     }
   }, [isEditMode, initialData, allArtists])
@@ -230,7 +267,10 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
       ...licenseFormData,
       price: Number(licenseFormData.price)
     }
+console.log('💾 Guardando licencia:', newLicense)
+    console.log('📁 uploadedFiles en licencia:', newLicense.uploadedFiles)
 
+    
     if (editingLicenseIndex !== null) {
       const updatedLicenses = [...licenses]
       updatedLicenses[editingLicenseIndex] = newLicense
@@ -277,6 +317,11 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
         mp3Url: '',
         wavUrl: '',
         stemsUrl: ''
+      },
+      uploadedFiles: license.uploadedFiles || {
+        mp3: null,
+        wav: null,
+        stems: null
       }
     })
     setEditingLicenseIndex(index)
@@ -473,6 +518,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
               label="Imagen de portada"
               onChange={setCoverImageFile}
               currentImageUrl={formData.coverUrl}
+              selectedFile={coverImageFile}
             />
           </div>
 
@@ -818,6 +864,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
                       accept=".mp3"
                       label="Archivo MP3"
                       onUploadSuccess={(fileData) => handleFileUploadSuccess('mp3', fileData)}
+                      existingFile={licenseFormData.uploadedFiles?.mp3}
                       metadata={{
                         description: `${licenseFormData.name} - MP3`,
                         tags: ['beat', 'mp3', 'license'],
@@ -837,6 +884,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
                       accept=".wav"
                       label="Archivo WAV"
                       onUploadSuccess={(fileData) => handleFileUploadSuccess('wav', fileData)}
+                      existingFile={licenseFormData.uploadedFiles?.wav}
                       metadata={{
                         description: `${licenseFormData.name} - WAV`,
                         tags: ['beat', 'wav', 'license'],
@@ -912,6 +960,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
                           accept=".zip,.rar,.7z"
                           label=""
                           onUploadSuccess={(fileData) => handleFileUploadSuccess('stems', fileData)}
+                          existingFile={licenseFormData.uploadedFiles?.stems}
                           metadata={{
                             description: `${licenseFormData.name} - STEMS`,
                             tags: ['beat', 'stems', 'license'],
