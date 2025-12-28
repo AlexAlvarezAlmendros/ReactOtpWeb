@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useCreateEvent } from '../../hooks/useCreateEvent.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import RichTextEditor from '../RichTextEditor/RichTextEditor.jsx'
+import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
 
 export default function EventForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎪 EventForm - initialData:', initialData)
@@ -13,6 +14,7 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
   const [ticketsEnabled, setTicketsEnabled] = useState(initialData?.ticketsEnabled || false)
   const [externalTickets, setExternalTickets] = useState(initialData?.externalTicketUrl ? true : false)
   const [description, setDescription] = useState(initialData?.description || '')
+  const [imageFile, setImageFile] = useState(null)
   const { createEvent, loading, error: apiError } = useCreateEvent()
 
   // Actualizar el estado cuando initialData cambie
@@ -145,12 +147,13 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
 
       if (isEditMode) {
         // En modo edición, pasar los datos al callback onSuccess
-        onSuccess?.(eventData)
+        onSuccess?.(eventData, imageFile)
       } else {
         // En modo creación, usar el hook de createEvent
-        await createEvent(eventData)
+        await createEvent(eventData, imageFile)
         event.target.reset() // Limpiar el formulario después de enviar
         setDescription('') // Limpiar el editor de texto
+        setImageFile(null) // Limpiar imagen
         onSuccess?.('Evento creado con éxito')
       }
     } catch (error) {
@@ -161,6 +164,14 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
   return (
     <section>
         <form onSubmit={handleSubmit} className="createCardModal__form">
+        <div className="form-group--full-width">
+          <ImageUploader
+            label="Imagen de portada*"
+            onChange={setImageFile}
+            currentImageUrl={initialData?.img || ''}
+          />
+        </div>
+
         <div className="form-group">
             <label htmlFor="title">Título*</label>
             <input 
@@ -201,17 +212,6 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
               id="eventDate" 
               name="eventDate" 
               defaultValue={initialData?.date ? new Date(initialData.date).toISOString().slice(0, 16) : ''} 
-              required 
-            />
-        </div>
-
-        <div className="form-group">
-            <label htmlFor="img">Imagen URL*</label>
-            <input 
-              type="url" 
-              id="img" 
-              name="img" 
-              defaultValue={initialData?.img || ''} 
               required 
             />
         </div>

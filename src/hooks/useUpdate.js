@@ -21,15 +21,17 @@ export function useUpdate () {
    * @param {string} type - Tipo de elemento ('release', 'artist', 'event', 'beat', 'newsletter')
    * @param {string} id - ID del elemento a actualizar
    * @param {object} data - Datos a actualizar
+   * @param {File|null} imageFile - Archivo de imagen opcional
    * @returns {Promise<object|null>} - Objeto actualizado o null si falla
    */
-  const updateItem = async (type, id, data) => {
+  const updateItem = async (type, id, data, imageFile = null) => {
     setLoading(true)
     setError(null)
 
     console.log('🔄 useUpdate - Type:', type)
     console.log('🔄 useUpdate - ID:', id)
     console.log('🔄 useUpdate - Data to send:', data)
+    console.log('🔄 useUpdate - Image file:', imageFile)
 
     try {
       // Obtener el token de acceso para la autenticación
@@ -57,13 +59,36 @@ export function useUpdate () {
           throw new Error(`Tipo de elemento no válido: ${type}`)
       }
 
+      let body
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      // Si hay imagen, usar FormData
+      if (imageFile) {
+        const formData = new FormData()
+        
+        // Añadir todos los campos
+        Object.keys(data).forEach(key => {
+          if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
+            formData.append(key, data[key])
+          }
+        })
+        
+        // Añadir la imagen
+        formData.append('image', imageFile)
+        
+        body = formData
+      } else {
+        // Sin imagen, usar JSON tradicional
+        headers['Content-Type'] = 'application/json'
+        body = JSON.stringify(data)
+      }
+
       const response = await fetch(endpoint, {
         method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        headers,
+        body
       })
 
       console.log('🔄 useUpdate - Response status:', response.status)

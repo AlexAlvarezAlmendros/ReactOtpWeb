@@ -4,9 +4,11 @@
   border: 1px solid #1b1b1b;
   padding: 1.5rem;
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   transition: all 0.3s ease;
   position: relative;
+  height: 100%;
 }
 
 .file-card:hover {
@@ -15,10 +17,17 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.file-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
 .file-icon-container {
   flex-shrink: 0;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,14 +35,17 @@
 }
 
 .file-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 .file-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .file-name {
@@ -41,7 +53,14 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0;
-  word-break: break-word;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  max-width: 100%;
 }
 
 .file-description {
@@ -49,13 +68,16 @@
   font-size: 0.875rem;
   margin: 0;
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .file-metadata {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 0.5rem;
+  gap: 8px;
 }
 
 .file-metadata span {
@@ -77,26 +99,31 @@
 .file-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 0.5rem;
+  gap: 4px;
 }
 
 .tag {
   background-color: #1a1a1a;
   color: #ff003c;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 500;
   border: 1px solid #333;
+  white-space: nowrap;
+}
+
+.tag-more {
+  color: #999;
+  border-color: #666;
 }
 
 .file-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
+  padding-top: 0.75rem;
+  margin-top: auto;
   border-top: 1px solid #1b1b1b;
 }
 
@@ -129,15 +156,13 @@
 }
 
 .file-actions {
-  flex-shrink: 0;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .action-button {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,6 +173,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
+  font-size: 0.875rem;
 }
 
 .action-button:hover {
@@ -175,31 +201,29 @@
 /* Responsive */
 @media (max-width: 768px) {
   .file-card {
-    flex-direction: column;
+    padding: 1rem;
   }
 
   .file-icon-container {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
   }
 
   .file-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
-  .file-actions {
-    flex-direction: row;
-    justify-content: flex-end;
+  .file-name {
+    font-size: 0.9rem;
   }
 
-  .file-metadata {
-    flex-direction: column;
-    gap: 8px;
+  .file-description {
+    font-size: 0.8rem;
   }
 
-  .file-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+  .action-button {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
   }
 }

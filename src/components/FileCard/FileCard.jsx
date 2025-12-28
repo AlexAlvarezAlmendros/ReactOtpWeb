@@ -39,12 +39,42 @@ function FileCard ({ file, onDelete }) {
 
   return (
     <div className="file-card">
-      <div className="file-icon-container" style={{ backgroundColor: `${getFileTypeColor()}20` }}>
-        <FontAwesomeIcon 
-          icon={getFileIcon()} 
-          className="file-icon"
-          style={{ color: getFileTypeColor() }}
-        />
+      <div className="file-header">
+        <div className="file-icon-container" style={{ backgroundColor: `${getFileTypeColor()}20` }}>
+          <FontAwesomeIcon 
+            icon={getFileIcon()} 
+            className="file-icon"
+            style={{ color: getFileTypeColor() }}
+          />
+        </div>
+        <div className="file-actions">
+          <a 
+            href={file.secureUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="action-button view-button"
+            title="Ver archivo"
+          >
+            <FontAwesomeIcon icon="external-link-alt" />
+          </a>
+          <a 
+            href={file.secureUrl}
+            download={file.originalName}
+            className="action-button download-button"
+            title="Descargar archivo"
+          >
+            <FontAwesomeIcon icon="download" />
+          </a>
+          {onDelete && (
+            <button 
+              onClick={onDelete}
+              className="action-button delete-button"
+              title="Eliminar archivo"
+            >
+              <FontAwesomeIcon icon="trash" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="file-info">
@@ -71,11 +101,14 @@ function FileCard ({ file, onDelete }) {
 
         {file.tags && file.tags.length > 0 && (
           <div className="file-tags">
-            {file.tags.map((tag, index) => (
+            {file.tags.slice(0, 3).map((tag, index) => (
               <span key={index} className="tag">
                 {tag}
               </span>
             ))}
+            {file.tags.length > 3 && (
+              <span className="tag tag-more">+{file.tags.length - 3}</span>
+            )}
           </div>
         )}
 
@@ -89,35 +122,6 @@ function FileCard ({ file, onDelete }) {
             {file.isPublic ? 'Público' : 'Privado'}
           </span>
         </div>
-      </div>
-
-      <div className="file-actions">
-        <a 
-          href={file.secureUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="action-button view-button"
-          title="Ver archivo"
-        >
-          <FontAwesomeIcon icon="external-link-alt" />
-        </a>
-        <a 
-          href={file.secureUrl}
-          download={file.originalName}
-          className="action-button download-button"
-          title="Descargar archivo"
-        >
-          <FontAwesomeIcon icon="download" />
-        </a>
-        {onDelete && (
-          <button 
-            onClick={onDelete}
-            className="action-button delete-button"
-            title="Eliminar archivo"
-          >
-            <FontAwesomeIcon icon="trash" />
-          </button>
-        )}
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ export const useCreateRelease = () => {
   const [error, setError] = useState(null)
   const { getToken, user } = useAuth()
 
-  const createRelease = async (releaseData) => {
+  const createRelease = async (releaseData, imageFile = null) => {
     setLoading(true)
     setError(null)
 
@@ -27,13 +27,38 @@ export const useCreateRelease = () => {
 
       // Realizamos la petición POST a la API para crear un nuevo release
       console.log('Datos del release a crear:', releaseData)
+      
+      let body
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      // Si hay imagen, usar FormData
+      if (imageFile) {
+        const formData = new FormData()
+        
+        // Añadir todos los campos del release
+        Object.keys(releaseData).forEach(key => {
+          if (releaseData[key] !== null && releaseData[key] !== undefined && releaseData[key] !== '') {
+            formData.append(key, releaseData[key])
+          }
+        })
+        
+        // Añadir la imagen
+        formData.append('image', imageFile)
+        
+        body = formData
+        // No incluir Content-Type, el navegador lo establece automáticamente con boundary
+      } else {
+        // Sin imagen, usar JSON tradicional
+        headers['Content-Type'] = 'application/json'
+        body = JSON.stringify(releaseData)
+      }
+
       const response = await fetch(RELEASES_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(releaseData)
+        headers,
+        body
       })
 
       if (!response.ok) {

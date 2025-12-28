@@ -9,7 +9,7 @@ export const useCreateEvent = () => {
   const [error, setError] = useState(null)
   const { getToken, user } = useAuth()
 
-  const createEvent = async (eventData) => {
+  const createEvent = async (eventData, imageFile = null) => {
     setLoading(true)
     setError(null)
 
@@ -25,13 +25,36 @@ export const useCreateEvent = () => {
         throw new Error('No se pudo obtener el token de autenticación')
       }
 
+      let body
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      // Si hay imagen, usar FormData
+      if (imageFile) {
+        const formData = new FormData()
+        
+        // Añadir todos los campos del evento
+        Object.keys(eventData).forEach(key => {
+          if (eventData[key] !== null && eventData[key] !== undefined && eventData[key] !== '') {
+            formData.append(key, eventData[key])
+          }
+        })
+        
+        // Añadir la imagen
+        formData.append('image', imageFile)
+        
+        body = formData
+      } else {
+        // Sin imagen, usar JSON tradicional
+        headers['Content-Type'] = 'application/json'
+        body = JSON.stringify(eventData)
+      }
+
       const response = await fetch(EVENTS_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(eventData)
+        headers,
+        body
       })
 
       if (!response.ok) {

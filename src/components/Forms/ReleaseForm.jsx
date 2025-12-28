@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { useCreateRelease } from '../../hooks/useCreateReleases.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
+import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
 
 export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎵 ReleaseForm - initialData:', initialData)
@@ -10,6 +11,7 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
   
   const { user } = useAuth()
   const [errors, setErrors] = useState([])
+  const [imageFile, setImageFile] = useState(null)
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
     subtitle: initialData?.subtitle || '',
@@ -162,10 +164,10 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
 
       if (isEditMode) {
         // En modo edición, pasar los datos al callback onSuccess
-        onSuccess?.(releaseData)
+        onSuccess?.(releaseData, imageFile)
       } else {
         // En modo creación, usar el hook de createRelease
-        await createRelease(releaseData)
+        await createRelease(releaseData, imageFile)
         
         // Limpiar el formulario después de enviar
         setFormData({
@@ -184,6 +186,7 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
           video: '',
           ubicacion: ''
         })
+        setImageFile(null)
         
         onSuccess?.('Release creado con éxito')
       }
@@ -203,6 +206,14 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
         )}
 
         <form onSubmit={handleSubmit} className="createCardModal__form">
+        <div className="form-group--full-width">
+          <ImageUploader
+            label="Imagen de portada*"
+            onChange={setImageFile}
+            currentImageUrl={formData.img}
+          />
+        </div>
+
         <div className="form-group">
             <label htmlFor="title">Título*</label>
             <input
@@ -222,18 +233,6 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
               id="artist"
               name="subtitle"
               value={formData.subtitle}
-              onChange={handleInputChange}
-              required
-            />
-        </div>
-
-        <div className="form-group">
-            <label htmlFor="img">Imagen URL*</label>
-            <input
-              type="url"
-              id="img"
-              name="img"
-              value={formData.img}
               onChange={handleInputChange}
               required
             />

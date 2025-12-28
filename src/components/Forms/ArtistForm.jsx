@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { useCreateArtist } from '../../hooks/useCreateArtist.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
+import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
 
 export default function ArtistForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎨 ArtistForm - initialData:', initialData)
@@ -10,6 +11,7 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
   
   const { user } = useAuth()
   const [errors, setErrors] = useState([])
+  const [imageFile, setImageFile] = useState(null)
   const [formData, setFormData] = useState({
     name: initialData?.name || initialData?.title || '',
     genre: initialData?.genre || '',
@@ -123,10 +125,10 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
 
       if (isEditMode) {
         // En modo edición, pasar los datos al callback onSuccess
-        onSuccess?.(artistData)
+        onSuccess?.(artistData, imageFile)
       } else {
         // En modo creación, usar el hook de createArtist
-        await createArtist(artistData)
+        await createArtist(artistData, imageFile)
         
         // Limpiar el formulario después de enviar
         setFormData({
@@ -140,6 +142,7 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
           soundcloud: '',
           type: ''
         })
+        setImageFile(null)
         
         onSuccess?.('Artista creado con éxito')
       }
@@ -160,6 +163,14 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
         )}
 
         <form onSubmit={handleSubmit} className="createCardModal__form">
+        <div className="form-group--full-width">
+          <ImageUploader
+            label="Imagen de portada*"
+            onChange={setImageFile}
+            currentImageUrl={formData.img}
+          />
+        </div>
+
         <div className="form-group">
             <label htmlFor="name">Nombre*</label>
             <input
@@ -179,18 +190,6 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
               id="genre"
               name="genre"
               value={formData.genre}
-              onChange={handleInputChange}
-              required
-            />
-        </div>
-
-        <div className="form-group">
-            <label htmlFor="img">Imagen URL*</label>
-            <input
-              type="url"
-              id="img"
-              name="img"
-              value={formData.img}
               onChange={handleInputChange}
               required
             />

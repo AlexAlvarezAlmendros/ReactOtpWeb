@@ -14,8 +14,8 @@ function EditModal ({ item, type, onClose, onSuccess }) {
   // Support both 'id' and '_id' for MongoDB documents
   const itemId = item.id || item._id
 
-  const handleSuccess = async (formData) => {
-    const result = await updateItem(type, itemId, formData)
+  const handleSuccess = async (formData, imageFile = null) => {
+    const result = await updateItem(type, itemId, formData, imageFile)
     
     if (result) {
       setUpdateSuccess(`${item.title || item.name} actualizado correctamente`)

@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useArtists } from '../../hooks/useArtists'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FileUploader } from '../FileUploader/FileUploader'
+import { ImageUploader } from '../ImageUploader/ImageUploader'
 
 export default function BeatForm ({ onSuccess, initialData, isEditMode = false }) {
   const { createBeat, loading, error } = useCreateBeat()
@@ -12,6 +13,9 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   
   // Tab Navigation State
   const [activeTab, setActiveTab] = useState('basic')
+  
+  // Cover Image State
+  const [coverImageFile, setCoverImageFile] = useState(null)
   
   const [formData, setFormData] = useState({
     title: '',
@@ -336,11 +340,11 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
         // In edit mode, call onSuccess directly with the payload
         // The EditModal will handle the update via useUpdate hook
         if (onSuccess) {
-          await onSuccess(payload)
+          await onSuccess(payload, coverImageFile)
         }
       } else {
         // In create mode, use the createBeat hook
-        await createBeat(payload)
+        await createBeat(payload, coverImageFile)
         if (onSuccess) {
           onSuccess('Beat creado correctamente')
         }
@@ -358,6 +362,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
         })
         setSelectedArtists([])
         setLicenses([])
+        setCoverImageFile(null)
       }
     } catch (err) {
       // Error handled by hook state
@@ -463,6 +468,14 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
             Información del Beat
           </h3>
           
+          <div style={{ gridColumn: '1 / -1' }}>
+            <ImageUploader
+              label="Imagen de portada"
+              onChange={setCoverImageFile}
+              currentImageUrl={formData.coverUrl}
+            />
+          </div>
+
           <div className="form-group">
             <label>Título del Beat <span style={{ color: '#ff003c' }}>*</span></label>
             <input 
@@ -1322,44 +1335,6 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
               Este es el precio de referencia (las licencias pueden tener precios diferentes)
             </small>
           </div>
-
-          <div className="form-group">
-            <label>URL de la Portada</label>
-            <input 
-              type="url"
-              name="coverUrl" 
-              value={formData.coverUrl} 
-              onChange={handleChange} 
-              placeholder="https://storage.example.com/cover.jpg"
-            />
-            <small style={{ color: '#888', fontSize: '0.75rem' }}>
-              Recomendado: 1000x1000px, formato JPG o PNG
-            </small>
-          </div>
-
-          {formData.coverUrl && (
-            <div style={{ 
-              marginTop: '1rem',
-              padding: '1rem',
-              background: '#1a1a1a',
-              borderRadius: '8px',
-              border: '1px solid #333'
-            }}>
-              <p style={{ margin: '0 0 0.75rem 0', color: '#888', fontSize: '0.875rem' }}>Vista previa de la portada:</p>
-              <img 
-                src={formData.coverUrl} 
-                alt="Preview" 
-                style={{ 
-                  maxWidth: '200px', 
-                  borderRadius: '8px',
-                  border: '1px solid #333'
-                }}
-                onError={(e) => {
-                  e.target.style.display = 'none'
-                }}
-              />
-            </div>
-          )}
 
           <div className="form-group">
             <label style={{ 

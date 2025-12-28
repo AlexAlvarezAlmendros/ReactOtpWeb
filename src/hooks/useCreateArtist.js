@@ -9,7 +9,7 @@ export const useCreateArtist = () => {
   const [error, setError] = useState(null)
   const { getToken, user } = useAuth()
 
-  const createArtist = async (artistData) => {
+  const createArtist = async (artistData, imageFile = null) => {
     setLoading(true)
     setError(null)
 
@@ -25,13 +25,36 @@ export const useCreateArtist = () => {
         throw new Error('No se pudo obtener el token de autenticación')
       }
 
+      let body
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      // Si hay imagen, usar FormData
+      if (imageFile) {
+        const formData = new FormData()
+        
+        // Añadir todos los campos del artista
+        Object.keys(artistData).forEach(key => {
+          if (artistData[key] !== null && artistData[key] !== undefined && artistData[key] !== '') {
+            formData.append(key, artistData[key])
+          }
+        })
+        
+        // Añadir la imagen
+        formData.append('image', imageFile)
+        
+        body = formData
+      } else {
+        // Sin imagen, usar JSON tradicional
+        headers['Content-Type'] = 'application/json'
+        body = JSON.stringify(artistData)
+      }
+
       const response = await fetch(ARTISTS_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(artistData)
+        headers,
+        body
       })
 
       if (!response.ok) {

@@ -275,11 +275,12 @@ function ManageCards () {
       return (
         <div className="cards-grid">
           {items.map((file) => (
-            <FileCard 
-              key={file._id}
-              file={file}
-              onDelete={() => handleDelete('file', file._id, file.originalName)}
-            />
+            <div key={file._id} className="card-container">
+              <FileCard 
+                file={file}
+                onDelete={() => handleDelete('file', file._id, file.originalName)}
+              />
+            </div>
           ))}
         </div>
       )

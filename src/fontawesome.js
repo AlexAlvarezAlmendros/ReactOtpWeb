@@ -39,7 +39,9 @@ import {
   faCalendar,
   faGlobe,
   faFolder,
-  faLink
+  faLink,
+  faImage,
+  faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -86,5 +88,7 @@ library.add(
   faCalendar,
   faGlobe,
   faFolder,
-  faLink
+  faLink,
+  faImage,
+  faExclamationTriangle
 )

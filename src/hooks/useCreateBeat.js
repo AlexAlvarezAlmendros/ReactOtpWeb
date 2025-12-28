@@ -9,19 +9,48 @@ export function useCreateBeat () {
   const [error, setError] = useState(null)
   const { getToken } = useAuth()
 
-  const createBeat = async (beatData) => {
+  const createBeat = async (beatData, coverImage = null) => {
     setLoading(true)
     setError(null)
     
     try {
       const token = await getToken()
+      
+      let body
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      }
+
+      // Si hay imagen de portada, usar FormData
+      if (coverImage) {
+        const formData = new FormData()
+        
+        // Añadir todos los campos del beat
+        Object.keys(beatData).forEach(key => {
+          if (beatData[key] !== null && beatData[key] !== undefined && beatData[key] !== '') {
+            // Si es un array u objeto, stringify
+            if (typeof beatData[key] === 'object') {
+              formData.append(key, JSON.stringify(beatData[key]))
+            } else {
+              formData.append(key, beatData[key])
+            }
+          }
+        })
+        
+        // Añadir la imagen de portada
+        formData.append('image', coverImage)
+        
+        body = formData
+      } else {
+        // Sin imagen, usar JSON tradicional
+        headers['Content-Type'] = 'application/json'
+        body = JSON.stringify(beatData)
+      }
+
       const response = await fetch(BEATS_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(beatData)
+        headers,
+        body
       })
 
       if (!response.ok) {
