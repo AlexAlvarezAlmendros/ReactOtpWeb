@@ -3,6 +3,7 @@ import { useCreateBeat } from '../../hooks/useCreateBeat'
 import { useAuth } from '../../hooks/useAuth'
 import { useArtists } from '../../hooks/useArtists'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FileUploader } from '../FileUploader/FileUploader'
 
 export default function BeatForm ({ onSuccess, initialData, isEditMode = false }) {
   const { createBeat, loading, error } = useCreateBeat()
@@ -33,6 +34,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   const [licenses, setLicenses] = useState([])
   const [showLicenseForm, setShowLicenseForm] = useState(false)
   const [editingLicenseIndex, setEditingLicenseIndex] = useState(null)
+  const [stemsUploadMode, setStemsUploadMode] = useState('upload') // 'upload' o 'url'
   const [licenseFormData, setLicenseFormData] = useState({
     name: '',
     price: '',
@@ -42,6 +44,11 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
       mp3Url: '',
       wavUrl: '',
       stemsUrl: ''
+    },
+    uploadedFiles: {
+      mp3: null,
+      wav: null,
+      stems: null
     },
     terms: {
       usedForRecording: true,
@@ -188,6 +195,21 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
     })
   }
 
+  // Manejadores de subida de archivos
+  const handleFileUploadSuccess = (fileType, uploadedFileData) => {
+    setLicenseFormData(prev => ({
+      ...prev,
+      files: {
+        ...prev.files,
+        [`${fileType}Url`]: uploadedFileData.secureUrl
+      },
+      uploadedFiles: {
+        ...prev.uploadedFiles,
+        [fileType]: uploadedFileData
+      }
+    }))
+  }
+
   const handleAddLicense = () => {
     if (!licenseFormData.name.trim() || !licenseFormData.price) {
       alert('Por favor completa el nombre y precio de la licencia')
@@ -215,6 +237,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
     }
 
     // Reset form
+    setStemsUploadMode('upload')
     setLicenseFormData({
       name: '',
       price: '',
@@ -224,6 +247,11 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
         mp3Url: '',
         wavUrl: '',
         stemsUrl: ''
+      },
+      uploadedFiles: {
+        mp3: null,
+        wav: null,
+        stems: null
       },
       terms: {
         usedForRecording: true,
@@ -258,6 +286,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   const handleCancelLicenseForm = () => {
     setShowLicenseForm(false)
     setEditingLicenseIndex(null)
+    setStemsUploadMode('upload')
     setLicenseFormData({
       name: '',
       price: '',
@@ -267,6 +296,11 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
         mp3Url: '',
         wavUrl: '',
         stemsUrl: ''
+      },
+      uploadedFiles: {
+        mp3: null,
+        wav: null,
+        stems: null
       },
       terms: {
         usedForRecording: true,
@@ -766,19 +800,18 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
 
                 {licenseFormData.formats.includes('MP3') && (
                   <div className="form-group">
-                    <label>
-                      <FontAwesomeIcon icon={['fas', 'file-audio']} style={{ marginRight: '0.5rem', color: '#888' }} />
-                      URL Archivo MP3 <span style={{ color: '#ff003c' }}>*</span>
-                    </label>
-                    <input 
-                      type="url"
-                      name="files.mp3Url"
-                      value={licenseFormData.files.mp3Url}
-                      onChange={handleLicenseFormChange}
-                      placeholder="https://storage.example.com/beat.mp3"
-                      required={licenseFormData.formats.includes('MP3')}
+                    <FileUploader
+                      fileType="audio"
+                      accept=".mp3"
+                      label="Archivo MP3"
+                      onUploadSuccess={(fileData) => handleFileUploadSuccess('mp3', fileData)}
+                      metadata={{
+                        description: `${licenseFormData.name} - MP3`,
+                        tags: ['beat', 'mp3', 'license'],
+                        isPublic: false
+                      }}
                     />
-                    <small style={{ color: '#888', fontSize: '0.75rem' }}>
+                    <small style={{ color: '#888', fontSize: '0.75rem', marginTop: '0.5rem', display: 'block' }}>
                       Archivo MP3 de alta calidad (320kbps recomendado)
                     </small>
                   </div>
@@ -786,19 +819,18 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
 
                 {licenseFormData.formats.includes('WAV') && (
                   <div className="form-group">
-                    <label>
-                      <FontAwesomeIcon icon={['fas', 'file-audio']} style={{ marginRight: '0.5rem', color: '#888' }} />
-                      URL Archivo WAV <span style={{ color: '#ff003c' }}>*</span>
-                    </label>
-                    <input 
-                      type="url"
-                      name="files.wavUrl"
-                      value={licenseFormData.files.wavUrl}
-                      onChange={handleLicenseFormChange}
-                      placeholder="https://storage.example.com/beat.wav"
-                      required={licenseFormData.formats.includes('WAV')}
+                    <FileUploader
+                      fileType="audio"
+                      accept=".wav"
+                      label="Archivo WAV"
+                      onUploadSuccess={(fileData) => handleFileUploadSuccess('wav', fileData)}
+                      metadata={{
+                        description: `${licenseFormData.name} - WAV`,
+                        tags: ['beat', 'wav', 'license'],
+                        isPublic: false
+                      }}
                     />
-                    <small style={{ color: '#888', fontSize: '0.75rem' }}>
+                    <small style={{ color: '#888', fontSize: '0.75rem', marginTop: '0.5rem', display: 'block' }}>
                       Archivo WAV sin comprimir (44.1kHz/16bit mínimo)
                     </small>
                   </div>
@@ -806,21 +838,100 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
 
                 {licenseFormData.formats.includes('STEMS') && (
                   <div className="form-group">
-                    <label>
-                      <FontAwesomeIcon icon={['fas', 'folder']} style={{ marginRight: '0.5rem', color: '#888' }} />
-                      URL Archivo STEMS <span style={{ color: '#ff003c' }}>*</span>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <FontAwesomeIcon icon={['fas', 'folder']} style={{ color: '#888' }} />
+                      Archivo STEMS (ZIP)
                     </label>
-                    <input 
-                      type="url"
-                      name="files.stemsUrl"
-                      value={licenseFormData.files.stemsUrl}
-                      onChange={handleLicenseFormChange}
-                      placeholder="https://storage.example.com/beat-stems.zip"
-                      required={licenseFormData.formats.includes('STEMS')}
-                    />
-                    <small style={{ color: '#888', fontSize: '0.75rem' }}>
-                      Archivo ZIP con todos los stems/pistas separadas
-                    </small>
+                    
+                    {/* Toggle entre subir archivo o ingresar URL */}
+                    <div style={{ 
+                      display: 'flex', 
+                      gap: '0.5rem', 
+                      marginBottom: '1rem',
+                      background: '#0a0a0a',
+                      padding: '0.5rem',
+                      borderRadius: '8px'
+                    }}>
+                      <button
+                        type="button"
+                        onClick={() => setStemsUploadMode('upload')}
+                        style={{
+                          flex: 1,
+                          padding: '0.5rem 1rem',
+                          background: stemsUploadMode === 'upload' ? '#ff003c' : 'transparent',
+                          color: stemsUploadMode === 'upload' ? '#fff' : '#999',
+                          border: stemsUploadMode === 'upload' ? 'none' : '1px solid #333',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '0.875rem',
+                          fontWeight: 600,
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        <FontAwesomeIcon icon="upload" style={{ marginRight: '0.5rem' }} />
+                        Subir Archivo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStemsUploadMode('url')}
+                        style={{
+                          flex: 1,
+                          padding: '0.5rem 1rem',
+                          background: stemsUploadMode === 'url' ? '#ff003c' : 'transparent',
+                          color: stemsUploadMode === 'url' ? '#fff' : '#999',
+                          border: stemsUploadMode === 'url' ? 'none' : '1px solid #333',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '0.875rem',
+                          fontWeight: 600,
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        <FontAwesomeIcon icon="link" style={{ marginRight: '0.5rem' }} />
+                        Ingresar URL
+                      </button>
+                    </div>
+
+                    {stemsUploadMode === 'upload' ? (
+                      <>
+                        <FileUploader
+                          fileType="archive"
+                          accept=".zip,.rar,.7z"
+                          label=""
+                          onUploadSuccess={(fileData) => handleFileUploadSuccess('stems', fileData)}
+                          metadata={{
+                            description: `${licenseFormData.name} - STEMS`,
+                            tags: ['beat', 'stems', 'license'],
+                            isPublic: false
+                          }}
+                        />
+                        <small style={{ color: '#888', fontSize: '0.75rem', marginTop: '0.5rem', display: 'block' }}>
+                          Archivo ZIP con todos los stems/pistas separadas (máx. 500MB)
+                        </small>
+                      </>
+                    ) : (
+                      <>
+                        <input 
+                          type="url"
+                          name="files.stemsUrl"
+                          value={licenseFormData.files.stemsUrl}
+                          onChange={handleLicenseFormChange}
+                          placeholder="https://storage.example.com/beat-stems.zip"
+                          style={{
+                            width: '100%',
+                            padding: '0.75rem',
+                            background: '#1a1a1a',
+                            border: '2px solid #333',
+                            borderRadius: '8px',
+                            color: '#fff',
+                            fontSize: '1rem'
+                          }}
+                        />
+                        <small style={{ color: '#888', fontSize: '0.75rem', marginTop: '0.5rem', display: 'block' }}>
+                          URL directa al archivo ZIP con los stems
+                        </small>
+                      </>
+                    )}
                   </div>
                 )}
 

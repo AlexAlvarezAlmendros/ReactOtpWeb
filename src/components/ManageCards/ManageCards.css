@@ -57,6 +57,53 @@
   border-color: #ffffff;
 }
 
+/* Filtros de archivos */
+.file-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.filter-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 0.75rem;
+  background-color: #0e0e0e;
+  border: 2px solid #333;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+  outline: none;
+  border-color: #ff003c;
+}
+
+.filter-group input::placeholder {
+  color: #666;
+}
+
 /* Grid de cards */
 .cards-grid {
   display: grid;
@@ -245,6 +292,10 @@
   
   .tabs button {
     width: 200px;
+  }
+
+  .file-filters {
+    flex-direction: column;
   }
   
   .modal {

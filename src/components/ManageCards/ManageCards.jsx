@@ -5,6 +5,7 @@ import { useReleases } from '../../hooks/useReleases'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
 import { useBeats } from '../../hooks/useBeats'
+import { useFiles } from '../../hooks/useFiles'
 import { useDelete } from '../../hooks/useDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReleaseCard from '../ReleaseCard/ReleaseCard'
@@ -12,6 +13,7 @@ import ArtistCard from '../ArtistCard/ArtistCard'
 import EventsCard from '../EventsCard/EventsCard'
 import BeatCard from '../BeatCard/BeatCard'
 import NewsletterCard from '../NewsletterCard/NewsletterCard'
+import FileCard from '../FileCard/FileCard'
 import EditModal from '../EditModal/EditModal'
 import { useNewsletters } from '../../hooks/useNewsletters'
 import './ManageCards.css'
@@ -67,8 +69,30 @@ function ManageCards () {
     refetch: refetchNewsletters
   } = useNewsletters(filterOptions)
 
+  // Estado para filtros de archivos
+  const [fileFilters, setFileFilters] = useState({
+    fileType: '',
+    search: ''
+  })
+
+  const {
+    files,
+    loading: filesLoading,
+    error: filesError,
+    refetch: refetchFiles,
+    deleteFile
+  } = useFiles({
+    ...filterOptions,
+    ...fileFilters
+  })
+
   // Función para manejar la eliminación
   const handleDelete = async (type, id, title) => {
+    // Si es un archivo, usar deleteFile directamente
+    if (type === 'file') {
+      setConfirmDelete({ type, id, title })
+      return
+    }
     setConfirmDelete({ type, id, title })
   }
 
@@ -82,6 +106,21 @@ function ManageCards () {
     if (!confirmDelete) return
 
     const { type, id } = confirmDelete
+    
+    // Manejar eliminación de archivos de forma especial
+    if (type === 'file') {
+      const result = await deleteFile(id)
+      if (result.success) {
+        setDeleteSuccess(`Archivo eliminado correctamente`)
+        setConfirmDelete(null)
+        refetchFiles()
+        setTimeout(() => {
+          setDeleteSuccess('')
+        }, 3000)
+      }
+      return
+    }
+
     const success = await deleteItem(type, id)
     
     if (success) {
@@ -200,6 +239,11 @@ function ManageCards () {
         loading = newslettersLoading
         error = newslettersError
         break
+      case 'files':
+        items = files || []
+        loading = filesLoading
+        error = filesError
+        break
     }
 
     if (loading) {
@@ -211,15 +255,32 @@ function ManageCards () {
     }
 
     if (items.length === 0) {
-      const noItemsMessage = isAdmin 
-        ? `No hay ${activeTab} en el sistema.`
-        : isArtist 
-          ? `No has creado ningún ${activeTab.slice(0, -1)} aún.`
-          : `No has creado ${activeTab} aún.`
+      const noItemsMessage = activeTab === 'files'
+        ? 'No hay archivos subidos.'
+        : isAdmin 
+          ? `No hay ${activeTab} en el sistema.`
+          : isArtist 
+            ? `No has creado ningún ${activeTab.slice(0, -1)} aún.`
+            : `No has creado ${activeTab} aún.`
       
       return (
         <div className="no-items">
           <p>{noItemsMessage}</p>
+        </div>
+      )
+    }
+
+    // Renderizar archivos de forma especial
+    if (activeTab === 'files') {
+      return (
+        <div className="cards-grid">
+          {items.map((file) => (
+            <FileCard 
+              key={file._id}
+              file={file}
+              onDelete={() => handleDelete('file', file._id, file.originalName)}
+            />
+          ))}
         </div>
       )
     }
@@ -336,7 +397,42 @@ function ManageCards () {
         >
           Newsletters
         </button>
+        <button 
+          className={activeTab === 'files' ? 'active' : ''}
+          onClick={() => setActiveTab('files')}
+        >
+          Archivos
+        </button>
       </div>
+
+      {/* Filtros para archivos */}
+      {activeTab === 'files' && (
+        <div className="file-filters">
+          <div className="filter-group">
+            <label htmlFor="fileType">Tipo de archivo:</label>
+            <select
+              id="fileType"
+              value={fileFilters.fileType}
+              onChange={(e) => setFileFilters({ ...fileFilters, fileType: e.target.value })}
+            >
+              <option value="">Todos</option>
+              <option value="audio">Audio</option>
+              <option value="archive">Archivos comprimidos</option>
+            </select>
+          </div>
+
+          <div className="filter-group">
+            <label htmlFor="search">Buscar:</label>
+            <input
+              id="search"
+              type="text"
+              placeholder="Buscar por nombre o descripción..."
+              value={fileFilters.search}
+              onChange={(e) => setFileFilters({ ...fileFilters, search: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Contenido de las cards */}
       {renderCards()}

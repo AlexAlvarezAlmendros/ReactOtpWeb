@@ -13,6 +13,8 @@ export { useCreateRelease } from './useCreateReleases'
 export { useDelete } from './useDelete'
 export { useEvent } from './useEvent'
 export { useEvents } from './useEvents'
+export { useFiles } from './useFiles'
+export { useFileUpload } from './useFileUpload'
 // export { useFormState } from './useFormState' // TODO: Implementar o eliminar archivo vacío
 export { useMobileNav } from './useMobileNav'
 export { useNewsletter } from './useNewsletter'

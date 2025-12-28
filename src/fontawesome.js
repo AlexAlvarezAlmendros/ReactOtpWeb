@@ -26,7 +26,20 @@ import {
   faRadio,
   faLock,
   faTicketAlt,
-  faArrowRight
+  faArrowRight,
+  faUpload,
+  faCloudUploadAlt,
+  faExclamationCircle,
+  faExternalLinkAlt,
+  faFile,
+  faFileArchive,
+  faTag,
+  faHdd,
+  faFileCode,
+  faCalendar,
+  faGlobe,
+  faFolder,
+  faLink
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -60,5 +73,18 @@ library.add(
   faRadio,
   faLock,
   faTicketAlt,
-  faArrowRight
+  faArrowRight,
+  faUpload,
+  faCloudUploadAlt,
+  faExclamationCircle,
+  faExternalLinkAlt,
+  faFile,
+  faFileArchive,
+  faTag,
+  faHdd,
+  faFileCode,
+  faCalendar,
+  faGlobe,
+  faFolder,
+  faLink
 )
