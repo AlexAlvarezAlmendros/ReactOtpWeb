@@ -16,6 +16,7 @@ export { useEvents } from './useEvents'
 export { useFiles } from './useFiles'
 export { useFileUpload } from './useFileUpload'
 // export { useFormState } from './useFormState' // TODO: Implementar o eliminar archivo vacío
+export { useInfiniteScroll } from './useInfiniteScroll'
 export { useMobileNav } from './useMobileNav'
 export { useNewsletter } from './useNewsletter'
 export { usePermissions } from './usePermissions'

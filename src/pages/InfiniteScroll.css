@@ -1,0 +1,81 @@
+/* Estilos para scroll infinito */
+
+.infinite-scroll-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+}
+
+.infinite-scroll-loader p {
+  color: #cccccc;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.infinite-scroll-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  margin-top: 2rem;
+}
+
+.infinite-scroll-end::before,
+.infinite-scroll-end::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #333, transparent);
+}
+
+.infinite-scroll-end p {
+  color: #999999;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.error-message {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Animación de pulso */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .infinite-scroll-loader {
+    padding: 2rem 1rem;
+  }
+  
+  .infinite-scroll-end {
+    padding: 2rem 0.5rem;
+  }
+  
+  .infinite-scroll-end p {
+    font-size: 0.75rem;
+    padding: 0 1rem;
+  }
+}
