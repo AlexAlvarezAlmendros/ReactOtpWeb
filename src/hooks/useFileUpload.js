@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL
-const MAX_NORMAL_UPLOAD_SIZE = 10 * 1024 * 1024 // 10MB
+const MAX_NORMAL_UPLOAD_SIZE = 4 * 1024 * 1024 // 4MB
 const MAX_SIGNED_UPLOAD_SIZE = 100 * 1024 * 1024 // 100MB
 
 /**
  * Hook para subir archivos al servidor
- * Usa signed uploads para archivos >10MB (hasta 100MB)
+ * Usa signed uploads para archivos >4MB (hasta 100MB)
  * @param {string} fileType - Tipo de archivo: 'audio' o 'archive'
  * @returns {Object} Estado y función de subida
  */
@@ -17,7 +17,7 @@ export function useFileUpload (fileType = 'audio') {
   const [uploadedFile, setUploadedFile] = useState(null)
 
   /**
-   * Sube archivos grandes (>10MB) usando signed upload directo a Cloudinary
+   * Sube archivos grandes (>4MB) usando signed upload directo a Cloudinary
    */
   const uploadLargeFile = useCallback(async (file, metadata = {}) => {
     try {
@@ -135,7 +135,7 @@ export function useFileUpload (fileType = 'audio') {
   }, [fileType])
 
   /**
-   * Sube archivos pequeños (<=10MB) usando el método tradicional a través del backend
+   * Sube archivos pequeños (<=4MB) usando el método tradicional a través del backend
    */
   const uploadSmallFile = useCallback(async (file, metadata = {}) => {
     const formData = new FormData()
@@ -231,7 +231,7 @@ export function useFileUpload (fileType = 'audio') {
       type: file.type,
       size: file.size,
       fileType: fileType,
-      method: useLargeUpload ? 'Signed Upload (>10MB)' : 'Normal Upload (<=10MB)'
+      method: useLargeUpload ? 'Signed Upload (>4MB)' : 'Normal Upload (<=4MB)'
     })
 
     try {

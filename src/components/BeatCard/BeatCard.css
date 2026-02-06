@@ -1,0 +1,132 @@
+/* Beat Card Image Container */
+.beat-card-image-container {
+  position: relative !important;
+  overflow: hidden;
+}
+
+/* Override card-image-link default z-index for beat cards */
+.beat-card-image-container::before {
+  z-index: 1 !important;
+}
+
+.beat-card-image-container::after {
+  z-index: 1 !important;
+}
+
+/* Audio Player Overlay */
+.beat-play-button {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 60px !important;
+  height: 60px !important;
+  background: rgba(255, 0, 60, 0.9) !important;
+  border: 3px solid rgba(255, 255, 255, 0.9) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  z-index: 1000 !important;
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4) !important;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8) !important;
+  pointer-events: none;
+}
+
+/* Mostrar botón al hacer hover en el contenedor */
+.beat-card-image-container:hover .beat-play-button {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) !important;
+  pointer-events: auto;
+}
+
+/* Mantener visible si está reproduciendo */
+.beat-play-button.playing {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1) !important;
+  background: rgba(255, 0, 60, 1);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Override hover cuando está playing */
+.beat-play-button.playing:hover {
+  transform: translate(-50%, -50%) scale(1.1) !important;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(255, 0, 60, 0.8);
+  }
+}
+
+.beat-play-button:hover {
+  background: rgba(255, 0, 60, 1) !important;
+  box-shadow: 0 6px 30px rgba(255, 0, 60, 0.6) !important;
+}
+
+.beat-card-image-container:hover .beat-play-button:hover {
+  transform: translate(-50%, -50%) scale(1.1) !important;
+}
+
+.beat-play-button:active {
+  transform: translate(-50%, -50%) scale(0.95) !important;
+}
+
+.beat-play-button .play-icon {
+  color: white !important;
+  font-size: 1.5rem !important;
+  margin-left: 3px !important; /* Ajuste visual para el icono de play */
+}
+
+.beat-play-button.playing .play-icon {
+  margin-left: 0 !important; /* Reset para el icono de pause */
+}
+
+/* Overlay hover effect */
+.beat-card-image-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s ease;
+  pointer-events: none;
+}
+
+.beat-card-image-container:hover::after {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .beat-play-button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .beat-play-button .play-icon {
+    font-size: 1.25rem;
+    margin-left: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .beat-play-button {
+    width: 45px;
+    height: 45px;
+  }
+
+  .beat-play-button .play-icon {
+    font-size: 1.125rem;
+    margin-left: 2px;
+  }
+}

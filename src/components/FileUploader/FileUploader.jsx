@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './FileUploader.css'
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024 // 100MB
-const LARGE_FILE_THRESHOLD = 10 * 1024 * 1024 // 10MB
+const LARGE_FILE_THRESHOLD = 4 * 1024 * 1024 // 4MB
 
 /**
  * Componente para subir archivos
- * Soporta archivos hasta 100MB usando signed uploads para archivos >10MB
+ * Soporta archivos hasta 100MB usando signed uploads para archivos >4MB
  * @param {Object} props
  * @param {string} props.fileType - Tipo: 'audio' o 'archive'
  * @param {string} props.accept - Tipos de archivo aceptados

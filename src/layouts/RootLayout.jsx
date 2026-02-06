@@ -7,6 +7,7 @@ import NewsletterPopup from '../components/NewsletterPopup/NewsletterPopup'
 import { ToastContainer } from '../components/Toast/Toast'
 import { MobileNavProvider } from '../contexts/MobileNavContext'
 import { ToastProvider } from '../contexts/ToastContext'
+import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 
 /**
  * Componente de plantilla que define la estructura principal de la página
@@ -17,15 +18,17 @@ function RootLayout () {
   return (
     <ErrorBoundary>
       <ToastProvider>
-        <MobileNavProvider>
-          <ToastContainer />
-          <Header />
-          <MobileNavContainer />
-          <NewsletterPopup />
-          <main className='container'>
-            <Outlet />
-          </main>
-        </MobileNavProvider>
+        <AudioPlayerProvider>
+          <MobileNavProvider>
+            <ToastContainer />
+            <Header />
+            <MobileNavContainer />
+            <NewsletterPopup />
+            <main className='container'>
+              <Outlet />
+            </main>
+          </MobileNavProvider>
+        </AudioPlayerProvider>
       </ToastProvider>
     </ErrorBoundary>
   )

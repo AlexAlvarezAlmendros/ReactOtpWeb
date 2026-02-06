@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
+import { useAudioPlayer } from '../../contexts/AudioPlayerContext'
 import LazyImage from '../LazyImage/LazyImage'
 import '../Card.css'
+import './BeatCard.css'
 
 function BeatCard ({ card }) {
   // Manejar la imagen del beat (usar coverUrl de la API)
@@ -11,8 +13,81 @@ function BeatCard ({ card }) {
   const isFree = !card.price || card.price === 0
   const hasLicenses = card.licenses && card.licenses.length > 0
 
+  // Obtener la URL de audio de la primera licencia que tenga mp3Url en files
+  const audioUrl = card.licenses?.find(license => license.files?.mp3Url)?.files?.mp3Url || null
+
+  console.log('🎵 BeatCard:', {
+    title: card.title,
+    hasLicenses: card.licenses?.length || 0,
+    licenses: card.licenses,
+    audioUrl,
+    cardId: card._id || card.id
+  })
+
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const audioRef = useRef(null)
   const { createCheckoutSession, loading, error } = useBeatPurchase()
+  
+  // Usar useAudioPlayer con manejo de error
+  let audioPlayerContext
+  try {
+    audioPlayerContext = useAudioPlayer()
+  } catch (err) {
+    console.error('❌ AudioPlayerContext no disponible:', err)
+    audioPlayerContext = {
+      currentPlaying: null,
+      registerAudio: () => {},
+      unregisterAudio: () => {},
+      playAudio: () => {},
+      pauseAudio: () => {}
+    }
+  }
+  
+  const { currentPlaying, registerAudio, unregisterAudio, playAudio, pauseAudio } = audioPlayerContext
+
+  // Registrar el audio al montar y desregistrar al desmontar
+  useEffect(() => {
+    if (audioRef.current && audioUrl) {
+      registerAudio(card._id || card.id, audioRef.current)
+    }
+    return () => {
+      if (audioUrl) {
+        unregisterAudio(card._id || card.id)
+      }
+    }
+  }, [card._id, card.id, audioUrl, registerAudio, unregisterAudio])
+
+  // Sincronizar estado de reproducción con el contexto global
+  useEffect(() => {
+    const isCurrentlyPlaying = currentPlaying === (card._id || card.id)
+    setIsPlaying(isCurrentlyPlaying)
+  }, [currentPlaying, card._id, card.id])
+
+  // Manejar eventos del audio
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const handleEnded = () => {
+      setIsPlaying(false)
+    }
+
+    audio.addEventListener('ended', handleEnded)
+    return () => audio.removeEventListener('ended', handleEnded)
+  }, [])
+
+  const handlePlayPause = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const beatId = card._id || card.id
+    if (isPlaying) {
+      pauseAudio(beatId)
+    } else {
+      playAudio(beatId)
+    }
+  }
 
   const handlePurchaseClick = () => {
     if (isFree) {
@@ -48,8 +123,25 @@ function BeatCard ({ card }) {
   return (
     <>
       <article className='card'>
-        <div className="card-image-link">
+        <div className="card-image-link beat-card-image-container">
           <LazyImage src={imageUrl} alt={`Portada de ${card.title}`} />
+          
+          {/* Audio Player Overlay */}
+          {audioUrl && (
+            <>
+              <audio ref={audioRef} src={audioUrl} preload="metadata" />
+              <button
+                className={`beat-play-button ${isPlaying ? 'playing' : ''}`}
+                onClick={handlePlayPause}
+                aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
+              >
+                <FontAwesomeIcon 
+                  icon={['fas', isPlaying ? 'pause' : 'play']} 
+                  className="play-icon"
+                />
+              </button>
+            </>
+          )}
         </div>
         <div className='card-content'>
           <div>
