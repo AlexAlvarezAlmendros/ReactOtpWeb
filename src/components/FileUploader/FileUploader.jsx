@@ -3,8 +3,12 @@ import { useFileUpload } from '../../hooks/useFileUpload'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './FileUploader.css'
 
+const MAX_FILE_SIZE = 100 * 1024 * 1024 // 100MB
+const LARGE_FILE_THRESHOLD = 10 * 1024 * 1024 // 10MB
+
 /**
  * Componente para subir archivos
+ * Soporta archivos hasta 100MB usando signed uploads para archivos >10MB
  * @param {Object} props
  * @param {string} props.fileType - Tipo: 'audio' o 'archive'
  * @param {string} props.accept - Tipos de archivo aceptados
@@ -24,6 +28,7 @@ export function FileUploader ({
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
   const [displayedUploadedFile, setDisplayedUploadedFile] = useState(null)
+  const [sizeWarning, setSizeWarning] = useState(null)
   const fileInputRef = useRef(null)
 
   const { uploadFile, uploading, progress, error, uploadedFile, reset } = useFileUpload(fileType)
@@ -42,9 +47,27 @@ export function FileUploader ({
     }
   }, [uploadedFile])
 
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
+  }
+
   const handleFileSelect = (e) => {
     const file = e.target.files[0]
     if (!file) return
+
+    // Validar tamaño máximo
+    if (file.size > MAX_FILE_SIZE) {
+      const sizeMB = Math.round(file.size / 1024 / 1024)
+      alert(`El archivo es demasiado grande (${sizeMB}MB). El tamaño máximo permitido es 100MB.`)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+      return
+    }
 
     // Validar tipo de archivo
     const validAudioTypes = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/flac']
@@ -68,6 +91,14 @@ export function FileUploader ({
 
     setSelectedFile(file)
 
+    // Mostrar advertencia si el archivo es grande
+    if (file.size > LARGE_FILE_THRESHOLD) {
+      const sizeMB = Math.round(file.size / 1024 / 1024)
+      setSizeWarning(`Este archivo es grande (${sizeMB}MB). La subida puede tardar varios minutos.`)
+    } else {
+      setSizeWarning(null)
+    }
+
     // Crear preview para archivos de audio
     if (file.type.startsWith('audio/')) {
       const url = URL.createObjectURL(file)
@@ -89,18 +120,11 @@ export function FileUploader ({
     setSelectedFile(null)
     setPreviewUrl(null)
     setDisplayedUploadedFile(null)
+    setSizeWarning(null)
     reset()
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
-  }
-
-  const formatFileSize = (bytes) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
   }
 
   return (
@@ -135,6 +159,13 @@ export function FileUploader ({
                   <span className="file-size">{formatFileSize(selectedFile.size)}</span>
                 </div>
               </div>
+
+              {sizeWarning && (
+                <div className="size-warning">
+                  <FontAwesomeIcon icon="info-circle" />
+                  <span>{sizeWarning}</span>
+                </div>
+              )}
 
               {previewUrl && (
                 <div className="audio-preview">

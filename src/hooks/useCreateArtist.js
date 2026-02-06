@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
+import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
 const ARTISTS_ENDPOINT = `${API_URL}/artists`
@@ -8,10 +9,14 @@ export const useCreateArtist = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { getToken, user } = useAuth()
+  const toast = useToast()
 
   const createArtist = async (artistData, imageFile = null) => {
     setLoading(true)
     setError(null)
+
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Creando artista...')
 
     try {
       // Obtener el token de Auth0
@@ -63,12 +68,22 @@ export const useCreateArtist = () => {
       }
 
       const result = await response.json()
+      
+      // Remover toast de carga y mostrar éxito
+      toast.removeToast(loadingToastId)
+      toast.success(`✨ Artista "${artistData.name}" creado exitosamente`)
+      
       return result
     } catch (err) {
       const errorMessage = err.message.includes('No se pudo obtener el token')
         ? 'Error de autenticación: ' + err.message
         : 'Error creando artista: ' + err.message
       setError(errorMessage)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(errorMessage)
+      
       throw new Error(errorMessage)
     } finally {
       setLoading(false)

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
+import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -15,6 +16,7 @@ export function useUpdate () {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { getToken } = useAuth()
+  const toast = useToast()
 
   /**
    * Actualiza un elemento por su tipo, ID y datos
@@ -32,6 +34,16 @@ export function useUpdate () {
     console.log('🔄 useUpdate - ID:', id)
     console.log('🔄 useUpdate - Data to send:', data)
     console.log('🔄 useUpdate - Image file:', imageFile)
+
+    // Mostrar toast de carga
+    const typeNames = {
+      release: 'lanzamiento',
+      artist: 'artista',
+      event: 'evento',
+      beat: 'beat',
+      newsletter: 'newsletter'
+    }
+    const loadingToastId = toast.loading(`Actualizando ${typeNames[type] || type}...`)
 
     try {
       // Obtener el token de acceso para la autenticación
@@ -94,27 +106,39 @@ export function useUpdate () {
       console.log('🔄 useUpdate - Response status:', response.status)
 
       if (!response.ok) {
+        let errorMessage = 'Error al actualizar'
         if (response.status === 404) {
-          throw new Error('El elemento no existe')
+          errorMessage = 'El elemento no existe'
         } else if (response.status === 403) {
-          throw new Error('No tienes permisos para editar este elemento')
+          errorMessage = 'No tienes permisos para editar este elemento'
         } else if (response.status === 401) {
-          throw new Error('No estás autenticado')
+          errorMessage = 'No estás autenticado'
         } else if (response.status === 400) {
           const errorData = await response.json()
           console.error('❌ Backend error details:', errorData)
-          throw new Error(errorData.message || 'Datos inválidos')
+          errorMessage = errorData.message || 'Datos inválidos'
         } else {
-          throw new Error(`Error al actualizar: ${response.status}`)
+          errorMessage = `Error al actualizar: ${response.status}`
         }
+        throw new Error(errorMessage)
       }
 
       const updatedItem = await response.json()
       console.log('🔄 useUpdate - Updated item received:', updatedItem)
+      
+      // Remover toast de carga y mostrar éxito
+      toast.removeToast(loadingToastId)
+      toast.success(`✓ ${typeNames[type]?.charAt(0).toUpperCase() + typeNames[type]?.slice(1)} actualizado exitosamente`)
+      
       return updatedItem
     } catch (err) {
       console.error('Error al actualizar elemento:', err)
       setError(err.message)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(err.message)
+      
       return null
     } finally {
       setLoading(false)

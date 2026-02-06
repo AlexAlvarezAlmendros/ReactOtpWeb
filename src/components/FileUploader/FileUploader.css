@@ -95,6 +95,24 @@
   height: 40px;
 }
 
+/* Advertencia de tamaño */
+.size-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+  color: #f59e0b;
+  font-size: 0.875rem;
+}
+
+.size-warning svg {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
 /* Acciones */
 .file-actions {
   display: flex;

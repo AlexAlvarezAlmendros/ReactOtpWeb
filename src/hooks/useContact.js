@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useToast } from '../contexts/ToastContext'
 
 // La URL base de tu API
 const API_URL = import.meta.env.VITE_API_URL
@@ -20,6 +21,7 @@ export function useContact () {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
   const [response, setResponse] = useState(null)
+  const toast = useToast()
 
   /**
    * Envía un mensaje de contacto a la API
@@ -34,6 +36,9 @@ export function useContact () {
    * @returns {Promise<Object>} - Respuesta de la API
    */
   const sendMessage = async (contactData) => {
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Enviando mensaje...')
+
     try {
       // Reiniciamos los estados antes de cada petición
       setLoading(true)
@@ -80,20 +85,26 @@ export function useContact () {
 
       // Si la respuesta no es OK, manejamos los diferentes tipos de error
       if (!response.ok) {
+        let errorMessage = 'Error al enviar el mensaje'
         if (response.status === 400) {
-          throw new Error(responseData.message || 'Datos del formulario inválidos')
+          errorMessage = responseData.message || 'Datos del formulario inválidos'
         } else if (response.status === 429) {
-          throw new Error('Has excedido el límite de mensajes por hora. Inténtalo más tarde.')
+          errorMessage = 'Has excedido el límite de mensajes por hora. Inténtalo más tarde.'
         } else if (response.status >= 500) {
-          throw new Error('Error del servidor. Por favor, inténtalo más tarde.')
+          errorMessage = 'Error del servidor. Por favor, inténtalo más tarde.'
         } else {
-          throw new Error(responseData.message || `Error ${response.status}: ${response.statusText}`)
+          errorMessage = responseData.message || `Error ${response.status}: ${response.statusText}`
         }
+        throw new Error(errorMessage)
       }
 
       // Si todo va bien, guardamos la respuesta exitosa
       setResponse(responseData)
       setSuccess(true)
+      
+      // Remover toast de carga y mostrar éxito
+      toast.removeToast(loadingToastId)
+      toast.success('✉️ Mensaje enviado exitosamente')
       
       return responseData
 
@@ -101,6 +112,11 @@ export function useContact () {
       console.error('Error al enviar mensaje de contacto:', e)
       setError(e.message)
       setSuccess(false)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(e.message)
+      
       throw e // Re-lanzamos el error para que el componente pueda manejarlo si es necesario
     } finally {
       setLoading(false)

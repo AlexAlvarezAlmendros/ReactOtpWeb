@@ -27,10 +27,19 @@ function EventsCard ({ card }) {
   const hasAvailableTickets = () => {
     if (!card.ticketsEnabled) return false
     
-    // Si son entradas externas, solo verificar que esté habilitado
+    // Verificar si el evento ya pasó
+    if (card.date) {
+      const eventDate = new Date(card.date)
+      const now = new Date()
+      // Considerar que el evento pasó si es un día anterior a hoy
+      eventDate.setHours(23, 59, 59, 999) // Final del día del evento
+      if (now > eventDate) return false
+    }
+    
+    // Si son entradas externas, verificar que esté habilitado
     if (card.externalTicketUrl) return true
     
-    // Para entradas internas, verificar disponibilidad y fechas
+    // Para entradas internas, verificar disponibilidad y fechas de venta
     if (card.availableTickets <= 0) return false
 
     const now = new Date()

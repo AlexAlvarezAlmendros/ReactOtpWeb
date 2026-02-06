@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useAuth } from './useAuth'
+import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -7,10 +8,14 @@ export function useBeatPurchase() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { getToken } = useAuth()
+  const toast = useToast()
 
   const createCheckoutSession = useCallback(async (beatId, licenseId, customerEmail, customerName) => {
     setLoading(true)
     setError(null)
+
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Preparando compra de licencia...')
 
     try {
       const token = await getToken()
@@ -40,6 +45,10 @@ export function useBeatPurchase() {
         throw new Error('No se recibió la URL de pago')
       }
 
+      // Remover toast de carga y mostrar info
+      toast.removeToast(loadingToastId)
+      toast.info('Redirigiendo a la pasarela de pago...')
+
       // Redirigir a Stripe Checkout
       window.location.href = data.url
 
@@ -48,11 +57,16 @@ export function useBeatPurchase() {
       const errorMessage = err.message || 'Error al crear la sesión de pago'
       setError(errorMessage)
       console.error('Error en createCheckoutSession:', err)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(errorMessage)
+      
       throw err
     } finally {
       setLoading(false)
     }
-  }, [getToken])
+  }, [getToken, toast])
 
   return {
     createCheckoutSession,

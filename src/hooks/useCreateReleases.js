@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
+import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
 const RELEASES_ENDPOINT = `${API_URL}/releases`
@@ -8,10 +9,14 @@ export const useCreateRelease = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { getToken, user } = useAuth()
+  const toast = useToast()
 
   const createRelease = async (releaseData, imageFile = null) => {
     setLoading(true)
     setError(null)
+
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Creando lanzamiento...')
 
     try {
       // Obtener el token de Auth0
@@ -67,12 +72,22 @@ export const useCreateRelease = () => {
       }
 
       const result = await response.json()
+      
+      // Remover toast de carga y mostrar éxito
+      toast.removeToast(loadingToastId)
+      toast.success(`✨ Lanzamiento "${releaseData.title || 'nuevo'}" creado exitosamente`)
+      
       return result
     } catch (err) {
       const errorMessage = err.message.includes('No se pudo obtener el token')
         ? 'Error de autenticación: ' + err.message
         : 'Error creando release: ' + err.message
       setError(errorMessage)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(errorMessage)
+      
       throw new Error(errorMessage)
     } finally {
       setLoading(false)

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useToast } from '../contexts/ToastContext'
 
 // La URL base de tu API
 const API_URL = import.meta.env.VITE_API_URL
@@ -22,6 +23,7 @@ export function useNewsletter () {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
   const [response, setResponse] = useState(null)
+  const toast = useToast()
 
   /**
    * Suscribe un email a la newsletter
@@ -32,6 +34,9 @@ export function useNewsletter () {
    * @returns {Promise<Object>} - Resultado de la suscripción
    */
   const subscribe = async (email, source = 'website') => {
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Procesando suscripción...')
+
     try {
       // Reiniciamos los estados antes de cada petición
       setLoading(true)
@@ -71,6 +76,10 @@ export function useNewsletter () {
         setResponse(responseData)
         setSuccess(true)
         
+        // Remover toast de carga y mostrar éxito
+        toast.removeToast(loadingToastId)
+        toast.success('📧 ¡Suscripción exitosa! Revisa tu email')
+        
         return {
           success: true,
           message: responseData.message,
@@ -80,7 +89,12 @@ export function useNewsletter () {
       } else if (response.status === 409) {
         // Email ya suscrito
         setResponse(responseData)
-        setError('Este email ya está suscrito a nuestra newsletter')
+        const errorMsg = 'Este email ya está suscrito a nuestra newsletter'
+        setError(errorMsg)
+        
+        // Remover toast de carga y mostrar info
+        toast.removeToast(loadingToastId)
+        toast.info(errorMsg)
         
         return {
           success: false,
@@ -106,6 +120,10 @@ export function useNewsletter () {
       setError(e.message)
       setSuccess(false)
       
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(e.message)
+      
       return {
         success: false,
         message: e.message,
@@ -124,6 +142,9 @@ export function useNewsletter () {
    * @returns {Promise<Object>} - Resultado de la desuscripción
    */
   const unsubscribe = async (email) => {
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Procesando desuscripción...')
+
     try {
       setLoading(true)
       setError(null)
@@ -148,6 +169,10 @@ export function useNewsletter () {
         setResponse(responseData)
         setSuccess(true)
         
+        // Remover toast de carga y mostrar éxito
+        toast.removeToast(loadingToastId)
+        toast.success('✓ Desuscripción exitosa')
+        
         return {
           success: true,
           message: responseData.message,
@@ -163,6 +188,10 @@ export function useNewsletter () {
       console.error('Error al desuscribir de newsletter:', e)
       setError(e.message)
       setSuccess(false)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(e.message)
       
       return {
         success: false,

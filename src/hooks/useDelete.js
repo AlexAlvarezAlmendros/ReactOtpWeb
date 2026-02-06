@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
+import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -15,6 +16,7 @@ export function useDelete () {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { getToken } = useAuth()
+  const toast = useToast()
 
   /**
    * Elimina un elemento por su tipo e ID
@@ -25,6 +27,16 @@ export function useDelete () {
   const deleteItem = async (type, id) => {
     setLoading(true)
     setError(null)
+
+    // Mostrar toast de carga
+    const typeNames = {
+      release: 'lanzamiento',
+      artist: 'artista',
+      event: 'evento',
+      beat: 'beat',
+      newsletter: 'newsletter'
+    }
+    const loadingToastId = toast.loading(`Eliminando ${typeNames[type] || type}...`)
 
     try {
       // Obtener el token de acceso para la autenticación
@@ -61,21 +73,32 @@ export function useDelete () {
       })
 
       if (!response.ok) {
+        let errorMessage = 'Error al eliminar'
         if (response.status === 404) {
-          throw new Error('El elemento no existe o ya fue eliminado')
+          errorMessage = 'El elemento no existe o ya fue eliminado'
         } else if (response.status === 403) {
-          throw new Error('No tienes permisos para eliminar este elemento')
+          errorMessage = 'No tienes permisos para eliminar este elemento'
         } else if (response.status === 401) {
-          throw new Error('No estás autenticado')
+          errorMessage = 'No estás autenticado'
         } else {
-          throw new Error(`Error al eliminar: ${response.status}`)
+          errorMessage = `Error al eliminar: ${response.status}`
         }
+        throw new Error(errorMessage)
       }
 
+      // Remover toast de carga y mostrar éxito
+      toast.removeToast(loadingToastId)
+      toast.success(`✓ ${typeNames[type]?.charAt(0).toUpperCase() + typeNames[type]?.slice(1)} eliminado exitosamente`)
+      
       return true
     } catch (err) {
       console.error('Error al eliminar elemento:', err)
       setError(err.message)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(err.message)
+      
       return false
     } finally {
       setLoading(false)

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
+import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
 const BEATS_ENDPOINT = `${API_URL}/beats`
@@ -8,10 +9,14 @@ export function useCreateBeat () {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { getToken } = useAuth()
+  const toast = useToast()
 
   const createBeat = async (beatData, coverImage = null) => {
     setLoading(true)
     setError(null)
+
+    // Mostrar toast de carga
+    const loadingToastId = toast.loading('Creando beat...')
     
     try {
       const token = await getToken()
@@ -58,9 +63,20 @@ export function useCreateBeat () {
         throw new Error(errorData.message || 'Error creating beat')
       }
 
-      return await response.json()
+      const result = await response.json()
+      
+      // Remover toast de carga y mostrar éxito
+      toast.removeToast(loadingToastId)
+      toast.success(`✨ Beat "${beatData.title || 'nuevo'}" creado exitosamente`)
+      
+      return result
     } catch (err) {
       setError(err.message)
+      
+      // Remover toast de carga y mostrar error
+      toast.removeToast(loadingToastId)
+      toast.error(`Error creando beat: ${err.message}`)
+      
       throw err
     } finally {
       setLoading(false)

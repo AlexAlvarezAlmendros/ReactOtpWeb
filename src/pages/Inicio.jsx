@@ -2,7 +2,7 @@ import './Inicio.css'
 import { Hero } from '../components/Landing/Hero'
 import { ProximosEventos } from '../components/Landing/ProximosEventos'
 import { UltimosLanzamientos } from '../components/Landing/UltimosLanzamientos'
-import { ArtistasMasActivos } from '../components/Landing/ArtistasMasActivos'
+import { UltimosBeats } from '../components/Landing/UltimosBeats'
 import Footer from '../components/Footer/Footer'
 
 function Inicio () {
@@ -11,7 +11,7 @@ function Inicio () {
       <Hero/>
       <ProximosEventos />
       <UltimosLanzamientos />
-      <ArtistasMasActivos />
+      <UltimosBeats />
       <Footer />
     </>
   )

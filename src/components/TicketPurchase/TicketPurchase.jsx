@@ -14,6 +14,15 @@ function TicketPurchase ({ event }) {
   const isSaleActive = () => {
     if (!event.ticketsEnabled) return false
 
+    // Verificar si el evento ya pasó
+    if (event.date) {
+      const eventDate = new Date(event.date)
+      const now = new Date()
+      // Considerar que el evento pasó si es un día anterior a hoy
+      eventDate.setHours(23, 59, 59, 999) // Final del día del evento
+      if (now > eventDate) return false
+    }
+
     const now = new Date()
     if (event.saleStartDate && now < new Date(event.saleStartDate)) return false
     if (event.saleEndDate && now > new Date(event.saleEndDate)) return false
@@ -26,6 +35,19 @@ function TicketPurchase ({ event }) {
     if (!event.ticketsEnabled) return null
 
     const now = new Date()
+
+    // Verificar si el evento ya pasó
+    if (event.date) {
+      const eventDate = new Date(event.date)
+      // Considerar que el evento pasó si es un día anterior a hoy
+      eventDate.setHours(23, 59, 59, 999) // Final del día del evento
+      if (now > eventDate) {
+        return {
+          type: 'ended',
+          message: 'El evento ya ha finalizado'
+        }
+      }
+    }
 
     // Venta no ha comenzado
     if (event.saleStartDate && now < new Date(event.saleStartDate)) {
@@ -80,8 +102,21 @@ function TicketPurchase ({ event }) {
     return null
   }
 
-  // Si es venta externa, mostrar botón de redirección
+  // Si es venta externa, mostrar botón de redirección (solo si el evento no ha pasado)
   if (event.externalTicketUrl) {
+    // Verificar si el evento ya pasó
+    const eventHasPassed = event.date && (() => {
+      const eventDate = new Date(event.date)
+      const now = new Date()
+      eventDate.setHours(23, 59, 59, 999) // Final del día del evento
+      return now > eventDate
+    })()
+
+    // Si el evento ya pasó, no mostrar nada
+    if (eventHasPassed) {
+      return null
+    }
+
     return (
       <div className='ticket-purchase external-tickets'>
         <div className='external-ticket-card'>
