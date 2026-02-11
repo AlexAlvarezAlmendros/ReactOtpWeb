@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react'
-import { useAuth } from './useAuth'
 import { useToast } from '../contexts/ToastContext'
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -7,7 +6,6 @@ const API_URL = import.meta.env.VITE_API_URL
 export function useBeatPurchase() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { getToken } = useAuth()
   const toast = useToast()
 
   const createCheckoutSession = useCallback(async (beatId, licenseId, customerEmail, customerName) => {
@@ -18,12 +16,9 @@ export function useBeatPurchase() {
     const loadingToastId = toast.loading('Preparando compra de licencia...')
 
     try {
-      const token = await getToken()
-
       const response = await fetch(`${API_URL}/beats/create-checkout-session`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -66,7 +61,7 @@ export function useBeatPurchase() {
     } finally {
       setLoading(false)
     }
-  }, [getToken, toast])
+  }, [toast])
 
   return {
     createCheckoutSession,
