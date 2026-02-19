@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 import { useFileUpload } from '../../hooks/useFileUpload'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './FileUploader.css'
@@ -30,6 +30,7 @@ export function FileUploader ({
   const [displayedUploadedFile, setDisplayedUploadedFile] = useState(null)
   const [sizeWarning, setSizeWarning] = useState(null)
   const fileInputRef = useRef(null)
+  const inputId = useId()
 
   const { uploadFile, uploading, progress, error, uploadedFile, reset } = useFileUpload(fileType)
 
@@ -142,9 +143,9 @@ export function FileUploader ({
               accept={accept}
               onChange={handleFileSelect}
               className="file-input"
-              id="file-upload"
+              id={inputId}
             />
-            <label htmlFor="file-upload" className="file-input-label">
+            <label htmlFor={inputId} className="file-input-label">
               <FontAwesomeIcon icon="upload" className="upload-icon" />
               <span>Elegir archivo</span>
             </label>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useAuth } from './useAuth'
 
 const API_URL = import.meta.env.VITE_API_URL
 const BEATS_ENDPOINT = `${API_URL}/beats`
@@ -13,6 +14,7 @@ export function useBeats (options = {}) {
     total: 0,
     pages: 0
   })
+  const { getToken, isLoading: authLoading, isAuthenticated } = useAuth()
 
   // Destructure all supported query params with defaults
   const {
@@ -28,7 +30,8 @@ export function useBeats (options = {}) {
       title = '',
       userId = '',
       sortBy = 'createdAt',
-      sortOrder = 'desc'
+      sortOrder = 'desc',
+      authenticated = false
   } = options
 
   const buildQueryParams = useCallback(() => {
@@ -55,6 +58,11 @@ export function useBeats (options = {}) {
   }, [page, count, genre, key, bpmMin, bpmMax, priceMin, priceMax, tag, title, userId, sortBy, sortOrder])
   
   const getBeats = useCallback(async (signal) => {
+    // If authenticated mode, wait until auth is ready
+    if (authenticated && (authLoading || !isAuthenticated)) {
+      return
+    }
+
     try {
       setLoading(true)
       setError(null)
@@ -62,7 +70,21 @@ export function useBeats (options = {}) {
       const queryParams = buildQueryParams()
       const url = `${BEATS_ENDPOINT}?${queryParams}`
 
-      const response = await fetch(url, { signal })
+      const fetchOptions = { signal }
+      if (authenticated) {
+        try {
+          const token = await getToken()
+          if (token) {
+            fetchOptions.headers = {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        } catch (e) {
+          console.warn('Could not get auth token for beats fetch:', e)
+        }
+      }
+
+      const response = await fetch(url, fetchOptions)
       
       if (!response.ok) {
         throw new Error(`Error fetching beats: ${response.statusText}`)
@@ -87,7 +109,7 @@ export function useBeats (options = {}) {
             setLoading(false)
         }
     }
-  }, [buildQueryParams]) // Added buildQueryParams dependency
+  }, [buildQueryParams, authenticated, getToken, authLoading, isAuthenticated])
 
   const refetch = useCallback(() => {
     const controller = new AbortController()

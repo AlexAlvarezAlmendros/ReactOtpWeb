@@ -61,7 +61,7 @@ function ManageCards () {
     loading: beatsLoading,
     error: beatsError,
     refetch: refetchBeats
-  } = useBeats(filterOptions)
+  } = useBeats({ ...filterOptions, authenticated: true })
 
   const {
     newsletters,

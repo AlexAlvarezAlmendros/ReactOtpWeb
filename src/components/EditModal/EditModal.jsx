@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useUpdate } from '../../hooks/useUpdate'
+import { useBeat } from '../../hooks/useBeat'
 import ReleaseForm from '../Forms/ReleaseForm'
 import ArtistForm from '../Forms/ArtistForm'
 import EventForm from '../Forms/EventForm'
@@ -13,6 +14,19 @@ function EditModal ({ item, type, onClose, onSuccess }) {
 
   // Support both 'id' and '_id' for MongoDB documents
   const itemId = item.id || item._id
+
+  // For beats, fetch individual beat with auth to get all file URLs
+  const { beat: fullBeat, loading: beatLoading } = useBeat(
+    type === 'beat' ? itemId : null
+  )
+
+  // Use the full beat data (with all files) when available, fallback to list item
+  const [beatData, setBeatData] = useState(item)
+  useEffect(() => {
+    if (type === 'beat' && fullBeat) {
+      setBeatData(fullBeat)
+    }
+  }, [type, fullBeat])
 
   const handleSuccess = async (formData, imageFile = null) => {
     const result = await updateItem(type, itemId, formData, imageFile)
@@ -31,14 +45,15 @@ function EditModal ({ item, type, onClose, onSuccess }) {
   }
 
   const getFormComponent = () => {
-    console.log('🔍 Datos para editar:', item)
-    console.log('🔍 Descripción del item:', item?.description)
-    console.log('🔍 Tipo:', type)
-    
     const formProps = {
       onSuccess: handleSuccess,
-      initialData: item,
+      initialData: type === 'beat' ? beatData : item,
       isEditMode: true
+    }
+
+    // Show loading while fetching full beat data
+    if (type === 'beat' && beatLoading) {
+      return <div style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>Cargando datos del beat...</div>
     }
 
     switch (type) {

@@ -1,0 +1,1236 @@
+/* ============================================
+   BeatForm Wizard - Step-by-step Beat Upload
+   ============================================ */
+
+/* Progress Bar */
+.beat-wizard__progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+  gap: 0;
+}
+
+.beat-wizard__step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.beat-wizard__step-indicator:hover .beat-wizard__step-number {
+  transform: scale(1.1);
+}
+
+.beat-wizard__step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 2px solid #333;
+  background: #0e0e0e;
+  color: #888;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.beat-wizard__step-number--active {
+  border-color: #ff003c;
+  background: rgba(255, 0, 60, 0.2);
+  color: #ff003c;
+  box-shadow: 0 0 12px rgba(255, 0, 60, 0.3);
+}
+
+.beat-wizard__step-number--completed {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.beat-wizard__step-label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.beat-wizard__step-label--active {
+  color: #ff003c;
+  font-weight: 600;
+}
+
+.beat-wizard__step-label--completed {
+  color: #22c55e;
+}
+
+.beat-wizard__step-line {
+  flex: 1;
+  height: 2px;
+  background: #333;
+  margin: 0 0.75rem;
+  min-width: 20px;
+  transition: background 0.3s ease;
+}
+
+.beat-wizard__step-line--completed {
+  background: linear-gradient(90deg, #22c55e, #22c55e);
+}
+
+.beat-wizard__step-line--active {
+  background: linear-gradient(90deg, #22c55e, #ff003c);
+}
+
+/* Step Content Container */
+.beat-wizard__content {
+  animation: beatWizardFadeIn 0.35s ease;
+  min-height: 300px;
+}
+
+@keyframes beatWizardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Step Header */
+.beat-wizard__step-header {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-wizard__step-header .icon {
+  color: #ff003c;
+}
+
+/* Navigation Buttons */
+.beat-wizard__nav {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.beat-wizard__btn {
+  padding: 0.85rem 1.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.beat-wizard__btn--prev {
+  background: transparent;
+  color: #999;
+  border: 1px solid #333;
+}
+
+.beat-wizard__btn--prev:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #666;
+}
+
+.beat-wizard__btn--next {
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 0, 60, 0.35);
+}
+
+.beat-wizard__btn--next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 0, 60, 0.5);
+}
+
+.beat-wizard__btn--next:disabled {
+  background: #444;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.beat-wizard__btn--publish {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.beat-wizard__btn--publish:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(34, 197, 94, 0.5);
+}
+
+.beat-wizard__btn--publish:disabled {
+  background: #444;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =====================
+   STEP 1: Basic Info
+   ===================== */
+
+.beat-wizard__form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.beat-wizard__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.beat-wizard__form-group--full {
+  grid-column: 1 / -1;
+}
+
+.beat-wizard__form-group label {
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-wizard__form-group label .required {
+  color: #ff003c;
+}
+
+.beat-wizard__form-group label .icon-label {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.beat-wizard__form-group input,
+.beat-wizard__form-group textarea,
+.beat-wizard__form-group select {
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.beat-wizard__form-group input:focus,
+.beat-wizard__form-group textarea:focus,
+.beat-wizard__form-group select:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.beat-wizard__form-group input::placeholder,
+.beat-wizard__form-group textarea::placeholder {
+  color: #666;
+}
+
+.beat-wizard__form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.beat-wizard__form-group small {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.beat-wizard__input-with-suffix {
+  position: relative;
+}
+
+.beat-wizard__input-with-suffix input {
+  padding-right: 2.5rem;
+}
+
+.beat-wizard__input-suffix {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff003c;
+  font-weight: bold;
+}
+
+/* Producer Search */
+.beat-wizard__producer-search {
+  position: relative;
+}
+
+.beat-wizard__producer-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 9999;
+  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.beat-wizard__producer-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  transition: background 0.2s ease;
+}
+
+.beat-wizard__producer-item:hover {
+  background: #333;
+}
+
+.beat-wizard__producer-item-name {
+  font-weight: bold;
+  color: #fff;
+}
+
+.beat-wizard__producer-item-genre {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.beat-wizard__producer-tag {
+  background: rgba(255, 0, 60, 0.15);
+  border: 1px solid rgba(255, 0, 60, 0.3);
+  color: #ff003c;
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.beat-wizard__producer-tag button {
+  background: none;
+  border: none;
+  color: #ff003c;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Info tip */
+.beat-wizard__info-tip {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #22c55e;
+  font-size: 0.875rem;
+}
+
+/* =====================
+   STEP 2: File Upload
+   ===================== */
+
+.beat-wizard__files-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.beat-wizard__file-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.3s ease;
+}
+
+.beat-wizard__file-section:hover {
+  border-color: #444;
+}
+
+.beat-wizard__file-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.beat-wizard__file-section-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.beat-wizard__file-section-icon--mp3 {
+  background: rgba(255, 0, 60, 0.15);
+  color: #ff003c;
+}
+
+.beat-wizard__file-section-icon--wav {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+.beat-wizard__file-section-icon--stems {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+}
+
+.beat-wizard__file-section-icon--zip {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.beat-wizard__file-section-title {
+  font-weight: 600;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.beat-wizard__file-section-subtitle {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Upload mode toggle */
+.beat-wizard__upload-mode {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.beat-wizard__upload-mode-btn {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.beat-wizard__upload-mode-btn--active {
+  background: rgba(255, 0, 60, 0.15);
+  border-color: #ff003c;
+  color: #ff003c;
+}
+
+.beat-wizard__url-input {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.beat-wizard__url-input input {
+  flex: 1;
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: white;
+  font-size: 0.9rem;
+  font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.beat-wizard__url-input input:focus {
+  outline: none;
+  border-color: #ff003c;
+  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.beat-wizard__file-uploaded-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  color: #22c55e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.75rem;
+}
+
+/* =====================
+   STEP 3: Licenses
+   ===================== */
+
+.beat-wizard__licenses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.beat-wizard__licenses-title {
+  margin: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-wizard__btn-add-license {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.beat-wizard__btn-add-license:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.beat-wizard__btn-add-license--cancel {
+  background: #666;
+}
+
+.beat-wizard__btn-add-license--cancel:hover {
+  background: #555;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Empty licenses */
+.beat-wizard__licenses-empty {
+  padding: 3rem 2rem;
+  background: #1a1a1a;
+  border: 2px dashed #333;
+  border-radius: 12px;
+  text-align: center;
+  color: #888;
+}
+
+.beat-wizard__licenses-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.beat-wizard__licenses-empty p {
+  margin: 0;
+}
+
+.beat-wizard__licenses-empty p:first-of-type {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.beat-wizard__licenses-empty p:last-of-type {
+  font-size: 0.875rem;
+}
+
+/* License Form */
+.beat-wizard__license-form {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
+  border: 1px solid #ff003c;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.2);
+}
+
+.beat-wizard__license-form-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: #ff003c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* License terms section */
+.beat-wizard__terms-section {
+  background: #0a0a0a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border: 1px solid #333;
+}
+
+.beat-wizard__terms-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ff003c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-wizard__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: 1px solid #333;
+}
+
+.beat-wizard__checkbox-label--active {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22c55e;
+}
+
+.beat-wizard__checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* License file selector */
+.beat-wizard__license-files-section {
+  background: #0a0a0a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border: 1px solid #333;
+}
+
+.beat-wizard__license-files-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ff003c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-wizard__file-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.beat-wizard__file-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.85rem 1rem;
+  background: #0e0e0e;
+  border: 2px solid #333;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  justify-content: center;
+}
+
+.beat-wizard__file-checkbox--checked {
+  background: rgba(255, 0, 60, 0.2);
+  border-color: #ff003c;
+}
+
+.beat-wizard__file-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.beat-wizard__file-checkbox span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* License card display */
+.beat-wizard__license-cards {
+  display: grid;
+  gap: 1rem;
+}
+
+.beat-wizard__license-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.beat-wizard__license-card:hover {
+  border-color: #ff003c;
+  box-shadow: 0 4px 16px rgba(255, 0, 60, 0.2);
+}
+
+.beat-wizard__license-card-body {
+  flex: 1;
+}
+
+.beat-wizard__license-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.beat-wizard__license-card-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.beat-wizard__license-card-price {
+  color: #ff003c;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.beat-wizard__license-card-price span {
+  font-size: 1rem;
+}
+
+.beat-wizard__license-card-desc {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.beat-wizard__license-card-formats {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.beat-wizard__format-badge {
+  background: rgba(255, 0, 60, 0.15);
+  border: 1px solid rgba(255, 0, 60, 0.3);
+  color: #ff003c;
+  padding: 0.4rem 0.9rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.beat-wizard__license-card-terms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.75rem;
+}
+
+.beat-wizard__license-card-term {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.beat-wizard__license-card-term .icon {
+  color: #22c55e;
+  font-size: 0.7rem;
+}
+
+.beat-wizard__license-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1.5rem;
+  flex-shrink: 0;
+}
+
+.beat-wizard__license-action-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #666;
+  color: #fff;
+  padding: 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.beat-wizard__license-action-btn:hover {
+  background: #ff003c;
+  border-color: #ff003c;
+}
+
+.beat-wizard__license-action-btn--delete {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.beat-wizard__license-action-btn--delete:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.beat-wizard__license-count {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #22c55e;
+  font-size: 0.875rem;
+}
+
+.beat-wizard__license-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.beat-wizard__btn-save-license {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.beat-wizard__btn-save-license:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.beat-wizard__btn-cancel-license {
+  background: #666;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.beat-wizard__btn-cancel-license:hover {
+  background: #555;
+}
+
+/* =====================
+   STEP 4: Summary
+   ===================== */
+
+.beat-wizard__summary {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.beat-wizard__summary-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.beat-wizard__summary-section-title {
+  margin: 0 0 1.25rem 0;
+  font-size: 1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beat-wizard__summary-section-title .icon {
+  color: #ff003c;
+}
+
+.beat-wizard__summary-grid {
+  display: grid;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.beat-wizard__summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #222;
+}
+
+.beat-wizard__summary-row:last-child {
+  border-bottom: none;
+}
+
+.beat-wizard__summary-label {
+  color: #888;
+}
+
+.beat-wizard__summary-value {
+  color: #fff;
+  font-weight: 600;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+.beat-wizard__summary-value--success {
+  color: #22c55e;
+}
+
+.beat-wizard__summary-value--error {
+  color: #ef4444;
+}
+
+.beat-wizard__summary-tags {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.beat-wizard__summary-tag {
+  background: rgba(255, 0, 60, 0.1);
+  border: 1px solid rgba(255, 0, 60, 0.25);
+  color: #ff003c;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
+/* Summary cover image preview */
+.beat-wizard__summary-cover {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #333;
+  float: right;
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.beat-wizard__summary-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Summary license mini cards */
+.beat-wizard__summary-licenses {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.beat-wizard__summary-license {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: #0e0e0e;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.beat-wizard__summary-license-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.beat-wizard__summary-license-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.beat-wizard__summary-license-formats {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.beat-wizard__summary-license-format {
+  font-size: 0.7rem;
+  color: #888;
+  background: #1a1a1a;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.beat-wizard__summary-license-price {
+  color: #ff003c;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+/* Active/Inactive toggle */
+.beat-wizard__active-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.beat-wizard__active-toggle--on {
+  background: rgba(34, 197, 94, 0.1);
+  border: 2px solid #22c55e;
+}
+
+.beat-wizard__active-toggle--off {
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid #ef4444;
+}
+
+.beat-wizard__active-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.beat-wizard__active-toggle-text {
+  flex: 1;
+}
+
+.beat-wizard__active-toggle-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.beat-wizard__active-toggle-desc {
+  font-size: 0.875rem;
+  color: #888;
+}
+
+/* Error display */
+.beat-wizard__error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* File summary */
+.beat-wizard__summary-files {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.beat-wizard__summary-file {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: #0e0e0e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.beat-wizard__summary-file-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.beat-wizard__summary-file-name {
+  color: #fff;
+  font-weight: 500;
+  flex: 1;
+}
+
+.beat-wizard__summary-file-status {
+  color: #22c55e;
+  font-size: 0.8rem;
+}
+
+/* =====================
+   Responsive
+   ===================== */
+
+@media (max-width: 768px) {
+  .beat-wizard__progress {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .beat-wizard__step-label {
+    display: none;
+  }
+
+  .beat-wizard__step-line {
+    min-width: 16px;
+    margin: 0 0.35rem;
+  }
+
+  .beat-wizard__form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .beat-wizard__nav {
+    flex-direction: column-reverse;
+  }
+
+  .beat-wizard__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .beat-wizard__license-card {
+    flex-direction: column;
+  }
+
+  .beat-wizard__license-card-actions {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .beat-wizard__license-card-actions button {
+    flex: 1;
+  }
+
+  .beat-wizard__license-card-terms {
+    grid-template-columns: 1fr;
+  }
+
+  .beat-wizard__summary-cover {
+    float: none;
+    margin: 0 auto 1rem auto;
+  }
+
+  .beat-wizard__summary-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .beat-wizard__summary-value {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .beat-wizard__licenses-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .beat-wizard__step-number {
+    width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+  }
+
+  .beat-wizard__file-checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .beat-wizard__summary-license {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
