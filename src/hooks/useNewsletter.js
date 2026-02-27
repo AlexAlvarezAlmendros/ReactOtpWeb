@@ -116,14 +116,11 @@ export function useNewsletter () {
       }
 
     } catch (e) {
-      console.error('Error al suscribir a newsletter:', e)
       setError(e.message)
       setSuccess(false)
-      
       // Remover toast de carga y mostrar error
       toast.removeToast(loadingToastId)
       toast.error(e.message)
-      
       return {
         success: false,
         message: e.message,
@@ -185,14 +182,11 @@ export function useNewsletter () {
       }
 
     } catch (e) {
-      console.error('Error al desuscribir de newsletter:', e)
       setError(e.message)
       setSuccess(false)
-      
       // Remover toast de carga y mostrar error
       toast.removeToast(loadingToastId)
       toast.error(e.message)
-      
       return {
         success: false,
         message: e.message
@@ -223,12 +217,10 @@ export function useNewsletter () {
         const responseData = await response.json()
         return responseData
       } else {
-        console.error('Error checking newsletter status:', response.status)
         return { subscribed: false, status: 'error' }
       }
 
     } catch (e) {
-      console.error('Error checking newsletter status:', e)
       return { subscribed: false, status: 'error' }
     }
   }

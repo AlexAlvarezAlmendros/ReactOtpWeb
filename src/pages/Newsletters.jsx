@@ -32,11 +32,9 @@ function Newsletters () {
       try {
         const response = await fetch(`${API_URL}/releases/${firstReleaseId}`)
         if (!response.ok) throw new Error('Error fetching release')
-        
         const release = await response.json()
         setFeaturedRelease(release)
       } catch (err) {
-        console.error('Error fetching featured release:', err)
         setFeaturedRelease(null)
       }
     }

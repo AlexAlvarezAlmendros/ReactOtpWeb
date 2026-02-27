@@ -80,7 +80,7 @@ export function useBeats (options = {}) {
             }
           }
         } catch (e) {
-          console.warn('Could not get auth token for beats fetch:', e)
+          // token fetch failed; proceed unauthenticated
         }
       }
 
@@ -101,7 +101,6 @@ export function useBeats (options = {}) {
       setPagination(paginationData)
     } catch (e) {
       if (e.name !== 'AbortError') {
-        console.error('Error fetching beats:', e)
         setError(e.message)
       }
     } finally {

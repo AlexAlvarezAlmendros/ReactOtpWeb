@@ -36,14 +36,8 @@ export const useAuth = () => {
 
   // Debug logging optimizado
   useEffect(() => {
-    if (shouldLogAuth) {
-      console.log('Auth State:', {
-        isLoading,
-        isAuthenticated,
-        user: user ? user.email : null,
-        error
-      })
-    }
+    // Intentionally no console output in production.
+    // `shouldLogAuth` kept for potential future telemetry hooks.
   }, [shouldLogAuth, isLoading, isAuthenticated, user, error])
 
   const login = useCallback(() => {
@@ -78,34 +72,24 @@ export const useAuth = () => {
       const token = await getAccessTokenSilently(tokenOptions)
       return token
     } catch (error) {
-      console.error('Error obteniendo token:', error)
-      
-      // Si falla la obtención silenciosa del token por refresh token faltante o expirado
+      // Handle known token errors without logging to console.
       if (error.error === 'missing_refresh_token' || 
           error.error === 'invalid_grant' || 
           error.message?.includes('Missing Refresh Token') ||
           error.message?.includes('Invalid refresh token')) {
-        
-        console.warn('🔄 Refresh token inválido o faltante, requiere re-autenticación')
-        
-        // Redirigir al login automáticamente
         setTimeout(() => {
-          console.log('🔐 Redirigiendo al login...')
           loginWithRedirect({
             appState: { returnTo: window.location.pathname }
           })
         }, 2000)
-        
         throw new Error('Sesión expirada. Redirigiendo al login...')
       }
-      
-      // Si es un error de red o temporal, reintentar una vez
+
       if (retryCount === 0 && (error.error === 'timeout' || error.error === 'network_error')) {
-        console.warn('⚠️ Error de red, reintentando obtener token...')
         await new Promise(resolve => setTimeout(resolve, 1000))
-        return getToken(1) // Reintentar una vez
+        return getToken(1)
       }
-      
+
       throw new Error('No se pudo obtener el token de acceso')
     }
   }, [isAuthenticated, getAccessTokenSilently, loginWithRedirect])

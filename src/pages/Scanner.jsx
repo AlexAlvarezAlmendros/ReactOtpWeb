@@ -31,25 +31,20 @@ function Scanner () {
         const code = parts[parts.length - 1]
         return code || null
       } catch (err) {
-        console.error('Error extrayendo código:', err)
         return null
       }
     }
 
     const onScanSuccess = (decodedText) => {
       if (!isActive) return // Evitar procesamiento después del cleanup
-      
-      console.log('QR escaneado:', decodedText)
-      
       // Detener el scanner
       if (scanner) {
-        scanner.clear().catch(console.error)
+        scanner.clear()
       }
       setScanning(false)
 
       // Extraer el código del QR
       const code = extractCodeFromUrl(decodedText)
-      
       if (code) {
         navigate(`/ticket/${code}`)
       } else {
@@ -84,7 +79,6 @@ function Scanner () {
           setScanning(true)
         }
       } catch (err) {
-        console.error('Error iniciando scanner:', err)
         if (isActive) {
           setError('Error al iniciar el scanner. Verifica los permisos de cámara.')
         }
@@ -97,7 +91,7 @@ function Scanner () {
     return () => {
       isActive = false
       if (scanner) {
-        scanner.clear().catch(console.error)
+        scanner.clear()
       }
     }
   }, [canValidateTickets, loading, navigate])

@@ -46,7 +46,6 @@ export function getSpotifyHistory () {
     const history = localStorage.getItem(STORAGE_KEY)
     return history ? JSON.parse(history) : []
   } catch (error) {
-    console.warn('Error loading Spotify history:', error)
     return []
   }
 }
@@ -81,10 +80,8 @@ export function getSpotifyHistory () {
 export function addToSpotifyHistory (url, type, name) {
   try {
     const history = getSpotifyHistory()
-    
     // Remover duplicados
     const filteredHistory = history.filter(item => item.url !== url)
-    
     // Añadir nuevo item al principio
     const newItem = {
       url,
@@ -92,15 +89,12 @@ export function addToSpotifyHistory (url, type, name) {
       name: name || 'Contenido de Spotify',
       timestamp: new Date().toISOString()
     }
-    
     filteredHistory.unshift(newItem)
-    
     // Mantener solo los últimos MAX_HISTORY_ITEMS
     const limitedHistory = filteredHistory.slice(0, MAX_HISTORY_ITEMS)
-    
     localStorage.setItem(STORAGE_KEY, JSON.stringify(limitedHistory))
   } catch (error) {
-    console.warn('Error saving to Spotify history:', error)
+    //
   }
 }
 
@@ -125,7 +119,7 @@ export function clearSpotifyHistory () {
   try {
     localStorage.removeItem(STORAGE_KEY)
   } catch (error) {
-    console.warn('Error clearing Spotify history:', error)
+    //
   }
 }
 

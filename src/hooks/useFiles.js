@@ -51,7 +51,6 @@ export function useFiles (options = {}) {
     } catch (err) {
       if (err.name !== 'AbortError') {
         setError(err.message)
-        console.error('Error fetching files:', err)
       }
     } finally {
       setLoading(false)
@@ -82,7 +81,6 @@ export function useFiles (options = {}) {
 
       return { success: true }
     } catch (err) {
-      console.error('Error deleting file:', err)
       return { success: false, error: err.message }
     }
   }, [])
@@ -112,7 +110,6 @@ export function useFiles (options = {}) {
 
       return { success: true, data: result.data }
     } catch (err) {
-      console.error('Error updating file:', err)
       return { success: false, error: err.message }
     }
   }, [])
@@ -129,7 +126,6 @@ export function useFiles (options = {}) {
 
       return { success: true, data: result.data }
     } catch (err) {
-      console.error('Error getting download URL:', err)
       return { success: false, error: err.message }
     }
   }, [])

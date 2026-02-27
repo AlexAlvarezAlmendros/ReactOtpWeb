@@ -123,7 +123,6 @@ export function useReleases (options = {}) {
     } catch (e) {
       // Si el error es por abortar la petición, no hacemos nada.
       if (e.name !== 'AbortError') {
-        console.error(e)
         setError(e.message)
       }
     } finally {

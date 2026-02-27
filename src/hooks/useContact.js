@@ -109,14 +109,11 @@ export function useContact () {
       return responseData
 
     } catch (e) {
-      console.error('Error al enviar mensaje de contacto:', e)
       setError(e.message)
       setSuccess(false)
-      
       // Remover toast de carga y mostrar error
       toast.removeToast(loadingToastId)
       toast.error(e.message)
-      
       throw e // Re-lanzamos el error para que el componente pueda manejarlo si es necesario
     } finally {
       setLoading(false)

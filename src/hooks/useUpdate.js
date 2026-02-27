@@ -31,10 +31,7 @@ export function useUpdate () {
     setLoading(true)
     setError(null)
 
-    console.log('🔄 useUpdate - Type:', type)
-    console.log('🔄 useUpdate - ID:', id)
-    console.log('🔄 useUpdate - Data to send:', data)
-    console.log('🔄 useUpdate - Image file:', imageFile)
+    
 
     // Mostrar toast de carga
     const typeNames = {
@@ -105,7 +102,7 @@ export function useUpdate () {
         body
       })
 
-      console.log('🔄 useUpdate - Response status:', response.status)
+      
 
       if (!response.ok) {
         let errorMessage = 'Error al actualizar'
@@ -117,7 +114,6 @@ export function useUpdate () {
           errorMessage = 'No estás autenticado'
         } else if (response.status === 400) {
           const errorData = await response.json()
-          console.error('❌ Backend error details:', errorData)
           errorMessage = errorData.message || 'Datos inválidos'
         } else {
           errorMessage = `Error al actualizar: ${response.status}`
@@ -126,7 +122,7 @@ export function useUpdate () {
       }
 
       const updatedItem = await response.json()
-      console.log('🔄 useUpdate - Updated item received:', updatedItem)
+      
       
       // Remover toast de carga y mostrar éxito
       toast.removeToast(loadingToastId)
@@ -134,7 +130,6 @@ export function useUpdate () {
       
       return updatedItem
     } catch (err) {
-      console.error('Error al actualizar elemento:', err)
       setError(err.message)
       
       // Remover toast de carga y mostrar error

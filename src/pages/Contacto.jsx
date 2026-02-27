@@ -62,7 +62,6 @@ function Contacto () {
       })
     } catch (error) {
       // El error ya está manejado en el hook
-      console.error('Error al enviar el formulario:', error)
     }
   }
 
@@ -89,7 +88,6 @@ function Contacto () {
       }
       
     } catch (error) {
-      console.error('Error al suscribir a newsletter:', error)
       // Auto-limpiar el mensaje de error después de 5 segundos
       setTimeout(() => {
         resetNewsletter()

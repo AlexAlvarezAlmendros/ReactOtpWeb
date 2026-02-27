@@ -23,16 +23,13 @@ export const useCreateRelease = () => {
       // Obtener el token de Auth0
       const token = await getToken()
 
-      // Debug del token y usuario
-      console.log('🔍 Token being sent:', token)
-      console.log('🔍 User data:', user)
+      
 
       if (!token) {
         throw new Error('No se pudo obtener el token de autenticación')
       }
 
       // Realizamos la petición POST a la API para crear un nuevo release
-      console.log('Datos del release a crear:', releaseData)
       
       let body
       const headers = {

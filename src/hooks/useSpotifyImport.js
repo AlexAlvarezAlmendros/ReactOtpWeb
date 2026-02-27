@@ -91,13 +91,7 @@ export function useSpotifyImport () {
 
       // Realizar llamada a la API
       const apiUrl = import.meta.env.VITE_API_URL
-      console.log('🎵 Spotify API Call:', {
-        endpoint: `${apiUrl}${endpoint}`,
-        spotifyUrl,
-        spotifyId,
-        type: spotifyType,
-        expectedType: type
-      })
+      
 
       const response = await fetch(`${apiUrl}${endpoint}`, {
         method: 'POST',
@@ -113,19 +107,12 @@ export function useSpotifyImport () {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        console.error('❌ Spotify API Error:', {
-          status: response.status,
-          statusText: response.statusText,
-          errorData
-        })
+        
         throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`)
       }
 
       const importedData = await response.json()
-      console.log('✅ Spotify API Success:', {
-        endpoint,
-        dataReceived: importedData
-      })
+      
       setData(importedData)
 
       return importedData

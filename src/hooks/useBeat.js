@@ -43,9 +43,9 @@ export function useBeat (beatId) {
             Authorization: `Bearer ${token}`
           }
         }
-      } catch (e) {
-        console.warn('Could not get auth token for beat fetch:', e)
-      }
+        } catch (e) {
+          // token fetch failed; proceed unauthenticated
+        }
 
       const response = await fetch(url, fetchOptions)
 
@@ -60,7 +60,6 @@ export function useBeat (beatId) {
       setBeat(beatData)
     } catch (e) {
       if (e.name !== 'AbortError') {
-        console.error('Error fetching beat:', e)
         setError(e.message)
       }
     } finally {

@@ -169,7 +169,6 @@ function NewsletterViewer () {
         await Promise.all(fetchPromises)
         
       } catch (err) {
-        console.error('Error fetching newsletter:', err)
         setError(err.message)
       } finally {
         setLoading(false)
@@ -221,11 +220,9 @@ function NewsletterViewer () {
 
     try {
       const result = await subscribeNewsletter(newsletterEmail, 'newsletter-viewer')
-      
       if (result.success) {
         setNewsletterEmail('')
         setIsSubscribed(true)
-        
         setTimeout(() => {
           resetNewsletter()
         }, 5000)
@@ -234,9 +231,7 @@ function NewsletterViewer () {
           resetNewsletter()
         }, 5000)
       }
-      
     } catch (error) {
-      console.error('Error al suscribir a newsletter:', error)
       setTimeout(() => {
         resetNewsletter()
       }, 5000)

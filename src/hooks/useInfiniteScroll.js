@@ -77,7 +77,6 @@ export function useInfiniteScroll (fetchFunction, options = {}) {
       
     } catch (err) {
       setError(err.message || 'Error al cargar datos')
-      console.error('Error en infinite scroll:', err)
     } finally {
       setLoading(false)
       setIsLoadingMore(false)

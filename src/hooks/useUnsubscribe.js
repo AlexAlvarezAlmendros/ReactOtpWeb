@@ -112,10 +112,8 @@ export function useUnsubscribe () {
       }
 
     } catch (e) {
-      console.error('Error al desuscribir de newsletter:', e)
       setError(e.message)
       setSuccess(false)
-      
       return {
         success: false,
         message: e.message

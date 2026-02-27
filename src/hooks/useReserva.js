@@ -72,14 +72,11 @@ Fecha de solicitud: ${new Date(datosReserva.datos.fechaSolicitud).toLocaleString
       
       return result
     } catch (err) {
-      console.error('Error al enviar reserva:', err)
       const errorMessage = err.message || 'Error al enviar la reserva. Por favor, inténtalo de nuevo.'
       setError(errorMessage)
-      
       // Remover toast de carga y mostrar error
       toast.removeToast(loadingToastId)
       toast.error(errorMessage)
-      
       throw err
     } finally {
       setIsLoading(false)

@@ -35,7 +35,7 @@ export const usePermissions = () => {
                        []
 
     if (shouldLog) {
-      console.log('🔵 Roles calculated for user:', user.email)
+      // logging suppressed in production
     }
     return Array.isArray(rolesResult) ? rolesResult : []
   }, [isAuthenticated, user, shouldLog])
@@ -53,7 +53,7 @@ export const usePermissions = () => {
     // SOLUCIÓN TEMPORAL: Si no hay permisos pero sí roles, mapear desde roles
     if (!permissionsResult || permissionsResult.length === 0) {
       if (shouldLog) {
-        console.log('🟡 Mapping permissions from roles for:', user.email)
+        // logging suppressed in production
       }
 
       if (roles.includes('Admin') || roles.includes('admin')) {
@@ -65,7 +65,7 @@ export const usePermissions = () => {
           'read:studios', 'write:studios', 'delete:studios'
         ]
         if (shouldLog) {
-          console.log('🟢 Admin permissions mapped')
+          // logging suppressed in production
         }
       } else if (roles.includes('Editor') || roles.includes('editor')) {
         permissionsResult = [
@@ -75,14 +75,14 @@ export const usePermissions = () => {
           'read:studios', 'write:studios'
         ]
         if (shouldLog) {
-          console.log('🟢 Editor permissions mapped')
+          // logging suppressed in production
         }
       } else if (roles.includes('User') || roles.includes('user')) {
         permissionsResult = [
           'read:releases', 'read:artists', 'read:events', 'read:studios'
         ]
         if (shouldLog) {
-          console.log('🟢 User permissions mapped')
+          // logging suppressed in production
         }
       } else if (roles.includes('Artist') || roles.includes('Artista') || roles.includes('artist') || roles.includes('artista')) {
         permissionsResult = [
@@ -92,12 +92,12 @@ export const usePermissions = () => {
           'read:studios'
         ]
         if (shouldLog) {
-          console.log('🟢 Artist permissions mapped')
+          // logging suppressed in production
         }
       }
     } else {
       if (shouldLog) {
-        console.log('🟢 Direct permissions found for:', user.email)
+        // logging suppressed in production
       }
     }
 

@@ -116,11 +116,8 @@ export async function compressImage (file, options = {}) {
 
   // Si el archivo ya es pequeño, devolver sin modificar
   if (file.size <= maxFileSize) {
-    console.log(`📷 Imagen "${file.name}" ya es suficientemente pequeña (${formatSize(file.size)})`)
     return file
   }
-
-  console.log(`📷 Comprimiendo imagen "${file.name}" (${formatSize(file.size)})...`)
 
   // Cargar imagen
   const img = await loadImage(file)
@@ -141,13 +138,9 @@ export async function compressImage (file, options = {}) {
   // Intentar comprimir reduciendo calidad iterativamente
   while (quality >= MIN_QUALITY) {
     blob = await canvasToBlob(img, width, height, quality, outputType)
-
-    console.log(`  → Calidad ${(quality * 100).toFixed(0)}%: ${formatSize(blob.size)}`)
-
     if (blob.size <= maxFileSize) {
       break
     }
-
     quality -= QUALITY_STEP
   }
 
@@ -157,10 +150,7 @@ export async function compressImage (file, options = {}) {
     while (shrinkFactor >= 0.25 && blob.size > maxFileSize) {
       const shrunkWidth = Math.round(width * shrinkFactor)
       const shrunkHeight = Math.round(height * shrinkFactor)
-
       blob = await canvasToBlob(img, shrunkWidth, shrunkHeight, MIN_QUALITY, outputType)
-      console.log(`  → Dimensiones ${shrunkWidth}x${shrunkHeight}: ${formatSize(blob.size)}`)
-
       shrinkFactor -= 0.25
     }
   }
@@ -168,9 +158,7 @@ export async function compressImage (file, options = {}) {
   // Revocar el object URL de la imagen cargada
   URL.revokeObjectURL(img.src)
 
-  if (!blob || blob.size > maxFileSize) {
-    console.warn('⚠️ No se pudo comprimir la imagen lo suficiente, enviando la mejor versión')
-  }
+  //
 
   // Generar nombre de archivo comprimido
   const baseName = file.name.replace(/\.[^/.]+$/, '')
@@ -181,9 +169,6 @@ export async function compressImage (file, options = {}) {
     type: outputType,
     lastModified: Date.now()
   })
-
-  const reduction = ((1 - compressedFile.size / file.size) * 100).toFixed(1)
-  console.log(`📷 Compresión completada: ${formatSize(file.size)} → ${formatSize(compressedFile.size)} (-${reduction}%)`)
 
   return compressedFile
 }

@@ -25,12 +25,7 @@ export function useFileUpload (fileType = 'audio') {
       const folder = fileType === 'audio' ? 'audio_files' : 'archive_files'
       const resourceType = fileType === 'audio' ? 'video' : 'raw'
       
-      console.log('Obteniendo parámetros firmados para archivo grande:', {
-        name: file.name,
-        size: file.size,
-        folder,
-        resourceType
-      })
+      
 
       const paramsResponse = await fetch(
         `${API_URL}/files/upload/signed-params?folder=${folder}&resourceType=${resourceType}`
@@ -43,7 +38,7 @@ export function useFileUpload (fileType = 'audio') {
       const paramsData = await paramsResponse.json()
       const uploadParams = paramsData.data
 
-      console.log('Parámetros firmados recibidos del backend:', uploadParams)
+      
 
       // Paso 2: Preparar FormData para Cloudinary
       // IMPORTANTE: Solo enviar parámetros que fueron incluidos en la firma
@@ -55,13 +50,7 @@ export function useFileUpload (fileType = 'audio') {
       formData.append('signature', uploadParams.signature)
       formData.append('folder', uploadParams.folder)
 
-      console.log('FormData que se enviará a Cloudinary:')
-      console.log('- api_key:', uploadParams.api_key)
-      console.log('- timestamp:', uploadParams.timestamp)
-      console.log('- signature:', uploadParams.signature)
-      console.log('- folder:', uploadParams.folder)
-      console.log('- file:', file.name)
-      console.log('- URL destino:', uploadParams.upload_url)
+      
 
       // Paso 3: Subir directamente a Cloudinary con tracking de progreso
       const xhr = new XMLHttpRequest()
@@ -96,7 +85,7 @@ export function useFileUpload (fileType = 'audio') {
         xhr.send(formData)
       })
 
-      console.log('Archivo subido a Cloudinary:', cloudinaryResult)
+      
 
       // Paso 4: Registrar el archivo en la base de datos
       const dbResponse = await fetch(`${API_URL}/files`, {
@@ -225,14 +214,7 @@ export function useFileUpload (fileType = 'audio') {
 
     const useLargeUpload = file.size > MAX_NORMAL_UPLOAD_SIZE
 
-    // Log para debugging
-    console.log('Uploading file:', {
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      fileType: fileType,
-      method: useLargeUpload ? 'Signed Upload (>4MB)' : 'Normal Upload (<=4MB)'
-    })
+    
 
     try {
       let result
@@ -249,7 +231,6 @@ export function useFileUpload (fileType = 'audio') {
     } catch (err) {
       const errorMessage = err.message || 'Error al subir el archivo'
       setError(errorMessage)
-      console.error('Upload error:', err)
       return null
     } finally {
       setUploading(false)

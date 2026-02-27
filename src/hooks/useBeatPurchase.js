@@ -51,12 +51,9 @@ export function useBeatPurchase() {
     } catch (err) {
       const errorMessage = err.message || 'Error al crear la sesión de pago'
       setError(errorMessage)
-      console.error('Error en createCheckoutSession:', err)
-      
       // Remover toast de carga y mostrar error
       toast.removeToast(loadingToastId)
       toast.error(errorMessage)
-      
       throw err
     } finally {
       setLoading(false)

@@ -61,17 +61,16 @@ export function useNewsletters (options = {}) {
       const queryParams = buildQueryParams()
       const url = `${NEWSLETTERS_ENDPOINT}?${queryParams}`
 
-      console.log('Fetching newsletters:', url) // Debug
+      
 
       const response = await fetch(url, { signal })
 
       if (!response.ok) {
         // Si es 404, puede ser que aún no haya endpoint, manejamos gracefully
-        if (response.status === 404) {
-           console.warn('Endpoint de newsletters no encontrado (404).')
-           setNewsletters([])
-           return
-        }
+          if (response.status === 404) {
+            setNewsletters([])
+            return
+          }
         throw new Error(`Error al obtener newsletters: ${response.statusText}`)
       }
 
@@ -101,7 +100,6 @@ export function useNewsletters (options = {}) {
 
     } catch (e) {
       if (e.name !== 'AbortError') {
-        console.error('Error fetching newsletters:', e)
         setError(e.message)
       }
     } finally {
@@ -149,7 +147,6 @@ export function useNewsletters (options = {}) {
       await refetch() // Recargar lista
       return await response.json()
     } catch (e) {
-      console.error('Error creating newsletter:', e)
       throw e
     } finally {
       setLoading(false)

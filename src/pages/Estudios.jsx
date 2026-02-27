@@ -118,7 +118,6 @@ function Estudios () {
       }, 5000)
     } catch (error) {
       // El error ya se maneja en el hook
-      console.error('Error en reserva:', error)
     }
   }
 
