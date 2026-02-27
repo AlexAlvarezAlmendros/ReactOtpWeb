@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
 import { useToast } from '../contexts/ToastContext'
+import { compressImage } from '../utils/imageCompressor'
 
 const API_URL = import.meta.env.VITE_API_URL
 const BEATS_ENDPOINT = `${API_URL}/beats`
@@ -26,8 +27,9 @@ export function useCreateBeat () {
         'Authorization': `Bearer ${token}`
       }
 
-      // Si hay imagen de portada, usar FormData
+      // Si hay imagen de portada, comprimir y usar FormData
       if (coverImage) {
+        const compressedImage = await compressImage(coverImage)
         const formData = new FormData()
         
         // Añadir todos los campos del beat
@@ -42,8 +44,8 @@ export function useCreateBeat () {
           }
         })
         
-        // Añadir la imagen de portada
-        formData.append('image', coverImage)
+        // Añadir la imagen de portada comprimida
+        formData.append('image', compressedImage)
         
         body = formData
       } else {

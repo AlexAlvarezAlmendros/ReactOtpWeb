@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
 import { useToast } from '../contexts/ToastContext'
+import { compressImage } from '../utils/imageCompressor'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -76,8 +77,9 @@ export function useUpdate () {
         Authorization: `Bearer ${token}`
       }
 
-      // Si hay imagen, usar FormData
+      // Si hay imagen, comprimir y usar FormData
       if (imageFile) {
+        const compressedImage = await compressImage(imageFile)
         const formData = new FormData()
         
         // Añadir todos los campos
@@ -87,8 +89,8 @@ export function useUpdate () {
           }
         })
         
-        // Añadir la imagen
-        formData.append('image', imageFile)
+        // Añadir la imagen comprimida
+        formData.append('image', compressedImage)
         
         body = formData
       } else {

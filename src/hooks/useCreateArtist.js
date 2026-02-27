@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
 import { useToast } from '../contexts/ToastContext'
+import { compressImage } from '../utils/imageCompressor'
 
 const API_URL = import.meta.env.VITE_API_URL
 const ARTISTS_ENDPOINT = `${API_URL}/artists`
@@ -35,8 +36,9 @@ export const useCreateArtist = () => {
         Authorization: `Bearer ${token}`
       }
 
-      // Si hay imagen, usar FormData
+      // Si hay imagen, comprimir y usar FormData
       if (imageFile) {
+        const compressedImage = await compressImage(imageFile)
         const formData = new FormData()
         
         // Añadir todos los campos del artista
@@ -46,8 +48,8 @@ export const useCreateArtist = () => {
           }
         })
         
-        // Añadir la imagen
-        formData.append('image', imageFile)
+        // Añadir la imagen comprimida
+        formData.append('image', compressedImage)
         
         body = formData
       } else {

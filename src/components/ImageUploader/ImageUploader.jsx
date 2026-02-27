@@ -64,7 +64,7 @@ export function ImageUploader ({
       return
     }
 
-    // Validar tamaño (32MB máximo para ImgBB)
+    // Validar tamaño (32MB máximo - se comprimirá automáticamente si excede 3.5MB)
     const maxSize = 32 * 1024 * 1024 // 32MB
     if (file.size > maxSize) {
       setError('La imagen no puede superar los 32MB')

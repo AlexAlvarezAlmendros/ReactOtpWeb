@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
 import { useToast } from '../contexts/ToastContext'
+import { compressImage } from '../utils/imageCompressor'
 
 const API_URL = import.meta.env.VITE_API_URL
 const RELEASES_ENDPOINT = `${API_URL}/releases`
@@ -38,8 +39,9 @@ export const useCreateRelease = () => {
         Authorization: `Bearer ${token}`
       }
 
-      // Si hay imagen, usar FormData
+      // Si hay imagen, comprimir y usar FormData
       if (imageFile) {
+        const compressedImage = await compressImage(imageFile)
         const formData = new FormData()
         
         // Añadir todos los campos del release
@@ -49,8 +51,8 @@ export const useCreateRelease = () => {
           }
         })
         
-        // Añadir la imagen
-        formData.append('image', imageFile)
+        // Añadir la imagen comprimida
+        formData.append('image', compressedImage)
         
         body = formData
         // No incluir Content-Type, el navegador lo establece automáticamente con boundary
