@@ -54,3 +54,10 @@
   flex-direction: column;
   margin-bottom: 1.5rem;
 }
+
+/* ── Responsive ───────────────────────── */
+@media (max-width: 768px) {
+  .beats-view-toggle {
+    display: none;
+  }
+}

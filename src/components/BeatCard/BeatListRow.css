@@ -242,6 +242,129 @@
   cursor: wait;
 }
 
+/* ── Download button ───────────────── */
+.beat-list-row__download-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  color: #666666;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.beat-list-row__download-btn:hover {
+  border-color: #555555;
+  color: #cccccc;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Download dialog ───────────────── */
+.beat-download-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.beat-download-dialog {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}
+
+.beat-download-dialog__icon {
+  font-size: 2rem;
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.beat-download-dialog__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.beat-download-dialog__body {
+  font-size: 0.88rem;
+  color: #aaaaaa;
+  line-height: 1.6;
+  margin: 0 0 0.6rem;
+}
+
+.beat-download-dialog__body strong {
+  color: #ffffff;
+}
+
+.beat-download-dialog__sub {
+  font-size: 0.8rem;
+  color: #666666;
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+.beat-download-dialog__footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.beat-download-dialog__cancel {
+  background: transparent;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  color: #888888;
+  padding: 0.55rem 1.2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.beat-download-dialog__cancel:hover {
+  border-color: #555555;
+  color: #cccccc;
+}
+
+.beat-download-dialog__confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ff003c;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 0.55rem 1.2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.beat-download-dialog__confirm:hover {
+  background: #e6003a;
+  transform: translateY(-1px);
+}
+
 /* ── Responsive ─────────────────────── */
 @media (max-width: 768px) {
   .beat-list-row {

@@ -22,6 +22,7 @@ function BeatListRow ({ card }) {
   const beatId = card._id || card.id
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -92,6 +93,31 @@ function BeatListRow ({ card }) {
     if (audioRef.current) audioRef.current.currentTime = val
     setCurrentTime(val)
     setIsSeeking(false)
+  }
+
+  const handleDownloadClick = (e) => {
+    e.stopPropagation()
+    setIsDownloadDialogOpen(true)
+  }
+
+  const handleConfirmDownload = async () => {
+    if (audioUrl) {
+      try {
+        const response = await fetch(audioUrl)
+        const blob = await response.blob()
+        const blobUrl = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = blobUrl
+        a.download = `${card.title || 'beat'}.mp3`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(blobUrl)
+      } catch {
+        window.open(audioUrl, '_blank')
+      }
+    }
+    setIsDownloadDialogOpen(false)
   }
 
   const handlePurchaseClick = () => {
@@ -186,6 +212,17 @@ function BeatListRow ({ card }) {
               {Number(card.price).toFixed(2)} €
             </span>
           )}
+          {audioUrl && (
+            <button
+              className="beat-list-row__download-btn"
+              onClick={handleDownloadClick}
+              type="button"
+              aria-label="Descargar MP3 (uso personal)"
+              title="Descargar MP3 (uso personal)"
+            >
+              <FontAwesomeIcon icon={['fas', 'file-arrow-down']} />
+            </button>
+          )}
           <button
             className="beat-list-row__buy"
             onClick={handlePurchaseClick}
@@ -204,6 +241,44 @@ function BeatListRow ({ card }) {
         beat={card}
         onPurchase={handlePurchase}
       />
+
+      {/* Dialog de aviso de uso personal */}
+      {isDownloadDialogOpen && (
+        <div className="beat-download-dialog-overlay" onClick={() => setIsDownloadDialogOpen(false)}>
+          <div className="beat-download-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="beat-download-dialog__icon">
+              <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} />
+            </div>
+            <h3 className="beat-download-dialog__title">Solo uso personal</h3>
+            <p className="beat-download-dialog__body">
+              Este beat se descarga <strong>sin licencia comercial</strong>. Solo puedes utilizarlo
+              para uso personal, demos privadas o práctica. <strong>Queda prohibido</strong> su uso
+              en publicaciones, distribución, streaming o cualquier proyecto comercial sin adquirir
+              una licencia.
+            </p>
+            <p className="beat-download-dialog__sub">
+              Si necesitas una licencia, pulsa «Comprar» para ver las opciones disponibles.
+            </p>
+            <div className="beat-download-dialog__footer">
+              <button
+                className="beat-download-dialog__cancel"
+                onClick={() => setIsDownloadDialogOpen(false)}
+                type="button"
+              >
+                Cancelar
+              </button>
+              <button
+                className="beat-download-dialog__confirm"
+                onClick={handleConfirmDownload}
+                type="button"
+              >
+                <FontAwesomeIcon icon={['fas', 'file-arrow-down']} />
+                Entendido, descargar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
