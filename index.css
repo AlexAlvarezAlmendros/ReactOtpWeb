@@ -19,6 +19,10 @@
     }
 }
 
+html {
+    overflow-x: hidden; /* Evita que html actúe como scroll container cuando body tiene overflow-x: hidden */
+}
+
 body {
     background-color: #000000;
     color: #ffffff;
