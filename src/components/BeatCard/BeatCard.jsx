@@ -28,8 +28,6 @@ function BeatCard ({ card }) {
     return []
   })()
 
-  console.log('🎵 colaboradores raw:', card.colaboradores, '→ parsed:', colaboradores)
-
   // Manejar la imagen del beat (usar coverUrl de la API)
   const imageUrl = card.coverUrl || '/img/default-beat.jpg'
   const isFree = !card.price || card.price === 0
@@ -38,13 +36,6 @@ function BeatCard ({ card }) {
   // Obtener la URL de audio de la primera licencia que tenga mp3Url en files
   const audioUrl = card.licenses?.find(license => license.files?.mp3Url)?.files?.mp3Url || null
 
-  console.log('🎵 BeatCard:', {
-    title: card.title,
-    hasLicenses: card.licenses?.length || 0,
-    licenses: card.licenses,
-    audioUrl,
-    cardId: card._id || card.id
-  })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)

@@ -37,6 +37,8 @@ export function useInfiniteScroll (fetchFunction, options = {}) {
   // Refs para evitar múltiples llamadas simultáneas
   const isFetchingRef = useRef(false)
   const observerRef = useRef(null)
+  // Ref para saltar el efecto de filtros en el mount inicial
+  const isInitialFiltersMount = useRef(true)
 
   /**
    * Función para cargar datos
@@ -176,10 +178,16 @@ export function useInfiniteScroll (fetchFunction, options = {}) {
    * Recargar cuando cambien los filtros
    */
   useEffect(() => {
-    // Skip en mount inicial
-    if (items.length > 0) {
-      refresh()
+    // Saltar el mount inicial correctamente con un ref
+    if (isInitialFiltersMount.current) {
+      isInitialFiltersMount.current = false
+      return
     }
+    isFetchingRef.current = false // forzar fetch aunque haya uno en curso
+    setPage(1)
+    setHasMore(true)
+    setItems([])
+    loadItems(1, false)
   }, [JSON.stringify(filters)]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return {

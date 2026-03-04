@@ -1,0 +1,56 @@
+.beats-page-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.beats-page-header h1 {
+  margin: 0;
+}
+
+/* ── View toggle ──────────────────────── */
+.beats-view-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #0a0a0a;
+  border: 1px solid #1b1b1b;
+  border-radius: 8px;
+  padding: 0.25rem;
+}
+
+.beats-view-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #555555;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.beats-view-btn:hover {
+  color: #cccccc;
+  background: #1a1a1a;
+}
+
+.beats-view-btn.active {
+  background: #1a1a1a;
+  color: #ff003c;
+}
+
+/* ── List view container ──────────────── */
+.beats-list-view {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}

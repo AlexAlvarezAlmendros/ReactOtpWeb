@@ -42,7 +42,9 @@ import {
   faFolder,
   faLink,
   faImage,
-  faExclamationTriangle
+  faExclamationTriangle,
+  faTableCells,
+  faList
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -92,5 +94,7 @@ library.add(
   faFolder,
   faLink,
   faImage,
-  faExclamationTriangle
+  faExclamationTriangle,
+  faTableCells,
+  faList
 )

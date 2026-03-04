@@ -97,6 +97,7 @@ export function useArtists (options = {}) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedCards = artistsFromApi.map((artist) => ({
         id: artist._id,
+        userId: artist.userId,
         title: artist.name,
         subtitle: artist.genre,
         spotifyLink: artist.spotifyLink,

@@ -1,15 +1,19 @@
 import { useState } from 'react'
+import { BEAT_GENRES, MUSICAL_KEYS } from '../../utils/beatConstants'
 import './FilterPanel.css'
+
+]
 
 /**
  * Panel de filtros avanzados reutilizable
  * @param {Object} props
- * @param {string} props.type - Tipo de contenido ('releases', 'artists', 'events', 'studios')
+ * @param {string} props.type - Tipo de contenido ('releases', 'artists', 'events', 'studios', 'beats')
  * @param {Object} props.filters - Filtros actuales
  * @param {Function} props.onFilterChange - Función llamada al cambiar filtros
  * @param {Function} props.onReset - Función para resetear filtros
+ * @param {Array} props.artists - Lista de artistas (usado para type='beats')
  */
-function FilterPanel ({ type, filters, onFilterChange, onReset }) {
+function FilterPanel ({ type, filters, onFilterChange, onReset, artists = [] }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const handleInputChange = (key, value) => {
@@ -61,6 +65,15 @@ function FilterPanel ({ type, filters, onFilterChange, onReset }) {
           { value: 'createdAt-desc', label: 'Más recientes' },
           { value: 'createdAt-asc', label: 'Más antiguos' }
         ]
+      case 'beats':
+        return [
+          { value: 'createdAt-desc', label: 'Más recientes' },
+          { value: 'createdAt-asc', label: 'Más antiguos' },
+          { value: 'bpm-asc', label: 'BPM: menor a mayor' },
+          { value: 'bpm-desc', label: 'BPM: mayor a menor' },
+          { value: 'title-asc', label: 'Título A-Z' },
+          { value: 'title-desc', label: 'Título Z-A' }
+        ]
       default:
         return []
     }
@@ -68,7 +81,8 @@ function FilterPanel ({ type, filters, onFilterChange, onReset }) {
 
   const hasActiveFilters = () => {
     return filters.type || filters.subtitle || filters.genre || filters.location ||
-           filters.dateMin || filters.dateMax
+           filters.dateMin || filters.dateMax ||
+           filters.artistId || filters.key || filters.bpmMin || filters.bpmMax
   }
 
   return (
@@ -117,37 +131,41 @@ function FilterPanel ({ type, filters, onFilterChange, onReset }) {
               </select>
             </div>
 
-            {/* Elementos por página */}
-            <div className="filter-group">
-              <label>Elementos por página:</label>
-              <select
-                value={filters.count || 10}
-                onChange={(e) => handleInputChange('count', parseInt(e.target.value))}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-              </select>
-            </div>
+            {/* Elementos por página (no para infinite scroll) */}
+            {type !== 'beats' && (
+              <div className="filter-group">
+                <label>Elementos por página:</label>
+                <select
+                  value={filters.count || 10}
+                  onChange={(e) => handleInputChange('count', parseInt(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="filter-row">
-            {/* Filtro por tipo */}
-            <div className="filter-group">
-              <label>Tipo:</label>
-              <select
-                value={filters.type || ''}
-                onChange={(e) => handleInputChange('type', e.target.value)}
-              >
-                <option value="">Todos los tipos</option>
-                {getTypeOptions().map(typeOption => (
-                  <option key={typeOption} value={typeOption}>
-                    {typeOption}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* Filtro por tipo (no para beats) */}
+            {type !== 'beats' && (
+              <div className="filter-group">
+                <label>Tipo:</label>
+                <select
+                  value={filters.type || ''}
+                  onChange={(e) => handleInputChange('type', e.target.value)}
+                >
+                  <option value="">Todos los tipos</option>
+                  {getTypeOptions().map(typeOption => (
+                    <option key={typeOption} value={typeOption}>
+                      {typeOption}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {/* Filtros específicos por tipo de contenido */}
             {type === 'releases' && (
@@ -187,25 +205,104 @@ function FilterPanel ({ type, filters, onFilterChange, onReset }) {
             )}
           </div>
 
-          {/* Filtros de fecha */}
-          <div className="filter-row">
-            <div className="filter-group">
-              <label>Desde:</label>
-              <input
-                type="date"
-                value={filters.dateMin || ''}
-                onChange={(e) => handleInputChange('dateMin', e.target.value)}
-              />
+          {/* Filtros específicos de beats */}
+          {type === 'beats' && (
+            <>
+              <div className="filter-row">
+                {/* Género */}
+                <div className="filter-group">
+                  <label>Género:</label>
+                  <select
+                    value={filters.genre || ''}
+                    onChange={(e) => handleInputChange('genre', e.target.value)}
+                  >
+                    <option value="">Todos los géneros</option>
+                    {BEAT_GENRES.map(g => (
+                      <option key={g} value={g}>{g}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Artista */}
+                <div className="filter-group">
+                  <label>Artista:</label>
+                  <select
+                    value={filters.artistId || ''}
+                    onChange={(e) => handleInputChange('artistId', e.target.value)}
+                  >
+                    <option value="">Todos los artistas</option>
+                    {artists.map(artist => (
+                      <option key={artist._id || artist.id} value={artist.userId || artist._id || artist.id}>
+                        {artist.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Key musical */}
+                <div className="filter-group">
+                  <label>Tonalidad:</label>
+                  <select
+                    value={filters.key || ''}
+                    onChange={(e) => handleInputChange('key', e.target.value)}
+                  >
+                    <option value="">Todas las tonalidades</option>
+                    {MUSICAL_KEYS.map(k => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* BPM range */}
+              <div className="filter-row">
+                <div className="filter-group">
+                  <label>BPM mínimo:</label>
+                  <input
+                    type="number"
+                    value={filters.bpmMin || ''}
+                    onChange={(e) => handleInputChange('bpmMin', e.target.value)}
+                    placeholder="Ej: 80"
+                    min="40"
+                    max="300"
+                  />
+                </div>
+                <div className="filter-group">
+                  <label>BPM máximo:</label>
+                  <input
+                    type="number"
+                    value={filters.bpmMax || ''}
+                    onChange={(e) => handleInputChange('bpmMax', e.target.value)}
+                    placeholder="Ej: 160"
+                    min="40"
+                    max="300"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Filtros de fecha (no para beats) */}
+          {type !== 'beats' && (
+            <div className="filter-row">
+              <div className="filter-group">
+                <label>Desde:</label>
+                <input
+                  type="date"
+                  value={filters.dateMin || ''}
+                  onChange={(e) => handleInputChange('dateMin', e.target.value)}
+                />
+              </div>
+              <div className="filter-group">
+                <label>Hasta:</label>
+                <input
+                  type="date"
+                  value={filters.dateMax || ''}
+                  onChange={(e) => handleInputChange('dateMax', e.target.value)}
+                />
+              </div>
             </div>
-            <div className="filter-group">
-              <label>Hasta:</label>
-              <input
-                type="date"
-                value={filters.dateMax || ''}
-                onChange={(e) => handleInputChange('dateMax', e.target.value)}
-              />
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

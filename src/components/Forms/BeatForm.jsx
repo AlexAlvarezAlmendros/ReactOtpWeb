@@ -5,6 +5,7 @@ import { useArtists } from '../../hooks/useArtists'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FileUploader } from '../FileUploader/FileUploader'
 import { ImageUploader } from '../ImageUploader/ImageUploader'
+import { MUSICAL_KEYS } from '../../utils/beatConstants'
 import './BeatForm.css'
 
 // Default license templates
@@ -744,12 +745,16 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
             </div>
             <div className="beat-wizard__form-group">
               <label><FontAwesomeIcon icon={['fas', 'music']} className="icon-label" /> Tonalidad (Key)</label>
-              <input
+              <select
                 name="key"
                 value={formData.key}
                 onChange={handleChange}
-                placeholder="Am, C Major"
-              />
+              >
+                <option value="">Seleccionar tonalidad</option>
+                {MUSICAL_KEYS.map(k => (
+                  <option key={k} value={k}>{k}</option>
+                ))}
+              </select>
             </div>
           </div>
 
