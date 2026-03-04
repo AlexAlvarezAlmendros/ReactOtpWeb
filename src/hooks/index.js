@@ -1,5 +1,6 @@
 // Hooks exports
 export { useArtist } from './useArtist'
+export { useArtistBeats } from './useArtistBeats'
 export { useArtistReleases } from './useArtistReleases'
 export { useArtists } from './useArtists'
 export { useAuth } from './useAuth'

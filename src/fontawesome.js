@@ -43,6 +43,11 @@ import {
   faLink,
   faImage,
   faExclamationTriangle,
+  faUserSlash,
+  faCalendarXmark,
+  faUsers,
+  faLocationDot,
+  faClock,
   faTableCells,
   faList,
   faFileArrowDown,
@@ -106,5 +111,10 @@ library.add(
   faHouse,
   faMicrophone,
   faEnvelope,
-  faChevronRight
+  faChevronRight,
+  faUserSlash,
+  faCalendarXmark,
+  faUsers,
+  faLocationDot,
+  faClock
 )

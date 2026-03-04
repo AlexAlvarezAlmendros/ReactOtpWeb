@@ -34,16 +34,15 @@ function EventoDetalle () {
 
   if (error) {
     return (
-      <section className="evento-section">
-        <div className="evento-container">
-          <div className="error-container">
-            <h2>Error al cargar el evento</h2>
-            <p>{error}</p>
-            <Link to="/eventos" className="back-button-subtle">
-              <FontAwesomeIcon icon={['fas', 'arrow-left']} />
-              Volver a Eventos
-            </Link>
-          </div>
+      <section className="evento-detail">
+        <div className="evento-detail__error">
+          <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} className="evento-detail__error-icon" />
+          <h2>Error al cargar el evento</h2>
+          <p>{error}</p>
+          <Link to="/eventos" className="evento-detail__back-link">
+            <FontAwesomeIcon icon={['fas', 'arrow-left']} />
+            Volver a Eventos
+          </Link>
         </div>
       </section>
     )
@@ -51,16 +50,15 @@ function EventoDetalle () {
 
   if (!event) {
     return (
-      <section className="evento-section">
-        <div className="evento-container">
-          <div className="error-container">
-            <h2>Evento no encontrado</h2>
-            <p>El evento que buscas no existe o ha sido eliminado.</p>
-            <Link to="/eventos" className="back-button-subtle">
-              <FontAwesomeIcon icon={['fas', 'arrow-left']} />
-              Volver a Eventos
-            </Link>
-          </div>
+      <section className="evento-detail">
+        <div className="evento-detail__error">
+          <FontAwesomeIcon icon={['fas', 'calendar-xmark']} className="evento-detail__error-icon" />
+          <h2>Evento no encontrado</h2>
+          <p>El evento que buscas no existe o ha sido eliminado.</p>
+          <Link to="/eventos" className="evento-detail__back-link">
+            <FontAwesomeIcon icon={['fas', 'arrow-left']} />
+            Volver a Eventos
+          </Link>
         </div>
       </section>
     )
@@ -69,7 +67,7 @@ function EventoDetalle () {
   const socialLinks = [
     { link: event.spotifyLink, icon: ['fab', 'spotify'], label: 'Spotify', color: '#1DB954' },
     { link: event.youtubeLink, icon: ['fab', 'youtube'], label: 'YouTube', color: '#FF0000' },
-    { link: event.appleMusicLink, icon: ['fab', 'apple'], label: 'Apple Music', color: '#000000' },
+    { link: event.appleMusicLink, icon: ['fab', 'apple'], label: 'Apple Music', color: '#fc3c44' },
     { link: event.instagramLink, icon: ['fab', 'instagram'], label: 'Instagram', color: '#E4405F' },
     { link: event.soundCloudLink, icon: ['fab', 'soundcloud'], label: 'SoundCloud', color: '#FF3300' },
     { link: event.beatStarsLink, icon: ['fas', 'music'], label: 'BeatStars', color: '#FF6B35' }
@@ -86,17 +84,22 @@ function EventoDetalle () {
     })
   }
 
+  const formatDateShort = (dateString) => {
+    if (!dateString) return { day: '', month: '' }
+    const date = new Date(dateString)
+    return {
+      day: date.getDate(),
+      month: date.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase()
+    }
+  }
+
   // Función para generar el iframe de Google Maps
   const generateMapIframe = (location) => {
     if (!location) return null
-    
-    // Codificamos la ubicación para la URL
+
     const encodedLocation = encodeURIComponent(location)
-    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodedLocation}`
-    
-    // Como alternativa sin API key, usamos el enlace directo de Google Maps
     const simpleMapUrl = `https://maps.google.com/maps?q=${encodedLocation}&output=embed`
-    
+
     return (
       <iframe
         src={simpleMapUrl}
@@ -111,117 +114,145 @@ function EventoDetalle () {
     )
   }
 
+  const dateShort = formatDateShort(event.date)
+
   return (
-    <section className="evento-section">
-      <div className="evento-container">
-        {/* Mensaje de éxito */}
-        {showSuccessMessage && (
-          <div className="success-notification">
-            <div className="success-icon">✓</div>
-            <div>
-              <h3>¡Compra exitosa!</h3>
-              <p>Recibirás tus entradas por email en breve.</p>
+    <section className="evento-detail">
+      {/* Success notification */}
+      {showSuccessMessage && (
+        <div className="evento-detail__success">
+          <div className="evento-detail__success-icon">
+            <FontAwesomeIcon icon={['fas', 'check']} />
+          </div>
+          <div>
+            <h3>¡Compra exitosa!</h3>
+            <p>Recibirás tus entradas por email en breve.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Hero Banner */}
+      <div className="evento-hero">
+        <div className="evento-hero__backdrop">
+          <img src={event.img} alt="" className="evento-hero__bg" aria-hidden="true" />
+          <div className="evento-hero__overlay" />
+        </div>
+        <div className="evento-hero__content">
+          <Link to="/eventos" className="evento-detail__back-link">
+            <FontAwesomeIcon icon={['fas', 'arrow-left']} />
+            Eventos
+          </Link>
+          <div className="evento-hero__layout">
+            <div className="evento-hero__poster-wrapper">
+              <LazyImage
+                src={event.img}
+                alt={`Imagen de ${event.title}`}
+                className="evento-hero__poster"
+              />
+              {event.date && (
+                <div className="evento-hero__date-badge">
+                  <span className="evento-hero__date-day">{dateShort.day}</span>
+                  <span className="evento-hero__date-month">{dateShort.month}</span>
+                </div>
+              )}
+            </div>
+            <div className="evento-hero__info">
+              {event.eventType && (
+                <span className="evento-hero__type-badge">{event.eventType}</span>
+              )}
+              <h1 className="evento-hero__title">{event.title}</h1>
+              <div className="evento-hero__accent" />
+              <div className="evento-hero__meta">
+                {event.date && (
+                  <div className="evento-hero__meta-item">
+                    <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
+                    <span>{formatDate(event.date)}</span>
+                  </div>
+                )}
+                {event.subtitle && (
+                  <div className="evento-hero__meta-item">
+                    <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
+                    <span>{event.subtitle}</span>
+                  </div>
+                )}
+              </div>
+              {event.colaborators && (
+                <div className="evento-hero__collab">
+                  <FontAwesomeIcon icon={['fas', 'users']} />
+                  <span>{event.colaborators}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="evento-detail__body">
+        {/* Descripción */}
+        {event.description && (
+          <div className="evento-detail__section">
+            <div className="evento-detail__section-header">
+              <h2>Sobre el evento</h2>
+              <div className="evento-detail__section-line" />
+            </div>
+            <div className="evento-detail__description">
+              <div
+                className="evento-detail__rich-text"
+                dangerouslySetInnerHTML={{ __html: event.description }}
+              />
             </div>
           </div>
         )}
 
-        {/* Botón de volver discreto */}
-        <Link to="/eventos" className="back-button-subtle">
-          <FontAwesomeIcon icon={['fas', 'arrow-left']} />
-          Volver a Eventos
-        </Link>
+        {/* Compra de tickets */}
+        <TicketPurchase event={event} />
 
-        {/* Encabezado del evento */}
-        <header className="evento-header">
-          <div className="evento-image-container">
-            <LazyImage
-              src={event.img} 
-              alt={`Imagen de ${event.title}`}
-              className="evento-image"
-            />
+        {/* Ubicación */}
+        {event.subtitle && (
+          <div className="evento-detail__section">
+            <div className="evento-detail__section-header">
+              <h2>Ubicación</h2>
+              <div className="evento-detail__section-line" />
+            </div>
+            <div className="evento-detail__map-wrapper">
+              {generateMapIframe(event.location || event.subtitle)}
+            </div>
+            <div className="evento-detail__address">
+              <FontAwesomeIcon icon={['fas', 'location-dot']} />
+              <span>{event.subtitle}</span>
+            </div>
           </div>
-          <div className="evento-main-info">
-            <h1 className="evento-title">{event.title}</h1>
-            <div className="evento-underline"></div>
-            <div className="evento-meta">
-              {event.date && (
-                <div className="evento-date">
-                  <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
-                  <span>{formatDate(event.date)}</span>
-                </div>
-              )}
-              {event.subtitle && (
-                <div className="evento-location">
-                  <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
-                  <span>{event.subtitle}</span>
-                </div>
-              )}
-              {event.eventType && (
-                <span className="evento-type">{event.eventType}</span>
-              )}
+        )}
+
+        {/* Enlaces */}
+        {socialLinks.length > 0 && (
+          <div className="evento-detail__section">
+            <div className="evento-detail__section-header">
+              <h2>Enlaces</h2>
+              <div className="evento-detail__section-line" />
             </div>
-            {event.colaborators && (
-              <div className="evento-colaborators">
-                <h3>Colaboradores</h3>
-                <p>{event.colaborators}</p>
-              </div>
-            )}
+            <div className="evento-detail__social-grid">
+              {socialLinks.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="evento-social-card"
+                  style={{ '--social-color': item.color }}
+                  aria-label={`${event.title} en ${item.label}`}
+                >
+                  <div className="evento-social-card__icon">
+                    <FontAwesomeIcon icon={item.icon} />
+                  </div>
+                  <span className="evento-social-card__label">{item.label}</span>
+                  <FontAwesomeIcon icon={['fas', 'arrow-right']} className="evento-social-card__arrow" />
+                </a>
+              ))}
+            </div>
           </div>
-        </header>
-
-        <div className="evento-content">
-          {/* Descripción del evento */}
-          {event.description && (
-            <div className="evento-description">
-              <h2 className="section-title">Descripción</h2>
-              <div className="section-underline"></div>
-              <div 
-                className="rich-text-content"
-                dangerouslySetInnerHTML={{ __html: event.description }}
-              />
-            </div>
-          )}
-
-          {/* NUEVO: Componente de compra de tickets */}
-          <TicketPurchase event={event} />
-
-          {/* Sección de Ubicación */}
-          {event.colaborators && (
-            <div className="evento-map">
-              <h2 className="section-title">Ubicación</h2>
-              <div className="section-underline"></div>
-              <div className="map-container">
-                {generateMapIframe(event.location)}
-              </div>
-            </div>
-          )}
-
-          {/* Sección de Enlaces */}
-          {socialLinks.length > 0 && (
-            <div className="evento-social">
-              <h2 className="section-title">Enlaces</h2>
-              <div className="section-underline"></div>
-              <div className="social-links-grid">
-                {socialLinks.map((item, index) => (
-                  <a 
-                    key={index} 
-                    href={item.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link-card"
-                    style={{ '--social-color': item.color }}
-                    aria-label={`${event.title} en ${item.label}`}
-                  >
-                    <div className="social-icon">
-                      <FontAwesomeIcon icon={item.icon} />
-                    </div>
-                    <span className="social-label">{item.label}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </section>
   )

@@ -1,182 +1,240 @@
-/* Artista Detail Page Styles */
-.artista-section {
-  margin-top: 96px;
-  padding: 0 24px;
+/* =============================================
+   ARTISTA DETAIL - Mobile First
+   ============================================= */
+
+.artista-detail {
   color: white;
-  min-height: calc(100vh - 96px);
+  min-height: 100vh;
+  padding-bottom: 64px;
 }
 
-.artista-container {
+/* === HERO SECTION === */
+.artista-hero {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.artista-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.artista-hero__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(40px) brightness(0.35) saturate(1.3);
+  transform: scale(1.15);
+}
+
+.artista-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    #000000 100%
+  );
+}
+
+.artista-hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  text-align: start;
+  padding: 96px 16px 32px;
 }
 
-/* === BOTÓN DE VOLVER DISCRETO === */
-.back-button-subtle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 8px 12px;
-  background: transparent;
-  color: #999;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 400;
-  transition: all 0.3s ease;
-  margin-bottom: 32px;
-  border: 1px solid #333;
-}
-
-.back-button-subtle:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
-  border-color: #666;
-}
-
-/* === ENCABEZADO DEL ARTISTA === */
-.artista-header {
+/* === HERO PROFILE === */
+.artista-hero__profile {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 32px;
-  margin-bottom: 64px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid #333;
+  text-align: center;
+  gap: 20px;
+  animation: artistFadeUp 0.6s ease-out;
 }
 
-.artista-image-container {
+.artista-hero__avatar-wrapper {
+  position: relative;
   flex-shrink: 0;
 }
 
-.artista-image {
+.artista-hero__avatar-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff003c 0%, transparent 60%);
+  z-index: -1;
+  opacity: 0.6;
+}
+
+.artista-hero__avatar {
   width: 160px;
   height: 160px;
   object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  display: block;
 }
 
-.artista-main-info {
-  flex: 1;
-}
-
-.artista-title {
-  font-weight: 700;
-  font-size: 3rem;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-  color: white;
-  margin: 0 0 8px 0;
-  text-transform: uppercase;
-}
-
-.artista-underline {
-  width: 80px;
-  height: 4px;
-  background-color: #ff003c;
-  margin: 0 0 16px 0;
-}
-
-.artista-meta {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.artista-genre {
-  font-size: 1.125rem;
-  color: #CCCCCC;
-  font-weight: 500;
-}
-
-.artista-type {
-  display: inline-block;
-  padding: 4px 12px;
-  background-color: #333;
-  color: #fff;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* === CONTENIDO PRINCIPAL === */
-.artista-content {
+.artista-hero__info {
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  align-items: center;
+  gap: 12px;
 }
 
-/* === TÍTULOS DE SECCIÓN === */
-.section-title {
-  font-weight: 600;
-  font-size: 1.5rem;
-  color: white;
-  margin: 0 0 8px 0;
+.artista-hero__name {
+  font-size: 2rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03em;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
-.section-underline {
-  width: 60px;
+.artista-hero__accent {
+  width: 50px;
   height: 3px;
-  background-color: #ff003c;
-  margin: 0 0 32px 0;
+  background: linear-gradient(90deg, #ff003c, #cc0030);
+  border-radius: 2px;
 }
 
-/* === SECCIÓN DE PROYECTOS === */
-.artista-projects {
-  margin-bottom: 32px;
+.artista-hero__badge {
+  display: inline-block;
+  padding: 5px 14px;
+  background: rgba(255, 0, 60, 0.12);
+  border: 1px solid rgba(255, 0, 60, 0.3);
+  color: #ff003c;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.projects-loading {
+/* === BACK LINK === */
+.artista-detail__back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 28px;
+}
+
+.artista-detail__back-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* === BODY === */
+.artista-detail__body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* === SECTIONS === */
+.artista-detail__section-header {
+  margin-bottom: 24px;
+}
+
+.artista-detail__section-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: white;
+  margin: 0 0 10px 0;
+}
+
+.artista-detail__section-line {
+  width: 36px;
+  height: 3px;
+  background: #ff003c;
+  border-radius: 2px;
+}
+
+/* === PROJECTS GRID === */
+.artista-detail__projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* === BEATS GRID === */
+.artista-detail__beats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.artista-detail__loading {
   display: flex;
   justify-content: center;
-  padding: 64px 0;
+  padding: 48px 0;
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.no-projects {
+.artista-detail__empty {
   text-align: center;
-  padding: 64px 32px;
-  background-color: #0E0E0E;
+  padding: 48px 24px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #0e0e0e 100%);
   border-radius: 12px;
-  border: 2px dashed #333;
+  border: 1px dashed #222;
 }
 
-.no-projects p {
-  color: #999;
-  font-size: 1.125rem;
+.artista-detail__empty-icon {
+  font-size: 2.5rem;
+  color: #2a2a2a;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.artista-detail__empty p {
+  color: #555;
+  font-size: 0.95rem;
   margin: 0;
+  font-weight: 300;
 }
 
-/* === SECCIÓN DE ENLACES SOCIALES === */
-.artista-social {
-  margin-bottom: 32px;
-}
-
-.social-links-grid {
+/* === SOCIAL LINKS === */
+.artista-detail__social-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
-.social-link-card {
+.artista-social-card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background-color: #0E0E0E;
-  border: 2px solid #333;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #0a0a0a;
+  border: 1px solid #1b1b1b;
   border-radius: 12px;
   color: white;
   text-decoration: none;
@@ -185,173 +243,254 @@
   overflow: hidden;
 }
 
-.social-link-card::before {
+.artista-social-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background-color: var(--social-color);
-  transition: left 0.3s ease;
-}
-
-.social-link-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  border-color: var(--social-color);
-}
-
-.social-link-card:hover::before {
   left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--social-color);
+  transition: height 0.3s ease;
+  border-radius: 0 0 2px 0;
 }
 
-.social-icon {
-  width: 40px;
-  height: 40px;
-  background-color: var(--social-color);
-  border-radius: 8px;
+.artista-social-card:hover {
+  border-color: var(--social-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px var(--social-color);
+  background: #0e0e0e;
+}
+
+.artista-social-card:hover::before {
+  height: 100%;
+}
+
+.artista-social-card__icon {
+  width: 38px;
+  height: 38px;
+  background: var(--social-color);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
-  color: white;
-  flex-shrink: 0;
-}
-
-.social-label {
-  font-weight: 600;
   font-size: 1rem;
   color: white;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artista-social-card:hover .artista-social-card__icon {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.artista-social-card__label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex: 1;
   transition: color 0.3s ease;
 }
 
-.social-link-card:hover .social-label {
+.artista-social-card:hover .artista-social-card__label {
   color: var(--social-color);
 }
 
-/* === CONTENEDOR DE ERROR === */
-.error-container {
+.artista-social-card__arrow {
+  color: #333;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.artista-social-card:hover .artista-social-card__arrow {
+  color: var(--social-color);
+  transform: translateX(3px);
+}
+
+/* === ERROR STATE === */
+.artista-detail__error {
   text-align: center;
-  padding: 64px 32px;
-  max-width: 600px;
+  padding: 120px 24px 64px;
+  max-width: 480px;
   margin: 0 auto;
 }
 
-.error-container h2 {
-  font-size: 2rem;
-  margin-bottom: 16px;
+.artista-detail__error-icon {
+  font-size: 3rem;
+  color: #2a2a2a;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.artista-detail__error h2 {
+  font-size: 1.5rem;
+  margin: 0 0 12px;
   color: #ef4444;
   font-weight: 600;
 }
 
-.error-container p {
-  font-size: 1.125rem;
-  color: #CCCCCC;
-  margin-bottom: 32px;
+.artista-detail__error p {
+  font-size: 1rem;
+  color: #888;
+  margin: 0 0 32px;
   line-height: 1.6;
+  font-weight: 300;
 }
 
-/* === RESPONSIVE DESIGN === */
-@media (max-width: 900px) {
-  .artista-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 24px;
+/* === ANIMATION === */
+@keyframes artistFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
   }
-  
-  .artista-title {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================
+   TABLET (min-width: 600px)
+   ============================================= */
+@media (min-width: 600px) {
+  .artista-hero {
+    min-height: 400px;
+  }
+
+  .artista-hero__content {
+    padding: 96px 24px 40px;
+  }
+
+  .artista-hero__avatar {
+    width: 180px;
+    height: 180px;
+  }
+
+  .artista-hero__name {
     font-size: 2.5rem;
   }
-  
-  .artista-content {
-    gap: 48px;
+
+  .artista-detail__body {
+    padding: 0 24px;
+    gap: 56px;
   }
-  
-  .projects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  .artista-detail__projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
   }
-  
-  .social-links-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
-@media (max-width: 600px) {
-  .artista-section {
-    padding: 0 16px;
-  }
-  
-  .artista-title {
-    font-size: 2rem;
-  }
-  
-  .artista-image {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .artista-meta {
-    justify-content: center;
-  }
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .social-link-card {
-    padding: 16px;
-  }
-  
-  .social-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
-  }
-  
-  .social-label {
-    font-size: 0.875rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .artista-header {
+  .artista-detail__beats-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  
-  .artista-title {
-    font-size: 1.75rem;
+
+  .artista-detail__social-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
-  
-  .artista-image {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .section-title {
-    font-size: 1.25rem;
-  }
-  
-  .back-button-subtle {
-    padding: 6px 10px;
-    font-size: 0.8rem;
+
+  .artista-social-card {
+    padding: 16px 20px;
   }
 }
 
-/* === ACCESIBILIDAD === */
+/* =============================================
+   DESKTOP (min-width: 900px)
+   ============================================= */
+@media (min-width: 900px) {
+  .artista-hero {
+    min-height: 440px;
+  }
+
+  .artista-hero__content {
+    padding: 96px 24px 48px;
+  }
+
+  .artista-hero__profile {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-end;
+    gap: 32px;
+  }
+
+  .artista-hero__info {
+    align-items: flex-start;
+  }
+
+  .artista-hero__avatar {
+    width: 220px;
+    height: 220px;
+    border-radius: 16px;
+  }
+
+  .artista-hero__avatar-wrapper::after {
+    border-radius: 20px;
+  }
+
+  .artista-hero__name {
+    font-size: 3.5rem;
+  }
+
+  .artista-hero__badge {
+    font-size: 0.75rem;
+  }
+
+  .artista-detail__section-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .artista-detail__projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .artista-detail__beats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .artista-detail__social-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+/* =============================================
+   LARGE DESKTOP (min-width: 1200px)
+   ============================================= */
+@media (min-width: 1200px) {
+  .artista-hero__name {
+    font-size: 4rem;
+  }
+
+  .artista-hero__avatar {
+    width: 240px;
+    height: 240px;
+  }
+}
+
+/* =============================================
+   ACCESSIBILITY
+   ============================================= */
 @media (prefers-reduced-motion: reduce) {
-  .social-link-card,
-  .back-button-subtle,
-  .social-link-card::before {
+  .artista-hero__profile {
+    animation: none;
+  }
+
+  .artista-social-card,
+  .artista-social-card::before,
+  .artista-social-card__icon,
+  .artista-social-card__arrow,
+  .artista-social-card__label,
+  .artista-detail__back-link {
     transition: none;
   }
 }
 
-/* Focus visible para navegación por teclado */
-.back-button-subtle:focus-visible,
-.social-link-card:focus-visible {
+.artista-detail__back-link:focus-visible,
+.artista-social-card:focus-visible {
   outline: 2px solid #ff003c;
   outline-offset: 2px;
 }
