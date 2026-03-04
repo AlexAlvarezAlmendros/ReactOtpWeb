@@ -518,47 +518,131 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .beat-license-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
   .beat-license-modal {
     max-width: 100%;
-    max-height: 100vh;
-    border-radius: 0;
+    width: 100%;
+    max-height: 92dvh;
+    border-radius: 16px 16px 0 0;
     margin: 0;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .modal-header {
-    padding: 16px;
+    padding: 14px 16px;
   }
 
   .modal-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .modal-close {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
   }
 
   .beat-info {
-    padding: 16px;
+    padding: 12px 16px;
   }
 
   .beat-info-content {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
   }
 
   .beat-thumbnail {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    aspect-ratio: auto;
+  }
+
+  .beat-details h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .beat-producer {
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+  }
+
+  .beat-meta {
+    font-size: 0.78rem;
   }
 
   .licenses-container {
-    padding: 16px;
+    padding: 12px 16px;
+    gap: 12px;
     grid-template-columns: 1fr;
   }
 
+  .license-card {
+    padding: 14px;
+  }
+
+  .license-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .license-header h3 {
+    font-size: 1rem;
+  }
+
+  .license-price .amount {
+    font-size: 1.5rem;
+  }
+
+  .license-description {
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+
+  .license-formats,
+  .license-terms {
+    margin-bottom: 12px;
+  }
+
+  .license-formats h4,
+  .license-terms h4 {
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+  }
+
+  .terms-list li {
+    font-size: 0.8rem;
+  }
+
+  .license-select-indicator {
+    margin-top: 10px;
+    padding-top: 10px;
+    font-size: 0.8rem;
+  }
+
   .customer-info-section {
-    padding: 16px;
+    padding: 12px 16px;
   }
 
   .infocomprador-componente {
-    padding: 12px 16px !important;
+    padding: 10px 16px !important;
   }
 
   .infocomprador-componente h3 {
@@ -566,29 +650,33 @@
   }
 
   .modal-actions {
-    padding: 16px;
+    padding: 12px 16px;
     flex-direction: column;
+    gap: 8px;
   }
 
   .btn-secondary,
   .btn-primary {
     width: 100%;
     justify-content: center;
+    padding: 12px 16px;
+  }
+
+  .error-message {
+    margin: 0 16px;
+    margin-top: 12px;
+    font-size: 0.82rem;
   }
 }
 
 @media (max-width: 480px) {
   .modal-header h2 {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 
-  .license-header {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .license-price {
-    align-self: flex-start;
+  .beat-thumbnail {
+    width: 44px;
+    height: 44px;
   }
 }
 
