@@ -39,10 +39,10 @@ function BeatsFilterBar ({ filters, onFilterChange, onReset, artists = [] }) {
           value={filters.artistId || ''}
           onChange={(e) => handleChange('artistId', e.target.value)}
         >
-          <option value="">Artista</option>
-          {artists.map(artist => (
-            <option key={artist.id} value={artist.id}>
-              {artist.title}
+          <option value="">BeatMaker</option>
+          {artists.map((artist, index) => (
+            <option key={artist.id || artist._id || index} value={artist.id || artist._id}>
+              {artist.title || artist.name}
             </option>
           ))}
         </select>

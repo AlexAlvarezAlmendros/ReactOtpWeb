@@ -19,6 +19,12 @@ function BeatListRow ({ card }) {
   const hasLicenses = card.licenses && card.licenses.length > 0
   const audioUrl = card.licenses?.find(l => l.files?.mp3Url)?.files?.mp3Url || null
   const producer = typeof card.producer === 'object' ? card.producer?.name : card.producer
+  // Colaboradores: array de nombres
+  const collaborators = Array.isArray(card.colaboradores)
+    ? card.colaboradores.filter(Boolean)
+    : (typeof card.colaboradores === 'string' && card.colaboradores)
+      ? [card.colaboradores]
+      : []
   const beatId = card._id || card.id
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -170,7 +176,17 @@ function BeatListRow ({ card }) {
           <div className="beat-list-row__info">
             <span className="beat-list-row__title">{card.title}</span>
             <div className="beat-list-row__info-meta">
-              {producer && <span className="beat-list-row__producer">Prod. by {producer}</span>}
+              {producer && (
+                <span className="beat-list-row__producer">
+                  Prod. by {producer}
+                  {collaborators.length > 0 && (
+                    <span>
+                      {', '}
+                      {collaborators.join(', ')}
+                    </span>
+                  )}
+                </span>
+              )}
               {card.genre && <span className="beat-list-row__tag">{card.genre}</span>}
               {card.bpm && <span className="beat-list-row__dot">{card.bpm} BPM</span>}
               {card.key && <span className="beat-list-row__dot">{card.key}</span>}

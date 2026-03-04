@@ -4,7 +4,7 @@ import CreateButton from '../components/CreateButton/CreateButton'
 import BeatsFilterBar from '../components/BeatsFilterBar/BeatsFilterBar'
 import BeatListRow from '../components/BeatCard/BeatListRow'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
-import { useArtists } from '../hooks/useArtists'
+import { useArtistsWithBeats } from '../hooks/useArtistsWithBeats'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import { SkeletonList } from '../components/Skeleton/Skeleton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,7 +28,7 @@ function Beats () {
   const [filters, setFilters] = useState(INITIAL_FILTERS)
   const [viewMode, setViewMode] = useState('list') // 'grid' | 'list'
 
-  const { artists } = useArtists({ count: 100, sortBy: 'name', sortOrder: 'asc' })
+  const { artists } = useArtistsWithBeats()
 
   const fetchBeats = useCallback(async (options) => {
     const params = new URLSearchParams()
