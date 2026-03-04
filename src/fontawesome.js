@@ -45,7 +45,11 @@ import {
   faExclamationTriangle,
   faTableCells,
   faList,
-  faFileArrowDown
+  faFileArrowDown,
+  faHouse,
+  faMicrophone,
+  faEnvelope,
+  faChevronRight
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -98,5 +102,9 @@ library.add(
   faExclamationTriangle,
   faTableCells,
   faList,
-  faFileArrowDown
+  faFileArrowDown,
+  faHouse,
+  faMicrophone,
+  faEnvelope,
+  faChevronRight
 )
