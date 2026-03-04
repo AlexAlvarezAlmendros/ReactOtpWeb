@@ -8,6 +8,28 @@ import '../Card.css'
 import './BeatCard.css'
 
 function BeatCard ({ card }) {
+  // Normalizar colaboradores (puede llegar como string JSON o array)
+  const colaboradores = (() => {
+    const raw = card.colaboradores
+    if (!raw) return []
+    if (Array.isArray(raw)) return raw
+    if (typeof raw === 'string') {
+      const trimmed = raw.trim()
+      // Si empieza por "[" intentar parsear como JSON
+      if (trimmed.startsWith('[')) {
+        try { 
+          const parsed = JSON.parse(trimmed)
+          return Array.isArray(parsed) ? parsed : [raw]
+        } catch { return [raw] }
+      }
+      // Si es un string simple separado por comas
+      return trimmed.split(',').map(s => s.trim()).filter(Boolean)
+    }
+    return []
+  })()
+
+  console.log('🎵 colaboradores raw:', card.colaboradores, '→ parsed:', colaboradores)
+
   // Manejar la imagen del beat (usar coverUrl de la API)
   const imageUrl = card.coverUrl || '/img/default-beat.jpg'
   const isFree = !card.price || card.price === 0
@@ -146,7 +168,12 @@ function BeatCard ({ card }) {
         <div className='card-content'>
           <div>
             <h2>{card.title}</h2>
-            {card.producer && <p>Prod. by {typeof card.producer === 'object' ? card.producer.name : card.producer}</p>}
+            {card.producer && (
+              <p>
+                Prod. by {typeof card.producer === 'object' ? card.producer.name : card.producer}
+                {colaboradores.length > 0 && `, ${colaboradores.join(', ')}`}
+              </p>
+            )}
             {(card.genre || card.bpm) && (
               <p style={{ color: '#999999' }}>
                 {card.genre}{card.genre && card.bpm && ' • '}{card.bpm && `${card.bpm} BPM`}

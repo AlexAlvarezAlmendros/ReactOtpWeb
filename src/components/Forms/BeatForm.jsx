@@ -88,15 +88,19 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
     genre: '',
     tags: '',
     price: '',
+    producer: '',
     audioUrl: '',
     coverUrl: '',
     active: true
   })
 
-  // Artist Selector State
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedArtists, setSelectedArtists] = useState([])
-  const [showDropdown, setShowDropdown] = useState(false)
+  // Collaborators State
+  const [colaboradores, setColaboradores] = useState([])
+  const [colaboradorInput, setColaboradorInput] = useState('')
+
+  // Producer Dropdown State
+  const [showProducerDropdown, setShowProducerDropdown] = useState(false)
+  const [producerId, setProducerId] = useState(null)
 
   // Step 2: Files
   const [uploadedFiles, setUploadedFiles] = useState({
@@ -158,6 +162,10 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   useEffect(() => {
     if (!isEditMode || !initialData) return
 
+    const producerValue = typeof initialData.producer === 'string'
+      ? initialData.producer
+      : (initialData.producer?.name || initialData.producer?.title || '')
+
     setFormData({
       title: initialData.title || '',
       description: initialData.description || '',
@@ -166,10 +174,23 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
       genre: initialData.genre || '',
       tags: Array.isArray(initialData.tags) ? initialData.tags.join(', ') : '',
       price: initialData.price || '',
+      producer: producerValue,
       audioUrl: initialData.audioUrl || '',
       coverUrl: initialData.coverUrl || '',
       active: initialData.active ?? true
     })
+
+    // Set producerId from initialData.producer (could be an object or string id)
+    if (initialData.producer) {
+      const id = typeof initialData.producer === 'object'
+        ? (initialData.producer.id || initialData.producer._id)
+        : initialData.producer
+      setProducerId(id || null)
+    }
+
+    if (Array.isArray(initialData.colaboradores)) {
+      setColaboradores(initialData.colaboradores)
+    }
 
     if (initialData.coverUrl) {
       setCoverPreviewUrl(initialData.coverUrl)
@@ -236,30 +257,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
     }
   }, [isEditMode, initialData])
 
-  // Initialize producer from initialData (depends on allArtists being loaded)
-  useEffect(() => {
-    if (!isEditMode || !initialData || allArtists.length === 0) return
 
-    let artistsToSelect = []
-    if (initialData.producer) {
-      if (typeof initialData.producer === 'object' && initialData.producer !== null) {
-        const producerId = initialData.producer.id || initialData.producer._id
-        const producer = allArtists.find(a => a.id === producerId || a._id === producerId)
-        if (producer) artistsToSelect.push(producer)
-      } else if (typeof initialData.producer === 'string') {
-        const producer = allArtists.find(a => a.id === initialData.producer || a._id === initialData.producer)
-        if (producer) artistsToSelect.push(producer)
-      }
-    } else if (initialData.artists && Array.isArray(initialData.artists)) {
-      artistsToSelect = initialData.artists.map(artistId => {
-        if (typeof artistId === 'object' && artistId.id) {
-          return allArtists.find(a => a.id === artistId.id)
-        }
-        return allArtists.find(a => a.id === artistId)
-      }).filter(Boolean)
-    }
-    setSelectedArtists(artistsToSelect.length > 0 ? artistsToSelect : [])
-  }, [isEditMode, initialData, allArtists])
 
   // Cover image preview
   useEffect(() => {
@@ -276,7 +274,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   const isStepComplete = (step) => {
     switch (step) {
       case 1:
-        return formData.title.trim() !== '' && selectedArtists.length > 0 && formData.price !== ''
+        return formData.title.trim() !== '' && formData.producer.trim() !== '' && formData.price !== ''
       case 2:
         return availableFileKeys.length > 0
       case 3:
@@ -290,11 +288,16 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
 
   const canProceed = () => isStepComplete(currentStep)
 
-  // Filter artists
-  const filteredArtists = allArtists.filter(artist =>
-    artist.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-    !selectedArtists.find(a => a.id === artist.id)
-  )
+  // =====================
+  // Derived
+  // =====================
+  const filteredProducers = useMemo(() => {
+    const q = formData.producer.toLowerCase().trim()
+    if (!q) return []
+    return allArtists
+      .filter(a => a.title.toLowerCase().includes(q))
+      .slice(0, 8)
+  }, [formData.producer, allArtists])
 
   // =====================
   // Handlers
@@ -305,16 +308,6 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }))
-  }
-
-  const handleAddArtist = (artist) => {
-    setSelectedArtists([artist])
-    setSearchQuery('')
-    setShowDropdown(false)
-  }
-
-  const handleRemoveArtist = (artistId) => {
-    setSelectedArtists(selectedArtists.filter(a => a.id !== artistId))
   }
 
   // File upload handlers
@@ -500,7 +493,8 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
       bpm: formData.bpm ? Number(formData.bpm) : undefined,
       price: Number(formData.price),
       tags: tagsArray,
-      producer: selectedArtists.length > 0 ? selectedArtists[0].id : null,
+      producer: producerId || null,
+      colaboradores,
       licenses: processedLicenses
     }
 
@@ -517,9 +511,11 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
         // Reset form
         setFormData({
           title: '', description: '', bpm: '', key: '', genre: '',
-          tags: '', price: '', audioUrl: '', coverUrl: '', active: true
+          tags: '', price: '', producer: '', audioUrl: '', coverUrl: '', active: true
         })
-        setSelectedArtists([])
+        setProducerId(null)
+        setColaboradores([])
+        setColaboradorInput('')
         setLicenses(DEFAULT_LICENSES.map(l => ({ ...l, description: '' })))
         setCoverImageFile(null)
         setCoverPreviewUrl('')
@@ -651,56 +647,87 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
 
           <div className="beat-wizard__form-group">
             <label>Productor <span className="required">*</span></label>
-            {isEditMode && selectedArtists.length === 0 && (
-              <p style={{ color: '#f59e0b', fontSize: '0.875rem', margin: '0.5rem 0', fontStyle: 'italic' }}>
-                Este beat no tiene productor asignado. Selecciona uno para actualizar.
-              </p>
-            )}
             <div className="beat-wizard__producer-search">
               <input
                 type="text"
-                placeholder={selectedArtists.length > 0 ? 'Productor seleccionado' : 'Buscar productor...'}
-                value={searchQuery}
+                name="producer"
+                value={formData.producer}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value)
-                  setShowDropdown(true)
+                  handleChange(e)
+                  setProducerId(null)
+                  setShowProducerDropdown(true)
                 }}
-                onFocus={() => setShowDropdown(true)}
-                disabled={selectedArtists.length > 0}
+                onFocus={() => setShowProducerDropdown(true)}
+                onBlur={() => setTimeout(() => setShowProducerDropdown(false), 150)}
+                placeholder="Nombre del productor"
+                required
+                autoComplete="off"
               />
-
-              {showDropdown && searchQuery && (
+              {showProducerDropdown && filteredProducers.length > 0 && (
                 <div className="beat-wizard__producer-dropdown">
-                  {filteredArtists.length > 0
-                    ? (
-                        filteredArtists.map(artist => (
-                          <div
-                            key={artist.id}
-                            className="beat-wizard__producer-item"
-                            onClick={() => handleAddArtist(artist)}
-                          >
-                            <div className="beat-wizard__producer-item-name">{artist.title}</div>
-                            <div className="beat-wizard__producer-item-genre">{artist.subtitle || artist.genre}</div>
-                          </div>
-                        ))
-                      )
-                    : (
-                        <div style={{ padding: '1rem', color: '#888', textAlign: 'center' }}>No se encontraron artistas</div>
-                      )}
+                  {filteredProducers.map(artist => (
+                    <div
+                      key={artist.id}
+                      className="beat-wizard__producer-item"
+                      onMouseDown={() => {
+                        setFormData(prev => ({ ...prev, producer: artist.title }))
+                        setProducerId(artist.id)
+                        setShowProducerDropdown(false)
+                      }}
+                    >
+                      <div className="beat-wizard__producer-item-name">{artist.title}</div>
+                      <div className="beat-wizard__producer-item-genre">{artist.subtitle || artist.genre}</div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
+          </div>
 
-            {selectedArtists.length > 0 && (
+          <div className="beat-wizard__form-group">
+            <label><FontAwesomeIcon icon={['fas', 'users']} className="icon-label" /> Colaboradores</label>
+            <div className="beat-wizard__collaborators-input">
+              <input
+                type="text"
+                value={colaboradorInput}
+                onChange={(e) => setColaboradorInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    const name = colaboradorInput.trim()
+                    if (name && !colaboradores.includes(name)) {
+                      setColaboradores(prev => [...prev, name])
+                    }
+                    setColaboradorInput('')
+                  }
+                }}
+                placeholder="Nombre del colaborador"
+              />
+              <button
+                type="button"
+                className="beat-wizard__collaborators-add-btn"
+                onClick={() => {
+                  const name = colaboradorInput.trim()
+                  if (name && !colaboradores.includes(name)) {
+                    setColaboradores(prev => [...prev, name])
+                  }
+                  setColaboradorInput('')
+                }}
+              >
+                <FontAwesomeIcon icon={['fas', 'plus']} />
+              </button>
+            </div>
+            {colaboradores.length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.75rem' }}>
-                {selectedArtists.map(artist => (
-                  <span key={artist.id} className="beat-wizard__producer-tag">
-                    {artist.title}
-                    <button type="button" onClick={() => handleRemoveArtist(artist.id)}>×</button>
+                {colaboradores.map((col, i) => (
+                  <span key={i} className="beat-wizard__producer-tag">
+                    {col}
+                    <button type="button" onClick={() => setColaboradores(prev => prev.filter((_, idx) => idx !== i))}>×</button>
                   </span>
                 ))}
               </div>
             )}
+            <small>Pulsa Enter o + para añadir cada colaborador.</small>
           </div>
 
           <div className="beat-wizard__form-row">
@@ -1266,9 +1293,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
                 </div>
                 <div className="beat-wizard__summary-row">
                   <span className="beat-wizard__summary-label">Productor</span>
-                  <span className="beat-wizard__summary-value">
-                    {selectedArtists.length > 0 ? selectedArtists[0].title : 'No asignado'}
-                  </span>
+                  <span className="beat-wizard__summary-value">{formData.producer || 'No asignado'}</span>
                 </div>
                 {formData.bpm && (
                   <div className="beat-wizard__summary-row">
@@ -1295,6 +1320,18 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
                       <div className="beat-wizard__summary-tags">
                         {formData.tags.split(',').map(t => t.trim()).filter(Boolean).map((tag, i) => (
                           <span key={i} className="beat-wizard__summary-tag">{tag}</span>
+                        ))}
+                      </div>
+                    </span>
+                  </div>
+                )}
+                {colaboradores.length > 0 && (
+                  <div className="beat-wizard__summary-row">
+                    <span className="beat-wizard__summary-label">Colaboradores</span>
+                    <span className="beat-wizard__summary-value">
+                      <div className="beat-wizard__summary-tags">
+                        {colaboradores.map((col, i) => (
+                          <span key={i} className="beat-wizard__summary-tag">{col}</span>
                         ))}
                       </div>
                     </span>
@@ -1444,14 +1481,6 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
             </button>
             )}
       </div>
-
-      {/* Click outside listener for dropdown */}
-      {showDropdown && (
-        <div
-          style={{ position: 'fixed', inset: 0, zIndex: 999 }}
-          onClick={() => setShowDropdown(false)}
-        />
-      )}
     </form>
   )
 }

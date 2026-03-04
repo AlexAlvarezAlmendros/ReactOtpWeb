@@ -82,7 +82,11 @@ export function useUpdate () {
         // Añadir todos los campos
         Object.keys(data).forEach(key => {
           if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-            formData.append(key, data[key])
+            if (typeof data[key] === 'object') {
+              formData.append(key, JSON.stringify(data[key]))
+            } else {
+              formData.append(key, data[key])
+            }
           }
         })
         

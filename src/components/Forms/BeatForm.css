@@ -355,6 +355,32 @@
   line-height: 1;
 }
 
+/* Collaborators */
+.beat-wizard__collaborators-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.beat-wizard__collaborators-input input {
+  flex: 1;
+}
+
+.beat-wizard__collaborators-add-btn {
+  background: rgba(255, 0, 60, 0.15);
+  border: 1px solid rgba(255, 0, 60, 0.3);
+  color: #ff003c;
+  border-radius: 8px;
+  padding: 0 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.beat-wizard__collaborators-add-btn:hover {
+  background: rgba(255, 0, 60, 0.3);
+}
+
 /* Info tip */
 .beat-wizard__info-tip {
   margin-top: 1.5rem;
