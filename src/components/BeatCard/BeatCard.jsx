@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
@@ -158,7 +159,9 @@ function BeatCard ({ card }) {
         </div>
         <div className='card-content'>
           <div>
-            <h2>{card.title}</h2>
+            <Link to={`/beats/${card._id || card.id}`} className="beat-card-title-link">
+              <h2>{card.title}</h2>
+            </Link>
             {card.producer && (
               <p>
                 Prod. by {typeof card.producer === 'object' ? card.producer.name : card.producer}

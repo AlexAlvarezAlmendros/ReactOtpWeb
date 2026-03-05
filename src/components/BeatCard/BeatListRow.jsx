@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
@@ -174,7 +175,9 @@ function BeatListRow ({ card }) {
         {/* Info + timeline */}
         <div className="beat-list-row__center">
           <div className="beat-list-row__info">
-            <span className="beat-list-row__title">{card.title}</span>
+            <Link to={`/beats/${beatId}`} className="beat-list-row__title-link">
+              <span className="beat-list-row__title">{card.title}</span>
+            </Link>
             <div className="beat-list-row__info-meta">
               {producer && (
                 <span className="beat-list-row__producer">
