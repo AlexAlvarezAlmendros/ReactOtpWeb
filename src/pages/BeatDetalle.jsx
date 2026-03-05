@@ -5,6 +5,7 @@ import { useBeat } from '../hooks/useBeat'
 import { useArtistBeats } from '../hooks/useArtistBeats'
 import { useBeatPurchase } from '../hooks/useBeatPurchase'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
+import { usePageMeta } from '../hooks/usePageMeta'
 import BeatCard from '../components/BeatCard/BeatCard'
 import LazyImage from '../components/LazyImage/LazyImage'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
@@ -30,6 +31,12 @@ function BeatDetalle () {
   const producerName = beat
     ? (typeof beat.producer === 'object' ? beat.producer?.name : beat.producer)
     : null
+
+  usePageMeta({
+    title: beat?.title || beat?.name,
+    description: [producerName ? `Prod. ${producerName}` : null, beat?.genre, beat?.bpm ? `${beat.bpm} BPM` : null].filter(Boolean).join(' · '),
+    image: beat?.coverUrl || beat?.img
+  })
   const { beats: moreBeats, loading: moreLoading } = useArtistBeats(producerName, 8)
 
   // Filter out current beat from "more beats"

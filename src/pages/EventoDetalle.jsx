@@ -1,6 +1,7 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useEvent } from '../hooks/useEvent'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
@@ -12,6 +13,12 @@ function EventoDetalle () {
   const [searchParams] = useSearchParams()
   const { event, loading, error } = useEvent(id)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+  usePageMeta({
+    title: event?.title,
+    description: [event?.subtitle, event?.eventType].filter(Boolean).join(' · '),
+    image: event?.img
+  })
 
   // Detectar si volvemos de un pago exitoso
   useEffect(() => {

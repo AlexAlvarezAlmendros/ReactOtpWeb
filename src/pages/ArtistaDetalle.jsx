@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useArtist } from '../hooks/useArtist'
 import { useArtistReleases } from '../hooks/useArtistReleases'
 import { useArtistBeats } from '../hooks/useArtistBeats'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import ReleaseCard from '../components/ReleaseCard/ReleaseCard'
@@ -14,6 +15,12 @@ function ArtistaDetalle () {
   const { artist, loading, error } = useArtist(id)
   const { releases, loading: releasesLoading } = useArtistReleases(artist?.title, 3)
   const { beats, loading: beatsLoading } = useArtistBeats(artist?.title, 6)
+
+  usePageMeta({
+    title: artist?.title,
+    description: [artist?.subtitle, artist?.artistType, artist?.location].filter(Boolean).join(' · '),
+    image: artist?.img
+  })
 
   if (loading) {
     return <LoadingSpinner message="Cargando artista..." />
