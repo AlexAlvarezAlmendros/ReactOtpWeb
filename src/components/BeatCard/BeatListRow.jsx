@@ -54,10 +54,14 @@ function BeatListRow ({ card }) {
   // Registrar / desregistrar audio
   useEffect(() => {
     if (audioRef.current && audioUrl) {
-      registerAudio(beatId, audioRef.current)
+      registerAudio(beatId, audioRef.current, {
+        title: card.title || card.name,
+        artist: producer || 'OTP Records',
+        artwork: imageUrl
+      })
     }
     return () => { if (audioUrl) unregisterAudio(beatId) }
-  }, [beatId, audioUrl, registerAudio, unregisterAudio])
+  }, [beatId, card.title, card.name, producer, imageUrl, audioUrl, registerAudio, unregisterAudio])
 
   // Sincronizar estado de reproducción con contexto global
   useEffect(() => {

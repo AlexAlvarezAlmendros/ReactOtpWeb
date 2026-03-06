@@ -74,21 +74,35 @@ function BeatDetalle () {
       registerAudio: () => {},
       unregisterAudio: () => {},
       playAudio: () => {},
-      pauseAudio: () => {}
+      pauseAudio: () => {},
+      setPlaylist: () => {}
     }
   }
-  const { currentPlaying, registerAudio, unregisterAudio, playAudio, pauseAudio } = audioPlayerContext
+  const { currentPlaying, registerAudio, unregisterAudio, playAudio, pauseAudio, setPlaylist } = audioPlayerContext
 
   const beatId = beat?._id || beat?.id
   const audioUrl = beat?.licenses?.find(l => l.files?.mp3Url)?.files?.mp3Url || null
 
+  // Sincronizar playlist con el beat actual + los beats relacionados
+  useEffect(() => {
+    if (!beatId) return
+    const ids = [beatId, ...relatedBeats.map(b => b._id || b.id)].filter(Boolean)
+    if (setPlaylist) setPlaylist(ids)
+    return () => { if (setPlaylist) setPlaylist([]) }
+  }, [beatId, relatedBeats, setPlaylist])
+
   // Register/unregister audio
+  const beatCoverUrl = beat?.coverUrl || beat?.img || '/img/default-beat.jpg'
   useEffect(() => {
     if (audioRef.current && audioUrl && beatId) {
-      registerAudio(beatId, audioRef.current)
+      registerAudio(beatId, audioRef.current, {
+        title: beat?.title || beat?.name,
+        artist: producerName || 'OTP Records',
+        artwork: beatCoverUrl
+      })
     }
     return () => { if (audioUrl && beatId) unregisterAudio(beatId) }
-  }, [beatId, audioUrl, registerAudio, unregisterAudio])
+  }, [beatId, audioUrl, beat?.title, beat?.name, producerName, beatCoverUrl, registerAudio, unregisterAudio])
 
   // Sync play state
   useEffect(() => {
