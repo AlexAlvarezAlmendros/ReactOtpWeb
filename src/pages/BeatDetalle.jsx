@@ -477,8 +477,8 @@ function BeatDetalle () {
             >
               <FontAwesomeIcon icon={['fas', 'bag-shopping']} />
               {selectedLicense
-                ? `Buy from $${selectedLicense.price.toFixed(2)}`
-                : 'Select a license'}
+                ? `Comprar desde $${selectedLicense.price.toFixed(2)}`
+                : 'Selecciona una licencia'}
             </button>
             {audioUrl && (
               <button
@@ -487,7 +487,7 @@ function BeatDetalle () {
                 type="button"
               >
                 <FontAwesomeIcon icon={['fas', 'download']} />
-                Download for free
+                Descargar gratis
               </button>
             )}
           </div>
@@ -500,7 +500,7 @@ function BeatDetalle () {
               type="button"
             >
               <FontAwesomeIcon icon={['fas', 'download']} />
-              Download for free
+              Descargar gratis
             </button>
           )}
 
@@ -512,7 +512,7 @@ function BeatDetalle () {
               type="button"
               aria-expanded={isInfoExpanded}
             >
-              <h3 className="beat-detail__info-title">Information</h3>
+              <h3 className="beat-detail__info-title">Información</h3>
               <FontAwesomeIcon
                 icon={['fas', 'chevron-down']}
                 className={`beat-detail__info-chevron${isInfoExpanded ? ' expanded' : ''}`}
@@ -523,7 +523,7 @@ function BeatDetalle () {
               {beat.createdAt && (
                 <div className="beat-detail__info-item">
                   <span className="beat-detail__info-icon"><FontAwesomeIcon icon={['fas', 'calendar-days']} /></span>
-                  <span className="beat-detail__info-label">Published</span>
+                  <span className="beat-detail__info-label">Publicado</span>
                   <span className="beat-detail__info-value">{formatDate(beat.createdAt)}</span>
                 </div>
               )}
@@ -537,14 +537,14 @@ function BeatDetalle () {
               {beat.key && (
                 <div className="beat-detail__info-item">
                   <span className="beat-detail__info-icon"><FontAwesomeIcon icon={['fas', 'music']} /></span>
-                  <span className="beat-detail__info-label">Key</span>
+                  <span className="beat-detail__info-label">Tonalidad</span>
                   <span className="beat-detail__info-value">{beat.key}</span>
                 </div>
               )}
               {beat.plays !== undefined && (
                 <div className="beat-detail__info-item">
                   <span className="beat-detail__info-icon"><FontAwesomeIcon icon={['fas', 'headphones']} /></span>
-                  <span className="beat-detail__info-label">Plays</span>
+                  <span className="beat-detail__info-label">Reproducciones</span>
                   <span className="beat-detail__info-value">
                     {beat.plays >= 1000 ? `${(beat.plays / 1000).toFixed(1)}k` : beat.plays}
                   </span>
@@ -553,7 +553,7 @@ function BeatDetalle () {
               {beat.genre && (
                 <div className="beat-detail__info-item">
                   <span className="beat-detail__info-icon"><FontAwesomeIcon icon={['fas', 'guitar']} /></span>
-                  <span className="beat-detail__info-label">Genre</span>
+                  <span className="beat-detail__info-label">Género</span>
                   <span className="beat-detail__info-value">{beat.genre}</span>
                 </div>
               )}
@@ -576,7 +576,7 @@ function BeatDetalle () {
           {/* About */}
           {beat.description && (
             <div className="beat-detail__about-section">
-              <h3 className="beat-detail__info-title">About</h3>
+              <h3 className="beat-detail__info-title">Acerca de</h3>
               <p className="beat-detail__about-text">{beat.description}</p>
             </div>
           )}
@@ -586,15 +586,15 @@ function BeatDetalle () {
         <div className="beat-detail__main">
           {/* Licensing Header */}
           <div className="beat-detail__licensing-header">
-            <h2 className="beat-detail__section-title">Licensing</h2>
+            <h2 className="beat-detail__section-title">Licencias</h2>
             <button
               className="beat-detail__buy-now-btn"
               onClick={openCheckout}
               type="button"
             >
               {selectedLicense
-                ? `Buy from $${selectedLicense.price.toFixed(2)}`
-                : 'Buy now'}
+                ? `Comprar desde $${selectedLicense.price.toFixed(2)}`
+                : 'Comprar ahora'}
             </button>
           </div>
 
@@ -626,7 +626,7 @@ function BeatDetalle () {
                     onClick={() => setVisibleLicenses(prev => prev + 4)}
                     type="button"
                   >
-                    View more licenses (+{licenses.length - visibleLicenses})
+                    Ver más licencias (+{licenses.length - visibleLicenses})
                   </button>
                 )}
               </div>
@@ -637,7 +637,7 @@ function BeatDetalle () {
             )}
           </div>
 
-          {/* Usage Terms – desktop only */}
+          {/* Términos de uso – desktop only */}
           {selectedLicense?.terms && (
             <div className="beat-detail__desktop-terms beat-detail__terms-section">
               <button
@@ -645,7 +645,7 @@ function BeatDetalle () {
                 onClick={() => setExpandedTerms(expandedTerms === selectedLicense.id ? null : selectedLicense.id)}
                 type="button"
               >
-                <span>Usage Terms</span>
+                <span>Términos de uso</span>
                 <FontAwesomeIcon
                   icon={['fas', 'chevron-down']}
                   className={`beat-detail__terms-chevron ${expandedTerms === selectedLicense.id ? 'expanded' : ''}`}
@@ -658,37 +658,37 @@ function BeatDetalle () {
                     {selectedLicense.terms.usedForRecording !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'music']} className="beat-detail__term-icon" />
-                        <span>{selectedLicense.terms.usedForRecording ? 'Used for Music Recording' : 'Not for Music Recording'}</span>
+                        <span>{selectedLicense.terms.usedForRecording ? 'Uso para grabación musical' : 'No apto para grabación musical'}</span>
                       </div>
                     )}
                     {selectedLicense.terms.distributionLimit !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'compact-disc']} className="beat-detail__term-icon" />
-                        <span>Distribute up to {formatValue(selectedLicense.terms.distributionLimit)} copies</span>
+                        <span>Distribución hasta {formatValue(selectedLicense.terms.distributionLimit)} copias</span>
                       </div>
                     )}
                     {selectedLicense.terms.audioStreams !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'headphones']} className="beat-detail__term-icon" />
-                        <span>{formatValue(selectedLicense.terms.audioStreams)} Online Audio Streams</span>
+                        <span>{formatValue(selectedLicense.terms.audioStreams)} reproducciones en streaming</span>
                       </div>
                     )}
                     {selectedLicense.terms.musicVideos !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'video']} className="beat-detail__term-icon" />
-                        <span>{formatValue(selectedLicense.terms.musicVideos)} Music Video</span>
+                        <span>{formatValue(selectedLicense.terms.musicVideos)} videoclip(s)</span>
                       </div>
                     )}
                     {selectedLicense.terms.forProfitPerformances !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'lock']} className="beat-detail__term-icon" />
-                        <span>{selectedLicense.terms.forProfitPerformances ? 'For Profit Live Performances' : 'No Profit Live Performances'}</span>
+                        <span>{selectedLicense.terms.forProfitPerformances ? 'Actuaciones en vivo con ánimo de lucro' : 'Sin actuaciones en vivo con ánimo de lucro'}</span>
                       </div>
                     )}
                     {selectedLicense.terms.radioBroadcasting !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'radio']} className="beat-detail__term-icon" />
-                        <span>{selectedLicense.terms.radioBroadcasting ? `${formatValue(selectedLicense.terms.radioBroadcasting)} Radio Broadcasting rights` : 'No Radio Broadcasting rights'}</span>
+                        <span>{selectedLicense.terms.radioBroadcasting ? `${formatValue(selectedLicense.terms.radioBroadcasting)} derechos de emisión en radio` : 'Sin derechos de emisión en radio'}</span>
                       </div>
                     )}
                   </div>
@@ -697,16 +697,16 @@ function BeatDetalle () {
             </div>
           )}
 
-          {/* More from Producer */}
+          {/* Más del productor */}
           {producerName && (moreLoading || relatedBeats.length > 0) && (
             <div className="beat-detail__more-section">
               <div className="beat-detail__more-header">
                 <h2 className="beat-detail__section-title">
-                  More from {producerName}
+                  Más de {producerName}
                 </h2>
                 <div className="beat-detail__more-controls">
                   <Link to="/beats" className="beat-detail__see-all">
-                    See all tracks
+                    Ver todos los beats
                   </Link>
                   <button
                     className={`beat-detail__carousel-btn ${!canScrollLeft ? 'disabled' : ''}`}
@@ -800,7 +800,7 @@ function BeatDetalle () {
                       onClick={() => setVisibleLicenses(prev => prev + 4)}
                       type="button"
                     >
-                      View more licenses (+{licenses.length - visibleLicenses})
+                      Ver más licencias (+{licenses.length - visibleLicenses})
                     </button>
                   )}
                 </div>
@@ -811,7 +811,7 @@ function BeatDetalle () {
               </div>
             )}
 
-            {/* Usage Terms */}
+            {/* Términos de uso */}
             {selectedLicense?.terms && (
               <div className="beat-checkout-modal__terms">
                 <button
@@ -819,7 +819,7 @@ function BeatDetalle () {
                   onClick={() => setExpandedTerms(expandedTerms === selectedLicense.id ? null : selectedLicense.id)}
                   type="button"
                 >
-                  <span className="beat-checkout-modal__section-label">Usage Terms — {selectedLicense.name}</span>
+                  <span className="beat-checkout-modal__section-label">Términos de uso — {selectedLicense.name}</span>
                   <FontAwesomeIcon
                     icon={['fas', 'chevron-down']}
                     className={`beat-detail__terms-chevron ${expandedTerms === selectedLicense.id ? 'expanded' : ''}`}
@@ -830,37 +830,37 @@ function BeatDetalle () {
                     {selectedLicense.terms.usedForRecording !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'music']} className="beat-detail__term-icon" />
-                        <span>{selectedLicense.terms.usedForRecording ? 'Used for Music Recording' : 'Not for Music Recording'}</span>
+                        <span>{selectedLicense.terms.usedForRecording ? 'Uso para grabación musical' : 'No apto para grabación musical'}</span>
                       </div>
                     )}
                     {selectedLicense.terms.distributionLimit !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'compact-disc']} className="beat-detail__term-icon" />
-                        <span>Distribute up to {formatValue(selectedLicense.terms.distributionLimit)} copies</span>
+                        <span>Distribución hasta {formatValue(selectedLicense.terms.distributionLimit)} copias</span>
                       </div>
                     )}
                     {selectedLicense.terms.audioStreams !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'headphones']} className="beat-detail__term-icon" />
-                        <span>{formatValue(selectedLicense.terms.audioStreams)} Online Audio Streams</span>
+                        <span>{formatValue(selectedLicense.terms.audioStreams)} reproducciones en streaming</span>
                       </div>
                     )}
                     {selectedLicense.terms.musicVideos !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'video']} className="beat-detail__term-icon" />
-                        <span>{formatValue(selectedLicense.terms.musicVideos)} Music Video</span>
+                        <span>{formatValue(selectedLicense.terms.musicVideos)} videoclip(s)</span>
                       </div>
                     )}
                     {selectedLicense.terms.forProfitPerformances !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'lock']} className="beat-detail__term-icon" />
-                        <span>{selectedLicense.terms.forProfitPerformances ? 'For Profit Live Performances' : 'No Profit Live Performances'}</span>
+                        <span>{selectedLicense.terms.forProfitPerformances ? 'Actuaciones en vivo con ánimo de lucro' : 'Sin actuaciones en vivo con ánimo de lucro'}</span>
                       </div>
                     )}
                     {selectedLicense.terms.radioBroadcasting !== undefined && (
                       <div className="beat-detail__term-item">
                         <FontAwesomeIcon icon={['fas', 'radio']} className="beat-detail__term-icon" />
-                        <span>{selectedLicense.terms.radioBroadcasting ? `${formatValue(selectedLicense.terms.radioBroadcasting)} Radio Broadcasting rights` : 'No Radio Broadcasting rights'}</span>
+                        <span>{selectedLicense.terms.radioBroadcasting ? `${formatValue(selectedLicense.terms.radioBroadcasting)} derechos de emisión en radio` : 'Sin derechos de emisión en radio'}</span>
                       </div>
                     )}
                   </div>
