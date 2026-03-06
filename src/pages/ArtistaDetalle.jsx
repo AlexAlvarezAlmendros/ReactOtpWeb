@@ -18,7 +18,7 @@ function ArtistaDetalle () {
 
   usePageMeta({
     title: artist?.title,
-    description: [artist?.subtitle, artist?.artistType, artist?.location].filter(Boolean).join(' · '),
+    description: [artist?.artistType, artist?.location].filter(Boolean).join(' · '),
     image: artist?.img
   })
 

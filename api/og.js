@@ -23,10 +23,20 @@ function esc (str) {
     .replace(/>/g, '&gt;')
 }
 
+/** Make sure the image URL is absolute. */
+function toAbsoluteUrl (url, baseUrl) {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  // Relative path — prefix with baseUrl
+  return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`
+}
+
 /** Build a full HTML page with Open Graph + Twitter Card meta tags. */
 function buildOgHtml ({ title, description, image, url }) {
   const safeTitle = esc(title)
   const safeDesc = esc(description)
+  const safeImage = esc(image)
+  const safeUrl = esc(url)
   const fullTitle = `${safeTitle} | ${SITE_NAME}`
 
   return `<!DOCTYPE html>
@@ -38,8 +48,10 @@ function buildOgHtml ({ title, description, image, url }) {
   <!-- Open Graph -->
   <meta property="og:title" content="${safeTitle}" />
   <meta property="og:description" content="${safeDesc}" />
-  <meta property="og:image" content="${esc(image)}" />
-  <meta property="og:url" content="${esc(url)}" />
+  <meta property="og:image" content="${safeImage}" />
+  <meta property="og:image:width" content="600" />
+  <meta property="og:image:height" content="600" />
+  <meta property="og:url" content="${safeUrl}" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="${SITE_NAME}" />
 
@@ -47,10 +59,10 @@ function buildOgHtml ({ title, description, image, url }) {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${safeTitle}" />
   <meta name="twitter:description" content="${safeDesc}" />
-  <meta name="twitter:image" content="${esc(image)}" />
+  <meta name="twitter:image" content="${safeImage}" />
 
   <!-- Redirect human visitors who somehow reach this page -->
-  <meta http-equiv="refresh" content="0;url=${esc(url)}" />
+  <meta http-equiv="refresh" content="0;url=${safeUrl}" />
 </head>
 <body></body>
 </html>`
@@ -82,6 +94,9 @@ export default async function handler (req, res) {
 
     const data = await response.json()
 
+    // Debug: log what the API returns for image fields
+    console.log(`[og] ${type}/${id} — img: ${data.img}, poster: ${data.poster}, image: ${data.image}, coverUrl: ${data.coverUrl}`)
+
     // Detect base URL from Vercel env or request host
     const protocol = req.headers['x-forwarded-proto'] || 'https'
     const host = req.headers['x-forwarded-host'] || req.headers.host
@@ -92,9 +107,9 @@ export default async function handler (req, res) {
     switch (type) {
       case 'artists':
         title = data.name || 'Artista'
-        description = [data.genre, data.artistType, data.location]
+        description = [data.artistType, data.location]
           .filter(Boolean).join(' · ') || `Descubre a ${title} en ${SITE_NAME}`
-        image = data.img || ''
+        image = toAbsoluteUrl(data.img, baseUrl)
         url = `${baseUrl}/artistas/${id}`
         break
 
@@ -111,7 +126,7 @@ export default async function handler (req, res) {
             })
             : null
         ].filter(Boolean).join(' · ') || `Evento en ${SITE_NAME}`
-        image = data.img || ''
+        image = toAbsoluteUrl(data.img || data.poster || data.image, baseUrl)
         url = `${baseUrl}/eventos/${id}`
         break
 
@@ -126,7 +141,7 @@ export default async function handler (req, res) {
           data.bpm ? `${data.bpm} BPM` : null,
           data.key
         ].filter(Boolean).join(' · ') || `Beat en ${SITE_NAME}`
-        image = data.coverUrl || data.img || ''
+        image = toAbsoluteUrl(data.coverUrl || data.img, baseUrl)
         url = `${baseUrl}/beats/${id}`
         break
       }
