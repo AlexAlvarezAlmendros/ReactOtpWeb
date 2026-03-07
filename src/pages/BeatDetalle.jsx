@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useBeat } from '../hooks/useBeat'
@@ -40,7 +40,12 @@ function BeatDetalle () {
   const { beats: moreBeats, loading: moreLoading } = useArtistBeats(producerName, 8)
 
   // Filter out current beat from "more beats"
-  const relatedBeats = moreBeats.filter(b => (b._id || b.id) !== id)
+  // useMemo prevents a new array reference on every render, which would cause
+  // the setPlaylist effect to fire in an infinite loop
+  const relatedBeats = useMemo(
+    () => moreBeats.filter(b => (b._id || b.id) !== id),
+    [moreBeats, id]
+  )
 
   // License selection
   const [selectedLicense, setSelectedLicense] = useState(null)
