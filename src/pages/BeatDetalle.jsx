@@ -132,7 +132,7 @@ function BeatDetalle () {
       audio.removeEventListener('durationchange', onLoaded)
       audio.removeEventListener('ended', onEnded)
     }
-  }, [isSeeking])
+  }, [isSeeking, audioUrl])
 
   const handlePlayPause = useCallback((e) => {
     e.preventDefault()
