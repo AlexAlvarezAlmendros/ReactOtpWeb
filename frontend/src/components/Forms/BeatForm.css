@@ -2,6 +2,35 @@
    BeatForm Wizard - Step-by-step Beat Upload
    ============================================ */
 
+.beat-wizard__profile-guard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #ccc;
+}
+
+.beat-wizard__profile-guard-icon {
+  font-size: 3rem;
+  color: #f59e0b;
+}
+
+.beat-wizard__profile-guard h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0;
+}
+
+.beat-wizard__profile-guard p {
+  font-size: 0.95rem;
+  color: #aaa;
+  max-width: 340px;
+  margin: 0;
+}
+
 /* Progress Bar */
 .beat-wizard__progress {
   display: flex;
