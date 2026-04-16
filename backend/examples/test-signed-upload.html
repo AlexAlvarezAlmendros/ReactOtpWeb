@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Signed Upload - Cloudinary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .config-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .config-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .upload-section {
+            margin-bottom: 30px;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: 600;
+        }
+        
+        .file-input-label:hover {
+            transform: translateY(-2px);
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8eaf6;
+            border-radius: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .status-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .result-data {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .logs {
+            margin-top: 20px;
+            padding: 15px;
+            background: #263238;
+            color: #aed581;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        
+        .log-entry.error {
+            color: #ff5252;
+        }
+        
+        .log-entry.success {
+            color: #69f0ae;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Test Signed Upload</h1>
+        <p class="subtitle">Prueba la subida de archivos grandes a Cloudinary</p>
+        
+        <div class="config-section">
+            <h3>⚙️ Configuración</h3>
+            <div class="form-group">
+                <label for="apiUrl">API URL:</label>
+                <input type="text" id="apiUrl" value="http://localhost:5001" placeholder="http://localhost:5001">
+            </div>
+            <div class="form-group">
+                <label for="folder">Folder:</label>
+                <select id="folder">
+                    <option value="audio_files">audio_files</option>
+                    <option value="archive_files">archive_files</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="resourceType">Resource Type:</label>
+                <select id="resourceType">
+                    <option value="video">video (para audio)</option>
+                    <option value="raw">raw (para archivos)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="upload-section">
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" accept="*/*">
+                <label for="fileInput" class="file-input-label">
+                    📁 Seleccionar Archivo
+                </label>
+            </div>
+            <div class="file-info" id="fileInfo" style="display: none;"></div>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar" id="progressBar">0%</div>
+            </div>
+        </div>
+        
+        <div class="status-message" id="statusMessage"></div>
+        
+        <div class="result-data" id="resultData"></div>
+        
+        <div class="logs" id="logs"></div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const statusMessage = document.getElementById('statusMessage');
+        const resultData = document.getElementById('resultData');
+        const logs = document.getElementById('logs');
+        
+        let selectedFile = null;
+        
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logs.appendChild(logEntry);
+            logs.scrollTop = logs.scrollHeight;
+        }
+        
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+        }
+        
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+        
+        fileInput.addEventListener('change', (e) => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                fileInfo.innerHTML = `
+                    <strong>📄 Archivo seleccionado:</strong><br>
+                    Nombre: ${selectedFile.name}<br>
+                    Tamaño: ${formatBytes(selectedFile.size)}<br>
+                    Tipo: ${selectedFile.type || 'desconocido'}
+                `;
+                fileInfo.style.display = 'block';
+                addLog(`Archivo seleccionado: ${selectedFile.name} (${formatBytes(selectedFile.size)})`);
+                
+                // Auto-iniciar subida
+                uploadFile();
+            }
+        });
+        
+        async function uploadFile() {
+            if (!selectedFile) {
+                showStatus('Por favor selecciona un archivo', 'error');
+                return;
+            }
+            
+            const apiUrl = document.getElementById('apiUrl').value;
+            const folder = document.getElementById('folder').value;
+            const resourceType = document.getElementById('resourceType').value;
+            
+            // Validar tamaño
+            const maxSize = 100 * 1024 * 1024; // 100MB
+            if (selectedFile.size > maxSize) {
+                showStatus('El archivo excede el límite de 100MB', 'error');
+                addLog('ERROR: Archivo demasiado grande', 'error');
+                return;
+            }
+            
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressBar.textContent = '0%';
+            statusMessage.style.display = 'none';
+            resultData.style.display = 'none';
+            
+            try {
+                // Paso 1: Obtener parámetros firmados
+                addLog('Solicitando parámetros firmados...');
+                const paramsUrl = `${apiUrl}/api/files/upload/signed-params?folder=${folder}&resourceType=${resourceType}`;
+                
+                const paramsResponse = await fetch(paramsUrl);
+                if (!paramsResponse.ok) {
+                    throw new Error(`Error al obtener parámetros: ${paramsResponse.status}`);
+                }
+                
+                const { data: uploadParams } = await paramsResponse.json();
+                addLog('✓ Parámetros firmados obtenidos', 'success');
+                addLog(`  Cloud: ${uploadParams.cloud_name}`);
+                addLog(`  Folder: ${uploadParams.folder}`);
+                
+                // Paso 2: Crear FormData
+                addLog('Preparando datos de subida...');
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('api_key', uploadParams.api_key);
+                formData.append('timestamp', uploadParams.timestamp);
+                formData.append('signature', uploadParams.signature);
+                formData.append('folder', uploadParams.folder);
+                
+                // Paso 3: Subir con XMLHttpRequest para tracking
+                addLog('Iniciando subida a Cloudinary...');
+                
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percentComplete = Math.round((e.loaded / e.total) * 100);
+                        progressBar.style.width = percentComplete + '%';
+                        progressBar.textContent = percentComplete + '%';
+                        
+                        if (percentComplete % 25 === 0) {
+                            addLog(`Progreso: ${percentComplete}%`);
+                        }
+                    }
+                });
+                
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 200) {
+                        const result = JSON.parse(xhr.responseText);
+                        addLog('✓ Archivo subido exitosamente!', 'success');
+                        addLog(`  URL: ${result.secure_url}`);
+                        addLog(`  Public ID: ${result.public_id}`);
+                        
+                        showStatus('✅ Archivo subido exitosamente!', 'success');
+                        
+                        resultData.innerHTML = `<strong>Resultado de Cloudinary:</strong><br><pre>${JSON.stringify(result, null, 2)}</pre>`;
+                        resultData.style.display = 'block';
+                    } else {
+                        throw new Error(`Error en la subida: ${xhr.status} ${xhr.statusText}`);
+                    }
+                });
+                
+                xhr.addEventListener('error', () => {
+                    addLog('ERROR: Error de red al subir archivo', 'error');
+                    showStatus('❌ Error de red al subir archivo', 'error');
+                });
+                
+                xhr.open('POST', uploadParams.upload_url);
+                xhr.send(formData);
+                
+            } catch (error) {
+                addLog(`ERROR: ${error.message}`, 'error');
+                showStatus(`❌ Error: ${error.message}`, 'error');
+                progressContainer.style.display = 'none';
+            }
+        }
+        
+        // Log inicial
+        addLog('Sistema de prueba iniciado');
+        addLog('Selecciona un archivo para comenzar');
+    </script>
+</body>
+</html>

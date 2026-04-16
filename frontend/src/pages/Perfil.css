@@ -1,0 +1,254 @@
+/* Perfil Page Styles */
+.perfil-section {
+  margin-top: 96px;
+  padding: 0 24px 64px;
+  color: white;
+}
+
+.perfil-container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* === ENCABEZADO === */
+.perfil-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.perfil-title {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: white;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+}
+
+.perfil-underline {
+  width: 40%;
+  height: 4px;
+  background-color: #ff003c;
+  margin: 0 auto 16px auto;
+}
+
+.perfil-subtitle {
+  font-size: 1.125rem;
+  color: #CCCCCC;
+  margin: 0;
+}
+
+/* === ESTADOS === */
+.perfil-loading {
+  text-align: center;
+  color: #CCCCCC;
+  font-size: 1rem;
+}
+
+.perfil-restricted {
+  text-align: center;
+  color: #CCCCCC;
+  font-size: 1.125rem;
+  background-color: #0E0E0E;
+  border-radius: 16px;
+  padding: 48px 24px;
+}
+
+/* === CONTENIDO === */
+.perfil-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Info card (solo lectura) */
+.perfil-info-card {
+  background-color: #0E0E0E;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.perfil-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.perfil-info-label {
+  font-size: 0.875rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.perfil-info-value {
+  font-size: 1rem;
+  color: #eee;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* Role badge */
+.perfil-role-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.perfil-role-user {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+}
+
+.perfil-role-artist {
+  background-color: rgba(138, 43, 226, 0.2);
+  color: #b47ede;
+}
+
+.perfil-role-staff {
+  background-color: rgba(0, 150, 255, 0.2);
+  color: #5bb8ff;
+}
+
+.perfil-role-admin {
+  background-color: rgba(255, 0, 60, 0.2);
+  color: #ff4d6d;
+}
+
+/* Linked artist */
+.perfil-linked-artist {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perfil-artist-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* === FORMULARIO === */
+.perfil-form {
+  background-color: #0E0E0E;
+  border-radius: 16px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.perfil-form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: white;
+}
+
+.perfil-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.perfil-form-group label {
+  font-size: 0.875rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.perfil-form-group input,
+.perfil-form-group select {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  color: white;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.perfil-form-group input:focus,
+.perfil-form-group select:focus {
+  border-color: #ff003c;
+}
+
+.perfil-form-group input::placeholder {
+  color: #555;
+}
+
+.perfil-form-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.perfil-field-hint {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* Save button */
+.perfil-save-btn {
+  margin-top: 8px;
+  padding: 14px 24px;
+  background-color: #ff003c;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.perfil-save-btn:hover:not(:disabled) {
+  background-color: #e00035;
+  transform: translateY(-1px);
+}
+
+.perfil-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+  .perfil-section {
+    margin-top: 64px;
+    padding: 0 16px 48px;
+  }
+
+  .perfil-title {
+    font-size: 2.25rem;
+  }
+
+  .perfil-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .perfil-info-value {
+    text-align: left;
+  }
+
+  .perfil-form {
+    padding: 24px 16px;
+  }
+}
