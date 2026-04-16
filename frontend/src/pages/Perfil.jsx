@@ -45,7 +45,7 @@ function Perfil () {
         const response = await fetch(`${API_URL}/artists`)
         if (response.ok) {
           const data = await response.json()
-          const list = data.artists || data
+          const list = data.data || data.artists || data
           setArtists(Array.isArray(list) ? list : [])
         }
       } catch {

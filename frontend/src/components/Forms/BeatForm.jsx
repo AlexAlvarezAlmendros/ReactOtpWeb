@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCreateBeat } from '../../hooks/useCreateBeat'
 import { useAuth } from '../../hooks/useAuth'
+import { useProfile } from '../../hooks/useProfile'
 import { useArtists } from '../../hooks/useArtists'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FileUploader } from '../FileUploader/FileUploader'
@@ -71,6 +73,15 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   const { createBeat, loading, error } = useCreateBeat()
   const { user } = useAuth()
   const { artists: allArtists } = useArtists()
+  const { profile, loading: profileLoading, fetchProfile } = useProfile()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isEditMode) fetchProfile()
+  }, [isEditMode, fetchProfile])
+
+  const profileIncomplete = !isEditMode && !profileLoading && profile !== null &&
+    (!profile.firstName?.trim() || !profile.linkedArtistId)
 
   // Wizard step state
   const [currentStep, setCurrentStep] = useState(1)
@@ -546,6 +557,39 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   // =====================
   // RENDER
   // =====================
+  if (!isEditMode && profileLoading) {
+    return (
+      <div className="beat-wizard__profile-guard">
+        <FontAwesomeIcon icon={['fas', 'spinner']} spin />
+        <span>Comprobando perfil...</span>
+      </div>
+    )
+  }
+
+  if (profileIncomplete) {
+    const missing = []
+    if (!profile.firstName?.trim()) missing.push('nombre')
+    if (!profile.linkedArtistId) missing.push('artista vinculado')
+
+    return (
+      <div className="beat-wizard__profile-guard">
+        <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} className="beat-wizard__profile-guard-icon" />
+        <h3>Perfil incompleto</h3>
+        <p>
+          Para crear un beat necesitas configurar tu {missing.join(' y tu ')} en tu perfil.
+        </p>
+        <button
+          type="button"
+          className="beat-wizard__btn beat-wizard__btn--publish"
+          onClick={() => navigate('/perfil')}
+        >
+          <FontAwesomeIcon icon={['fas', 'user']} />
+          Ir a Mi Perfil
+        </button>
+      </div>
+    )
+  }
+
   return (
     <form onSubmit={(e) => e.preventDefault()} className="createCardModal__form" style={{ gridTemplateColumns: 'repeat(1, 1fr)' }}>
 
