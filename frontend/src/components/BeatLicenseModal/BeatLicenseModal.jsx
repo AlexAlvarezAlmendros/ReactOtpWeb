@@ -6,6 +6,7 @@ export default function BeatLicenseModal({ isOpen, onClose, beat, onPurchase }) 
   const [selectedLicense, setSelectedLicense] = useState(null)
   const [customerName, setCustomerName] = useState('')
   const [customerEmail, setCustomerEmail] = useState('')
+  const [customerAddress, setCustomerAddress] = useState('')
   const [errors, setErrors] = useState({})
   const customerInfoRef = useRef(null)
 
@@ -52,6 +53,10 @@ export default function BeatLicenseModal({ isOpen, onClose, beat, onPurchase }) 
       newErrors.email = 'Email inválido'
     }
 
+    if (!customerAddress.trim()) {
+      newErrors.address = 'La dirección postal es obligatoria'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -62,7 +67,8 @@ export default function BeatLicenseModal({ isOpen, onClose, beat, onPurchase }) 
         beatId: beat._id || beat.id,
         licenseId: selectedLicense.id,
         customerName,
-        customerEmail
+        customerEmail,
+        customerAddress
       })
     } else {
       // Scroll automático al formulario si hay errores
@@ -262,6 +268,23 @@ export default function BeatLicenseModal({ isOpen, onClose, beat, onPurchase }) 
               <small className="field-hint">
                 Recibirás el beat en este email tras completar la compra
               </small>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="customerAddress">
+                Dirección postal <span className="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="customerAddress"
+                value={customerAddress}
+                onChange={(e) => setCustomerAddress(e.target.value)}
+                placeholder="Calle, número, ciudad, código postal"
+                className={errors.address ? 'error' : ''}
+              />
+              {errors.address && (
+                <span className="error-text">{errors.address}</span>
+              )}
             </div>
           </div>
         )}

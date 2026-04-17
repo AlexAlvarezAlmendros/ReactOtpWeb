@@ -136,111 +136,80 @@ class SpotifyService {
   }
 
   async getReleaseData(albumId) {
+    const cacheKey = `album_${albumId}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached) return cached;
+
     try {
-      // Verificar cache primero
-      const cacheKey = `album_${albumId}`;
-      const cachedData = this.cache.get(cacheKey);
-      if (cachedData) {
-        return cachedData;
-      }
-
-      // Obtener token de acceso
       const token = await this.getAccessToken();
-
-      // Hacer request a la API de Spotify
       const response = await axios.get(`${this.apiBaseUrl}/albums/${albumId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` },
+        params: { market: 'ES' }
       });
 
-      if (!response.data) {
-        throw new Error('No data received from Spotify API');
-      }
-
       const album = response.data;
-      
-      // Mapear datos al formato requerido
       const releaseData = {
         name: album.name || '',
-        artists: album.artists?.map(artist => artist.name) || [],
+        artists: album.artists?.map(a => a.name) || [],
         releaseDate: album.release_date || '',
         totalTracks: album.total_tracks || 0,
         images: album.images || [],
         spotifyUrl: album.external_urls?.spotify || '',
-        type: album.album_type || 'album' // album, single, compilation
+        type: album.album_type || 'album'
       };
 
-      // Guardar en cache
       this.cache.set(cacheKey, releaseData);
-
       return releaseData;
     } catch (error) {
-      if (error.response?.status === 404) {
-        throw new Error('Release not found on Spotify');
-      } else if (error.response?.status === 401) {
-        // Token expirado, limpiar y reintentar
-        this.accessToken = null;
-        this.tokenExpiry = null;
-        throw new Error('Authentication failed with Spotify');
-      }
-      console.error('Error getting release data:', error.message);
-      throw new Error('Failed to get release data from Spotify');
+      this._handleApiError(error, 'release data');
     }
   }
 
   async getTrackData(trackId) {
+    const cacheKey = `track_${trackId}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached) return cached;
+
     try {
-      // Verificar cache primero
-      const cacheKey = `track_${trackId}`;
-      const cachedData = this.cache.get(cacheKey);
-      if (cachedData) {
-        return cachedData;
-      }
-
-      // Obtener token de acceso
       const token = await this.getAccessToken();
-
-      // Hacer request a la API de Spotify
       const response = await axios.get(`${this.apiBaseUrl}/tracks/${trackId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` },
+        params: { market: 'ES' }
       });
 
-      if (!response.data) {
-        throw new Error('No data received from Spotify API');
-      }
-
       const track = response.data;
-      
-      // Mapear datos al formato requerido (similar a release pero para tracks individuales)
       const trackData = {
         name: track.name || '',
-        artists: track.artists?.map(artist => artist.name) || [],
+        artists: track.artists?.map(a => a.name) || [],
         releaseDate: track.album?.release_date || '',
-        totalTracks: 1, // Un track individual siempre es 1
+        totalTracks: 1,
         images: track.album?.images || [],
         spotifyUrl: track.external_urls?.spotify || '',
-        type: 'track' // Siempre track para canciones individuales
+        type: 'track'
       };
 
-      // Guardar en cache
       this.cache.set(cacheKey, trackData);
-
       return trackData;
     } catch (error) {
-      if (error.response?.status === 404) {
-        throw new Error('Track not found on Spotify');
-      } else if (error.response?.status === 401) {
-        // Token expirado, limpiar y reintentar
-        this.accessToken = null;
-        this.tokenExpiry = null;
-        throw new Error('Authentication failed with Spotify');
-      }
-      console.error('Error getting track data:', error.message);
-      throw new Error('Failed to get track data from Spotify');
+      this._handleApiError(error, 'track data');
     }
+  }
+
+  _handleApiError(error, context) {
+    const status = error.response?.status;
+    if (status === 401) {
+      this.accessToken = null;
+      this.tokenExpiry = null;
+      throw new Error('Authentication failed with Spotify');
+    }
+    if (status === 403) {
+      throw new Error('Spotify API access denied — verify app credentials in the Developer Dashboard');
+    }
+    if (status === 404) {
+      throw new Error(`${context} not found on Spotify`);
+    }
+    console.error(`Error getting ${context}:`, error.message);
+    throw new Error(`Failed to get ${context} from Spotify`);
   }
 
   // Método para limpiar cache manualmente

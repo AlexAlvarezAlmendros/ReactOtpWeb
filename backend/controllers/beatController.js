@@ -450,21 +450,22 @@ const createCheckoutSession = async (req, res) => {
     try {
         console.log('💳 CREATE CHECKOUT SESSION - Request body:', JSON.stringify(req.body, null, 2));
         
-        const { beatId, licenseId, customerEmail, customerName } = req.body;
-        
-        console.log('💳 Extracted values:', { beatId, licenseId, customerEmail, customerName });
-        
+        const { beatId, licenseId, customerEmail, customerName, customerAddress } = req.body;
+
+        console.log('💳 Extracted values:', { beatId, licenseId, customerEmail, customerName, customerAddress });
+
         // Validate required fields
-        if (!beatId || !licenseId || !customerEmail || !customerName) {
+        if (!beatId || !licenseId || !customerEmail || !customerName || !customerAddress) {
             console.error('❌ Missing required fields:', {
                 beatId: !!beatId,
                 licenseId: !!licenseId,
                 customerEmail: !!customerEmail,
-                customerName: !!customerName
+                customerName: !!customerName,
+                customerAddress: !!customerAddress
             });
-            return res.status(400).json({ 
-                error: 'Faltan datos requeridos: beatId, licenseId, customerEmail, customerName',
-                received: { beatId, licenseId, customerEmail, customerName }
+            return res.status(400).json({
+                error: 'Faltan datos requeridos: beatId, licenseId, customerEmail, customerName, customerAddress',
+                received: { beatId, licenseId, customerEmail, customerName, customerAddress }
             });
         }
         
@@ -520,6 +521,7 @@ const createCheckoutSession = async (req, res) => {
                 beatTitle: beat.title,
                 licenseName: license.name,
                 customerName: customerName,
+                customerAddress: customerAddress,
                 formats: JSON.stringify(license.formats)
                 // Note: files and terms are retrieved from DB in webhook (URLs too long for metadata)
             }
@@ -600,9 +602,10 @@ const handleBeatWebhook = async (req, res) => {
             beatTitle,
             licenseName,
             customerName,
+            customerAddress,
             formats
         } = session.metadata;
-        
+
         const customerEmail = session.customer_email;
         const formatsArray = JSON.parse(formats);
         
@@ -613,8 +616,8 @@ const handleBeatWebhook = async (req, res) => {
             amount: session.amount_total / 100
         });
         
-        // Retrieve beat and license from database to get files and terms
-        const beat = await Beat.findById(beatId);
+        // Retrieve beat and license from database to get files, terms and producer info
+        const beat = await Beat.findById(beatId).populate('producer', 'name');
         if (!beat) {
             throw new Error(`Beat ${beatId} not found`);
         }
@@ -626,15 +629,25 @@ const handleBeatWebhook = async (req, res) => {
         
         const files = license.files || {};
         const terms = license.terms || {};
-        
-        console.log('📂 Files and terms retrieved from database');
-        
+
+        // Build producers array from beat's producer and collaborators
+        const producers = [];
+        if (beat.producer && beat.producer.name) {
+            producers.push({ name: beat.producer.name });
+        }
+        (beat.colaboradores || []).forEach(name => {
+            if (name && name.trim()) producers.push({ name: name.trim() });
+        });
+
+        console.log('📂 Files, terms and producers retrieved from database');
+
         // Save purchase to database
         const purchase = await Purchase.create({
             beatId,
             licenseId,
             customerEmail,
             customerName,
+            customerAddress: customerAddress || '',
             amount: session.amount_total / 100,
             stripeSessionId: session.id,
             status: 'completed',
@@ -663,6 +676,10 @@ const handleBeatWebhook = async (req, res) => {
                 tier: licenseTier,
                 buyerLegalName: customerName,
                 buyerEmail: customerEmail,
+                buyerAddress: customerAddress || '',
+                producers,
+                beatFormats: formatsArray,
+                beatTerms: terms,
                 amount: session.amount_total / 100,
                 currency: 'EUR'
             });

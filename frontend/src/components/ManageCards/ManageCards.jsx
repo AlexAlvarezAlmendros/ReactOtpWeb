@@ -19,12 +19,15 @@ import { useNewsletters } from '../../hooks/useNewsletters'
 import { SkeletonList } from '../Skeleton/Skeleton'
 import './ManageCards.css'
 
-function ManageCards () {
+function ManageCards ({ activeTab: activeTabProp }) {
   const { user, isAuthenticated } = useAuth()
   const { isAdmin, isArtist } = usePermissions()
   const { deleteItem, loading: deleteLoading, error: deleteError } = useDelete()
-  
-  const [activeTab, setActiveTab] = useState('releases')
+
+  const isControlled = activeTabProp !== undefined
+  const [internalTab, setInternalTab] = useState('releases')
+  const activeTab = isControlled ? activeTabProp : internalTab
+  const setActiveTab = isControlled ? () => {} : setInternalTab
   const [deleteSuccess, setDeleteSuccess] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(null) // { type, id, title }
   const [editModal, setEditModal] = useState(null) // { item, type }
@@ -334,14 +337,16 @@ function ManageCards () {
 
   return (
     <div className="manage-cards">
-      <h2>
-        {isAdmin 
-          ? 'Gestionar todos los elementos' 
-          : isArtist 
-            ? 'Mis obras creadas' 
-            : 'Mis elementos creados'
-        }
-      </h2>
+      {!isControlled && (
+        <h2>
+          {isAdmin
+            ? 'Gestionar todos los elementos'
+            : isArtist
+              ? 'Mis obras creadas'
+              : 'Mis elementos creados'
+          }
+        </h2>
+      )}
       
       {deleteSuccess && <div className="success-message">{deleteSuccess}</div>}
       {deleteError && (
@@ -367,45 +372,16 @@ function ManageCards () {
         </div>
       )}
 
-      {/* Tabs para cambiar entre tipos */}
-      <div className="tabs">
-        <button 
-          className={activeTab === 'releases' ? 'active' : ''}
-          onClick={() => setActiveTab('releases')}
-        >
-          Releases
-        </button>
-        <button 
-          className={activeTab === 'artists' ? 'active' : ''}
-          onClick={() => setActiveTab('artists')}
-        >
-          Artistas
-        </button>
-        <button 
-          className={activeTab === 'events' ? 'active' : ''}
-          onClick={() => setActiveTab('events')}
-        >
-          Eventos
-        </button>
-        <button 
-          className={activeTab === 'beats' ? 'active' : ''}
-          onClick={() => setActiveTab('beats')}
-        >
-          Beats
-        </button>
-        <button 
-          className={activeTab === 'newsletters' ? 'active' : ''}
-          onClick={() => setActiveTab('newsletters')}
-        >
-          Newsletters
-        </button>
-        <button 
-          className={activeTab === 'files' ? 'active' : ''}
-          onClick={() => setActiveTab('files')}
-        >
-          Archivos
-        </button>
-      </div>
+      {!isControlled && (
+        <div className="tabs">
+          <button className={activeTab === 'releases' ? 'active' : ''} onClick={() => setActiveTab('releases')}>Releases</button>
+          <button className={activeTab === 'artists' ? 'active' : ''} onClick={() => setActiveTab('artists')}>Artistas</button>
+          <button className={activeTab === 'events' ? 'active' : ''} onClick={() => setActiveTab('events')}>Eventos</button>
+          <button className={activeTab === 'beats' ? 'active' : ''} onClick={() => setActiveTab('beats')}>Beats</button>
+          <button className={activeTab === 'newsletters' ? 'active' : ''} onClick={() => setActiveTab('newsletters')}>Newsletters</button>
+          <button className={activeTab === 'files' ? 'active' : ''} onClick={() => setActiveTab('files')}>Archivos</button>
+        </div>
+      )}
 
       {/* Filtros para archivos */}
       {activeTab === 'files' && (

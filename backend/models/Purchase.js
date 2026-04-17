@@ -6,6 +6,7 @@ const purchaseSchema = new Schema({
     licenseId: { type: String, required: true },
     customerEmail: { type: String, required: true },
     customerName: { type: String, required: true },
+    customerAddress: { type: String, default: '' },
     amount: { type: Number, required: true },
     stripeSessionId: { type: String, required: true, unique: true },
     status: { 

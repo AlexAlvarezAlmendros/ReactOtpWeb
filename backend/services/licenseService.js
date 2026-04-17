@@ -3,33 +3,20 @@ const QRCode = require('qrcode');
 const crypto = require('crypto');
 const LicenseTemplate = require('../models/LicenseTemplate');
 const IssuedLicense = require('../models/IssuedLicense');
-const fs = require('fs');
-const path = require('path');
+
+const MARGIN = 65;
+const PAGE_BOTTOM_THRESHOLD = 120;
 
 class LicenseService {
-    /**
-     * Generate a unique license number
-     * Format: LILBRU-YYYY-NNNNNN
-     */
+
     async generateLicenseNumber() {
         const year = new Date().getFullYear();
-        const prefix = `LILBRU-${year}-`;
-        
-        // Get the count of licenses issued this year
+        const prefix = `OTP-${year}-`;
         const startOfYear = new Date(year, 0, 1);
-        const count = await IssuedLicense.countDocuments({
-            issuedAt: { $gte: startOfYear }
-        });
-        
-        // Zero-pad to 6 digits
-        const number = String(count + 1).padStart(6, '0');
-        
-        return `${prefix}${number}`;
+        const count = await IssuedLicense.countDocuments({ issuedAt: { $gte: startOfYear } });
+        return `${prefix}${String(count + 1).padStart(6, '0')}`;
     }
 
-    /**
-     * Generate a document hash for verification
-     */
     generateDocumentHash(licenseData) {
         const data = JSON.stringify({
             licenseId: licenseData.licenseId,
@@ -38,157 +25,156 @@ class LicenseService {
             buyerEmail: licenseData.buyerEmail,
             issuedAt: licenseData.issuedAt
         });
-        
         return crypto.createHash('sha256').update(data).digest('hex');
     }
 
-    /**
-     * Get or create license template by tier
-     */
     async getLicenseTemplate(tier) {
-        let template = await LicenseTemplate.findOne({ 
-            tier, 
-            active: true 
-        }).sort({ version: -1 });
-
+        let template = await LicenseTemplate.findOne({ tier, active: true }).sort({ version: -1 });
         if (!template) {
-            // Create default template if none exists
             template = await this.createDefaultTemplate(tier);
         }
-
         return template;
     }
 
-    /**
-     * Create default license templates
-     */
     async createDefaultTemplate(tier) {
         const templates = {
             'Basic': {
                 templateId: `basic-${Date.now()}`,
                 tier: 'Basic',
-                displayName: 'Licencia Básica',
-                version: '2026-02-06',
-                body: this.getBasicLicenseText(),
+                displayName: 'Basic License',
+                version: '2026-04-17',
+                body: 'Basic non-exclusive license for non-commercial use.',
                 limits: {
-                    maxStreams: 50000,
-                    maxMonetizedVideos: 1,
-                    maxPhysicalCopies: 0,
-                    contentIdAllowed: false,
+                    distributionLimit: 1000,
+                    audioStreams: 50000,
+                    musicVideos: 1,
                     forProfitPerformances: false,
-                    radioBroadcasting: false
-                }
+                    radioBroadcasting: 0,
+                    contentIdAllowed: false
+                },
+                publishingSplit: { producerTotalShare: 50, licenseeShare: 50 },
+                creditsRequired: 'Produced by OTP Records',
+                jurisdiction: 'Spain'
             },
             'Premium': {
                 templateId: `premium-${Date.now()}`,
                 tier: 'Premium',
-                displayName: 'Licencia Premium',
-                version: '2026-02-06',
-                body: this.getPremiumLicenseText(),
+                displayName: 'Premium License',
+                version: '2026-04-17',
+                body: 'Premium non-exclusive license for commercial use.',
                 limits: {
-                    maxStreams: 500000,
-                    maxMonetizedVideos: 1,
-                    maxPhysicalCopies: 10000,
-                    contentIdAllowed: false,
+                    distributionLimit: 10000,
+                    audioStreams: 500000,
+                    musicVideos: 1,
                     forProfitPerformances: true,
-                    radioBroadcasting: true
-                }
+                    radioBroadcasting: 2,
+                    contentIdAllowed: false
+                },
+                publishingSplit: { producerTotalShare: 50, licenseeShare: 50 },
+                creditsRequired: 'Produced by OTP Records',
+                jurisdiction: 'Spain'
             },
             'Unlimited': {
                 templateId: `unlimited-${Date.now()}`,
                 tier: 'Unlimited',
-                displayName: 'Licencia Unlimited',
-                version: '2026-02-06',
-                body: this.getUnlimitedLicenseText(),
+                displayName: 'Unlimited License',
+                version: '2026-04-17',
+                body: 'Unlimited non-exclusive license for unrestricted commercial use.',
                 limits: {
-                    maxStreams: 0, // 0 = unlimited
-                    maxMonetizedVideos: 0,
-                    maxPhysicalCopies: 0,
-                    contentIdAllowed: false,
+                    distributionLimit: 0,
+                    audioStreams: 0,
+                    musicVideos: 0,
                     forProfitPerformances: true,
-                    radioBroadcasting: true
-                }
+                    radioBroadcasting: 0,
+                    contentIdAllowed: false
+                },
+                publishingSplit: { producerTotalShare: 50, licenseeShare: 50 },
+                creditsRequired: 'Produced by OTP Records',
+                jurisdiction: 'Spain'
             }
         };
 
         const templateData = templates[tier];
-        if (!templateData) {
-            throw new Error(`Invalid tier: ${tier}`);
-        }
-
+        if (!templateData) throw new Error(`Invalid tier: ${tier}`);
         return await LicenseTemplate.create(templateData);
     }
 
-    /**
-     * Issue a new license for a purchase
-     */
     async issueLicense(purchaseData) {
         const {
-            orderId,
-            stripeSessionId,
-            beatId,
-            beatTitle,
-            beatBpm,
-            beatKey,
-            tier,
-            buyerLegalName,
-            buyerEmail,
-            amount,
-            currency = 'EUR'
+            orderId, stripeSessionId, beatId, beatTitle, beatBpm, beatKey,
+            tier, buyerLegalName, buyerEmail, buyerAddress,
+            producers = [], beatFormats = [], beatTerms = {},
+            amount, currency = 'EUR'
         } = purchaseData;
 
-        // Get license template
         const template = await this.getLicenseTemplate(tier);
-        
-        // Generate unique identifiers
         const licenseId = crypto.randomUUID();
         const licenseNumber = await this.generateLicenseNumber();
-        
-        // Create license data
-        const licenseData = {
-            licenseId,
-            licenseNumber,
-            templateId: template.templateId,
-            templateVersion: template.version,
-            tier,
-            orderId,
-            stripeSessionId,
-            beatId,
-            beatTitle,
-            beatBpm,
-            beatKey,
-            producerName: 'LilBru',
-            buyerLegalName,
-            buyerEmail,
-            limitsSnapshot: template.limits,
-            publishingSplitSnapshot: template.publishingSplit,
-            creditsRequired: template.creditsRequired,
-            jurisdiction: template.jurisdiction,
-            amount,
-            currency,
-            status: 'Issued',
-            issuedAt: new Date(),
-            verifyUrl: `${process.env.FRONTEND_URL || 'https://otprecords.com'}/verify-license/${licenseId}`
+
+        // Per-producer publishing split
+        const producerTotalShare = template.publishingSplit?.producerTotalShare ?? 50;
+        const licenseeShare = template.publishingSplit?.licenseeShare ?? 50;
+        const perProducerShare = producers.length > 0
+            ? Math.round(producerTotalShare / producers.length)
+            : producerTotalShare;
+
+        const publishingSplitSnapshot = {
+            producers: producers.map(p => ({ name: p.name, share: perProducerShare })),
+            licenseeShare
         };
 
-        // Generate document hash
+        // Dynamic credits
+        const names = producers.map(p => p.name);
+        let creditsRequired;
+        if (names.length === 0) {
+            creditsRequired = template.creditsRequired || 'Produced by OTP Records';
+        } else if (names.length === 1) {
+            creditsRequired = `Produced by ${names[0]}`;
+        } else {
+            creditsRequired = `Produced by ${names.slice(0, -1).join(', ')} & ${names[names.length - 1]}`;
+        }
+
+        // Limits snapshot from the actual beat license terms
+        const limitsSnapshot = {
+            distributionLimit: beatTerms.distributionLimit ?? 0,
+            audioStreams: beatTerms.audioStreams ?? 0,
+            musicVideos: beatTerms.musicVideos ?? 1,
+            forProfitPerformances: beatTerms.forProfitPerformances ?? false,
+            radioBroadcasting: beatTerms.radioBroadcasting ?? 0,
+            contentIdAllowed: false
+        };
+
+        const issuedAt = new Date();
+        const verifyUrl = `${process.env.FRONTEND_URL || 'https://otprecords.com'}/verify-license/${licenseId}`;
+
+        const licenseData = {
+            licenseId, licenseNumber,
+            templateId: template.templateId,
+            templateVersion: template.version,
+            tier, orderId, stripeSessionId,
+            beatId, beatTitle, beatBpm, beatKey,
+            producers,
+            buyerLegalName, buyerEmail,
+            buyerAddress: buyerAddress || '',
+            beatFormats,
+            limitsSnapshot, publishingSplitSnapshot,
+            creditsRequired,
+            jurisdiction: template.jurisdiction || 'Spain',
+            amount, currency,
+            status: 'Issued',
+            issuedAt, verifyUrl
+        };
+
         licenseData.documentHash = this.generateDocumentHash(licenseData);
-
-        // Save to database
-        const issuedLicense = await IssuedLicense.create(licenseData);
-
-        return issuedLicense;
+        return await IssuedLicense.create(licenseData);
     }
 
-    /**
-     * Generate PDF license document
-     */
     async generateLicensePDF(issuedLicense) {
         return new Promise(async (resolve, reject) => {
             try {
                 const doc = new PDFDocument({
                     size: 'A4',
-                    margins: { top: 50, bottom: 50, left: 50, right: 50 }
+                    margins: { top: 60, bottom: 60, left: MARGIN, right: MARGIN }
                 });
 
                 const chunks = [];
@@ -196,217 +182,342 @@ class LicenseService {
                 doc.on('end', () => resolve(Buffer.concat(chunks)));
                 doc.on('error', reject);
 
-                // Generate QR Code
-                const qrCodeDataUrl = await QRCode.toDataURL(issuedLicense.verifyUrl, {
-                    width: 150,
-                    margin: 1
+                const qrBuffer = Buffer.from(
+                    (await QRCode.toDataURL(issuedLicense.verifyUrl, { width: 120, margin: 1 })).split(',')[1],
+                    'base64'
+                );
+
+                const contentWidth = doc.page.width - MARGIN * 2;
+                const effectiveDate = new Date(issuedLicense.issuedAt).toLocaleDateString('es-ES');
+
+                // ── Helpers ──────────────────────────────────────────────
+                const needPage = (minSpace = PAGE_BOTTOM_THRESHOLD) => {
+                    if (doc.y > doc.page.height - doc.page.margins.bottom - minSpace) {
+                        doc.addPage();
+                    }
+                };
+
+                const rule = () => {
+                    doc.moveDown(0.6);
+                    doc.moveTo(MARGIN, doc.y)
+                       .lineTo(MARGIN + contentWidth, doc.y)
+                       .strokeColor('#cccccc').lineWidth(0.5).stroke();
+                    doc.moveDown(0.6);
+                };
+
+                const sectionHeader = (num, text) => {
+                    needPage(150);
+                    rule();
+                    doc.font('Helvetica-Bold').fontSize(11).fillColor('#000000')
+                       .text(`${num}. ${text}`);
+                    doc.moveDown(0.4);
+                };
+
+                const body = (text, opts = {}) => {
+                    doc.font('Helvetica').fontSize(10).fillColor('#000000')
+                       .text(text, { align: 'justify', ...opts });
+                };
+
+                const bullet = (items) => {
+                    doc.font('Helvetica').fontSize(10).fillColor('#000000')
+                       .list(items, { bulletRadius: 2, indent: 15, textIndent: 10 });
+                };
+
+                const fmt = (v) => {
+                    if (v === 0 || v === -1) return 'Unlimited';
+                    return v.toLocaleString('es-ES');
+                };
+
+                // ── Build producers string ────────────────────────────────
+                const producers = issuedLicense.producers || [];
+                const producerNames = producers.map(p => p.name);
+                let producersStr;
+                if (producerNames.length === 0) {
+                    producersStr = 'the Producer';
+                } else if (producerNames.length === 1) {
+                    producersStr = producerNames[0];
+                } else {
+                    producersStr = producerNames.slice(0, -1).join(', ') + ', and ' + producerNames[producerNames.length - 1];
+                }
+
+                const tierDisplay = issuedLicense.tier;
+                const limits = issuedLicense.limitsSnapshot || {};
+                const split = issuedLicense.publishingSplitSnapshot || {};
+
+                // ════════════════════════════════════════════════════════
+                // TITLE
+                // ════════════════════════════════════════════════════════
+                doc.font('Helvetica-Bold').fontSize(15).fillColor('#000000')
+                   .text('NON-EXCLUSIVE BEAT LICENSE AGREEMENT', { align: 'center' });
+                doc.moveDown(0.4);
+                doc.font('Helvetica').fontSize(9).fillColor('#444444')
+                   .text(`License No: ${issuedLicense.licenseNumber}`, { align: 'center' });
+                doc.moveDown(0.15);
+                doc.font('Helvetica').fontSize(9).fillColor('#444444')
+                   .text(`Issued: ${effectiveDate}`, { align: 'center' });
+
+                rule();
+
+                // ── Opening paragraphs ────────────────────────────────────
+                body(
+                    `This Non-Exclusive ${tierDisplay} License Agreement (the "Agreement") is made effective as of ` +
+                    `${effectiveDate} (the "Effective Date") by and between ${producersStr} ` +
+                    `(collectively, the "Producers" or "Licensors"), and ${issuedLicense.buyerLegalName}, ` +
+                    `residing at ${issuedLicense.buyerAddress || 'address on file'} (the "Licensee").`
+                );
+                doc.moveDown(0.5);
+
+                body(
+                    `Licensor hereby grants Licensee certain limited rights in the instrumental music ` +
+                    `composition entitled ${issuedLicense.beatTitle} (the "Beat") in consideration for ` +
+                    `the payment of ${issuedLicense.amount.toFixed(2)}€ (the "License Fee").`
+                );
+                doc.moveDown(0.5);
+
+                body(
+                    'The license granted under this Agreement is perpetual. Licensee may use the Beat ' +
+                    'and the New Song indefinitely, subject to compliance with all terms of this Agreement.'
+                );
+
+                // ════════════════════════════════════════════════════════
+                // §1. License Fee
+                // ════════════════════════════════════════════════════════
+                sectionHeader(1, 'License Fee');
+                body(
+                    'The Licensee shall pay the License Fee in full prior to receiving the Beat. All rights ' +
+                    'granted under this Agreement are conditional upon payment of the License Fee. This ' +
+                    'Agreement shall not become effective until such payment has been made.'
+                );
+
+                // ════════════════════════════════════════════════════════
+                // §2. Delivery
+                // ════════════════════════════════════════════════════════
+                sectionHeader(2, 'Delivery');
+                const formats = issuedLicense.beatFormats && issuedLicense.beatFormats.length > 0
+                    ? issuedLicense.beatFormats.join(' & ')
+                    : 'MP3 & WAV';
+                body(
+                    `Upon receipt of payment, Licensors agree to deliver the Beat to Licensee in ${formats} ` +
+                    'format via email or digital download.'
+                );
+
+                // ════════════════════════════════════════════════════════
+                // §3. Grant of License
+                // ════════════════════════════════════════════════════════
+                sectionHeader(3, 'Grant of License');
+                body(
+                    'Licensors hereby grant Licensee a non-exclusive, non-transferable, worldwide license to ' +
+                    'use the Beat solely for the purpose of creating one (1) new musical composition (the "New Song").'
+                );
+                doc.moveDown(0.4);
+                body('Licensee may record vocals or other musical elements over the Beat to create the New Song.');
+                doc.moveDown(0.4);
+                body(
+                    'Licensee may also modify the Beat for the purposes of the New Song, including changes to ' +
+                    'arrangement, tempo, pitch, or structure.'
+                );
+
+                // ════════════════════════════════════════════════════════
+                // §4. Permitted Uses
+                // ════════════════════════════════════════════════════════
+                sectionHeader(4, 'Permitted Uses');
+                body('The New Song may be used for promotional and commercial purposes, including:');
+                doc.moveDown(0.3);
+
+                const permittedUses = [
+                    'Release as a single',
+                    'Inclusion in a mixtape, EP, or album',
+                    'Distribution on digital platforms',
+                    'Digital streaming'
+                ];
+                if (limits.forProfitPerformances) permittedUses.push('Profit live performances');
+                if (limits.radioBroadcasting > 0) {
+                    permittedUses.push(
+                        `Radio broadcast: up to ${limits.radioBroadcasting} station${limits.radioBroadcasting > 1 ? 's' : ''}`
+                    );
+                }
+                bullet(permittedUses);
+
+                doc.moveDown(0.4);
+                body('Licensee may distribute and exploit the New Song subject to the following limits:');
+                doc.moveDown(0.3);
+
+                const distLimits = [
+                    `${fmt(limits.distributionLimit)} copies sold (physical or digital)`,
+                    `${fmt(limits.audioStreams)} audio streams`,
+                    'Unlimited free downloads'
+                ];
+                if (limits.musicVideos !== undefined) {
+                    distLimits.push(`${fmt(limits.musicVideos)} music video${limits.musicVideos === 1 ? '' : 's'}`);
+                }
+                bullet(distLimits);
+
+                doc.moveDown(0.4);
+                body(
+                    'Use in short-form videos on social media (TikTok, Instagram Reels, YouTube Shorts) is ' +
+                    'permitted without limitation.'
+                );
+
+                // ════════════════════════════════════════════════════════
+                // §5. Non-Exclusive Rights
+                // ════════════════════════════════════════════════════════
+                sectionHeader(5, 'Non-Exclusive Rights');
+                body(
+                    'Licensee acknowledges that this license is non-exclusive. Licensors retain the right to ' +
+                    'license the Beat to other parties.'
+                );
+                doc.moveDown(0.4);
+                body(
+                    'Licensors retain full ownership and control of the Beat and may continue to sell, license, ' +
+                    'or otherwise exploit the Beat.'
+                );
+
+                // ════════════════════════════════════════════════════════
+                // §6. Restrictions
+                // ════════════════════════════════════════════════════════
+                sectionHeader(6, 'Restrictions');
+                body('Licensee shall not:');
+                doc.moveDown(0.3);
+                [
+                    'Sell, lease, sublicense, distribute, or otherwise transfer the Beat in its original form.',
+                    'Claim ownership of the Beat.',
+                    'Use the Beat in any unlawful manner.',
+                    'Register the Beat with any copyright office or claim ownership of the Beat.'
+                ].forEach((item, i) => {
+                    doc.font('Helvetica').fontSize(10).fillColor('#000000')
+                       .text(`${i + 1}. ${item}`, MARGIN + 15, doc.y, { width: contentWidth - 15 });
+                    doc.moveDown(0.25);
                 });
+                doc.moveDown(0.2);
+                body(
+                    'Licensee may not register the Beat or the New Song with any Content ID or similar ' +
+                    'fingerprinting system unless the Beat has been purchased with an exclusive license.'
+                );
 
-                // Header with logo/title
-                doc.fontSize(24)
-                   .fillColor('#ff003c')
-                   .text('CONTRATO DE LICENCIA DE BEAT', { align: 'center' })
-                   .moveDown(0.5);
+                // ════════════════════════════════════════════════════════
+                // §7. Ownership
+                // ════════════════════════════════════════════════════════
+                sectionHeader(7, 'Ownership');
+                body(
+                    'Licensors remain the sole owner of the Beat, including all copyrights in the musical ' +
+                    'composition and sound recording.'
+                );
+                doc.moveDown(0.4);
+                body(
+                    'Licensee owns only the lyrics and original musical elements added by Licensee in the New Song.'
+                );
 
-                doc.fontSize(12)
-                   .fillColor('#000000')
-                   .text(`Número de Licencia: ${issuedLicense.licenseNumber}`, { align: 'center' })
-                   .moveDown(0.3);
+                // ════════════════════════════════════════════════════════
+                // §8. Publishing Split
+                // ════════════════════════════════════════════════════════
+                sectionHeader(8, 'Publishing Split');
+                body('With respect to the underlying composition embodied in the New Song:');
+                doc.moveDown(0.3);
 
-                doc.fontSize(10)
-                   .fillColor('#666666')
-                   .text(`Fecha de emisión: ${issuedLicense.issuedAt.toLocaleDateString('es-ES')}`, { align: 'center' })
-                   .moveDown(2);
+                const splitItems = (split.producers || []).map(p => `${p.name}: ${p.share}% Publisher's Share`);
+                splitItems.push(`Licensee: ${split.licenseeShare ?? 50}% Writer's Share`);
+                bullet(splitItems);
 
-                // License Details Box
-                doc.roundedRect(50, doc.y, doc.page.width - 100, 120, 5)
-                   .fillAndStroke('#f5f5f5', '#cccccc')
-                   .fillColor('#000000');
+                doc.moveDown(0.4);
+                body(
+                    'If the New Song is registered with a Performing Rights Organization (PRO), Licensee agrees ' +
+                    'to properly credit Producers\' ownership share.'
+                );
+                doc.moveDown(0.4);
+                body(
+                    'Licensee shall not be required to pay any additional royalties or fees to Producers beyond ' +
+                    'the License Fee, except as expressly provided for in the publishing split above.'
+                );
 
-                const boxY = doc.y + 15;
-                doc.fontSize(10)
-                   .text('DETALLES DE LA LICENCIA', 70, boxY, { underline: true })
-                   .moveDown(0.5);
+                // ════════════════════════════════════════════════════════
+                // §9. Credit
+                // ════════════════════════════════════════════════════════
+                sectionHeader(9, 'Credit');
+                body('Licensee agrees to credit the Producers in substantially the following form:');
+                doc.moveDown(0.4);
+                doc.font('Helvetica-Oblique').fontSize(10).fillColor('#000000')
+                   .text(`"${issuedLicense.creditsRequired}"`, { align: 'center' });
+                doc.moveDown(0.4);
+                body(
+                    'Credits should appear where music production credits are normally listed, including digital ' +
+                    'platforms where applicable.'
+                );
 
-                doc.fontSize(9)
-                   .text(`Beat: ${issuedLicense.beatTitle}`, 70)
-                   .text(`Tipo de Licencia: ${issuedLicense.tier}`, 70)
-                   .text(`Productor: ${issuedLicense.producerName}`, 70)
-                   .text(`Licenciatario: ${issuedLicense.buyerLegalName}`, 70)
-                   .text(`Email: ${issuedLicense.buyerEmail}`, 70);
+                // ════════════════════════════════════════════════════════
+                // §10. Breach and Termination
+                // ════════════════════════════════════════════════════════
+                sectionHeader(10, 'Breach and Termination');
+                body(
+                    'If Licensee breaches any material term of this Agreement and fails to cure such breach within ' +
+                    'five (5) business days after written notice, Licensors may terminate this license.'
+                );
+                doc.moveDown(0.4);
+                body(
+                    'Upon termination, Licensee must immediately cease distribution and exploitation of the New Song.'
+                );
 
-                if (issuedLicense.beatBpm) {
-                    doc.text(`BPM: ${issuedLicense.beatBpm}`, 70);
-                }
-                if (issuedLicense.beatKey) {
-                    doc.text(`Key: ${issuedLicense.beatKey}`, 70);
-                }
+                // ════════════════════════════════════════════════════════
+                // §11. Limitation of Liability
+                // ════════════════════════════════════════════════════════
+                sectionHeader(11, 'Limitation of Liability');
+                body(
+                    'The Beat is provided "as is" without warranties of any kind. Licensors shall not be liable ' +
+                    'for any damages arising from the use of the Beat.'
+                );
 
-                doc.moveDown(2);
+                // ════════════════════════════════════════════════════════
+                // §12. Governing Law
+                // ════════════════════════════════════════════════════════
+                sectionHeader(12, 'Governing Law');
+                body(`This Agreement shall be governed by the laws of ${issuedLicense.jurisdiction || 'Spain'}.`);
 
-                // Main Content - Partes
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('1. PARTES', { underline: true })
-                   .moveDown(0.5);
+                // ════════════════════════════════════════════════════════
+                // §13. Acceptance
+                // ════════════════════════════════════════════════════════
+                sectionHeader(13, 'Acceptance');
+                body(
+                    'Licensee acknowledges that payment of the License Fee and acceptance of this Agreement ' +
+                    'constitutes full agreement to all terms stated herein.'
+                );
 
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text(`Este contrato se establece entre ${issuedLicense.producerName} (en adelante, "el Productor") y ${issuedLicense.buyerLegalName} (en adelante, "el Licenciatario").`, {
-                       align: 'justify'
-                   })
-                   .moveDown(1.5);
+                // ── Signature block ───────────────────────────────────────
+                needPage(180);
+                doc.moveDown(1.5);
 
-                // Propiedad
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('2. PROPIEDAD INTELECTUAL', { underline: true })
-                   .moveDown(0.5);
+                doc.font('Helvetica-Bold').fontSize(10).fillColor('#000000').text('Licensors:');
+                producers.forEach(p => {
+                    doc.font('Helvetica-Oblique').fontSize(10).fillColor('#000000').text(p.name);
+                });
+                doc.moveDown(0.8);
+                doc.font('Helvetica-Bold').fontSize(10).fillColor('#000000').text('Licensee:');
+                doc.font('Helvetica-Oblique').fontSize(10).fillColor('#000000')
+                   .text(issuedLicense.buyerLegalName);
+                doc.moveDown(0.3);
+                doc.font('Helvetica').fontSize(10).fillColor('#000000').text(`Date: ${effectiveDate}`);
 
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text(`El Productor retiene todos los derechos de propiedad intelectual sobre el beat "${issuedLicense.beatTitle}". Esta licencia otorga derechos de uso específicos pero no transfiere la propiedad del beat.`, {
-                       align: 'justify'
-                   })
-                   .moveDown(1.5);
+                // ── QR + Verification footer ──────────────────────────────
+                needPage(160);
+                doc.moveDown(1.5);
+                rule();
 
-                // Derechos
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('3. DERECHOS OTORGADOS', { underline: true })
-                   .moveDown(0.5);
+                doc.font('Helvetica').fontSize(8).fillColor('#555555')
+                   .text('DOCUMENT VERIFICATION', { align: 'center' });
+                doc.moveDown(0.5);
 
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text('El Licenciatario tiene derecho a:', {
-                       align: 'justify'
-                   })
-                   .list([
-                       'Grabar y producir composiciones musicales',
-                       'Distribuir el contenido en plataformas digitales',
-                       'Monetizar el contenido según los límites establecidos',
-                       'Realizar actuaciones con el contenido creado'
-                   ], { bulletRadius: 2 })
-                   .moveDown(1.5);
-
-                // Limitaciones
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('4. LIMITACIONES Y RESTRICCIONES', { underline: true })
-                   .moveDown(0.5);
-
-                const limits = issuedLicense.limitsSnapshot;
-                const formatLimit = (value) => value === 0 ? 'Ilimitado' : value.toLocaleString('es-ES');
-
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text('Esta licencia está sujeta a las siguientes limitaciones:')
-                   .moveDown(0.5);
-
-                doc.list([
-                    `Reproducciones en streaming: ${formatLimit(limits.maxStreams)}`,
-                    `Videos monetizados: ${formatLimit(limits.maxMonetizedVideos)}`,
-                    `Copias físicas: ${formatLimit(limits.maxPhysicalCopies)}`,
-                    `Content ID: ${limits.contentIdAllowed ? 'Permitido' : 'No permitido'}`,
-                    `Actuaciones con ánimo de lucro: ${limits.forProfitPerformances ? 'Permitido' : 'No permitido'}`,
-                    `Radiodifusión: ${limits.radioBroadcasting ? 'Permitido' : 'No permitido'}`
-                ], { bulletRadius: 2 })
-                .moveDown(1.5);
-
-                // Check if we need a new page
-                if (doc.y > 650) {
-                    doc.addPage();
-                }
-
-                // Créditos
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('5. CRÉDITOS', { underline: true })
-                   .moveDown(0.5);
-
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text(`El Licenciatario debe acreditar al Productor en todas las publicaciones con: "${issuedLicense.creditsRequired}"`, {
-                       align: 'justify'
-                   })
-                   .moveDown(1.5);
-
-                // Publishing Split
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('6. DERECHOS DE AUTOR Y PUBLISHING', { underline: true })
-                   .moveDown(0.5);
-
-                const split = issuedLicense.publishingSplitSnapshot;
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text(`Los derechos de autor (publishing) se dividen de la siguiente manera:`)
-                   .moveDown(0.5)
-                   .list([
-                       `Productor (${issuedLicense.producerName}): ${split.producer}%`,
-                       `Licenciatario (${issuedLicense.buyerLegalName}): ${split.licensee}%`
-                   ], { bulletRadius: 2 })
-                   .moveDown(1.5);
-
-                // Master Rights
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('7. DERECHOS DE MASTER', { underline: true })
-                   .moveDown(0.5);
-
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text('El Productor retiene el 100% de los derechos de master del beat original. El Licenciatario posee los derechos de la grabación vocal y la composición final.', {
-                       align: 'justify'
-                   })
-                   .moveDown(1.5);
-
-                // Jurisdiction
-                doc.fontSize(12)
-                   .fillColor('#ff003c')
-                   .text('8. JURISDICCIÓN', { underline: true })
-                   .moveDown(0.5);
-
-                doc.fontSize(10)
-                   .fillColor('#000000')
-                   .text(`Este contrato se rige por las leyes de ${issuedLicense.jurisdiction}.`, {
-                       align: 'justify'
-                   })
-                   .moveDown(2);
-
-                // Footer with QR Code and verification
-                if (doc.y > 600) {
-                    doc.addPage();
-                }
-
-                doc.fontSize(9)
-                   .fillColor('#666666')
-                   .text('VERIFICACIÓN DE AUTENTICIDAD', { align: 'center' })
-                   .moveDown(0.5);
-
-                // Add QR Code
-                const qrSize = 100;
-                const qrX = doc.page.width / 2 - qrSize / 2;
+                const qrSize = 90;
+                const qrX = (doc.page.width - qrSize) / 2;
                 const qrY = doc.y;
-                
-                const qrBuffer = Buffer.from(qrCodeDataUrl.split(',')[1], 'base64');
                 doc.image(qrBuffer, qrX, qrY, { width: qrSize });
-                
-                // Position text below the QR code
-                const textStartY = qrY + qrSize + 10; // QR height + 10px spacing
-                doc.y = textStartY;
+                doc.y = qrY + qrSize + 10;
 
-                doc.fontSize(8)
-                   .fillColor('#666666')
+                doc.font('Helvetica').fontSize(7).fillColor('#555555')
                    .text(`License ID: ${issuedLicense.licenseId}`, { align: 'center' })
                    .text(`Hash: ${issuedLicense.documentHash.substring(0, 32)}...`, { align: 'center' })
-                   .text(`Verifica en: ${issuedLicense.verifyUrl}`, { align: 'center', link: issuedLicense.verifyUrl })
-                   .moveDown(1);
-
-                doc.fontSize(7)
-                   .fillColor('#999999')
-                   .text('Este documento fue generado electrónicamente y es válido sin firma.', { align: 'center' })
-                   .text(`Generado el ${new Date().toLocaleString('es-ES')}`, { align: 'center' });
+                   .text(issuedLicense.verifyUrl, { align: 'center', link: issuedLicense.verifyUrl });
+                doc.moveDown(0.5);
+                doc.font('Helvetica').fontSize(6).fillColor('#999999')
+                   .text('This document was generated electronically and is valid without signature.', { align: 'center' })
+                   .text(`Generated on ${new Date().toLocaleString('es-ES')}`, { align: 'center' });
 
                 doc.end();
 
@@ -416,52 +527,18 @@ class LicenseService {
         });
     }
 
-    /**
-     * License text templates
-     */
-    getBasicLicenseText() {
-        return 'Licencia básica para uso no comercial con limitaciones en reproducciones streaming.';
-    }
-
-    getPremiumLicenseText() {
-        return 'Licencia premium para uso comercial con límites extendidos en reproducciones y distribución física.';
-    }
-
-    getUnlimitedLicenseText() {
-        return 'Licencia ilimitada para uso comercial sin restricciones en reproducciones, distribución y monetización.';
-    }
-
-    /**
-     * Verify a license by ID or number
-     */
     async verifyLicense(identifier) {
         const license = await IssuedLicense.findOne({
-            $or: [
-                { licenseId: identifier },
-                { licenseNumber: identifier }
-            ]
+            $or: [{ licenseId: identifier }, { licenseNumber: identifier }]
         }).populate('beatId').populate('orderId');
 
-        if (!license) {
-            return {
-                valid: false,
-                message: 'Licencia no encontrada'
-            };
-        }
+        if (!license) return { valid: false, message: 'Licencia no encontrada' };
 
         if (license.status !== 'Issued') {
-            return {
-                valid: false,
-                message: `Licencia ${license.status.toLowerCase()}`,
-                license
-            };
+            return { valid: false, message: `Licencia ${license.status.toLowerCase()}`, license };
         }
 
-        return {
-            valid: true,
-            message: 'Licencia válida',
-            license
-        };
+        return { valid: true, message: 'Licencia válida', license };
     }
 }
 

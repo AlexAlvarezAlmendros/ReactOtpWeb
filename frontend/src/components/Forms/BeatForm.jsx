@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreateBeat } from '../../hooks/useCreateBeat'
-import { useAuth } from '../../hooks/useAuth'
 import { useProfile } from '../../hooks/useProfile'
 import { useArtists } from '../../hooks/useArtists'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FileUploader } from '../FileUploader/FileUploader'
 import { ImageUploader } from '../ImageUploader/ImageUploader'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import { MUSICAL_KEYS } from '../../utils/beatConstants'
 import './BeatForm.css'
 
@@ -71,7 +71,6 @@ const FILE_TYPES = [
 
 export default function BeatForm ({ onSuccess, initialData, isEditMode = false }) {
   const { createBeat, loading, error } = useCreateBeat()
-  const { user } = useAuth()
   const { artists: allArtists } = useArtists()
   const { profile, loading: profileLoading, fetchProfile } = useProfile()
   const navigate = useNavigate()
@@ -558,12 +557,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   // RENDER
   // =====================
   if (!isEditMode && profileLoading) {
-    return (
-      <div className="beat-wizard__profile-guard">
-        <FontAwesomeIcon icon={['fas', 'spinner']} spin />
-        <span>Comprobando perfil...</span>
-      </div>
-    )
+    return <LoadingSpinner message="Comprobando perfil..." />
   }
 
   if (profileIncomplete) {

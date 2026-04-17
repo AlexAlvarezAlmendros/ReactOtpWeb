@@ -277,7 +277,14 @@ router.post('/release-info', validateSpotifyUrl, async (req, res) => {
         message: 'Failed to authenticate with Spotify API'
       });
     }
-    
+
+    if (error.message.includes('access denied')) {
+      return res.status(403).json({
+        error: 'SPOTIFY_FORBIDDEN',
+        message: error.message
+      });
+    }
+
     return res.status(500).json({
       error: 'SPOTIFY_API_ERROR',
       message: 'Failed to get release data from Spotify'

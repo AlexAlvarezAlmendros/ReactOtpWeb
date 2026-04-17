@@ -54,7 +54,11 @@ import {
   faHouse,
   faMicrophone,
   faEnvelope,
-  faChevronRight
+  faChevronRight,
+  faUser,
+  faBars,
+  faEnvelopeOpen,
+  faSliders
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -116,5 +120,9 @@ library.add(
   faCalendarXmark,
   faUsers,
   faLocationDot,
-  faClock
+  faClock,
+  faUser,
+  faBars,
+  faEnvelopeOpen,
+  faSliders
 )
