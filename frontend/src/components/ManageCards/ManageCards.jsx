@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { usePermissions } from '../../hooks/usePermissions'
 import { useReleases } from '../../hooks/useReleases'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
-import { useBeats } from '../../hooks/useBeats'
 import { useFiles } from '../../hooks/useFiles'
 import { useDelete } from '../../hooks/useDelete'
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
+import { useArtistsWithBeats } from '../../hooks/useArtistsWithBeats'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReleaseCard from '../ReleaseCard/ReleaseCard'
 import ArtistCard from '../ArtistCard/ArtistCard'
@@ -15,6 +16,8 @@ import BeatCard from '../BeatCard/BeatCard'
 import NewsletterCard from '../NewsletterCard/NewsletterCard'
 import FileCard from '../FileCard/FileCard'
 import EditModal from '../EditModal/EditModal'
+import BeatsFilterBar from '../BeatsFilterBar/BeatsFilterBar'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import { useNewsletters } from '../../hooks/useNewsletters'
 import { SkeletonList } from '../Skeleton/Skeleton'
 import './ManageCards.css'
@@ -59,12 +62,49 @@ function ManageCards ({ activeTab: activeTabProp }) {
     refetch: refetchEvents 
   } = useEvents(filterOptions)
 
+  // Filtros y fetch para la pestaña de beats
+  const [beatFilters, setBeatFilters] = useState(INITIAL_BEAT_FILTERS)
+
+  const fetchBeatsForManage = useCallback(async (options) => {
+    const params = new URLSearchParams()
+    params.append('page', options.page.toString())
+    params.append('count', options.count.toString())
+    params.append('sortBy', options.sortBy || 'createdAt')
+    params.append('sortOrder', options.sortOrder || 'desc')
+
+    if (!isAdmin && user?.sub) params.append('userId', user.sub)
+    if (options.genre) params.append('genre', options.genre)
+    if (options.key) params.append('key', options.key)
+    if (options.bpmMin) params.append('bpmMin', options.bpmMin.toString())
+    if (options.bpmMax) params.append('bpmMax', options.bpmMax.toString())
+
+    const fetchOptions = {}
+    try {
+      const token = await getToken()
+      if (token) fetchOptions.headers = { Authorization: `Bearer ${token}` }
+    } catch (e) { /* proceed unauthenticated */ }
+
+    const response = await fetch(`${BEATS_ENDPOINT}?${params.toString()}`, fetchOptions)
+    if (!response.ok) throw new Error('Error al cargar beats')
+
+    const responseData = await response.json()
+    return {
+      data: responseData.data || responseData,
+      pagination: responseData.pagination || {}
+    }
+  }, [isAdmin, user?.sub, getToken])
+
   const {
-    beats,
+    items: beats,
     loading: beatsLoading,
     error: beatsError,
-    refetch: refetchBeats
-  } = useBeats({ ...filterOptions, authenticated: true })
+    isLoadingMore: beatsLoadingMore,
+    hasMore: beatsHasMore,
+    sentinelRef: beatsSentinelRef,
+    refresh: refreshBeats
+  } = useInfiniteScroll(fetchBeatsForManage, { initialCount: 20, threshold: 500, filters: beatFilters })
+
+  const { artists: beatMakers } = useArtistsWithBeats()
 
   const {
     newsletters,
@@ -143,7 +183,7 @@ function ManageCards ({ activeTab: activeTabProp }) {
           refetchEvents()
           break
         case 'beat':
-          refetchBeats()
+          refreshBeats()
           break
         case 'newsletter':
           refetchNewsletters()
@@ -183,7 +223,7 @@ function ManageCards ({ activeTab: activeTabProp }) {
         refetchEvents()
         break
       case 'beat':
-        refetchBeats()
+        refreshBeats()
         break
       case 'newsletter':
         refetchNewsletters()
@@ -212,6 +252,14 @@ function ManageCards ({ activeTab: activeTabProp }) {
     )
   }
 
+  // Client-side filter by producer (backend doesn't support artistId filter)
+  const managedBeats = beatFilters.artistId
+    ? beats.filter(b => {
+        const producerId = typeof b.producer === 'object' ? b.producer?._id : b.producer
+        return producerId === beatFilters.artistId
+      })
+    : beats
+
   const renderCards = () => {
     let items = []
     let loading = false
@@ -234,7 +282,7 @@ function ManageCards ({ activeTab: activeTabProp }) {
         error = eventsError
         break
       case 'beats':
-        items = beats || []
+        items = managedBeats || []
         loading = beatsLoading
         error = beatsError
         break
@@ -412,8 +460,36 @@ function ManageCards ({ activeTab: activeTabProp }) {
         </div>
       )}
 
+      {/* Filtros para beats */}
+      {activeTab === 'beats' && (
+        <BeatsFilterBar
+          filters={beatFilters}
+          onFilterChange={setBeatFilters}
+          onReset={() => setBeatFilters(INITIAL_BEAT_FILTERS)}
+          artists={beatMakers}
+        />
+      )}
+
       {/* Contenido de las cards */}
       {renderCards()}
+
+      {/* Scroll infinito para beats */}
+      {activeTab === 'beats' && (
+        <>
+          {beatsLoadingMore && (
+            <div className="infinite-scroll-loader">
+              <LoadingSpinner />
+              <p>Cargando más beats...</p>
+            </div>
+          )}
+          {!beatsLoading && beatsHasMore && <div ref={beatsSentinelRef} style={{ height: '1px' }} />}
+          {!beatsLoading && !beatsHasMore && managedBeats.length > 0 && (
+            <div className="infinite-scroll-end">
+              <p>Has visto todos los beats</p>
+            </div>
+          )}
+        </>
+      )}
 
       {/* Modal de confirmación */}
       {confirmDelete && (

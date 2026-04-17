@@ -6,12 +6,16 @@ const BEATS_ENDPOINT = `${API_URL}/beats`
 
 /**
  * Custom hook para obtener un beat individual por su ID.
- * Usa el Bearer token para recibir todos los archivos (WAV, STEMS, etc.)
+ * Puede funcionar con o sin autenticación.
+ * Con auth: recibe todos los archivos (WAV, STEMS, etc.)
+ * Sin auth: recibe solo datos públicos y MP3.
  *
  * @param {string} beatId - ID del beat a obtener
+ * @param {{ authenticated?: boolean }} options - Opciones
  * @returns {{ beat: object|null, loading: boolean, error: string|null, refetch: Function }}
  */
-export function useBeat (beatId) {
+export function useBeat (beatId, options = {}) {
+  const { authenticated = false } = options
   const [beat, setBeat] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -24,8 +28,8 @@ export function useBeat (beatId) {
       return
     }
 
-    // Wait for auth to be ready
-    if (authLoading || !isAuthenticated) {
+    // If authenticated mode, wait until auth is ready
+    if (authenticated && (authLoading || !isAuthenticated)) {
       return
     }
 
@@ -36,16 +40,18 @@ export function useBeat (beatId) {
       const url = `${BEATS_ENDPOINT}/${beatId}`
       const fetchOptions = { signal }
 
-      try {
-        const token = await getToken()
-        if (token) {
-          fetchOptions.headers = {
-            Authorization: `Bearer ${token}`
+      if (authenticated || isAuthenticated) {
+        try {
+          const token = await getToken()
+          if (token) {
+            fetchOptions.headers = {
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
         } catch (e) {
           // token fetch failed; proceed unauthenticated
         }
+      }
 
       const response = await fetch(url, fetchOptions)
 
@@ -67,7 +73,7 @@ export function useBeat (beatId) {
         setLoading(false)
       }
     }
-  }, [beatId, getToken, authLoading, isAuthenticated])
+  }, [beatId, getToken, authLoading, isAuthenticated, authenticated])
 
   const refetch = useCallback(() => {
     const controller = new AbortController()

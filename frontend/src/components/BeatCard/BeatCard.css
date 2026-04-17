@@ -130,3 +130,17 @@
     margin-left: 2px;
   }
 }
+
+/* Title link – override .card a defaults */
+.beat-card-title-link {
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
+  margin-top: 0!important;
+  padding: 0;
+  display: block;
+}
+
+.beat-card-title-link:hover h2 {
+  color: #ff003c;
+}

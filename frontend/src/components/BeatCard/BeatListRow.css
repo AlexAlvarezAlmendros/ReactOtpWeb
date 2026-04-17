@@ -91,6 +91,18 @@
   min-width: 0;
 }
 
+.beat-list-row__title-link {
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+  display: block;
+  text-align: left;
+}
+
+.beat-list-row__title-link:hover .beat-list-row__title {
+  color: #ff003c;
+}
+
 .beat-list-row__title {
   color: #ffffff;
   font-weight: 600;

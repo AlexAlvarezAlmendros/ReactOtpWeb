@@ -10,6 +10,7 @@ import EventoDetalle from './pages/EventoDetalle.jsx'
 import Create from './pages/Create.jsx'
 import Discografia from './pages/Discografia.jsx'
 import Beats from './pages/Beats.jsx'
+import BeatDetalle from './pages/BeatDetalle.jsx'
 import Privacidad from './pages/Privacidad.jsx'
 import Terminos from './pages/Terminos.jsx'
 import Cookies from './pages/Cookies.jsx'
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: '/beats',
         element: <Beats />
+      },
+      {
+        path: '/beats/:id',
+        element: <BeatDetalle />
       },
       {
         path: '/crear',

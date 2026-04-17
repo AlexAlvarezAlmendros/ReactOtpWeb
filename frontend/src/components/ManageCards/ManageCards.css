@@ -174,14 +174,14 @@
 }
 
 /* Estados de carga y error */
-.loading {
+.manage-cards .loading {
   text-align: center;
   color: #ffffff;
   font-size: 1.2rem;
   padding: 2rem;
 }
 
-.error {
+.manage-cards .error {
   background-color: #ef4444;
   color: #ffffff;
   padding: 1rem;
@@ -190,7 +190,7 @@
   margin: 2rem 0;
 }
 
-.no-items {
+.manage-cards .no-items {
   text-align: center;
   color: #888;
   font-size: 1.2rem;

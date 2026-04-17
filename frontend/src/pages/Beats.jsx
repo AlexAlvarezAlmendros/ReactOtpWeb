@@ -1,10 +1,11 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import BeatsFilterBar from '../components/BeatsFilterBar/BeatsFilterBar'
 import BeatListRow from '../components/BeatCard/BeatListRow'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
-import { useArtists } from '../hooks/useArtists'
+import { useArtistsWithBeats } from '../hooks/useArtistsWithBeats'
+import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import { SkeletonList } from '../components/Skeleton/Skeleton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,7 +29,7 @@ function Beats () {
   const [filters, setFilters] = useState(INITIAL_FILTERS)
   const [viewMode, setViewMode] = useState('list') // 'grid' | 'list'
 
-  const { artists } = useArtists({ count: 100, sortBy: 'name', sortOrder: 'asc' })
+  const { artists } = useArtistsWithBeats()
 
   const fetchBeats = useCallback(async (options) => {
     const params = new URLSearchParams()
@@ -67,6 +68,15 @@ function Beats () {
         return producerId === filters.artistId
       })
     : rawBeats
+
+  // Sincronizar la playlist del AudioPlayer con la lista de beats visible
+  const { setPlaylist } = useAudioPlayer()
+
+  useEffect(() => {
+    const beatIds = beats.map(b => b._id || b.id).filter(Boolean)
+    setPlaylist(beatIds)
+    return () => setPlaylist([])
+  }, [beats, setPlaylist])
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters)

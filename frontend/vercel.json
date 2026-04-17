@@ -1,6 +1,39 @@
 {
   "rewrites": [
     {
+      "source": "/artistas/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Googlebot|Bingbot|Yandex|Applebot|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=artists&id=:id"
+    },
+    {
+      "source": "/eventos/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Googlebot|Bingbot|Yandex|Applebot|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=events&id=:id"
+    },
+    {
+      "source": "/beats/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Googlebot|Bingbot|Yandex|Applebot|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=beats&id=:id"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

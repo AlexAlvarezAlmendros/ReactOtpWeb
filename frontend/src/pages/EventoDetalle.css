@@ -66,6 +66,8 @@
   }
 }
 
+
+
 /* === HERO SECTION === */
 .evento-hero {
   position: relative;
@@ -74,6 +76,9 @@
   align-items: flex-end;
   overflow: hidden;
   margin-bottom: 40px;
+  margin-left: -2rem;
+  margin-right: -2rem;
+  margin-top: -2rem;
 }
 
 .evento-hero__backdrop {
@@ -240,6 +245,25 @@
   font-size: 0.8rem;
 }
 
+/* Desktop-only / mobile-only meta helpers */
+.evento-hero__meta--desktop {
+  display: flex;
+}
+
+.evento-hero__meta--mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .evento-hero__meta--desktop {
+    display: none;
+  }
+
+  .evento-hero__meta--mobile {
+    display: flex;
+  }
+}
+
 /* === BACK LINK === */
 .evento-detail__back-link {
   display: inline-flex;
@@ -395,6 +419,25 @@
 }
 
 .evento-detail__address svg {
+  color: #ff003c;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* === COLABORADORES === */
+.evento-detail__collab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #ccc;
+  padding: 14px 18px;
+  background: #0a0a0a;
+  border-radius: 10px;
+  border: 1px solid #1b1b1b;
+}
+
+.evento-detail__collab svg {
   color: #ff003c;
   font-size: 0.9rem;
   flex-shrink: 0;
@@ -693,6 +736,112 @@
 .evento-social-card:focus-visible {
   outline: 2px solid #ff003c;
   outline-offset: 2px;
+}
+
+/* =============================================
+   MOBILE HERO OVERLAY (≤768px)
+   ============================================= */
+@media (max-width: 768px) {
+  /* Edge-to-edge: negate .container 2rem padding */
+  .evento-detail {
+    padding: 0 0 64px;
+  }
+
+  .evento-hero {
+    margin: 0 -2rem;
+    margin-top: -2rem;
+    min-height: 0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  /* Hide blurred backdrop — poster is the image */
+  .evento-hero__backdrop {
+    display: none;
+  }
+
+  .evento-hero__content {
+    position: relative;
+    padding: 0;
+    max-width: none;
+    margin: 0;
+  }
+
+  .evento-detail__back-link {
+    display: none;
+  }
+
+  .evento-hero__layout {
+    position: relative;
+    gap: 0;
+    animation: none;
+  }
+
+  /* Poster fills full width */
+  .evento-hero__poster-wrapper {
+    width: 100%;
+    position: relative;
+  }
+
+  .evento-hero__poster {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 0;
+    object-fit: cover;
+    display: block;
+    mask-image: linear-gradient(to bottom, black 72%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 100%);
+  }
+
+  /* Gradient overlay for text readability */
+  .evento-hero__poster-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Info overlaid at bottom of poster */
+  .evento-hero__info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    text-align: center;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .evento-hero__title {
+    font-size: 1.4rem;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  }
+
+  .evento-hero__collab {
+    margin-top: -6px;
+  }
+
+  .evento-hero__accent {
+    display: none;
+  }
+
+  .evento-hero__date-badge {
+    top: 12px;
+    right: 12px;
+  }
+
+  .evento-detail__body {
+    padding: 0 16px;
+  }
 }
 
 /* === TICKET INFO EXTERNAL === */

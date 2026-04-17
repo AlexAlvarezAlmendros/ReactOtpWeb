@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
@@ -62,14 +63,19 @@ function BeatCard ({ card }) {
   // Registrar el audio al montar y desregistrar al desmontar
   useEffect(() => {
     if (audioRef.current && audioUrl) {
-      registerAudio(card._id || card.id, audioRef.current)
+      const producer = typeof card.producer === 'object' ? card.producer?.name : card.producer
+      registerAudio(card._id || card.id, audioRef.current, {
+        title: card.title || card.name,
+        artist: producer || 'OTP Records',
+        artwork: imageUrl
+      })
     }
     return () => {
       if (audioUrl) {
         unregisterAudio(card._id || card.id)
       }
     }
-  }, [card._id, card.id, audioUrl, registerAudio, unregisterAudio])
+  }, [card._id, card.id, card.title, card.name, card.producer, imageUrl, audioUrl, registerAudio, unregisterAudio])
 
   // Sincronizar estado de reproducción con el contexto global
   useEffect(() => {
@@ -158,7 +164,9 @@ function BeatCard ({ card }) {
         </div>
         <div className='card-content'>
           <div>
-            <h2>{card.title}</h2>
+            <Link to={`/beats/${card._id || card.id}`} className="beat-card-title-link">
+              <h2>{card.title}</h2>
+            </Link>
             {card.producer && (
               <p>
                 Prod. by {typeof card.producer === 'object' ? card.producer.name : card.producer}

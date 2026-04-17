@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
@@ -19,6 +20,12 @@ function BeatListRow ({ card }) {
   const hasLicenses = card.licenses && card.licenses.length > 0
   const audioUrl = card.licenses?.find(l => l.files?.mp3Url)?.files?.mp3Url || null
   const producer = typeof card.producer === 'object' ? card.producer?.name : card.producer
+  // Colaboradores: array de nombres
+  const collaborators = Array.isArray(card.colaboradores)
+    ? card.colaboradores.filter(Boolean)
+    : (typeof card.colaboradores === 'string' && card.colaboradores)
+      ? [card.colaboradores]
+      : []
   const beatId = card._id || card.id
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -47,10 +54,14 @@ function BeatListRow ({ card }) {
   // Registrar / desregistrar audio
   useEffect(() => {
     if (audioRef.current && audioUrl) {
-      registerAudio(beatId, audioRef.current)
+      registerAudio(beatId, audioRef.current, {
+        title: card.title || card.name,
+        artist: producer || 'OTP Records',
+        artwork: imageUrl
+      })
     }
     return () => { if (audioUrl) unregisterAudio(beatId) }
-  }, [beatId, audioUrl, registerAudio, unregisterAudio])
+  }, [beatId, card.title, card.name, producer, imageUrl, audioUrl, registerAudio, unregisterAudio])
 
   // Sincronizar estado de reproducción con contexto global
   useEffect(() => {
@@ -168,9 +179,21 @@ function BeatListRow ({ card }) {
         {/* Info + timeline */}
         <div className="beat-list-row__center">
           <div className="beat-list-row__info">
-            <span className="beat-list-row__title">{card.title}</span>
+            <Link to={`/beats/${beatId}`} className="beat-list-row__title-link">
+              <span className="beat-list-row__title">{card.title}</span>
+            </Link>
             <div className="beat-list-row__info-meta">
-              {producer && <span className="beat-list-row__producer">Prod. by {producer}</span>}
+              {producer && (
+                <span className="beat-list-row__producer">
+                  Prod. by {producer}
+                  {collaborators.length > 0 && (
+                    <span>
+                      {', '}
+                      {collaborators.join(', ')}
+                    </span>
+                  )}
+                </span>
+              )}
               {card.genre && <span className="beat-list-row__tag">{card.genre}</span>}
               {card.bpm && <span className="beat-list-row__dot">{card.bpm} BPM</span>}
               {card.key && <span className="beat-list-row__dot">{card.key}</span>}

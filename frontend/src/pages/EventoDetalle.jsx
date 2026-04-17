@@ -1,6 +1,7 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useEvent } from '../hooks/useEvent'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
@@ -12,6 +13,12 @@ function EventoDetalle () {
   const [searchParams] = useSearchParams()
   const { event, loading, error } = useEvent(id)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+  usePageMeta({
+    title: event?.title,
+    description: [event?.subtitle, event?.eventType].filter(Boolean).join(' · '),
+    image: event?.img
+  })
 
   // Detectar si volvemos de un pago exitoso
   useEffect(() => {
@@ -162,20 +169,23 @@ function EventoDetalle () {
               )}
               <h1 className="evento-hero__title">{event.title}</h1>
               <div className="evento-hero__accent" />
-              <div className="evento-hero__meta">
-                {event.date && (
-                  <div className="evento-hero__meta-item">
-                    <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
-                    <span>{formatDate(event.date)}</span>
-                  </div>
-                )}
-                {event.subtitle && (
-                  <div className="evento-hero__meta-item">
-                    <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
-                    <span>{event.subtitle}</span>
-                  </div>
-                )}
-              </div>
+              {/* Fecha y ubicación — solo desktop */}
+              {(event.date || event.subtitle) && (
+                <div className="evento-hero__meta evento-hero__meta--desktop">
+                  {event.date && (
+                    <div className="evento-hero__meta-item">
+                      <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
+                      <span>{formatDate(event.date)}</span>
+                    </div>
+                  )}
+                  {event.subtitle && (
+                    <div className="evento-hero__meta-item">
+                      <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
+                      <span>{event.subtitle}</span>
+                    </div>
+                  )}
+                </div>
+              )}
               {event.colaborators && (
                 <div className="evento-hero__collab">
                   <FontAwesomeIcon icon={['fas', 'users']} />
@@ -189,6 +199,24 @@ function EventoDetalle () {
 
       {/* Body */}
       <div className="evento-detail__body">
+        {/* Meta: fecha y ubicación — solo mobile */}
+        {(event.date || event.subtitle) && (
+          <div className="evento-hero__meta evento-hero__meta--mobile">
+            {event.date && (
+              <div className="evento-hero__meta-item">
+                <FontAwesomeIcon icon={['fas', 'calendar-alt']} />
+                <span>{formatDate(event.date)}</span>
+              </div>
+            )}
+            {event.subtitle && (
+              <div className="evento-hero__meta-item">
+                <FontAwesomeIcon icon={['fas', 'map-marker-alt']} />
+                <span>{event.subtitle}</span>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Descripción */}
         {event.description && (
           <div className="evento-detail__section">
