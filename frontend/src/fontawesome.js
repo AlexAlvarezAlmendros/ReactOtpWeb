@@ -59,7 +59,11 @@ import {
   faGaugeHigh,
   faGuitar,
   faBagShopping,
-  faChevronDown
+  faChevronDown,
+  faUser,
+  faBars,
+  faEnvelopeOpen,
+  faSliders
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -126,5 +130,9 @@ library.add(
   faGaugeHigh,
   faGuitar,
   faBagShopping,
-  faChevronDown
+  faChevronDown,
+  faUser,
+  faBars,
+  faEnvelopeOpen,
+  faSliders
 )
