@@ -1,0 +1,114 @@
+/* =============================================
+   Estilos compartidos para todos los formularios
+   ============================================= */
+
+/* Layout principal: 2 columnas 50/50 */
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Columna izquierda: import + portada */
+.form-layout__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 1rem;
+}
+
+/* Columna derecha: form con fieldsets */
+.form-layout__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Fieldsets agrupan campos relacionados */
+.form-layout__fieldset {
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 0;
+}
+
+.form-layout__legend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+  padding: 0 0.5rem;
+}
+
+/* Grid 2 columnas dentro de cada fieldset */
+.form-layout__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1rem;
+}
+
+/* Labels e inputs dentro de form-layout */
+.form-layout__body label {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: left;
+}
+
+.form-layout__body input,
+.form-layout__body select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Botón de envío */
+.form-submit {
+  margin-top: 1rem;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
+  transition: all 0.3s ease;
+}
+
+.form-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6003a 0%, #b30029 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 0, 60, 0.4);
+}
+
+.form-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-layout__sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-layout__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -4,6 +4,7 @@ import { useCreateRelease } from '../../hooks/useCreateReleases.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
+import './Forms.css'
 
 export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎵 ReleaseForm - initialData:', initialData)
@@ -195,8 +196,9 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
     }
   }, [formData, createRelease, apiError, onSuccess])
   return (
-    <section>
-        {/* Componente de importación de Spotify - Solo en modo creación */}
+    <div className="form-layout">
+      {/* Columna izquierda: import + portada */}
+      <aside className="form-layout__sidebar">
         {!isEditMode && (
           <SpotifyImport
             onDataImported={handleSpotifyImport}
@@ -205,134 +207,152 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
           />
         )}
 
-        <form onSubmit={handleSubmit} className="createCardModal__form">
-        <div className="form-group--full-width">
-          <ImageUploader
-            label="Imagen de portada*"
-            onChange={setImageFile}
-            currentImageUrl={formData.img}
-            selectedFile={imageFile}
-          />
-        </div>
+        <ImageUploader
+          label="Imagen de portada*"
+          onChange={setImageFile}
+          currentImageUrl={formData.img}
+          selectedFile={imageFile}
+        />
+      </aside>
 
-        <div className="form-group">
-            <label htmlFor="title">Título*</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-              required
-            />
-        </div>
+      {/* Columna derecha: secciones del formulario */}
+      <form onSubmit={handleSubmit} className="form-layout__body">
+        {/* --- Información básica --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Información básica</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="title">Título*</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  required
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="artist">Artista*</label>
-            <input
-              type="text"
-              id="artist"
-              name="subtitle"
-              value={formData.subtitle}
-              onChange={handleInputChange}
-              required
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="artist">Artista*</label>
+                <input
+                  type="text"
+                  id="artist"
+                  name="subtitle"
+                  value={formData.subtitle}
+                  onChange={handleInputChange}
+                  required
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="spotify">Spotify URL</label>
-            <input
-              type="url"
-              id="spotify"
-              name="spotifyLink"
-              value={formData.spotifyLink}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="date">Fecha de lanzamiento</label>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="apple">Apple URL</label>
-            <input
-              type="url"
-              id="apple"
-              name="appleMusicLink"
-              value={formData.appleMusicLink}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="type">Tipo*</label>
+                <select
+                  id="type"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  required
+                >
+                <option value="">Seleccione un tipo</option>
+                <option value="Song">Song</option>
+                <option value="Album">Álbum</option>
+                <option value="EP">EP</option>
+                <option value="Videoclip">Videoclip</option>
+                </select>
+            </div>
+          </div>
+        </fieldset>
 
-        <div className="form-group">
-            <label htmlFor="instagram">Instagram URL</label>
-            <input
-              type="url"
-              id="instagram"
-              name="instagramLink"
-              value={formData.instagramLink}
-              onChange={handleInputChange}
-            />
-        </div>
+        {/* --- Links de plataformas --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Links de plataformas</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="spotify">Spotify URL</label>
+                <input
+                  type="url"
+                  id="spotify"
+                  name="spotifyLink"
+                  value={formData.spotifyLink}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="soundcloud">SoundCloud URL</label>
-            <input
-              type="url"
-              id="soundcloud"
-              name="soundcloudLink"
-              value={formData.soundcloudLink}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="apple">Apple Music URL</label>
+                <input
+                  type="url"
+                  id="apple"
+                  name="appleMusicLink"
+                  value={formData.appleMusicLink}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="beatstars">BeatStars URL</label>
-            <input
-              type="url"
-              id="beatstars"
-              name="beatStarsLink"
-              value={formData.beatStarsLink}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="soundcloud">SoundCloud URL</label>
+                <input
+                  type="url"
+                  id="soundcloud"
+                  name="soundcloudLink"
+                  value={formData.soundcloudLink}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="video">Video URL</label>
-            <input
-              type="url"
-              id="video"
-              name="video"
-              value={formData.video}
-              onChange={handleInputChange}
-              placeholder="URL del video (YouTube embed)"
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="beatstars">BeatStars URL</label>
+                <input
+                  type="url"
+                  id="beatstars"
+                  name="beatStarsLink"
+                  value={formData.beatStarsLink}
+                  onChange={handleInputChange}
+                />
+            </div>
+          </div>
+        </fieldset>
 
-        <div className="form-group">
-            <label htmlFor="date">Fecha de lanzamiento</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleInputChange}
-            />
-        </div>
+        {/* --- Redes y video --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Redes y video</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="instagram">Instagram URL</label>
+                <input
+                  type="url"
+                  id="instagram"
+                  name="instagramLink"
+                  value={formData.instagramLink}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group form-group--full-width">
-            <label htmlFor="type">Tipo</label>
-            <select
-              id="type"
-              name="type"
-              value={formData.type}
-              onChange={handleInputChange}
-              required
-            >
-            <option value="">Seleccione un tipo</option>
-            <option value="Song">Song</option>
-            <option value="Album">Álbum</option>
-            <option value="EP">EP</option>
-            <option value="Videoclip">Videoclip</option>
-            </select>
-        </div>
+            <div className="form-group">
+                <label htmlFor="video">Video URL</label>
+                <input
+                  type="url"
+                  id="video"
+                  name="video"
+                  value={formData.video}
+                  onChange={handleInputChange}
+                  placeholder="URL del video (YouTube embed)"
+                />
+            </div>
+          </div>
+        </fieldset>
 
         <button type="submit" className="form-submit" disabled={loading}>
             {isEditMode 
@@ -340,15 +360,15 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
               : (loading ? 'Creando...' : 'Crear Release')
             }
         </button>
-        </form>
 
         {errors.length > 0 && (
-        <div className="error-messages">
-            {errors.map((error, index) => (
-            <p key={index}>{error}</p>
-            ))}
-        </div>
+          <div className="error-messages">
+              {errors.map((error, index) => (
+              <p key={index}>{error}</p>
+              ))}
+          </div>
         )}
-    </section>
+      </form>
+    </div>
   )
 }

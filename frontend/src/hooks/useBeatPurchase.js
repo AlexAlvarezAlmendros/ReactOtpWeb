@@ -8,7 +8,7 @@ export function useBeatPurchase() {
   const [error, setError] = useState(null)
   const toast = useToast()
 
-  const createCheckoutSession = useCallback(async (beatId, licenseId, customerEmail, customerName) => {
+  const createCheckoutSession = useCallback(async (beatId, licenseId, customerEmail, customerName, customerAddress) => {
     setLoading(true)
     setError(null)
 
@@ -25,7 +25,8 @@ export function useBeatPurchase() {
           beatId,
           licenseId,
           customerEmail,
-          customerName
+          customerName,
+          customerAddress
         })
       })
 

@@ -56,6 +56,7 @@ function BeatDetalle () {
   // Customer info
   const [customerName, setCustomerName] = useState('')
   const [customerEmail, setCustomerEmail] = useState('')
+  const [customerAddress, setCustomerAddress] = useState('')
   const [formErrors, setFormErrors] = useState({})
   const [touchedFields, setTouchedFields] = useState({})
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false)
@@ -215,6 +216,11 @@ function BeatDetalle () {
     return null
   }
 
+  const validateAddress = (value) => {
+    if (!value.trim()) return 'Introduce tu dirección postal'
+    return null
+  }
+
   const validateForm = () => {
     const errs = {}
     if (!selectedLicense) errs.license = 'Selecciona una licencia'
@@ -222,8 +228,10 @@ function BeatDetalle () {
     if (nameErr) errs.name = nameErr
     const emailErr = validateEmail(customerEmail)
     if (emailErr) errs.email = emailErr
+    const addressErr = validateAddress(customerAddress)
+    if (addressErr) errs.address = addressErr
     setFormErrors(errs)
-    setTouchedFields({ name: true, email: true })
+    setTouchedFields({ name: true, email: true, address: true })
     return Object.keys(errs).length === 0
   }
 
@@ -239,6 +247,24 @@ function BeatDetalle () {
     if (formErrors.email && !validateEmail(e.target.value)) {
       setFormErrors(prev => { const n = { ...prev }; delete n.email; return n })
     }
+  }
+
+  const handleAddressChange = (e) => {
+    setCustomerAddress(e.target.value)
+    if (formErrors.address && !validateAddress(e.target.value)) {
+      setFormErrors(prev => { const n = { ...prev }; delete n.address; return n })
+    }
+  }
+
+  const handleAddressBlur = () => {
+    setTouchedFields(prev => ({ ...prev, address: true }))
+    setFormErrors(prev => {
+      const errs = { ...prev }
+      const err = validateAddress(customerAddress)
+      if (err) errs.address = err
+      else delete errs.address
+      return errs
+    })
   }
 
   const handleNameBlur = () => {
@@ -266,6 +292,7 @@ function BeatDetalle () {
   const openCheckout = () => {
     setCustomerName('')
     setCustomerEmail('')
+    setCustomerAddress('')
     setFormErrors({})
     setTouchedFields({})
     setIsCheckoutModalOpen(true)
@@ -278,7 +305,8 @@ function BeatDetalle () {
         beatId,
         selectedLicense.id,
         customerEmail,
-        customerName
+        customerName,
+        customerAddress
       )
       setIsCheckoutModalOpen(false)
     } catch {
@@ -929,6 +957,23 @@ function BeatDetalle () {
                     <FontAwesomeIcon icon={['fas', 'envelope']} />
                     Recibirás el beat en este email tras completar la compra
                   </small>
+                </div>
+                <div className="beat-detail__form-group">
+                  <label className="beat-checkout-modal__label">Dirección postal <span className="beat-checkout-modal__required">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Calle, número, ciudad, código postal"
+                    value={customerAddress}
+                    onChange={handleAddressChange}
+                    onBlur={handleAddressBlur}
+                    className={formErrors.address ? 'error' : touchedFields.address && !formErrors.address && customerAddress.trim() ? 'valid' : ''}
+                  />
+                  {formErrors.address && (
+                    <span className="beat-detail__form-error">
+                      <FontAwesomeIcon icon={['fas', 'circle-exclamation']} />
+                      {formErrors.address}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

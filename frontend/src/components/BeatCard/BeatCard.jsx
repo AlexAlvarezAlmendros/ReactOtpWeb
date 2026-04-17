@@ -131,7 +131,8 @@ function BeatCard ({ card }) {
         purchaseData.beatId,
         purchaseData.licenseId,
         purchaseData.customerEmail,
-        purchaseData.customerName
+        purchaseData.customerName,
+        purchaseData.customerAddress
       )
       // Redirect to Stripe happens in the hook
     } catch (err) {

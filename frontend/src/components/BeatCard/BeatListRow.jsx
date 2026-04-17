@@ -145,7 +145,8 @@ function BeatListRow ({ card }) {
         purchaseData.beatId,
         purchaseData.licenseId,
         purchaseData.customerEmail,
-        purchaseData.customerName
+        purchaseData.customerName,
+        purchaseData.customerAddress
       )
     } catch {
       alert(error || 'Error al procesar la compra.')

@@ -82,19 +82,29 @@
 /* Estilo para el botón de envío */
 .form-submit {
     margin-top: 1rem;
-    padding: 0.75rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #007BFF; /* Un color de ejemplo */
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background: linear-gradient(135deg, #ff003c 0%, #cc0030 100%);
     border: none;
-    border-radius: 4px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
+    transition: all 0.3s ease;
 }
 
-.form-submit:hover {
-    background-color: #0056b3;
+.form-submit:hover:not(:disabled) {
+    background: linear-gradient(135deg, #e6003a 0%, #b30029 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 0, 60, 0.4);
+}
+
+.form-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* --- MEJORA: Hacerlo responsive en pantallas pequeñas --- */

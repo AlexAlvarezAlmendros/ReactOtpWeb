@@ -4,6 +4,7 @@ import { useCreateArtist } from '../../hooks/useCreateArtist.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
+import './Forms.css'
 
 export default function ArtistForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎨 ArtistForm - initialData:', initialData)
@@ -152,8 +153,9 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
   }, [formData, createArtist, apiError, onSuccess, isEditMode])
   
   return (
-    <section>
-        {/* Componente de importación de Spotify - Solo en modo creación */}
+    <div className="form-layout">
+      {/* Columna izquierda: import + portada */}
+      <aside className="form-layout__sidebar">
         {!isEditMode && (
           <SpotifyImport
             onDataImported={handleSpotifyImport}
@@ -162,111 +164,129 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
           />
         )}
 
-        <form onSubmit={handleSubmit} className="createCardModal__form">
-        <div className="form-group--full-width">
-          <ImageUploader
-            label="Imagen de portada*"
-            onChange={setImageFile}
-            currentImageUrl={formData.img}
-            selectedFile={imageFile}
-          />
-        </div>
+        <ImageUploader
+          label="Imagen de portada*"
+          onChange={setImageFile}
+          currentImageUrl={formData.img}
+          selectedFile={imageFile}
+        />
+      </aside>
 
-        <div className="form-group">
-            <label htmlFor="name">Nombre*</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-            />
-        </div>
+      {/* Columna derecha: secciones del formulario */}
+      <form onSubmit={handleSubmit} className="form-layout__body">
+        {/* --- Información básica --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Información básica</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="name">Nombre*</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="genre">Genero*</label>
-            <input
-              type="text"
-              id="genre"
-              name="genre"
-              value={formData.genre}
-              onChange={handleInputChange}
-              required
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="genre">Género*</label>
+                <input
+                  type="text"
+                  id="genre"
+                  name="genre"
+                  value={formData.genre}
+                  onChange={handleInputChange}
+                  required
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="spotify">Spotify URL</label>
-            <input
-              type="url"
-              id="spotify"
-              name="spotify"
-              value={formData.spotify}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="type">Tipo*</label>
+                <select
+                  id="type"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  required
+                >
+                <option value="">Seleccione un tipo</option>
+                <option value="Producer">Productor</option>
+                <option value="Singer">Cantante</option>
+                <option value="Filmmaker">Filmaker</option>
+                <option value="Developer">Developer</option>
+                </select>
+            </div>
+          </div>
+        </fieldset>
 
-        <div className="form-group">
-            <label htmlFor="youtube">Youtube URL</label>
-            <input
-              type="url"
-              id="youtube"
-              name="youtube"
-              value={formData.youtube}
-              onChange={handleInputChange}
-            />
-        </div>
+        {/* --- Links de plataformas --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Links de plataformas</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="spotify">Spotify URL</label>
+                <input
+                  type="url"
+                  id="spotify"
+                  name="spotify"
+                  value={formData.spotify}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="apple">Apple URL</label>
-            <input
-              type="url"
-              id="apple"
-              name="apple"
-              value={formData.apple}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="apple">Apple Music URL</label>
+                <input
+                  type="url"
+                  id="apple"
+                  name="apple"
+                  value={formData.apple}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="instagram">Instagram URL</label>
-            <input
-              type="url"
-              id="instagram"
-              name="instagram"
-              value={formData.instagram}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="youtube">YouTube URL</label>
+                <input
+                  type="url"
+                  id="youtube"
+                  name="youtube"
+                  value={formData.youtube}
+                  onChange={handleInputChange}
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="soundcloud">SoundCloud URL</label>
-            <input
-              type="url"
-              id="soundcloud"
-              name="soundcloud"
-              value={formData.soundcloud}
-              onChange={handleInputChange}
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="soundcloud">SoundCloud URL</label>
+                <input
+                  type="url"
+                  id="soundcloud"
+                  name="soundcloud"
+                  value={formData.soundcloud}
+                  onChange={handleInputChange}
+                />
+            </div>
+          </div>
+        </fieldset>
 
-        <div className="form-group form-group--full-width">
-            <label htmlFor="type">Tipo</label>
-            <select
-              id="type"
-              name="type"
-              value={formData.type}
-              onChange={handleInputChange}
-              required
-            >
-            <option value="">Seleccione un tipo</option>
-            <option value="Producer">Productor</option>
-            <option value="Singer">Cantante</option>
-            <option value="Filmmaker">Filmaker</option>
-            <option value="Developer">Developer</option>
-            </select>
-        </div>
+        {/* --- Redes sociales --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Redes sociales</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="instagram">Instagram URL</label>
+                <input
+                  type="url"
+                  id="instagram"
+                  name="instagram"
+                  value={formData.instagram}
+                  onChange={handleInputChange}
+                />
+            </div>
+          </div>
+        </fieldset>
 
         <button type="submit" className="form-submit" disabled={loading}>
             {isEditMode 
@@ -274,15 +294,15 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
               : (loading ? 'Creando...' : 'Crear Artista')
             }
         </button>
-        </form>
 
         {errors.length > 0 && (
-        <div className="error-messages">
-            {errors.map((error, index) => (
-            <p key={index}>{error}</p>
-            ))}
-        </div>
+          <div className="error-messages">
+              {errors.map((error, index) => (
+              <p key={index}>{error}</p>
+              ))}
+          </div>
         )}
-    </section>
+      </form>
+    </div>
   )
 }

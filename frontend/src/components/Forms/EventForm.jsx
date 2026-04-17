@@ -4,6 +4,7 @@ import { useCreateEvent } from '../../hooks/useCreateEvent.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import RichTextEditor from '../RichTextEditor/RichTextEditor.jsx'
 import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
+import './Forms.css'
 
 export default function EventForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎪 EventForm - initialData:', initialData)
@@ -162,108 +163,127 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
   }
 
   return (
-    <section>
-        <form onSubmit={handleSubmit} className="createCardModal__form">
-        <div className="form-group--full-width">
-          <ImageUploader
-            label="Imagen de portada*"
-            onChange={setImageFile}
-            currentImageUrl={initialData?.img || ''}
-            selectedFile={imageFile}
-          />
-        </div>
+    <div className="form-layout">
+      {/* Columna izquierda: portada */}
+      <aside className="form-layout__sidebar">
+        <ImageUploader
+          label="Imagen de portada*"
+          onChange={setImageFile}
+          currentImageUrl={initialData?.img || ''}
+          selectedFile={imageFile}
+        />
+      </aside>
 
-        <div className="form-group">
-            <label htmlFor="title">Título*</label>
-            <input 
-              type="text" 
-              id="title" 
-              name="title" 
-              defaultValue={initialData?.title || initialData?.name || ''} 
-              required 
-            />
-        </div>
+      {/* Columna derecha: secciones del formulario */}
+      <form onSubmit={handleSubmit} className="form-layout__body">
+        {/* --- Información básica --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Información básica</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="title">Título*</label>
+                <input 
+                  type="text" 
+                  id="title" 
+                  name="title" 
+                  defaultValue={initialData?.title || initialData?.name || ''} 
+                  required 
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="location">Ubicacion*</label>
-            <input 
-              type="text" 
-              id="location" 
-              name="location" 
-              defaultValue={initialData?.location || ''} 
-              required 
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="location">Ubicación*</label>
+                <input 
+                  type="text" 
+                  id="location" 
+                  name="location" 
+                  defaultValue={initialData?.location || ''} 
+                  required 
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="colaborators">Colaboradores*</label>
-            <input 
-              type="text" 
-              id="colaborators" 
-              name="colaborators" 
-              defaultValue={initialData?.colaborators || ''} 
-              required 
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="colaborators">Colaboradores*</label>
+                <input 
+                  type="text" 
+                  id="colaborators" 
+                  name="colaborators" 
+                  defaultValue={initialData?.colaborators || ''} 
+                  required 
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="eventDate">Fecha del evento*</label>
-            <input 
-              type="datetime-local" 
-              id="eventDate" 
-              name="eventDate" 
-              defaultValue={initialData?.date ? new Date(initialData.date).toISOString().slice(0, 16) : ''} 
-              required 
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="eventDate">Fecha del evento*</label>
+                <input 
+                  type="datetime-local" 
+                  id="eventDate" 
+                  name="eventDate" 
+                  defaultValue={initialData?.date ? new Date(initialData.date).toISOString().slice(0, 16) : ''} 
+                  required 
+                />
+            </div>
 
-        <div className="form-group">
-            <label htmlFor="youtube">Youtube URL</label>
-            <input 
-              type="url" 
-              id="youtube" 
-              name="youtube" 
-              defaultValue={initialData?.youtubeLink || ''} 
-            />
-        </div>
+            <div className="form-group">
+                <label htmlFor="type">Tipo*</label>
+                <select 
+                  id="type" 
+                  name="type" 
+                  defaultValue={initialData?.eventType || initialData?.type || ''} 
+                  required
+                >
+                <option value="">Seleccione un tipo</option>
+                <option value="Concert">Concierto</option>
+                <option value="Festival">Festival</option>
+                <option value="Showcase">Showcase</option>
+                <option value="Party">Party</option>
+                </select>
+            </div>
+          </div>
+        </fieldset>
 
-        <div className="form-group">
-            <label htmlFor="instagram">Instagram URL</label>
-            <input 
-              type="url" 
-              id="instagram" 
-              name="instagram" 
-              defaultValue={initialData?.instagramLink || ''} 
-            />
-        </div>
+        {/* --- Links --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Links</legend>
+          <div className="form-layout__grid">
+            <div className="form-group">
+                <label htmlFor="youtube">YouTube URL</label>
+                <input 
+                  type="url" 
+                  id="youtube" 
+                  name="youtube" 
+                  defaultValue={initialData?.youtubeLink || ''} 
+                />
+            </div>
 
-        <div className="form-group form-group--full-width">
-            <label htmlFor="description">Descripción</label>
+            <div className="form-group">
+                <label htmlFor="instagram">Instagram URL</label>
+                <input 
+                  type="url" 
+                  id="instagram" 
+                  name="instagram" 
+                  defaultValue={initialData?.instagramLink || ''} 
+                />
+            </div>
+          </div>
+        </fieldset>
+
+        {/* --- Descripción --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Descripción</legend>
+          <div className="form-group">
             <RichTextEditor
               value={description}
               onChange={setDescription}
               placeholder="Describe el evento, artistas, horarios, etc."
             />
-        </div>
+          </div>
+        </fieldset>
 
-        <div className="form-group form-group--full-width">
-            <label htmlFor="type">Tipo</label>
-            <select 
-              id="type" 
-              name="type" 
-              defaultValue={initialData?.eventType || initialData?.type || ''} 
-              required
-            >
-            <option value="">Seleccione un tipo</option>
-            <option value="Concert">Concierto</option>
-            <option value="Festival">Festival</option>
-            <option value="Showcase">Showcase</option>
-            <option value="Party">Party</option>
-            </select>
-        </div>
-
-        {/* Sección de Tickets */}
-        <div className="form-group form-group--full-width">
+        {/* --- Tickets --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Entradas</legend>
+          <div className="form-group">
             <label htmlFor="ticketsEnabled">
               <input 
                 type="checkbox" 
@@ -276,93 +296,91 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
               />
               Habilitar venta de entradas
             </label>
-        </div>
+          </div>
 
-        {ticketsEnabled && (
-          <>
-            {/* Checkbox para entradas por terceros */}
-            <div className="form-group form-group--full-width">
-              <label htmlFor="externalTickets">
-                <input 
-                  type="checkbox" 
-                  id="externalTickets" 
-                  name="externalTickets"
-                  value="true"
-                  defaultChecked={initialData?.externalTicketUrl ? true : false}
-                  onChange={(e) => setExternalTickets(e.target.checked)}
-                  style={{ width: 'auto', marginRight: '8px' }}
-                />
-                Entradas vendidas por terceros
-              </label>
-            </div>
-
-            {/* Si es por terceros, mostrar solo URL */}
-            {externalTickets ? (
-              <div className="form-group form-group--full-width">
-                <label htmlFor="externalTicketUrl">URL de venta externa*</label>
-                <input 
-                  type="url" 
-                  id="externalTicketUrl" 
-                  name="externalTicketUrl" 
-                  placeholder="https://ticketmaster.com/evento"
-                  defaultValue={initialData?.externalTicketUrl || ''} 
-                  required={externalTickets}
-                />
-                <small style={{ color: '#999', display: 'block', marginTop: '4px' }}>
-                  Los usuarios serán redirigidos a esta URL para comprar las entradas
-                </small>
+          {ticketsEnabled && (
+            <>
+              <div className="form-group" style={{ marginTop: '0.75rem' }}>
+                <label htmlFor="externalTickets">
+                  <input 
+                    type="checkbox" 
+                    id="externalTickets" 
+                    name="externalTickets"
+                    value="true"
+                    defaultChecked={initialData?.externalTicketUrl ? true : false}
+                    onChange={(e) => setExternalTickets(e.target.checked)}
+                    style={{ width: 'auto', marginRight: '8px' }}
+                  />
+                  Entradas vendidas por terceros
+                </label>
               </div>
-            ) : (
-              <>
-                {/* Campos de venta interna */}
-                <div className="form-group">
-                    <label htmlFor="ticketPrice">Precio por entrada (€)*</label>
-                    <input 
-                      type="number" 
-                      id="ticketPrice" 
-                      name="ticketPrice" 
-                      step="0.01"
-                      min="0"
-                      defaultValue={initialData?.ticketPrice || ''} 
-                      required={ticketsEnabled && !externalTickets}
-                    />
-                </div>
 
-                <div className="form-group">
-                    <label htmlFor="totalTickets">Cantidad total de entradas*</label>
-                    <input 
-                      type="number" 
-                      id="totalTickets" 
-                      name="totalTickets" 
-                      min="1"
-                      defaultValue={initialData?.totalTickets || ''} 
-                      required={ticketsEnabled && !externalTickets}
-                    />
+              {externalTickets ? (
+                <div className="form-group" style={{ marginTop: '0.75rem' }}>
+                  <label htmlFor="externalTicketUrl">URL de venta externa*</label>
+                  <input 
+                    type="url" 
+                    id="externalTicketUrl" 
+                    name="externalTicketUrl" 
+                    placeholder="https://ticketmaster.com/evento"
+                    defaultValue={initialData?.externalTicketUrl || ''} 
+                    required={externalTickets}
+                  />
+                  <small style={{ color: '#999', display: 'block', marginTop: '4px' }}>
+                    Los usuarios serán redirigidos a esta URL para comprar las entradas
+                  </small>
                 </div>
+              ) : (
+                <div className="form-layout__grid" style={{ marginTop: '0.75rem' }}>
+                  <div className="form-group">
+                      <label htmlFor="ticketPrice">Precio por entrada (€)*</label>
+                      <input 
+                        type="number" 
+                        id="ticketPrice" 
+                        name="ticketPrice" 
+                        step="0.01"
+                        min="0"
+                        defaultValue={initialData?.ticketPrice || ''} 
+                        required={ticketsEnabled && !externalTickets}
+                      />
+                  </div>
 
-                <div className="form-group">
-                    <label htmlFor="saleStartDate">Fecha inicio de venta</label>
-                    <input 
-                      type="datetime-local" 
-                      id="saleStartDate" 
-                      name="saleStartDate" 
-                      defaultValue={initialData?.saleStartDate ? new Date(initialData.saleStartDate).toISOString().slice(0, 16) : ''} 
-                    />
-                </div>
+                  <div className="form-group">
+                      <label htmlFor="totalTickets">Cantidad total*</label>
+                      <input 
+                        type="number" 
+                        id="totalTickets" 
+                        name="totalTickets" 
+                        min="1"
+                        defaultValue={initialData?.totalTickets || ''} 
+                        required={ticketsEnabled && !externalTickets}
+                      />
+                  </div>
 
-                <div className="form-group">
-                    <label htmlFor="saleEndDate">Fecha fin de venta</label>
-                    <input 
-                      type="datetime-local" 
-                      id="saleEndDate" 
-                      name="saleEndDate" 
-                      defaultValue={initialData?.saleEndDate ? new Date(initialData.saleEndDate).toISOString().slice(0, 16) : ''} 
-                    />
+                  <div className="form-group">
+                      <label htmlFor="saleStartDate">Inicio de venta</label>
+                      <input 
+                        type="datetime-local" 
+                        id="saleStartDate" 
+                        name="saleStartDate" 
+                        defaultValue={initialData?.saleStartDate ? new Date(initialData.saleStartDate).toISOString().slice(0, 16) : ''} 
+                      />
+                  </div>
+
+                  <div className="form-group">
+                      <label htmlFor="saleEndDate">Fin de venta</label>
+                      <input 
+                        type="datetime-local" 
+                        id="saleEndDate" 
+                        name="saleEndDate" 
+                        defaultValue={initialData?.saleEndDate ? new Date(initialData.saleEndDate).toISOString().slice(0, 16) : ''} 
+                      />
+                  </div>
                 </div>
-              </>
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
+        </fieldset>
 
         <button type="submit" className="form-submit" disabled={loading}>
             {isEditMode 
@@ -370,15 +388,15 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
               : (loading ? 'Creando...' : 'Crear Evento')
             }
         </button>
-        </form>
 
         {errors.length > 0 && (
-        <div className="error-messages">
-            {errors.map((error, index) => (
-            <p key={index}>{error}</p>
-            ))}
-        </div>
+          <div className="error-messages">
+              {errors.map((error, index) => (
+              <p key={index}>{error}</p>
+              ))}
+          </div>
         )}
-    </section>
+      </form>
+    </div>
   )
 }

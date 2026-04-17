@@ -9,6 +9,7 @@ import { ImageUploader } from '../ImageUploader/ImageUploader'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import { MUSICAL_KEYS } from '../../utils/beatConstants'
 import './BeatForm.css'
+import './Forms.css'
 
 // Default license templates
 const DEFAULT_LICENSES = [
@@ -626,200 +627,214 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
           STEP 1: Basic Info
           ================== */}
       {currentStep === 1 && (
-        <div className="beat-wizard__content">
-          <h3 className="beat-wizard__step-header">
-            <FontAwesomeIcon icon={['fas', 'music']} className="icon" />
-            Información del Beat
-          </h3>
-
-          <div className="beat-wizard__form-group beat-wizard__form-group--full">
+        <div className="beat-wizard__content form-layout">
+          {/* Columna izquierda: portada */}
+          <aside className="form-layout__sidebar">
             <ImageUploader
               label="Imagen de portada"
               onChange={setCoverImageFile}
               currentImageUrl={formData.coverUrl}
               selectedFile={coverImageFile}
             />
-          </div>
+          </aside>
 
-          <div className="beat-wizard__form-group">
-            <label>Título del Beat <span className="required">*</span></label>
-            <input
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-              maxLength={60}
-              placeholder="Ej: Dark Trap Beat 2025"
-            />
-            <small>Máximo 60 caracteres</small>
-          </div>
+          {/* Columna derecha: fieldsets */}
+          <div className="form-layout__body">
+            <fieldset className="form-layout__fieldset">
+              <legend className="form-layout__legend">Información básica</legend>
+              <div className="form-layout__grid">
+                <div className="beat-wizard__form-group">
+                  <label>Título del Beat <span className="required">*</span></label>
+                  <input
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    required
+                    maxLength={60}
+                    placeholder="Ej: Dark Trap Beat 2025"
+                  />
+                  <small>Máximo 60 caracteres</small>
+                </div>
 
-          <div className="beat-wizard__form-group">
-            <label>Descripción</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Descripción del beat. Esta descripción se usará para todas las licencias."
-              rows={3}
-            />
-            <small>Se aplicará como descripción de todas las licencias</small>
-          </div>
+                <div className="beat-wizard__form-group">
+                  <label>Precio Base <span className="required">*</span></label>
+                  <div className="beat-wizard__input-with-suffix">
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange}
+                      required
+                      min={0}
+                      step="0.01"
+                      placeholder="29.99"
+                    />
+                    <span className="beat-wizard__input-suffix">€</span>
+                  </div>
+                  <small>Precio de referencia del beat</small>
+                </div>
 
-          <div className="beat-wizard__form-group">
-            <label>Precio Base <span className="required">*</span></label>
-            <div className="beat-wizard__input-with-suffix">
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-                min={0}
-                step="0.01"
-                placeholder="29.99"
-              />
-              <span className="beat-wizard__input-suffix">€</span>
-            </div>
-            <small>Precio de referencia del beat</small>
-          </div>
+                <div className="beat-wizard__form-group">
+                  <label>Género Musical</label>
+                  <input
+                    name="genre"
+                    value={formData.genre}
+                    onChange={handleChange}
+                    placeholder="Trap, Hip Hop, R&B..."
+                  />
+                </div>
 
-          <div className="beat-wizard__form-group">
-            <label>Productor <span className="required">*</span></label>
-            <div className="beat-wizard__producer-search">
-              <input
-                type="text"
-                name="producer"
-                value={formData.producer}
-                onChange={(e) => {
-                  handleChange(e)
-                  setProducerId(null)
-                  setShowProducerDropdown(true)
-                }}
-                onFocus={() => setShowProducerDropdown(true)}
-                onBlur={() => setTimeout(() => setShowProducerDropdown(false), 150)}
-                placeholder="Nombre del productor"
-                required
-                autoComplete="off"
-              />
-              {showProducerDropdown && filteredProducers.length > 0 && (
-                <div className="beat-wizard__producer-dropdown">
-                  {filteredProducers.map(artist => (
-                    <div
-                      key={artist.id}
-                      className="beat-wizard__producer-item"
-                      onMouseDown={() => {
-                        setFormData(prev => ({ ...prev, producer: artist.title }))
-                        setProducerId(artist.id)
-                        setShowProducerDropdown(false)
+                <div className="beat-wizard__form-group">
+                  <label><FontAwesomeIcon icon={['fas', 'tag']} className="icon-label" /> Etiquetas (Tags)</label>
+                  <input
+                    name="tags"
+                    value={formData.tags}
+                    onChange={handleChange}
+                    placeholder="trap, dark, piano, aggressive"
+                  />
+                  <small>Separa las etiquetas con comas</small>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset className="form-layout__fieldset">
+              <legend className="form-layout__legend">Detalles musicales</legend>
+              <div className="form-layout__grid">
+                <div className="beat-wizard__form-group">
+                  <label><FontAwesomeIcon icon={['fas', 'music']} className="icon-label" /> BPM (Tempo)</label>
+                  <input
+                    type="number"
+                    name="bpm"
+                    value={formData.bpm}
+                    onChange={handleChange}
+                    max={300}
+                    placeholder="140"
+                  />
+                </div>
+                <div className="beat-wizard__form-group">
+                  <label><FontAwesomeIcon icon={['fas', 'music']} className="icon-label" /> Tonalidad (Key)</label>
+                  <select
+                    name="key"
+                    value={formData.key}
+                    onChange={handleChange}
+                  >
+                    <option value="">Seleccionar tonalidad</option>
+                    {MUSICAL_KEYS.map(k => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset className="form-layout__fieldset">
+              <legend className="form-layout__legend">Descripción</legend>
+              <div className="beat-wizard__form-group">
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Descripción del beat. Esta descripción se usará para todas las licencias."
+                  rows={3}
+                />
+                <small>Se aplicará como descripción de todas las licencias</small>
+              </div>
+            </fieldset>
+
+            <fieldset className="form-layout__fieldset">
+              <legend className="form-layout__legend">Productor y colaboradores</legend>
+              <div className="form-layout__grid">
+                <div className="beat-wizard__form-group">
+                  <label>Productor <span className="required">*</span></label>
+                  <div className="beat-wizard__producer-search">
+                    <input
+                      type="text"
+                      name="producer"
+                      value={formData.producer}
+                      onChange={(e) => {
+                        handleChange(e)
+                        setProducerId(null)
+                        setShowProducerDropdown(true)
+                      }}
+                      onFocus={() => setShowProducerDropdown(true)}
+                      onBlur={() => setTimeout(() => setShowProducerDropdown(false), 150)}
+                      placeholder="Nombre del productor"
+                      required
+                      autoComplete="off"
+                    />
+                    {showProducerDropdown && filteredProducers.length > 0 && (
+                      <div className="beat-wizard__producer-dropdown">
+                        {filteredProducers.map(artist => (
+                          <div
+                            key={artist.id}
+                            className="beat-wizard__producer-item"
+                            onMouseDown={() => {
+                              setFormData(prev => ({ ...prev, producer: artist.title }))
+                              setProducerId(artist.id)
+                              setShowProducerDropdown(false)
+                            }}
+                          >
+                            <div className="beat-wizard__producer-item-name">{artist.title}</div>
+                            <div className="beat-wizard__producer-item-genre">{artist.subtitle || artist.genre}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="beat-wizard__form-group">
+                  <label><FontAwesomeIcon icon={['fas', 'users']} className="icon-label" /> Colaboradores</label>
+                  <div className="beat-wizard__collaborators-input">
+                    <input
+                      type="text"
+                      value={colaboradorInput}
+                      onChange={(e) => setColaboradorInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          const name = colaboradorInput.trim()
+                          if (name && !colaboradores.includes(name)) {
+                            setColaboradores(prev => [...prev, name])
+                          }
+                          setColaboradorInput('')
+                        }
+                      }}
+                      placeholder="Nombre del colaborador"
+                    />
+                    <button
+                      type="button"
+                      className="beat-wizard__collaborators-add-btn"
+                      onClick={() => {
+                        const name = colaboradorInput.trim()
+                        if (name && !colaboradores.includes(name)) {
+                          setColaboradores(prev => [...prev, name])
+                        }
+                        setColaboradorInput('')
                       }}
                     >
-                      <div className="beat-wizard__producer-item-name">{artist.title}</div>
-                      <div className="beat-wizard__producer-item-genre">{artist.subtitle || artist.genre}</div>
+                      <FontAwesomeIcon icon={['fas', 'plus']} />
+                    </button>
+                  </div>
+                  {colaboradores.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.75rem' }}>
+                      {colaboradores.map((col, i) => (
+                        <span key={i} className="beat-wizard__producer-tag">
+                          {col}
+                          <button type="button" onClick={() => setColaboradores(prev => prev.filter((_, idx) => idx !== i))}>×</button>
+                        </span>
+                      ))}
                     </div>
-                  ))}
+                  )}
+                  <small>Pulsa Enter o + para añadir cada colaborador.</small>
                 </div>
-              )}
-            </div>
-          </div>
-
-          <div className="beat-wizard__form-group">
-            <label><FontAwesomeIcon icon={['fas', 'users']} className="icon-label" /> Colaboradores</label>
-            <div className="beat-wizard__collaborators-input">
-              <input
-                type="text"
-                value={colaboradorInput}
-                onChange={(e) => setColaboradorInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    const name = colaboradorInput.trim()
-                    if (name && !colaboradores.includes(name)) {
-                      setColaboradores(prev => [...prev, name])
-                    }
-                    setColaboradorInput('')
-                  }
-                }}
-                placeholder="Nombre del colaborador"
-              />
-              <button
-                type="button"
-                className="beat-wizard__collaborators-add-btn"
-                onClick={() => {
-                  const name = colaboradorInput.trim()
-                  if (name && !colaboradores.includes(name)) {
-                    setColaboradores(prev => [...prev, name])
-                  }
-                  setColaboradorInput('')
-                }}
-              >
-                <FontAwesomeIcon icon={['fas', 'plus']} />
-              </button>
-            </div>
-            {colaboradores.length > 0 && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.75rem' }}>
-                {colaboradores.map((col, i) => (
-                  <span key={i} className="beat-wizard__producer-tag">
-                    {col}
-                    <button type="button" onClick={() => setColaboradores(prev => prev.filter((_, idx) => idx !== i))}>×</button>
-                  </span>
-                ))}
               </div>
-            )}
-            <small>Pulsa Enter o + para añadir cada colaborador.</small>
-          </div>
+            </fieldset>
 
-          <div className="beat-wizard__form-row">
-            <div className="beat-wizard__form-group">
-              <label><FontAwesomeIcon icon={['fas', 'music']} className="icon-label" /> BPM (Tempo)</label>
-              <input
-                type="number"
-                name="bpm"
-                value={formData.bpm}
-                onChange={handleChange}
-                max={300}
-                placeholder="140"
-              />
+            <div className="beat-wizard__info-tip">
+              <FontAwesomeIcon icon={['fas', 'info-circle']} />
+              <span>Completa el título, precio y productor para continuar al siguiente paso</span>
             </div>
-            <div className="beat-wizard__form-group">
-              <label><FontAwesomeIcon icon={['fas', 'music']} className="icon-label" /> Tonalidad (Key)</label>
-              <select
-                name="key"
-                value={formData.key}
-                onChange={handleChange}
-              >
-                <option value="">Seleccionar tonalidad</option>
-                {MUSICAL_KEYS.map(k => (
-                  <option key={k} value={k}>{k}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="beat-wizard__form-group">
-            <label>Género Musical</label>
-            <input
-              name="genre"
-              value={formData.genre}
-              onChange={handleChange}
-              placeholder="Trap, Hip Hop, R&B..."
-            />
-          </div>
-
-          <div className="beat-wizard__form-group">
-            <label><FontAwesomeIcon icon={['fas', 'tag']} className="icon-label" /> Etiquetas (Tags)</label>
-            <input
-              name="tags"
-              value={formData.tags}
-              onChange={handleChange}
-              placeholder="trap, dark, piano, aggressive"
-            />
-            <small>Separa las etiquetas con comas</small>
-          </div>
-
-          <div className="beat-wizard__info-tip">
-            <FontAwesomeIcon icon={['fas', 'info-circle']} />
-            <span>Completa el título, precio y productor para continuar al siguiente paso</span>
           </div>
         </div>
       )}
@@ -1305,165 +1320,170 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
             Resumen del Beat
           </h3>
 
-          <div className="beat-wizard__summary">
-            {/* Basic info summary */}
-            <div className="beat-wizard__summary-section">
-              <h4 className="beat-wizard__summary-section-title">
-                <FontAwesomeIcon icon={['fas', 'music']} className="icon" />
-                Información Básica
-              </h4>
+          <div className="beat-wizard__summary form-layout">
+            {/* Columna izquierda: portada + info básica */}
+            <div className="beat-wizard__summary-col">
+              <div className="beat-wizard__summary-section">
+                <h4 className="beat-wizard__summary-section-title">
+                  <FontAwesomeIcon icon={['fas', 'music']} className="icon" />
+                  Información Básica
+                </h4>
 
-              {coverPreviewUrl && (
-                <div className="beat-wizard__summary-cover">
-                  <img src={coverPreviewUrl} alt="Portada" />
-                </div>
-              )}
+                {coverPreviewUrl && (
+                  <div className="beat-wizard__summary-cover">
+                    <img src={coverPreviewUrl} alt="Portada" />
+                  </div>
+                )}
 
-              <div className="beat-wizard__summary-grid">
-                <div className="beat-wizard__summary-row">
-                  <span className="beat-wizard__summary-label">Título</span>
-                  <span className="beat-wizard__summary-value">{formData.title || 'Sin título'}</span>
-                </div>
-                {formData.description && (
+                <div className="beat-wizard__summary-grid">
                   <div className="beat-wizard__summary-row">
-                    <span className="beat-wizard__summary-label">Descripción</span>
-                    <span className="beat-wizard__summary-value">{formData.description}</span>
+                    <span className="beat-wizard__summary-label">Título</span>
+                    <span className="beat-wizard__summary-value">{formData.title || 'Sin título'}</span>
                   </div>
-                )}
-                <div className="beat-wizard__summary-row">
-                  <span className="beat-wizard__summary-label">Precio Base</span>
-                  <span className="beat-wizard__summary-value">{formData.price ? `${Number(formData.price).toFixed(2)} €` : 'No definido'}</span>
-                </div>
-                <div className="beat-wizard__summary-row">
-                  <span className="beat-wizard__summary-label">Productor</span>
-                  <span className="beat-wizard__summary-value">{formData.producer || 'No asignado'}</span>
-                </div>
-                {formData.bpm && (
+                  {formData.description && (
+                    <div className="beat-wizard__summary-row">
+                      <span className="beat-wizard__summary-label">Descripción</span>
+                      <span className="beat-wizard__summary-value">{formData.description}</span>
+                    </div>
+                  )}
                   <div className="beat-wizard__summary-row">
-                    <span className="beat-wizard__summary-label">BPM</span>
-                    <span className="beat-wizard__summary-value">{formData.bpm}</span>
+                    <span className="beat-wizard__summary-label">Precio Base</span>
+                    <span className="beat-wizard__summary-value">{formData.price ? `${Number(formData.price).toFixed(2)} €` : 'No definido'}</span>
                   </div>
-                )}
-                {formData.key && (
                   <div className="beat-wizard__summary-row">
-                    <span className="beat-wizard__summary-label">Tonalidad</span>
-                    <span className="beat-wizard__summary-value">{formData.key}</span>
+                    <span className="beat-wizard__summary-label">Productor</span>
+                    <span className="beat-wizard__summary-value">{formData.producer || 'No asignado'}</span>
                   </div>
-                )}
-                {formData.genre && (
-                  <div className="beat-wizard__summary-row">
-                    <span className="beat-wizard__summary-label">Género</span>
-                    <span className="beat-wizard__summary-value">{formData.genre}</span>
-                  </div>
-                )}
-                {formData.tags && (
-                  <div className="beat-wizard__summary-row">
-                    <span className="beat-wizard__summary-label">Tags</span>
-                    <span className="beat-wizard__summary-value">
-                      <div className="beat-wizard__summary-tags">
-                        {formData.tags.split(',').map(t => t.trim()).filter(Boolean).map((tag, i) => (
-                          <span key={i} className="beat-wizard__summary-tag">{tag}</span>
-                        ))}
-                      </div>
-                    </span>
-                  </div>
-                )}
-                {colaboradores.length > 0 && (
-                  <div className="beat-wizard__summary-row">
-                    <span className="beat-wizard__summary-label">Colaboradores</span>
-                    <span className="beat-wizard__summary-value">
-                      <div className="beat-wizard__summary-tags">
-                        {colaboradores.map((col, i) => (
-                          <span key={i} className="beat-wizard__summary-tag">{col}</span>
-                        ))}
-                      </div>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Files summary */}
-            <div className="beat-wizard__summary-section">
-              <h4 className="beat-wizard__summary-section-title">
-                <FontAwesomeIcon icon={['fas', 'cloud-upload-alt']} className="icon" />
-                Archivos ({availableFileKeys.length})
-              </h4>
-              <div className="beat-wizard__summary-files">
-                {FILE_TYPES.map(ft => {
-                  const hasFile = uploadedFiles[ft.key] || fileUrls[ft.key]
-                  if (!hasFile) return null
-                  return (
-                    <div key={ft.key} className="beat-wizard__summary-file">
-                      <div className={`beat-wizard__summary-file-icon ${ft.iconClass}`}>
-                        <FontAwesomeIcon icon={['fas', ft.icon]} />
-                      </div>
-                      <span className="beat-wizard__summary-file-name">
-                        {uploadedFiles[ft.key]?.originalName || `${ft.label} (URL)`}
-                      </span>
-                      <span className="beat-wizard__summary-file-status">
-                        <FontAwesomeIcon icon={['fas', 'check-circle']} /> Listo
+                  {formData.bpm && (
+                    <div className="beat-wizard__summary-row">
+                      <span className="beat-wizard__summary-label">BPM</span>
+                      <span className="beat-wizard__summary-value">{formData.bpm}</span>
+                    </div>
+                  )}
+                  {formData.key && (
+                    <div className="beat-wizard__summary-row">
+                      <span className="beat-wizard__summary-label">Tonalidad</span>
+                      <span className="beat-wizard__summary-value">{formData.key}</span>
+                    </div>
+                  )}
+                  {formData.genre && (
+                    <div className="beat-wizard__summary-row">
+                      <span className="beat-wizard__summary-label">Género</span>
+                      <span className="beat-wizard__summary-value">{formData.genre}</span>
+                    </div>
+                  )}
+                  {formData.tags && (
+                    <div className="beat-wizard__summary-row">
+                      <span className="beat-wizard__summary-label">Tags</span>
+                      <span className="beat-wizard__summary-value">
+                        <div className="beat-wizard__summary-tags">
+                          {formData.tags.split(',').map(t => t.trim()).filter(Boolean).map((tag, i) => (
+                            <span key={i} className="beat-wizard__summary-tag">{tag}</span>
+                          ))}
+                        </div>
                       </span>
                     </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Licenses summary */}
-            <div className="beat-wizard__summary-section">
-              <h4 className="beat-wizard__summary-section-title">
-                <FontAwesomeIcon icon={['fas', 'shopping-cart']} className="icon" />
-                Licencias ({licenses.length})
-              </h4>
-              <div className="beat-wizard__summary-licenses">
-                {licenses.map(license => (
-                  <div key={license.id} className="beat-wizard__summary-license">
-                    <div className="beat-wizard__summary-license-info">
-                      <span className="beat-wizard__summary-license-name">{license.name}</span>
-                      <div className="beat-wizard__summary-license-formats">
-                        {(license.fileKeys || []).map(fk => {
-                          const ft = FILE_TYPES.find(f => f.key === fk)
-                          return (
-                            <span key={fk} className="beat-wizard__summary-license-format">{ft?.label}</span>
-                          )
-                        })}
-                      </div>
+                  )}
+                  {colaboradores.length > 0 && (
+                    <div className="beat-wizard__summary-row">
+                      <span className="beat-wizard__summary-label">Colaboradores</span>
+                      <span className="beat-wizard__summary-value">
+                        <div className="beat-wizard__summary-tags">
+                          {colaboradores.map((col, i) => (
+                            <span key={i} className="beat-wizard__summary-tag">{col}</span>
+                          ))}
+                        </div>
+                      </span>
                     </div>
-                    <span className="beat-wizard__summary-license-price">{license.price.toFixed(2)} €</span>
-                  </div>
-                ))}
+                  )}
+                </div>
+              </div>
+
+              {/* Files summary */}
+              <div className="beat-wizard__summary-section">
+                <h4 className="beat-wizard__summary-section-title">
+                  <FontAwesomeIcon icon={['fas', 'cloud-upload-alt']} className="icon" />
+                  Archivos ({availableFileKeys.length})
+                </h4>
+                <div className="beat-wizard__summary-files">
+                  {FILE_TYPES.map(ft => {
+                    const hasFile = uploadedFiles[ft.key] || fileUrls[ft.key]
+                    if (!hasFile) return null
+                    return (
+                      <div key={ft.key} className="beat-wizard__summary-file">
+                        <div className={`beat-wizard__summary-file-icon ${ft.iconClass}`}>
+                          <FontAwesomeIcon icon={['fas', ft.icon]} />
+                        </div>
+                        <span className="beat-wizard__summary-file-name">
+                          {uploadedFiles[ft.key]?.originalName || `${ft.label} (URL)`}
+                        </span>
+                        <span className="beat-wizard__summary-file-status">
+                          <FontAwesomeIcon icon={['fas', 'check-circle']} /> Listo
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Active toggle */}
-            <div className="beat-wizard__summary-section">
-              <h4 className="beat-wizard__summary-section-title">
-                <FontAwesomeIcon icon={['fas', 'info-circle']} className="icon" />
-                Configuración
-              </h4>
-              <label className={`beat-wizard__active-toggle ${formData.active ? 'beat-wizard__active-toggle--on' : 'beat-wizard__active-toggle--off'}`}>
-                <input
-                  type="checkbox"
-                  name="active"
-                  checked={formData.active}
-                  onChange={handleChange}
-                />
-                <div className="beat-wizard__active-toggle-text">
-                  <div className="beat-wizard__active-toggle-title">
-                    {formData.active ? 'Beat Activo' : 'Beat Inactivo'}
-                  </div>
-                  <div className="beat-wizard__active-toggle-desc">
-                    {formData.active
-                      ? 'El beat será visible y disponible para compra'
-                      : 'El beat estará oculto y no podrá ser comprado'}
-                  </div>
+            {/* Columna derecha: licencias + config */}
+            <div className="beat-wizard__summary-col">
+              {/* Licenses summary */}
+              <div className="beat-wizard__summary-section">
+                <h4 className="beat-wizard__summary-section-title">
+                  <FontAwesomeIcon icon={['fas', 'shopping-cart']} className="icon" />
+                  Licencias ({licenses.length})
+                </h4>
+                <div className="beat-wizard__summary-licenses">
+                  {licenses.map(license => (
+                    <div key={license.id} className="beat-wizard__summary-license">
+                      <div className="beat-wizard__summary-license-info">
+                        <span className="beat-wizard__summary-license-name">{license.name}</span>
+                        <div className="beat-wizard__summary-license-formats">
+                          {(license.fileKeys || []).map(fk => {
+                            const ft = FILE_TYPES.find(f => f.key === fk)
+                            return (
+                              <span key={fk} className="beat-wizard__summary-license-format">{ft?.label}</span>
+                            )
+                          })}
+                        </div>
+                      </div>
+                      <span className="beat-wizard__summary-license-price">{license.price.toFixed(2)} €</span>
+                    </div>
+                  ))}
                 </div>
-                <FontAwesomeIcon
-                  icon={['fas', formData.active ? 'check-circle' : 'times']}
-                  style={{ fontSize: '1.5rem', color: formData.active ? '#22c55e' : '#ef4444' }}
-                />
-              </label>
+              </div>
+
+              {/* Active toggle */}
+              <div className="beat-wizard__summary-section">
+                <h4 className="beat-wizard__summary-section-title">
+                  <FontAwesomeIcon icon={['fas', 'info-circle']} className="icon" />
+                  Configuración
+                </h4>
+                <label className={`beat-wizard__active-toggle ${formData.active ? 'beat-wizard__active-toggle--on' : 'beat-wizard__active-toggle--off'}`}>
+                  <input
+                    type="checkbox"
+                    name="active"
+                    checked={formData.active}
+                    onChange={handleChange}
+                  />
+                  <div className="beat-wizard__active-toggle-text">
+                    <div className="beat-wizard__active-toggle-title">
+                      {formData.active ? 'Beat Activo' : 'Beat Inactivo'}
+                    </div>
+                    <div className="beat-wizard__active-toggle-desc">
+                      {formData.active
+                        ? 'El beat será visible y disponible para compra'
+                        : 'El beat estará oculto y no podrá ser comprado'}
+                    </div>
+                  </div>
+                  <FontAwesomeIcon
+                    icon={['fas', formData.active ? 'check-circle' : 'times']}
+                    style={{ fontSize: '1.5rem', color: formData.active ? '#22c55e' : '#ef4444' }}
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </div>
