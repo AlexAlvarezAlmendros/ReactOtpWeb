@@ -42,7 +42,7 @@ function Perfil () {
     const loadArtists = async () => {
       setArtistsLoading(true)
       try {
-        const response = await fetch(`${API_URL}/artists`)
+        const response = await fetch(`${API_URL}/artists?count=100`)
         if (response.ok) {
           const data = await response.json()
           const list = data.data || data.artists || data
