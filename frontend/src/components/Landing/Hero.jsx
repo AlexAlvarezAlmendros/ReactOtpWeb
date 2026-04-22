@@ -1,6 +1,7 @@
 import './Hero.css'
 import { NavLink } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
 
@@ -10,8 +11,10 @@ export function Hero () {
     ? artists.map((a) => a.title.toUpperCase())
     : ['TRAP', 'RAP', 'DRILL', 'BOOKING', 'RELEASES', 'PRODUCCIÓN']
 
+  const [nowIso] = useState(() => new Date().toISOString())
+
   const { events: upcomingEvents } = useEvents({
-    dateMin: new Date().toISOString(),
+    dateMin: nowIso,
     count: 1,
     sortBy: 'date',
     sortOrder: 'asc'
