@@ -63,7 +63,9 @@ import {
   faUser,
   faBars,
   faEnvelopeOpen,
-  faSliders
+  faSliders,
+  faQrcode,
+  faCopy
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -134,5 +136,7 @@ library.add(
   faUser,
   faBars,
   faEnvelopeOpen,
-  faSliders
+  faSliders,
+  faQrcode,
+  faCopy
 )

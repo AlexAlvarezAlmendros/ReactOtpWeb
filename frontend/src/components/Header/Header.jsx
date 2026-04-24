@@ -13,7 +13,7 @@ function Header ({ children }) {
   return (
     <header className='header'>
       <div className='header-content'>
-        <NavLink to="/" className='logo-section'>
+        <NavLink to="/herramientas" className='logo-section'>
           <img
             src='/img/otpLogo2.png'
             alt='Logo'
