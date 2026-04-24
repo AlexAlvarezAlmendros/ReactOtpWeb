@@ -7,6 +7,7 @@ import EventForm from '../components/Forms/EventForm.jsx'
 import BeatForm from '../components/Forms/BeatForm.jsx'
 import NewsletterForm from '../components/Forms/NewsletterForm.jsx'
 import ManageCards from '../components/ManageCards/ManageCards.jsx'
+import QRGenerator from '../components/Tools/QRGenerator/QRGenerator.jsx'
 import './Create.css'
 
 const NAV = {
@@ -25,11 +26,15 @@ const NAV = {
     { type: 'newsletters',  label: 'Newsletters',  icon: 'envelope-open' },
     { type: 'files',        label: 'Archivos',     icon: 'folder' },
   ],
+  tools: [
+    { type: 'qr-generator', label: 'Generador QR', icon: 'qrcode' },
+  ],
 }
 
 const ALL_ITEMS = [
   ...NAV.create.map(i => ({ ...i, key: `create:${i.type}` })),
   ...NAV.manage.map(i => ({ ...i, key: `manage:${i.type}` })),
+  ...NAV.tools.map(i => ({ ...i, key: `tools:${i.type}` })),
 ]
 
 function Create () {
@@ -71,6 +76,12 @@ function Create () {
         case 'beat':       return <BeatForm onSuccess={handleSuccess} />
         case 'newsletter': return <NewsletterForm onSuccess={handleSuccess} />
         default:           return null
+      }
+    }
+    if (section === 'tools') {
+      switch (type) {
+        case 'qr-generator': return <QRGenerator />
+        default:             return null
       }
     }
     return <ManageCards activeTab={type} />
@@ -118,6 +129,21 @@ function Create () {
               </button>
             )
           })}
+
+          <p className="dashboard__nav-label">Herramientas</p>
+          {NAV.tools.map(item => {
+            const key = `tools:${item.type}`
+            return (
+              <button
+                key={key}
+                className={`dashboard__nav-item ${activeView === key ? 'dashboard__nav-item--active' : ''}`}
+                onClick={() => handleNavClick(key)}
+              >
+                <FontAwesomeIcon icon={['fas', item.icon]} />
+                {item.label}
+              </button>
+            )
+          })}
         </nav>
       </aside>
 
@@ -133,7 +159,7 @@ function Create () {
 
           <div className="dashboard__main-header-text">
             <span className="dashboard__breadcrumb">
-              {section === 'create' ? 'Crear nuevo' : 'Gestionar'}
+              {section === 'create' ? 'Crear nuevo' : section === 'tools' ? 'Herramientas' : 'Gestionar'}
             </span>
             <h1 className="dashboard__main-title">
               {section === 'create' ? `Nuevo ${activeItem?.label}` : activeItem?.label}
