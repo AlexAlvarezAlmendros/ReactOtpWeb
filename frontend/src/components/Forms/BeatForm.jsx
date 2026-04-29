@@ -8,6 +8,7 @@ import { FileUploader } from '../FileUploader/FileUploader'
 import { ImageUploader } from '../ImageUploader/ImageUploader'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import { MUSICAL_KEYS } from '../../utils/beatConstants'
+import { generateBeatPromoImage } from '../../utils/generateBeatPromo'
 import './BeatForm.css'
 import './Forms.css'
 
@@ -86,6 +87,9 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
   // Wizard step state
   const [currentStep, setCurrentStep] = useState(1)
   const TOTAL_STEPS = 4
+
+  // Promo image generation state
+  const [promoLoading, setPromoLoading] = useState(false)
 
   // Cover Image State
   const [coverImageFile, setCoverImageFile] = useState(null)
@@ -1508,6 +1512,34 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
             )
           : <div />
         }
+
+        {isEditMode && (formData.coverUrl || coverPreviewUrl) && (
+          <button
+            type="button"
+            className="beat-wizard__btn beat-wizard__btn--promo"
+            disabled={promoLoading}
+            onClick={async () => {
+              setPromoLoading(true)
+              try {
+                await generateBeatPromoImage({
+                  title: formData.title || 'Beat',
+                  producer: formData.producer,
+                  colaboradores,
+                  coverUrl: coverPreviewUrl || formData.coverUrl
+                })
+              } catch (err) {
+                alert(err.message || 'Error al generar la imagen promocional.')
+              } finally {
+                setPromoLoading(false)
+              }
+            }}
+          >
+            {promoLoading
+              ? <><FontAwesomeIcon icon={['fas', 'spinner']} spin /> Generando...</>
+              : <><FontAwesomeIcon icon={['fas', 'image']} /> Descargar Promo</>
+            }
+          </button>
+        )}
 
         {currentStep < TOTAL_STEPS
           ? (

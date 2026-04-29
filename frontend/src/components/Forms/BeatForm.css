@@ -225,6 +225,26 @@
   transform: none;
 }
 
+.beat-wizard__btn--promo {
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.beat-wizard__btn--promo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.5);
+}
+
+.beat-wizard__btn--promo:disabled {
+  background: #444;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* =====================
    STEP 1: Basic Info
    ===================== */
