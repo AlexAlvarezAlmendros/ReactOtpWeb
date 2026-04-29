@@ -3,6 +3,7 @@ import { useContact } from '../hooks/useContact'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Footer from '../components/Footer/Footer'
+import { IsoShop, IsoSpray, IsoBeer, IsoHam, IsoTent } from './RuralMafiaIcons'
 import './RuralMafia.css'
 
 const FORM_SUBJECT = 'rural-mafia-invitation'
@@ -166,27 +167,27 @@ function RuralMafia () {
           </div>
           <div className="rm-grid rm-grid--3">
             <div className="rm-card">
-              <FontAwesomeIcon icon={['fas', 'shop']} className="rm-card__icon" />
+              <div className="rm-card__icon"><IsoShop /></div>
               <h3>Pop-up stores</h3>
               <p>Marcas y proyectos afines con sus productos en el recinto.</p>
             </div>
             <div className="rm-card">
-              <FontAwesomeIcon icon={['fas', 'palette']} className="rm-card__icon" />
+              <div className="rm-card__icon"><IsoSpray /></div>
               <h3>Arte urbano</h3>
               <p>Exposiciones de artistas locales repartidas por el espacio.</p>
             </div>
             <div className="rm-card">
-              <FontAwesomeIcon icon={['fas', 'beer-mug-empty']} className="rm-card__icon" />
+              <div className="rm-card__icon"><IsoBeer /></div>
               <h3>Cerveza artesana</h3>
               <p>Barra principal con cerveza elaborada en la propia masía.</p>
             </div>
             <div className="rm-card">
-              <FontAwesomeIcon icon={['fas', 'utensils']} className="rm-card__icon" />
+              <div className="rm-card__icon"><IsoHam /></div>
               <h3>Gastronomía</h3>
               <p>Puesto de comida disponible durante un periodo limitado.</p>
             </div>
             <div className="rm-card">
-              <FontAwesomeIcon icon={['fas', 'campground']} className="rm-card__icon" />
+              <div className="rm-card__icon"><IsoTent /></div>
               <h3>Camping</h3>
               <p>Zona habilitada para quien quiera pasar la noche en el recinto.</p>
             </div>
