@@ -1,19 +1,12 @@
 /**
  * Genera una imagen promocional para un beat usando HTML Canvas.
- * Formato: 1080x1080px (cuadrado, apto para Instagram/redes sociales).
+ * Estética inspirada en el hero del detalle del beat en vista móvil.
  *
- * Estructura visual:
- * - Portada del beat como fondo (recortada para llenar el cuadrado)
- * - Degradado oscuro en la parte superior (para el logo) y en la inferior (para el texto)
- * - "otherpeople.es" en pequeño en la parte superior centrado
- * - Logo de la web superpuesto en la parte superior centrado
- * - Nombre del beat en grande en la parte inferior centrado
- * - Productores debajo del nombre
- * - Todo el texto en blanco
+ * Formato: 3000x3000 px (alta calidad, apto para impresión y redes).
  */
 
-const WIDTH = 1080
-const HEIGHT = 1080
+const WIDTH = 3000
+const HEIGHT = 3000
 
 function loadImage (src, crossOrigin = false) {
   return new Promise((resolve, reject) => {
@@ -26,35 +19,34 @@ function loadImage (src, crossOrigin = false) {
 }
 
 /**
- * Dibuja texto con saltos de línea automáticos si excede maxWidth.
- * Devuelve la Y final tras el último bloque de texto.
+ * Pinta texto centrado con saltos de línea automáticos.
  */
 function drawWrappedText (ctx, text, x, y, maxWidth, lineHeight) {
   const words = text.split(' ')
+  const lines = []
   let line = ''
-  let currentY = y
 
   for (let i = 0; i < words.length; i++) {
-    const testLine = line + (line ? ' ' : '') + words[i]
-    const metrics = ctx.measureText(testLine)
-    if (metrics.width > maxWidth && line) {
-      ctx.fillText(line, x, currentY)
+    const test = line ? line + ' ' + words[i] : words[i]
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line)
       line = words[i]
-      currentY += lineHeight
     } else {
-      line = testLine
+      line = test
     }
   }
-  ctx.fillText(line, x, currentY)
-  return currentY
+  if (line) lines.push(line)
+
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight))
+  return y + (lines.length - 1) * lineHeight
 }
 
 /**
  * @param {object} params
- * @param {string} params.title        - Título del beat
- * @param {string} params.producer     - Productor principal
- * @param {string[]} params.colaboradores - Colaboradores adicionales
- * @param {string} params.coverUrl     - URL de la portada del beat
+ * @param {string}   params.title
+ * @param {string}   params.producer
+ * @param {string[]} params.colaboradores
+ * @param {string}   params.coverUrl
  */
 export async function generateBeatPromoImage ({ title, producer, colaboradores = [], coverUrl }) {
   if (!coverUrl) {
@@ -65,19 +57,19 @@ export async function generateBeatPromoImage ({ title, producer, colaboradores =
   canvas.width = WIDTH
   canvas.height = HEIGHT
   const ctx = canvas.getContext('2d')
+  ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
 
-  // ── 1. PORTADA COMO FONDO ──────────────────────────────────────────────────
+  // ── 1. PORTADA COMO FONDO (full-bleed, object-fit: cover) ─────────────────
   let coverImg
   try {
     coverImg = await loadImage(coverUrl, true)
   } catch {
-    // Si falla por CORS, intentar sin crossOrigin (no se podrá exportar el canvas)
     throw new Error(
       'No se pudo cargar la portada. Puede ser un problema de CORS con la imagen externa.'
     )
   }
 
-  // Object-fit: cover (llenar el cuadrado manteniendo proporciones)
   const scale = Math.max(WIDTH / coverImg.width, HEIGHT / coverImg.height)
   const sw = coverImg.width * scale
   const sh = coverImg.height * scale
@@ -85,75 +77,116 @@ export async function generateBeatPromoImage ({ title, producer, colaboradores =
   const sy = (HEIGHT - sh) / 2
   ctx.drawImage(coverImg, sx, sy, sw, sh)
 
-  // ── 2. DEGRADADO SUPERIOR (para el área del logo) ─────────────────────────
-  const topGrad = ctx.createLinearGradient(0, 0, 0, 240)
-  topGrad.addColorStop(0, 'rgba(0,0,0,0.80)')
+  // ── 2. DEGRADADO INFERIOR FUERTE (igual que hero móvil) ───────────────────
+  const gradStartY = HEIGHT * 0.40
+  const grad = ctx.createLinearGradient(0, HEIGHT, 0, gradStartY)
+  grad.addColorStop(0, 'rgba(0,0,0,0.92)')
+  grad.addColorStop(0.5, 'rgba(0,0,0,0.65)')
+  grad.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = grad
+  ctx.fillRect(0, gradStartY, WIDTH, HEIGHT - gradStartY)
+
+  // ── 3. TINTE SUAVE EN LA ZONA DEL LOGO ────────────────────────────────────
+  const TOP_TINT_H = 800
+  const topGrad = ctx.createLinearGradient(0, 0, 0, TOP_TINT_H)
+  topGrad.addColorStop(0, 'rgba(0,0,0,0.45)')
   topGrad.addColorStop(1, 'rgba(0,0,0,0)')
   ctx.fillStyle = topGrad
-  ctx.fillRect(0, 0, WIDTH, 240)
+  ctx.fillRect(0, 0, WIDTH, TOP_TINT_H)
 
-  // ── 3. DEGRADADO INFERIOR (para el área del texto del beat) ───────────────
-  const bottomGrad = ctx.createLinearGradient(0, HEIGHT * 0.45, 0, HEIGHT)
-  bottomGrad.addColorStop(0, 'rgba(0,0,0,0)')
-  bottomGrad.addColorStop(0.35, 'rgba(0,0,0,0.65)')
-  bottomGrad.addColorStop(1, 'rgba(0,0,0,0.93)')
-  ctx.fillStyle = bottomGrad
-  ctx.fillRect(0, HEIGHT * 0.45, WIDTH, HEIGHT * 0.55)
-
-  // ── 4. URL "otherpeople.es" EN LA PARTE SUPERIOR ──────────────────────────
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'top'
-  ctx.fillStyle = 'rgba(255,255,255,0.65)'
-  ctx.font = '500 26px Arial, Helvetica, sans-serif'
-  ctx.letterSpacing = '3px'
-  ctx.fillText('otherpeople.es', WIDTH / 2, 26)
-  ctx.letterSpacing = '0px'
-
-  // ── 5. LOGO CENTRADO EN LA PARTE SUPERIOR ─────────────────────────────────
+  // ── 4. LOGO GRANDE CENTRADO ARRIBA ───────────────────────────────────────
   try {
     const logo = await loadImage('/img/logoLowRes.webp')
-    const LOGO_MAX_W = 300
-    const LOGO_MAX_H = 100
+    const LOGO_MAX_W = 1200
+    const LOGO_MAX_H = 600
     const logoScale = Math.min(LOGO_MAX_W / logo.width, LOGO_MAX_H / logo.height)
     const lw = logo.width * logoScale
     const lh = logo.height * logoScale
-    // Centrar horizontalmente, debajo del texto de URL
-    ctx.drawImage(logo, (WIDTH - lw) / 2, 68, lw, lh)
+    ctx.drawImage(logo, (WIDTH - lw) / 2, 140, lw, lh)
   } catch {
-    // Logo no disponible — se omite sin romper la imagen
+    // Logo opcional
   }
 
-  // ── 6. NOMBRE DEL BEAT (centrado, parte inferior) ─────────────────────────
+  // ── 5. TÍTULO DEL BEAT (parte inferior, centrado) ────────────────────────
+  ctx.textAlign = 'center'
   ctx.textBaseline = 'alphabetic'
-  ctx.shadowColor = 'rgba(0,0,0,0.9)'
-  ctx.shadowBlur = 16
   ctx.fillStyle = '#ffffff'
+  ctx.shadowColor = 'rgba(0,0,0,0.85)'
+  ctx.shadowBlur = 36
+  ctx.shadowOffsetY = 4
 
-  // Ajustar tamaño de fuente según longitud del título
-  const titleFontSize = title.length > 20 ? 68 : title.length > 12 ? 78 : 90
-  ctx.font = `800 ${titleFontSize}px Arial, Helvetica, sans-serif`
-  const titleY = drawWrappedText(ctx, title.toUpperCase(), WIDTH / 2, HEIGHT - 140, WIDTH - 80, titleFontSize * 1.15)
+  // Tamaños ~50% más pequeños que la versión anterior (escalado a 3000px)
+  const len = title.length
+  const titleFontSize = len > 24 ? 100 : len > 16 ? 122 : len > 10 ? 144 : 168
+  ctx.font = `800 ${titleFontSize}px "Helvetica Neue", Arial, sans-serif`
 
-  // ── 7. PRODUCTORES DEBAJO DEL TÍTULO ─────────────────────────────────────
+  const maxTitleWidth = WIDTH - 360
+  const upperTitle = title.toUpperCase()
+  const words = upperTitle.split(' ')
+  let line = ''
+  let lineCount = 1
+  for (let i = 0; i < words.length; i++) {
+    const test = line ? line + ' ' + words[i] : words[i]
+    if (ctx.measureText(test).width > maxTitleWidth && line) {
+      lineCount++
+      line = words[i]
+    } else {
+      line = test
+    }
+  }
+
+  const titleLineHeight = titleFontSize * 1.05
+  const producerOffset = 90
+  const bottomReserved = 180 // espacio para "otherpeople.es" abajo
+  const blockBottomMargin = 80 // distancia entre productor y otherpeople.es
+
+  // Y del productor (calculada desde abajo)
+  const producerY = HEIGHT - bottomReserved - blockBottomMargin
+  const titleStartY = producerY - producerOffset - (lineCount - 1) * titleLineHeight
+
+  drawWrappedText(ctx, upperTitle, WIDTH / 2, titleStartY, maxTitleWidth, titleLineHeight)
+
+  // ── 6. PRODUCTORES ────────────────────────────────────────────────────────
   const allProducers = [producer, ...colaboradores]
     .filter(Boolean)
     .map(p => p.trim())
-    .join('  ·  ')
+    .join(', ')
 
   if (allProducers) {
     ctx.fillStyle = 'rgba(255,255,255,0.80)'
-    ctx.font = '400 38px Arial, Helvetica, sans-serif'
-    ctx.shadowBlur = 10
-    const producerY = Math.max(titleY + 52, HEIGHT - 60)
-    drawWrappedText(ctx, allProducers, WIDTH / 2, producerY, WIDTH - 120, 46)
+    ctx.font = '500 52px "Helvetica Neue", Arial, sans-serif'
+    ctx.shadowBlur = 20
+    drawWrappedText(ctx, allProducers, WIDTH / 2, producerY, WIDTH - 480, 64)
   }
 
-  ctx.shadowBlur = 0
+  // ── 7. "OTHERPEOPLE.ES" ABAJO DEL TODO, CENTRADO ──────────────────────────
+  ctx.shadowBlur = 14
+  ctx.shadowOffsetY = 2
+  ctx.fillStyle = 'rgba(255,255,255,0.85)'
+  ctx.font = '700 44px "Helvetica Neue", Arial, sans-serif'
+  ctx.textBaseline = 'bottom'
+  ctx.fillText('OTHERPEOPLE.ES', WIDTH / 2, HEIGHT - 80)
 
-  // ── 8. DESCARGA ────────────────────────────────────────────────────────────
-  const filename = `${title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-')}-promo.png`
-  const link = document.createElement('a')
-  link.download = filename
-  link.href = canvas.toDataURL('image/png')
-  link.click()
+  ctx.shadowBlur = 0
+  ctx.shadowOffsetY = 0
+
+  // ── 8. DESCARGA EN MÁXIMA CALIDAD ─────────────────────────────────────────
+  const filename = `${title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '-') || 'beat'}-promo.png`
+  await new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        resolve()
+        return
+      }
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.download = filename
+      link.href = url
+      link.click()
+      setTimeout(() => {
+        URL.revokeObjectURL(url)
+        resolve()
+      }, 1000)
+    }, 'image/png')
+  })
 }

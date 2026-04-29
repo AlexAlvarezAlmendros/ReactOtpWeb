@@ -9,6 +9,7 @@ import { useDelete } from '../../hooks/useDelete'
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useArtistsWithBeats } from '../../hooks/useArtistsWithBeats'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { generateBeatPromoImage } from '../../utils/generateBeatPromo'
 import ReleaseCard from '../ReleaseCard/ReleaseCard'
 import ArtistCard from '../ArtistCard/ArtistCard'
 import EventsCard from '../EventsCard/EventsCard'
@@ -47,6 +48,7 @@ function ManageCards ({ activeTab: activeTabProp }) {
   const [deleteSuccess, setDeleteSuccess] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(null) // { type, id, title }
   const [editModal, setEditModal] = useState(null) // { item, type }
+  const [promoGenerating, setPromoGenerating] = useState(null) // beat id being generated
 
   // Configurar filtros basados en permisos
   // - Admin: Ve todas las cards del sistema (sin filtros)
@@ -372,6 +374,42 @@ function ManageCards ({ activeTab: activeTabProp }) {
               
               {activeTab !== 'newsletters' && (
                 <div className="card-actions">
+                    {activeTab === 'beats' && item.coverUrl && (
+                      <button
+                        className="promo-button"
+                        disabled={promoGenerating === itemId}
+                        title="Descargar imagen promo"
+                        onClick={async () => {
+                          setPromoGenerating(itemId)
+                          try {
+                            const producerName = typeof item.producer === 'object'
+                              ? (item.producer?.name || item.producer?.title || '')
+                              : (item.producer || '')
+                            const colabs = (() => {
+                              const raw = item.colaboradores
+                              if (!raw) return []
+                              if (Array.isArray(raw)) return raw
+                              try { return JSON.parse(raw) } catch { return [] }
+                            })()
+                            await generateBeatPromoImage({
+                              title: item.title || 'Beat',
+                              producer: producerName,
+                              colaboradores: colabs,
+                              coverUrl: item.coverUrl
+                            })
+                          } catch (err) {
+                            alert(err.message || 'Error al generar la imagen promocional.')
+                          } finally {
+                            setPromoGenerating(null)
+                          }
+                        }}
+                      >
+                        {promoGenerating === itemId
+                          ? <FontAwesomeIcon icon={['fas', 'spinner']} spin />
+                          : <FontAwesomeIcon icon={['fas', 'image']} />
+                        }
+                      </button>
+                    )}
                     <button 
                     className="edit-button"
                     onClick={() => handleEdit(activeTab.slice(0, -1), item)}

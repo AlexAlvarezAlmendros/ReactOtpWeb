@@ -132,7 +132,7 @@ const router = createBrowserRouter([
         element: <Herramientas />
       },
       {
-        path: '/rural-mafia',
+        path: '/ruralmafia',
         element: <RuralMafia />
       },
       {

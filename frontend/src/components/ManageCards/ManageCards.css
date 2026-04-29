@@ -129,7 +129,8 @@
 }
 
 .edit-button,
-.delete-button {
+.delete-button,
+.promo-button {
   border: none;
   border-radius: 50%;
   width: 2.5rem;
@@ -141,6 +142,21 @@
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   color: #ffffff;
+}
+
+.promo-button {
+  background-color: #7c3aed;
+}
+
+.promo-button:hover {
+  background-color: #6d28d9;
+  transform: scale(1.1);
+}
+
+.promo-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .edit-button {

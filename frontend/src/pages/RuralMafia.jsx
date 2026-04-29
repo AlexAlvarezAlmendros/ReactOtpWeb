@@ -31,7 +31,20 @@ function RuralMafia () {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    let nextValue = value
+    if (name === 'companionsCount') {
+      if (value === '') {
+        nextValue = ''
+      } else {
+        const parsed = Number.parseInt(value, 10)
+        if (Number.isNaN(parsed)) {
+          nextValue = '0'
+        } else {
+          nextValue = String(Math.min(2, Math.max(0, parsed)))
+        }
+      }
+    }
+    setFormData(prev => ({ ...prev, [name]: nextValue }))
     if (error || success) reset()
   }
 
@@ -266,7 +279,7 @@ function RuralMafia () {
                   name="companionsCount"
                   type="number"
                   min="0"
-                  max="10"
+                  max="2"
                   value={formData.companionsCount}
                   onChange={handleChange}
                 />
