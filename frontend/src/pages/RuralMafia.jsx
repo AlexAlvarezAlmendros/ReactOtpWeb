@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useContact } from '../hooks/useContact'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,6 +18,10 @@ function RuralMafia () {
   })
 
   const { sendMessage, loading, success, error, reset } = useContact()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   usePageMeta({
     title: 'Rural Mafia',
