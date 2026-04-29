@@ -567,4 +567,9 @@
     align-self: stretch;
     text-align: center;
   }
+
+  .rm-poster__act--fit {
+    font-size: clamp(1.8rem, 6.5vw, 4.5rem);
+    white-space: normal;
+  }
 }

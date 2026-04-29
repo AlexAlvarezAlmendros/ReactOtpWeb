@@ -40,7 +40,8 @@ function RuralMafia () {
     const message = [
       'Solicitud de invitación · OTP! Rural Mafia',
       '',
-      `Instagram: ${formData.instagram.trim() || '—'}`,
+      `Instagram: ${formData.instagram.trim()}`,
+
       `Acompañantes: ${formData.companionsCount || '0'}`,
       `Nombres acompañantes: ${formData.companionsNames.trim() || '—'}`,
       '',
@@ -110,7 +111,7 @@ function RuralMafia () {
           </div>
           <p className="rm-block__lead">
             <strong>OTP! Rural Mafia</strong> es una fiesta privada organizada por Other People
-            Records. Una noche que reúne <em>showcases y sesiones DJ</em> de los artistas más
+            Records con la ayuda de FrameWorks. Una noche que reúne <em>showcases y sesiones DJ</em> de los artistas más
             relevantes del under, en un entorno rural único donde música,
             cultura y comunidad se cruzan.
           </p>
@@ -175,11 +176,6 @@ function RuralMafia () {
               <FontAwesomeIcon icon={['fas', 'campground']} className="rm-card__icon" />
               <h3>Camping</h3>
               <p>Zona habilitada para quien quiera pasar la noche en el recinto.</p>
-            </div>
-            <div className="rm-card">
-              <FontAwesomeIcon icon={['fas', 'martini-glass-citrus']} className="rm-card__icon" />
-              <h3>Barra premium</h3>
-              <p>Cubatas y combinados disponibles en horario limitado.</p>
             </div>
           </div>
         </article>
@@ -253,13 +249,14 @@ function RuralMafia () {
 
             <div className="rm-form__row">
               <div className="rm-form__group">
-                <label htmlFor="rm-instagram">Instagram (opcional)</label>
+                <label htmlFor="rm-instagram">Instagram *</label>
                 <input
                   id="rm-instagram"
                   name="instagram"
                   value={formData.instagram}
                   onChange={handleChange}
                   placeholder="@usuario"
+                  required
                 />
               </div>
               <div className="rm-form__group">
