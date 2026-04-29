@@ -23,6 +23,7 @@ import Newsletters from './pages/Newsletters.jsx'
 import Unsubscribe from './pages/Unsubscribe.jsx'
 import Perfil from './pages/Perfil.jsx'
 import Herramientas from './pages/Herramientas.jsx'
+import RuralMafia from './pages/RuralMafia.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
@@ -129,6 +130,10 @@ const router = createBrowserRouter([
       {
         path: '/herramientas',
         element: <Herramientas />
+      },
+      {
+        path: '/rural-mafia',
+        element: <RuralMafia />
       },
       {
         path: '*',

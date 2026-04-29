@@ -40,6 +40,7 @@ function Eventos () {
       youtubeLink: event.youtubeLink,
       instagramLink: event.instagramLink,
       img: event.img,
+      customLink: event.detailpageUrl || null,
       // Campos para tickets
       ticketsEnabled: event.ticketsEnabled,
       externalTicketUrl: event.externalTicketUrl,

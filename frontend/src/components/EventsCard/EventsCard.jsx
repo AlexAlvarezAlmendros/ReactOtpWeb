@@ -50,11 +50,13 @@ function EventsCard ({ card }) {
   }
 
   const ticketsAvailable = hasAvailableTickets()
+  const targetPath = card.customLink || `/eventos/${card.id}`
+  const hasCustomLink = Boolean(card.customLink)
 
   return (
     <article className='card'>
       <div className="card-image-link">
-        <NavLink to={`/eventos/${card.id}`} className="card-image-link">
+        <NavLink to={targetPath} className="card-image-link">
           <LazyImage src={card.img} alt='Portada de la obra' />
         </NavLink>
       </div>
@@ -72,11 +74,19 @@ function EventsCard ({ card }) {
             {card.subtitle}
           </p>
         </div>
-        
+
+        {/* Botón a página propia (eventos privados / promocionales) */}
+        {hasCustomLink && (
+          <NavLink to={targetPath} className="btn-buy-tickets-card">
+            <FontAwesomeIcon icon={['fas', card.customLinkIcon || 'envelope-open-text']} />
+            {card.customLinkLabel || 'Más información'}
+          </NavLink>
+        )}
+
         {/* Mostrar botón de compra si hay entradas disponibles */}
-        {ticketsAvailable && (
+        {!hasCustomLink && ticketsAvailable && (
           card.externalTicketUrl ? (
-            <a 
+            <a
               href={card.externalTicketUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -87,8 +97,8 @@ function EventsCard ({ card }) {
               Entradas
             </a>
           ) : (
-            <NavLink 
-              to={`/eventos/${card.id}`} 
+            <NavLink
+              to={`/eventos/${card.id}`}
               className="btn-buy-tickets-card"
             >
               <FontAwesomeIcon icon={['fas', 'ticket-alt']} />
@@ -98,7 +108,7 @@ function EventsCard ({ card }) {
         )}
 
         {/* Mostrar botones sociales solo si NO hay entradas disponibles */}
-        {!ticketsAvailable && availableLinks.length > 0 && (
+        {!hasCustomLink && !ticketsAvailable && availableLinks.length > 0 && (
           <div className='card__buttons'>
             {availableLinks.map((item, index) => (
               <NavLink key={index} to={item.link} aria-label={item.label}>

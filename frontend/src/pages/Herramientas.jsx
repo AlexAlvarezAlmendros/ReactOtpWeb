@@ -150,7 +150,7 @@ function Herramientas () {
             <Link to="/beats" className="tools-beats__cta">
               Ver todos <FontAwesomeIcon icon={['fas', 'arrow-right']} />
             </Link>
-          </div>vidabadal fdrogas
+          </div>
           <div className="tools-beats__grid">
             <Cards cards={beats} type="beat" loading={bLoading} skeletonCount={3} />
           </div>

@@ -65,7 +65,17 @@ import {
   faEnvelopeOpen,
   faSliders,
   faQrcode,
-  faCopy
+  faCopy,
+  faShop,
+  faPalette,
+  faBeerMugEmpty,
+  faUtensils,
+  faCampground,
+  faMartiniGlassCitrus,
+  faEnvelopeOpenText,
+  faUserGroup,
+  faListCheck,
+  faCircleExclamation
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -138,5 +148,15 @@ library.add(
   faEnvelopeOpen,
   faSliders,
   faQrcode,
-  faCopy
+  faCopy,
+  faShop,
+  faPalette,
+  faBeerMugEmpty,
+  faUtensils,
+  faCampground,
+  faMartiniGlassCitrus,
+  faEnvelopeOpenText,
+  faUserGroup,
+  faListCheck,
+  faCircleExclamation
 )

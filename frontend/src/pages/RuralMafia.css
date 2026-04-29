@@ -1,0 +1,570 @@
+@font-face {
+  font-family: 'UTSouthDrink';
+  src: url('/fonts/UT South DrinkScript Demo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BerlinSans';
+  src: url('/fonts/BRLNSDB.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =============================================
+   RURAL MAFIA — Página de evento privado
+   ============================================= */
+
+.rm-page {
+  --rm-accent: #ff003c;
+  --rm-accent-soft: rgba(255, 0, 60, 0.18);
+  --rm-bg: #050505;
+  --rm-surface: #0e0e0e;
+  --rm-surface-2: #131313;
+  --rm-border: rgba(255, 255, 255, 0.08);
+  --rm-text: #ffffff;
+  --rm-text-dim: rgba(255, 255, 255, 0.65);
+  --rm-text-mute: rgba(255, 255, 255, 0.45);
+
+  color: var(--rm-text);
+  text-align: left;
+  min-height: 100vh;
+  margin: -2rem;
+  padding-bottom: 80px;
+  background: var(--rm-bg);
+}
+
+/* === HERO === */
+.rm-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 80px 24px 96px;
+  text-align: center;
+  background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+  border-bottom: 1px solid var(--rm-border);
+}
+
+.rm-hero::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background: url('/img/Cartelrural mafia.png') center center / cover no-repeat;
+  filter: blur(18px) saturate(0.6) brightness(0.35);
+  transform: scale(1.05);
+  z-index: 0;
+}
+
+.rm-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgba(255, 0, 60, 0.12) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(5,5,5,0.45) 0%, rgba(5,5,5,0.85) 100%);
+  z-index: 0;
+}
+
+.rm-hero__glow {
+  position: absolute;
+  inset: auto -20% -40% -20%;
+  height: 80%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 0, 60, 0.18) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rm-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.rm-hero__org {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rm-text-dim);
+}
+
+.rm-hero__org-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rm-accent);
+  box-shadow: 0 0 10px var(--rm-accent);
+}
+
+.rm-hero__logo {
+  width: min(360px, 70%);
+  height: auto;
+  filter: drop-shadow(0 12px 40px rgba(255, 0, 60, 0.25));
+}
+
+.rm-hero__tagline {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-weight: 300;
+  color: var(--rm-text-dim);
+  max-width: 520px;
+}
+
+.rm-hero__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--rm-border);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rm-hero__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--rm-text);
+}
+
+.rm-hero__meta-item svg {
+  color: var(--rm-accent);
+  font-size: 0.85rem;
+}
+
+.rm-hero__meta-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--rm-border);
+}
+
+.rm-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--rm-accent);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-shadow: 0 8px 24px rgba(255, 0, 60, 0.35);
+}
+
+.rm-hero__cta:hover {
+  transform: translateY(-2px);
+  background: #cc0030;
+  box-shadow: 0 12px 28px rgba(255, 0, 60, 0.45);
+}
+
+/* === BLOQUES === */
+.rm-block {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  border-bottom: 1px solid var(--rm-border);
+}
+
+.rm-block:last-of-type {
+  border-bottom: none;
+}
+
+.rm-block--accent {
+  background: linear-gradient(180deg, rgba(255, 0, 60, 0.04), transparent);
+}
+
+.rm-block__head {
+  margin-bottom: 32px;
+}
+
+.rm-block__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rm-accent);
+  margin-bottom: 12px;
+}
+
+.rm-block__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.rm-block__lead {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--rm-text-dim);
+  font-weight: 300;
+  margin: 0;
+  max-width: 720px;
+}
+
+.rm-block__lead strong {
+  color: var(--rm-text);
+  font-weight: 600;
+}
+
+.rm-block__lead em {
+  color: var(--rm-text);
+  font-style: normal;
+  border-bottom: 1px dashed var(--rm-accent);
+  padding-bottom: 1px;
+}
+
+.rm-block__note {
+  margin: 24px 0 0;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  color: var(--rm-text-mute);
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 2px solid var(--rm-accent);
+  border-radius: 4px;
+}
+
+/* === GRID DE TARJETAS === */
+.rm-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.rm-grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.rm-grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.rm-card {
+  padding: 24px;
+  background: var(--rm-surface);
+  border: 1px solid var(--rm-border);
+  border-radius: 14px;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.rm-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 0, 60, 0.35);
+  background: var(--rm-surface-2);
+}
+
+.rm-card__icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rm-accent-soft);
+  color: var(--rm-accent);
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+.rm-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.rm-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--rm-text-dim);
+  font-weight: 300;
+}
+
+/* === POSTER LINEUP === */
+.rm-poster {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rm-poster__section {
+  padding: 28px 0 24px;
+}
+
+.rm-poster__label {
+    display: block;
+    font-family: 'UTSouthDrink', cursive;
+    font-size: clamp(2.4rem, 6vw, 7rem);
+    font-weight: normal;
+    color: var(--rm-accent);
+    line-height: 1;
+    margin-bottom: -0.45em;
+    position: relative;
+    z-index: 1;
+}
+
+.rm-poster__acts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rm-poster__act {
+  display: block;
+  font-family: 'BerlinSans', sans-serif;
+  font-size: clamp(1.8rem, 6.5vw, 4.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
+  color: var(--rm-text);
+  padding: 2px 0;
+}
+
+.rm-poster__act--fit {
+  font-size: clamp(1rem, 4.2vw, 4rem);
+  white-space: nowrap;
+}
+
+.rm-poster__act--group {
+  position: relative;
+  display: block;
+}
+
+.rm-poster__act--inline {
+  display: block;
+}
+
+.rm-poster__act-group-inline {
+  position: relative;
+  display: inline-block;
+}
+
+.rm-poster__act-sub {
+    font-family: 'UTSouthDrink', cursive;
+    font-size: clamp(1.1rem, 3vw, 2.5rem);
+    font-weight: normal;
+    color: var(--rm-accent);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    z-index: 1;
+}
+
+.rm-poster__divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--rm-accent) 0%, transparent 80%);
+  margin: 4px 0;
+}
+
+/* === LISTA DE ACCESO === */
+.rm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rm-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--rm-surface);
+  border: 1px solid var(--rm-border);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--rm-text-dim);
+}
+
+.rm-list li svg {
+  color: var(--rm-accent);
+  font-size: 1rem;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* === FORMULARIO === */
+.rm-form {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rm-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.rm-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rm-form__group label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--rm-text-dim);
+}
+
+.rm-form__group input,
+.rm-form__group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--rm-surface);
+  border: 1px solid var(--rm-border);
+  border-radius: 10px;
+  color: var(--rm-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  box-sizing: border-box;
+}
+
+.rm-form__group textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.rm-form__group input:focus,
+.rm-form__group textarea:focus {
+  outline: none;
+  border-color: var(--rm-accent);
+  background: var(--rm-surface-2);
+}
+
+.rm-form__group input::placeholder,
+.rm-form__group textarea::placeholder {
+  color: var(--rm-text-mute);
+}
+
+.rm-form__submit {
+  margin-top: 8px;
+  align-self: flex-start;
+  padding: 16px 32px;
+  background: var(--rm-accent);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 22px rgba(255, 0, 60, 0.3);
+}
+
+.rm-form__submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #cc0030;
+  box-shadow: 0 12px 26px rgba(255, 0, 60, 0.4);
+}
+
+.rm-form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.rm-form__submit.is-loading {
+  position: relative;
+}
+
+.rm-form__status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.rm-form__status--success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+}
+
+.rm-form__status--error {
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.35);
+  color: #ff6b7a;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .rm-page {
+    margin: -2rem -2rem 0;
+  }
+
+  .rm-hero {
+    padding: 64px 20px 72px;
+  }
+
+  .rm-hero__logo {
+    width: min(280px, 80%);
+  }
+
+  .rm-hero__tagline {
+    font-size: 0.95rem;
+  }
+
+  .rm-hero__cta {
+    padding: 13px 24px;
+    font-size: 0.85rem;
+  }
+
+  .rm-block {
+    padding: 48px 20px;
+  }
+
+  .rm-block__head {
+    margin-bottom: 24px;
+  }
+
+  .rm-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-form__submit {
+    width: 100%;
+    align-self: stretch;
+    text-align: center;
+  }
+}

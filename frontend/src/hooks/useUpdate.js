@@ -118,7 +118,7 @@ export function useUpdate () {
           errorMessage = 'No estás autenticado'
         } else if (response.status === 400) {
           const errorData = await response.json()
-          errorMessage = errorData.message || 'Datos inválidos'
+          errorMessage = errorData.error || errorData.message || 'Datos inválidos'
         } else {
           errorMessage = `Error al actualizar: ${response.status}`
         }

@@ -86,14 +86,18 @@ const createEvent = async (req, res) => {
         };
         
         // Validación condicional: si ticketsEnabled y NO hay URL externa
-        if (eventData.ticketsEnabled && !eventData.externalTicketUrl) {
+        // Normalizar a booleano (multipart/form-data envía strings)
+        const isTicketsEnabled = eventData.ticketsEnabled === true || eventData.ticketsEnabled === 'true';
+        if (isTicketsEnabled && !eventData.externalTicketUrl) {
             // Para entradas internas (Stripe), validar campos requeridos
-            if (!eventData.ticketPrice || eventData.ticketPrice <= 0) {
+            const ticketPrice = parseFloat(eventData.ticketPrice);
+            const totalTickets = parseInt(eventData.totalTickets);
+            if (!ticketPrice || ticketPrice <= 0) {
                 return res.status(400).json({ 
                     error: 'Para entradas internas, ticketPrice debe ser mayor a 0' 
                 });
             }
-            if (!eventData.totalTickets || eventData.totalTickets <= 0) {
+            if (!totalTickets || totalTickets <= 0) {
                 return res.status(400).json({ 
                     error: 'Para entradas internas, totalTickets debe ser mayor a 0' 
                 });
@@ -142,14 +146,16 @@ const updateEvent = async (req, res) => {
         }
         
         // Validación condicional: si ticketsEnabled y NO hay URL externa
-        if (req.body.ticketsEnabled && !req.body.externalTicketUrl) {
+        // Normalizar a booleano (multipart/form-data envía strings)
+        const isTicketsEnabled = req.body.ticketsEnabled === true || req.body.ticketsEnabled === 'true';
+        if (isTicketsEnabled && !req.body.externalTicketUrl) {
             // Para entradas internas (Stripe), validar campos requeridos si se están actualizando
-            if (req.body.ticketPrice !== undefined && req.body.ticketPrice <= 0) {
+            if (req.body.ticketPrice !== undefined && parseFloat(req.body.ticketPrice) <= 0) {
                 return res.status(400).json({ 
                     error: 'Para entradas internas, ticketPrice debe ser mayor a 0' 
                 });
             }
-            if (req.body.totalTickets !== undefined && req.body.totalTickets <= 0) {
+            if (req.body.totalTickets !== undefined && parseInt(req.body.totalTickets) <= 0) {
                 return res.status(400).json({ 
                     error: 'Para entradas internas, totalTickets debe ser mayor a 0' 
                 });

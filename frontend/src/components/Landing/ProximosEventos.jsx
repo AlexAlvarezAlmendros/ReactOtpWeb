@@ -51,6 +51,7 @@ export function ProximosEventos () {
   // Vista especial para un solo evento (solo en desktop)
   if (!loading && !error && cards.length === 1 && !isMobile) {
     const event = cards[0]
+    const hasCustomLink = Boolean(event.customLink)
     const hasExternalTickets = event.externalTicketUrl && event.externalTicketUrl.trim() !== ''
     const hasInternalTickets = event.ticketsEnabled && event.availableTickets > 0
 
@@ -81,7 +82,15 @@ export function ProximosEventos () {
               </div>
             </div>
             <div className='evento-destacado-acciones'>
-              {hasExternalTickets ? (
+              {hasCustomLink ? (
+                <Link
+                  to={event.customLink}
+                  className='evento-destacado-btn-detalles'
+                >
+                  <FontAwesomeIcon icon={['fas', 'arrow-right']} />
+                  Más información
+                </Link>
+              ) : hasExternalTickets ? (
                 <a 
                   href={event.externalTicketUrl} 
                   target="_blank"

@@ -125,7 +125,9 @@ export function useEvents (options = {}) {
         ticketCurrency: event.ticketCurrency || 'EUR',
         saleStartDate: event.saleStartDate || null,
         saleEndDate: event.saleEndDate || null,
-        externalTicketUrl: event.externalTicketUrl || ''
+        externalTicketUrl: event.externalTicketUrl || '',
+        customLink: event.detailpageUrl || null,
+        detailpageUrl: event.detailpageUrl || ''
       }))
 
       setEvents(mappedCards)

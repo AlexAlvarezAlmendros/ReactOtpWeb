@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useUpdate } from '../../hooks/useUpdate'
 import { useBeat } from '../../hooks/useBeat'
+import { useEvent } from '../../hooks/useEvent'
 import ReleaseForm from '../Forms/ReleaseForm'
 import ArtistForm from '../Forms/ArtistForm'
 import EventForm from '../Forms/EventForm'
@@ -20,6 +21,11 @@ function EditModal ({ item, type, onClose, onSuccess }) {
     type === 'beat' ? itemId : null
   )
 
+  // For events, fetch individual event to get all fields (e.g. detailpageUrl)
+  const { event: fullEvent, loading: eventLoading } = useEvent(
+    type === 'event' ? itemId : null
+  )
+
   // Use the full beat data (with all files) when available, fallback to list item
   const [beatData, setBeatData] = useState(item)
   useEffect(() => {
@@ -27,6 +33,14 @@ function EditModal ({ item, type, onClose, onSuccess }) {
       setBeatData(fullBeat)
     }
   }, [type, fullBeat])
+
+  // Use the full event data when available, fallback to list item
+  const [eventData, setEventData] = useState(item)
+  useEffect(() => {
+    if (type === 'event' && fullEvent) {
+      setEventData(fullEvent)
+    }
+  }, [type, fullEvent])
 
   const handleSuccess = async (formData, imageFile = null) => {
     const result = await updateItem(type, itemId, formData, imageFile)
@@ -47,13 +61,18 @@ function EditModal ({ item, type, onClose, onSuccess }) {
   const getFormComponent = () => {
     const formProps = {
       onSuccess: handleSuccess,
-      initialData: type === 'beat' ? beatData : item,
+      initialData: type === 'beat' ? beatData : type === 'event' ? eventData : item,
       isEditMode: true
     }
 
     // Show loading while fetching full beat data
     if (type === 'beat' && beatLoading) {
       return <div style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>Cargando datos del beat...</div>
+    }
+
+    // Show loading while fetching full event data
+    if (type === 'event' && eventLoading) {
+      return <div style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>Cargando datos del evento...</div>
     }
 
     switch (type) {

@@ -84,13 +84,13 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
         location: data.location,
         colaborators: data.colaborators,
         description: description || '',
-        img: data.img || '',
+        img: data.img || (isEditMode ? initialData?.img : '') || '',
         youtubeLink: data.youtube || '',
         instagramLink: data.instagram || '',
         detailpageUrl: data.detailpageUrl || '',
         eventType: data.type,
         date: data.eventDate ? new Date(data.eventDate).toISOString() : new Date().toISOString(),
-        userId: user?.sub || null,
+        userId: user?.sub || (isEditMode ? initialData?.userId : null) || null,
         // Campos de tickets
         ticketsEnabled: isTicketsEnabled
       }
@@ -258,12 +258,26 @@ export default function EventForm ({ onSuccess, initialData = null, isEditMode =
 
             <div className="form-group">
                 <label htmlFor="instagram">Instagram URL</label>
-                <input 
-                  type="url" 
-                  id="instagram" 
-                  name="instagram" 
-                  defaultValue={initialData?.instagramLink || ''} 
+                <input
+                  type="url"
+                  id="instagram"
+                  name="instagram"
+                  defaultValue={initialData?.instagramLink || ''}
                 />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="detailpageUrl">Página personalizada (URL relativa)</label>
+                <input
+                  type="text"
+                  id="detailpageUrl"
+                  name="detailpageUrl"
+                  placeholder="/rural-mafia"
+                  defaultValue={initialData?.detailpageUrl || ''}
+                />
+                <small style={{ color: '#999', display: 'block', marginTop: '4px' }}>
+                  Si se rellena, el card del evento enlazará a esta ruta en vez de al detalle estándar.
+                </small>
             </div>
           </div>
         </fieldset>

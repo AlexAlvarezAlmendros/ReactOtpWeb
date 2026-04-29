@@ -78,7 +78,8 @@ export function useEvent (eventId) {
         ticketCurrency: eventFromApi.ticketCurrency || 'EUR',
         saleStartDate: eventFromApi.saleStartDate || null,
         saleEndDate: eventFromApi.saleEndDate || null,
-        externalTicketUrl: eventFromApi.externalTicketUrl || ''
+        externalTicketUrl: eventFromApi.externalTicketUrl || '',
+        detailpageUrl: eventFromApi.detailpageUrl || ''
       }
 
       setEvent(mappedEvent)
