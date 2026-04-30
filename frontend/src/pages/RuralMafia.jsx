@@ -121,7 +121,7 @@ function RuralMafia () {
         <article className="rm-block">
           <div className="rm-block__head">
             <span className="rm-block__eyebrow">El evento</span>
-            <h2 className="rm-block__title">Una noche, una masía, una mafia.</h2>
+            <h2 className="rm-block__title">OTP! Rural Mafia</h2>
           </div>
           <p className="rm-block__lead">
             <strong>OTP! Rural Mafia</strong> es una fiesta privada organizada por Other People
@@ -148,6 +148,7 @@ function RuralMafia () {
                   </span>
                 </span>
                 <span className="rm-poster__act">PLUGBOY + VERN ALDER</span>
+                <span className="rm-poster__act">LILJLAY</span>
               </div>
             </div>
             <div className="rm-poster__divider" aria-hidden="true" />
@@ -157,6 +158,7 @@ function RuralMafia () {
                 <span className="rm-poster__act">OGYBORY · EXTA6IX</span>
               </div>
             </div>
+            <div className="rm-poster__tba">+ Nombres por confirmar</div>
           </div>
         </article>
 
@@ -169,7 +171,7 @@ function RuralMafia () {
             <div className="rm-card">
               <div className="rm-card__icon"><IsoShop /></div>
               <h3>Pop-up stores</h3>
-              <p>Marcas y proyectos afines con sus productos en el recinto.</p>
+              <p>Marcas y proyectos independientes con productos propios.</p>
             </div>
             <div className="rm-card">
               <div className="rm-card__icon"><IsoSpray /></div>
@@ -179,7 +181,7 @@ function RuralMafia () {
             <div className="rm-card">
               <div className="rm-card__icon"><IsoBeer /></div>
               <h3>Cerveza artesana</h3>
-              <p>Barra principal con cerveza elaborada en la propia masía.</p>
+              <p>Barra con cerveza artesana gracias a Ales Agullons.</p>
             </div>
             <div className="rm-card">
               <div className="rm-card__icon"><IsoHam /></div>

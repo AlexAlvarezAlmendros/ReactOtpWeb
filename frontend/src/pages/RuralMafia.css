@@ -412,6 +412,16 @@
   margin: 4px 0;
 }
 
+.rm-poster__tba {
+  font-family: 'UTSouthDrink', cursive;
+  font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+  font-weight: normal;
+  color: var(--rm-text);
+  line-height: 1;
+  margin-top: 18px;
+  letter-spacing: 0.02em;
+}
+
 /* === LISTA DE ACCESO === */
 .rm-list {
   list-style: none;
