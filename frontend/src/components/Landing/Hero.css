@@ -239,7 +239,8 @@
 
 .hero-title__line--accent {
   animation-delay: 0.5s;
-  color: transparent;
+  color: #000;
+  -webkit-text-fill-color: #000;
   -webkit-text-stroke: 2px #ff003c;
   text-stroke: 2px #ff003c;
   position: relative;

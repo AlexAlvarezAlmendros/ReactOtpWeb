@@ -110,7 +110,7 @@ function RuralMafia () {
                 <FontAwesomeIcon icon={['fas', 'lock']} />
                 <span>Sólo invitación</span>
               </div>
-            </div>s
+            </div>
             <a href="#solicitar" className="rm-hero__cta">
               Solicitar invitación
               <FontAwesomeIcon icon={['fas', 'arrow-right']} />
@@ -148,7 +148,7 @@ function RuralMafia () {
                   </span>
                 </span>
                 <span className="rm-poster__act">PLUGBOY + VERN ALDER</span>
-                <span className="rm-poster__act">LIL JLAYY</span>
+                <span className="rm-poster__act">LILJLAYY</span>
               </div>
             </div>
             <div className="rm-poster__divider" aria-hidden="true" />
