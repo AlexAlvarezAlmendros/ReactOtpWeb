@@ -203,20 +203,26 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
             </div>
 
             <div className="form-group">
-                <label htmlFor="type">Tipo*</label>
-                <select
+                <label htmlFor="type">Tipo</label>
+                <input
+                  type="text"
                   id="type"
                   name="type"
                   value={formData.type}
                   onChange={handleInputChange}
-                  required
-                >
-                <option value="">Seleccione un tipo</option>
-                <option value="Producer">Productor</option>
-                <option value="Singer">Cantante</option>
-                <option value="Filmmaker">Filmaker</option>
-                <option value="Developer">Developer</option>
-                </select>
+                  placeholder="Producer, Singer, DJ..."
+                  list="artist-type-suggestions"
+                  maxLength={40}
+                />
+                <datalist id="artist-type-suggestions">
+                  <option value="Producer" />
+                  <option value="Singer" />
+                  <option value="Filmmaker" />
+                  <option value="Developer" />
+                  <option value="DJ" />
+                  <option value="Rapper" />
+                  <option value="Band" />
+                </datalist>
             </div>
           </div>
         </fieldset>

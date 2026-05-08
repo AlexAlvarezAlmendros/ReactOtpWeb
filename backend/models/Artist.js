@@ -17,8 +17,8 @@ const artistSchema = new Schema({
 	profileUrl: { type: String, required: false },
 	artistType: {
 		type: String,
-		required: true,
-		enum: ['Producer', 'Singer', 'Filmmaker', 'Developer'] // Puedes definir los tipos permitidos
+		required: false,
+		default: ''
 	},
 	userId: { type: String, required: true }, // Podría ser un ObjectId si tienes una colección de Users
 	// Links page

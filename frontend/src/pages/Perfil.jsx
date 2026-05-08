@@ -24,6 +24,7 @@ function Perfil () {
 
   // Artist links page state
   const [linkedArtist, setLinkedArtist] = useState(null)
+  const [artistType, setArtistType] = useState('')
   const [linksBio, setLinksBio] = useState('')
   const [customLinks, setCustomLinks] = useState([])
   const [linksSaving, setLinksSaving] = useState(false)
@@ -57,6 +58,7 @@ function Perfil () {
         if (!res.ok) return
         const data = await res.json()
         setLinkedArtist(data)
+        setArtistType(data.artistType || '')
         setLinksBio(data.linksBio || '')
         setCustomLinks(data.customLinks || [])
       } catch {
@@ -119,7 +121,7 @@ function Perfil () {
       const res = await fetch(`${API_URL}/artists/${artistId}`, {
         method: 'PATCH',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ linksBio, customLinks })
+        body: JSON.stringify({ artistType, linksBio, customLinks })
       })
       if (!res.ok) {
         const err = await res.json()
@@ -133,7 +135,7 @@ function Perfil () {
     } finally {
       setLinksSaving(false)
     }
-  }, [linkedArtist, linksBio, customLinks, getToken, toast])
+  }, [linkedArtist, artistType, linksBio, customLinks, getToken, toast])
 
   const addCustomLink = () => {
     setCustomLinks(prev => [...prev, { icon: '', label: '', url: '' }])
@@ -316,6 +318,29 @@ function Perfil () {
                           Ver
                         </a>
                       </div>
+                    </div>
+
+                    <div className="perfil-form-group">
+                      <label htmlFor="artistType">Tag de tipo</label>
+                      <input
+                        id="artistType"
+                        type="text"
+                        value={artistType}
+                        onChange={e => setArtistType(e.target.value)}
+                        placeholder="Producer, Singer, DJ... (opcional)"
+                        maxLength={40}
+                        list="perfil-type-suggestions"
+                      />
+                      <datalist id="perfil-type-suggestions">
+                        <option value="Producer" />
+                        <option value="Singer" />
+                        <option value="Filmmaker" />
+                        <option value="Developer" />
+                        <option value="DJ" />
+                        <option value="Rapper" />
+                        <option value="Band" />
+                      </datalist>
+                      <span className="perfil-field-hint">Aparece como etiqueta en tu página de links. Déjalo vacío para ocultarlo.</span>
                     </div>
 
                     <div className="perfil-form-group">
