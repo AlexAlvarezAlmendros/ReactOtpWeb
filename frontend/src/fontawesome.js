@@ -1,5 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpotify, faInstagram, faYoutube, faApple, faSoundcloud } from '@fortawesome/free-brands-svg-icons'
+import {
+  faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
+  faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
+  faTwitch, faDiscord, faLinkedin
+} from '@fortawesome/free-brands-svg-icons'
 import { 
   faPlus, 
   faTrash, 
@@ -79,12 +83,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
-  faSpotify, 
-  faInstagram, 
-  faYoutube, 
-  faApple, 
-  faSoundcloud, 
-  faPlus, 
+  faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
+  faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
+  faTwitch, faDiscord, faLinkedin,
+  faPlus,
   faTrash, 
   faEdit, 
   faArrowLeft, 

@@ -5,6 +5,30 @@ const { isUserAdmin } = require('../utils/authHelpers');
 const { buildFilter, buildQueryOptions, validateFilters, FILTER_CONFIGS } = require('../utils/filterHelpers');
 const { uploadImageToImgBB } = require('../utils/imageUpload');
 
+function toSlug(str) {
+    return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+}
+
+async function generateUniqueSlug(name, excludeId = null) {
+    const base = toSlug(name);
+    let slug = base;
+    let i = 2;
+    const query = excludeId
+        ? { linksSlug: slug, _id: { $ne: excludeId } }
+        : { linksSlug: slug };
+    while (await Artist.exists({ linksSlug: slug, ...(excludeId ? { _id: { $ne: excludeId } } : {}) })) {
+        slug = `${base}-${i++}`;
+    }
+    return slug;
+}
+
 // GET all artists with filtering
 const getArtists = async (req, res) => {
     const requestStart = Date.now();
@@ -68,6 +92,19 @@ const getArtists = async (req, res) => {
     }
 };
 
+// GET artist by linksSlug (public links page)
+const getArtistBySlug = async (req, res) => {
+    const { slug } = req.params;
+    try {
+        await connectDB();
+        const artist = await Artist.findOne({ linksSlug: slug });
+        if (!artist) return res.status(404).json({ error: 'Artista no encontrado' });
+        res.status(200).json(artist);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // GET a single artist
 const getArtist = async (req, res) => {
     const { id } = req.params;
@@ -104,7 +141,11 @@ const createArtist = async (req, res) => {
             img: imageUrl,
             userId: userId // Asegurar que el userId viene del token
         };
-        
+
+        if (!artistData.linksSlug && artistData.name) {
+            artistData.linksSlug = await generateUniqueSlug(artistData.name);
+        }
+
         const artist = await Artist.create(artistData);
         res.status(201).json(artist);
     } catch (error) {
@@ -125,10 +166,26 @@ const updateArtist = async (req, res) => {
         const userId = user.sub;
         
         let updateData = { ...req.body };
-        
+
         // Si se subió una nueva imagen, comprimirla y subirla a ImgBB
         if (req.file) {
             updateData.img = await uploadImageToImgBB(req.file.buffer, req.body.name, req.file.mimetype);
+        }
+
+        // Auto-generar linksSlug si se solicita pero está vacío
+        if ('linksSlug' in updateData && !updateData.linksSlug) {
+            const nameForSlug = updateData.name || (await Artist.findById(id))?.name;
+            if (nameForSlug) {
+                updateData.linksSlug = await generateUniqueSlug(nameForSlug, id);
+            }
+        }
+
+        // Validar unicidad del slug si se está actualizando
+        if (updateData.linksSlug) {
+            const conflict = await Artist.findOne({ linksSlug: updateData.linksSlug, _id: { $ne: id } });
+            if (conflict) {
+                return res.status(409).json({ error: 'Ese slug ya está en uso por otro artista' });
+            }
         }
         
         // Si no es admin, verificar que sea el dueño del recurso
@@ -187,6 +244,7 @@ const deleteArtist = async (req, res) => {
 module.exports = {
     getArtists,
     getArtist,
+    getArtistBySlug,
     createArtist,
     updateArtist,
     deleteArtist

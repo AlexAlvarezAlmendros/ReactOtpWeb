@@ -3,6 +3,7 @@ const imageUpload = require('../middleware/imageUpload');
 const {
     getArtists,
     getArtist,
+    getArtistBySlug,
     createArtist,
     updateArtist,
     deleteArtist
@@ -14,6 +15,9 @@ const router = express.Router();
 
 // GET todos los artistas (público)
 router.get('/', getArtists);
+
+// GET artista por linksSlug (debe ir antes de /:id)
+router.get('/slug/:slug', getArtistBySlug);
 
 // GET un solo artista por ID (público)
 router.get('/:id', getArtist);

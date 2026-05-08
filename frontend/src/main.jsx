@@ -24,6 +24,7 @@ import Unsubscribe from './pages/Unsubscribe.jsx'
 import Perfil from './pages/Perfil.jsx'
 import Herramientas from './pages/Herramientas.jsx'
 import RuralMafia from './pages/RuralMafia.jsx'
+import LinksPage from './pages/LinksPage.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
@@ -39,6 +40,10 @@ const SpeedInsights = lazy(() =>
 )
 
 const router = createBrowserRouter([
+  {
+    path: '/l/:slug',
+    element: <LinksPage />
+  },
   {
     element: <RootLayout />, // 1. El Layout es el elemento padre
     // 2. Las páginas se renderizan como hijos dentro del <Outlet /> del Layout

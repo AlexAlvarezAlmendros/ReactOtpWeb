@@ -15,15 +15,26 @@ const artistSchema = new Schema({
 	beatStarsLink: { type: String, required: false },
 	img: { type: String, required: true },
 	profileUrl: { type: String, required: false },
-	artistType: { 
-		type: String, 
+	artistType: {
+		type: String,
 		required: true,
 		enum: ['Producer', 'Singer', 'Filmmaker', 'Developer'] // Puedes definir los tipos permitidos
 	},
-	userId: { type: String, required: true } // Podría ser un ObjectId si tienes una colección de Users
+	userId: { type: String, required: true }, // Podría ser un ObjectId si tienes una colección de Users
+	// Links page
+	linksSlug: { type: String, default: null },
+	linksBio: { type: String, default: '' },
+	customLinks: [{
+		_id: false,
+		label: { type: String, required: true },
+		url: { type: String, required: true },
+		icon: { type: String, default: '' }
+	}]
 }, {
 	timestamps: true // Esto añade createdAt y updatedAt automáticamente
 });
+
+artistSchema.index({ linksSlug: 1 }, { unique: true, sparse: true });
 
 // Nota sobre el campo 'id':
 // Mongoose por defecto crea un campo virtual 'id' que es una representación en string del '_id' de MongoDB.

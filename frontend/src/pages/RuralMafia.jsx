@@ -3,7 +3,6 @@ import { useContact } from '../hooks/useContact'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Footer from '../components/Footer/Footer'
-import { IsoShop, IsoSpray, IsoBeer, IsoHam, IsoTent } from './RuralMafiaIcons'
 import './RuralMafia.css'
 
 const FORM_SUBJECT = 'rural-mafia-invitation'
@@ -121,7 +120,7 @@ function RuralMafia () {
         <article className="rm-block">
           <div className="rm-block__head">
             <span className="rm-block__eyebrow">El evento</span>
-            <h2 className="rm-block__title">OTP! Rural Mafia</h2>
+            <h2 className="rm-block__title">Una noche, una masía, una mafia.</h2>
           </div>
           <p className="rm-block__lead">
             <strong>OTP! Rural Mafia</strong> es una fiesta privada organizada por Other People
@@ -148,7 +147,6 @@ function RuralMafia () {
                   </span>
                 </span>
                 <span className="rm-poster__act">PLUGBOY + VERN ALDER</span>
-                <span className="rm-poster__act">LILJLAYY</span>
               </div>
             </div>
             <div className="rm-poster__divider" aria-hidden="true" />
@@ -158,7 +156,6 @@ function RuralMafia () {
                 <span className="rm-poster__act">OGYBORY · EXTA6IX</span>
               </div>
             </div>
-            <div className="rm-poster__tba">+ Nombres por confirmar</div>
           </div>
         </article>
 
@@ -169,27 +166,27 @@ function RuralMafia () {
           </div>
           <div className="rm-grid rm-grid--3">
             <div className="rm-card">
-              <div className="rm-card__icon"><IsoShop /></div>
+              <FontAwesomeIcon icon={['fas', 'shop']} className="rm-card__icon" />
               <h3>Pop-up stores</h3>
-              <p>Marcas y proyectos independientes con productos propios.</p>
+              <p>Marcas y proyectos afines con sus productos en el recinto.</p>
             </div>
             <div className="rm-card">
-              <div className="rm-card__icon"><IsoSpray /></div>
+              <FontAwesomeIcon icon={['fas', 'palette']} className="rm-card__icon" />
               <h3>Arte urbano</h3>
               <p>Exposiciones de artistas locales repartidas por el espacio.</p>
             </div>
             <div className="rm-card">
-              <div className="rm-card__icon"><IsoBeer /></div>
+              <FontAwesomeIcon icon={['fas', 'beer-mug-empty']} className="rm-card__icon" />
               <h3>Cerveza artesana</h3>
-              <p>Barra con cerveza artesana gracias a Ales Agullons.</p>
+              <p>Barra principal con cerveza elaborada en la propia masía.</p>
             </div>
             <div className="rm-card">
-              <div className="rm-card__icon"><IsoHam /></div>
+              <FontAwesomeIcon icon={['fas', 'utensils']} className="rm-card__icon" />
               <h3>Gastronomía</h3>
               <p>Puesto de comida disponible durante un periodo limitado.</p>
             </div>
             <div className="rm-card">
-              <div className="rm-card__icon"><IsoTent /></div>
+              <FontAwesomeIcon icon={['fas', 'campground']} className="rm-card__icon" />
               <h3>Camping</h3>
               <p>Zona habilitada para quien quiera pasar la noche en el recinto.</p>
             </div>
