@@ -49,6 +49,9 @@ function LinksPage () {
         />
       )}
       <div className="lp-bg-overlay" aria-hidden="true" />
+      <div className="lp-orb lp-orb--1" aria-hidden="true" />
+      <div className="lp-orb lp-orb--2" aria-hidden="true" />
+      <div className="lp-orb lp-orb--3" aria-hidden="true" />
 
       <main className="lp-main">
         <div className="lp-profile">
