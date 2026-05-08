@@ -44,37 +44,37 @@
 .lp-orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
+  filter: blur(100px);
+  opacity: 0.15;
   pointer-events: none;
 }
 
 .lp-orb--1 {
   width: 100vw;
   height: 100vw;
-  background: radial-gradient(circle, #ff003c 0%, transparent 65%);
+  background: radial-gradient(circle, #ff003c 0%, transparent 50%);
   top: -40vh;
   left: -40vw;
-  animation: lp-orb-1 18s ease-in-out infinite;
+  animation: lp-orb-1 60s ease-in-out infinite;
 }
 
 .lp-orb--2 {
   width: 90vw;
   height: 90vw;
-  background: radial-gradient(circle, #cc0030 0%, transparent 65%);
+  background: radial-gradient(circle, #cc0030 0%, transparent 50%);
   bottom: -30vh;
   right: -35vw;
-  animation: lp-orb-2 24s ease-in-out infinite;
+  animation: lp-orb-2 80s ease-in-out infinite;
 }
 
 .lp-orb--3 {
   width: 80vw;
   height: 80vw;
-  background: radial-gradient(circle, #ff003c 0%, transparent 65%);
+  background: radial-gradient(circle, #ff003c 0%, transparent 50%);
   top: 20vh;
   left: -10vw;
-  opacity: 0.18;
-  animation: lp-orb-3 30s ease-in-out infinite;
+  opacity: 0.08;
+  animation: lp-orb-3 100s ease-in-out infinite;
 }
 
 @keyframes lp-orb-1 {
