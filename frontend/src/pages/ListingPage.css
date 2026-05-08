@@ -24,8 +24,8 @@
   background: radial-gradient(circle, #ff003c 0%, transparent 60%);
   top: -10vh;
   left: -15vw;
-  opacity: 0.18;
-  animation: listing-float-1 14s ease-in-out infinite;
+  animation: listing-float-1 14s ease-in-out infinite,
+             listing-pulse-1 11s ease-in-out infinite;
 }
 
 .listing-orb--2 {
@@ -34,8 +34,8 @@
   background: radial-gradient(circle, #cc0030 0%, transparent 60%);
   bottom: -5vh;
   right: -15vw;
-  opacity: 0.13;
-  animation: listing-float-2 18s ease-in-out infinite;
+  animation: listing-float-2 18s ease-in-out infinite,
+             listing-pulse-2 14s ease-in-out infinite;
 }
 
 .listing-orb--3 {
@@ -44,8 +44,8 @@
   background: radial-gradient(circle, #ff003c 0%, transparent 65%);
   top: 40vh;
   left: 25vw;
-  opacity: 0.08;
-  animation: listing-float-3 22s ease-in-out infinite;
+  animation: listing-float-3 22s ease-in-out infinite,
+             listing-pulse-3 9s ease-in-out infinite;
 }
 
 @keyframes listing-float-1 {
@@ -63,6 +63,21 @@
 @keyframes listing-float-3 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50%      { transform: translate(-40vw, -45vh) scale(1.25); }
+}
+
+@keyframes listing-pulse-1 {
+  0%, 100% { opacity: 0.03; }
+  50%      { opacity: 0.20; }
+}
+
+@keyframes listing-pulse-2 {
+  0%, 100% { opacity: 0.14; }
+  50%      { opacity: 0.02; }
+}
+
+@keyframes listing-pulse-3 {
+  0%, 100% { opacity: 0.02; }
+  50%      { opacity: 0.10; }
 }
 
 @media (prefers-reduced-motion: reduce) {
