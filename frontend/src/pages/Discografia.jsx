@@ -4,6 +4,7 @@ import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import './InfiniteScroll.css'
+import './ListingPage.css'
 
 const API_URL = import.meta.env.VITE_API_URL
 const RELEASES_ENDPOINT = `${API_URL}/releases`
@@ -48,28 +49,33 @@ function Discografia () {
   )
 
   return (
-    <>
-      <h1>Nuestra Discografía</h1>
-      {error && <p className="error-message">Error: {error}</p>}
-      <Cards cards={releases} type={'release'} loading={loading} />
-      
-      {isLoadingMore && (
-        <div className="infinite-scroll-loader">
-          <LoadingSpinner />
-          <p>Cargando más lanzamientos...</p>
-        </div>
-      )}
-      
-      {!loading && hasMore && <div ref={sentinelRef} style={{ height: '1px' }} />}
-      
-      {!loading && !hasMore && releases.length > 0 && (
-        <div className="infinite-scroll-end">
-          <p>Has visto toda la discografía</p>
-        </div>
-      )}
-      
-      <CreateButton />
-    </>
+    <div className="listing-page">
+      <div className="listing-orb listing-orb--1" aria-hidden="true" />
+      <div className="listing-orb listing-orb--2" aria-hidden="true" />
+      <div className="listing-orb listing-orb--3" aria-hidden="true" />
+      <div className="listing-content">
+        <h1>Nuestra Discografía</h1>
+        {error && <p className="error-message">Error: {error}</p>}
+        <Cards cards={releases} type={'release'} loading={loading} />
+
+        {isLoadingMore && (
+          <div className="infinite-scroll-loader">
+            <LoadingSpinner />
+            <p>Cargando más lanzamientos...</p>
+          </div>
+        )}
+
+        {!loading && hasMore && <div ref={sentinelRef} style={{ height: '1px' }} />}
+
+        {!loading && !hasMore && releases.length > 0 && (
+          <div className="infinite-scroll-end">
+            <p>Has visto toda la discografía</p>
+          </div>
+        )}
+
+        <CreateButton />
+      </div>
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useContact } from '../hooks/useContact'
 import { useNewsletter } from '../hooks/useNewsletter'
 import './Contacto.css'
+import './ListingPage.css'
 import Footer from '../components/Footer/Footer'
 
 function Contacto () {
@@ -97,6 +98,9 @@ function Contacto () {
 
   return (
     <>
+      <div className="listing-orb listing-orb--1" aria-hidden="true" />
+      <div className="listing-orb listing-orb--2" aria-hidden="true" />
+      <div className="listing-orb listing-orb--3" aria-hidden="true" />
     <section className="contacto-section">
       <div className="contacto-container">
         {/* Encabezado de sección */}

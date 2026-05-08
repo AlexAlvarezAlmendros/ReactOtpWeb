@@ -11,6 +11,7 @@ import { SkeletonList } from '../components/Skeleton/Skeleton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './InfiniteScroll.css'
 import './Beats.css'
+import './ListingPage.css'
 
 const API_URL = import.meta.env.VITE_API_URL
 const BEATS_ENDPOINT = `${API_URL}/beats`
@@ -87,69 +88,74 @@ function Beats () {
   }
 
   return (
-    <>
-      <div className="beats-page-header">
-        <h1>Nuestros Beats</h1>
-        <div className="beats-view-toggle">
-          <button
-            className={`beats-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-            onClick={() => setViewMode('grid')}
-            aria-label="Vista en grid"
-            type="button"
-          >
-            <FontAwesomeIcon icon={['fas', 'table-cells']} />
-          </button>
-          <button
-            className={`beats-view-btn ${viewMode === 'list' ? 'active' : ''}`}
-            onClick={() => setViewMode('list')}
-            aria-label="Vista en lista"
-            type="button"
-          >
-            <FontAwesomeIcon icon={['fas', 'list']} />
-          </button>
+    <div className="listing-page">
+      <div className="listing-orb listing-orb--1" aria-hidden="true" />
+      <div className="listing-orb listing-orb--2" aria-hidden="true" />
+      <div className="listing-orb listing-orb--3" aria-hidden="true" />
+      <div className="listing-content">
+        <div className="beats-page-header">
+          <h1>Nuestros Beats</h1>
+          <div className="beats-view-toggle">
+            <button
+              className={`beats-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              aria-label="Vista en grid"
+              type="button"
+            >
+              <FontAwesomeIcon icon={['fas', 'table-cells']} />
+            </button>
+            <button
+              className={`beats-view-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              aria-label="Vista en lista"
+              type="button"
+            >
+              <FontAwesomeIcon icon={['fas', 'list']} />
+            </button>
+          </div>
         </div>
+
+        <BeatsFilterBar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onReset={handleReset}
+          artists={artists}
+        />
+
+        {error && <p className="error-message">Error: {error}</p>}
+
+        {viewMode === 'grid'
+          ? <Cards cards={beats} type="beat" loading={loading} />
+          : loading
+            ? <SkeletonList count={8} />
+            : beats.length === 0
+              ? <div className="card-list-empty"><p>No hay beats disponibles</p></div>
+              : (
+                <div className="beats-list-view">
+                  {beats.map(beat => (
+                    <BeatListRow key={beat._id || beat.id} card={beat} />
+                  ))}
+                </div>
+              )}
+
+        {isLoadingMore && (
+          <div className="infinite-scroll-loader">
+            <LoadingSpinner />
+            <p>Cargando más beats...</p>
+          </div>
+        )}
+
+        {!loading && hasMore && <div ref={sentinelRef} style={{ height: '1px' }} />}
+
+        {!loading && !hasMore && beats.length > 0 && (
+          <div className="infinite-scroll-end">
+            <p>Has visto todos los beats</p>
+          </div>
+        )}
+
+        <CreateButton />
       </div>
-
-      <BeatsFilterBar
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onReset={handleReset}
-        artists={artists}
-      />
-
-      {error && <p className="error-message">Error: {error}</p>}
-
-      {viewMode === 'grid'
-        ? <Cards cards={beats} type="beat" loading={loading} />
-        : loading
-          ? <SkeletonList count={8} />
-          : beats.length === 0
-            ? <div className="card-list-empty"><p>No hay beats disponibles</p></div>
-            : (
-              <div className="beats-list-view">
-                {beats.map(beat => (
-                  <BeatListRow key={beat._id || beat.id} card={beat} />
-                ))}
-              </div>
-            )}
-
-      {isLoadingMore && (
-        <div className="infinite-scroll-loader">
-          <LoadingSpinner />
-          <p>Cargando más beats...</p>
-        </div>
-      )}
-
-      {!loading && hasMore && <div ref={sentinelRef} style={{ height: '1px' }} />}
-
-      {!loading && !hasMore && beats.length > 0 && (
-        <div className="infinite-scroll-end">
-          <p>Has visto todos los beats</p>
-        </div>
-      )}
-
-      <CreateButton />
-    </>
+    </div>
   )
 }
 

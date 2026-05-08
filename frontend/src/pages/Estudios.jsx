@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Estudios.css'
+import './ListingPage.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
 import { useReserva } from '../hooks/useReserva'
 import Footer from '../components/Footer/Footer'
@@ -123,6 +124,9 @@ function Estudios () {
 
   return (
     <>
+      <div className="listing-orb listing-orb--1" aria-hidden="true" />
+      <div className="listing-orb listing-orb--2" aria-hidden="true" />
+      <div className="listing-orb listing-orb--3" aria-hidden="true" />
       <section className="estudios-section">
       <div className="estudios-container">
         {/* Encabezado de sección */}

@@ -1,8 +1,12 @@
-/* Contacto Page Styles */
+/* =========================================
+   CONTACTO PAGE — GLASSMORPHISM
+   ========================================= */
 .contacto-section {
   margin-top: 96px;
   padding: 0 24px;
   color: white;
+  position: relative;
+  z-index: 2;
 }
 
 .contacto-container {
@@ -10,7 +14,7 @@
   margin: 0 auto;
 }
 
-/* === ENCABEZADO DE SECCIÓN === */
+/* === ENCABEZADO === */
 .contacto-header {
   text-align: center;
   margin-bottom: 64px;
@@ -27,21 +31,22 @@
 }
 
 .contacto-underline {
-  width: 60%;
-  height: 4px;
-  background-color: #ff003c;
+  width: 60px;
+  height: 3px;
+  background: #ff003c;
+  border-radius: 2px;
   margin: 0 auto 24px auto;
 }
 
 .contacto-subtitle {
   font-size: 1.125rem;
-  color: #CCCCCC;
+  color: #aaa;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
 }
 
-/* === CONTENIDO PRINCIPAL === */
+/* === LAYOUT === */
 .contacto-content {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -49,24 +54,28 @@
   align-items: start;
 }
 
-/* === INFORMACIÓN DE CONTACTO === */
+/* === INFO CARDS === */
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .info-card {
-  background-color: #0E0E0E;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 24px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 
 .info-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .info-icon {
@@ -80,24 +89,26 @@
   font-weight: 600;
   font-size: 1.125rem;
   color: white;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
 
 .info-card p {
   font-size: 0.875rem;
-  color: #CCCCCC;
+  color: #aaa;
   margin: 4px 0;
   line-height: 1.5;
 }
 
 /* === NEWSLETTER CARD === */
 .newsletter-card {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 24px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid #333;
+  transition: background 0.25s ease, border-color 0.25s ease;
   position: relative;
   overflow: hidden;
 }
@@ -106,22 +117,15 @@
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #ff003c, transparent);
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ff003c 50%, transparent);
 }
 
 .newsletter-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 0, 60, 0.2);
-  border-color: #ff003c;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 0, 60, 0.3);
 }
 
 .newsletter-content {
@@ -137,17 +141,17 @@
 }
 
 .newsletter-card h3 {
-  font-weight: 600;
-  font-size: 1.125rem;
-  color: white;
-  margin: 0 0 12px 0;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #ff003c;
+  margin: 0 0 8px 0;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.16em;
 }
 
 .newsletter-card p {
   font-size: 0.875rem;
-  color: #CCCCCC;
+  color: #999;
   margin: 0 0 20px 0;
   line-height: 1.5;
 }
@@ -158,75 +162,57 @@
 
 .newsletter-input-group {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px;
   margin-bottom: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.newsletter-input-group:focus-within {
+  border-color: #ff003c;
 }
 
 .newsletter-input {
   flex: 1;
-  padding: 12px 16px;
-  background-color: #333;
-  border: 2px solid #444;
-  border-radius: 8px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
   color: white;
   font-family: inherit;
   font-size: 0.875rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.newsletter-input:focus {
   outline: none;
-  border-color: #ff003c;
-  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+  min-width: 0;
 }
 
 .newsletter-input::placeholder {
-  color: #888;
+  color: #555;
 }
 
 .newsletter-button {
-  padding: 12px 20px;
-  background-color: #ff003c;
+  padding: 10px 18px;
+  background: #ff003c;
   color: white;
   border: none;
   border-radius: 8px;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  transition: background 0.2s ease, transform 0.1s ease;
   white-space: nowrap;
-  position: relative;
 }
 
 .newsletter-button:hover:not(:disabled) {
-  background-color: #e6003a;
+  background: #e6003a;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
 }
 
 .newsletter-button:disabled {
-  background-color: #666;
-  color: #999;
+  opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.newsletter-button.loading::after {
-  content: '';
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
 }
 
 .newsletter-status {
@@ -235,65 +221,53 @@
   justify-content: center;
   gap: 8px;
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.75rem;
   font-weight: 500;
   margin-top: 8px;
 }
 
 .newsletter-status.success {
-  background-color: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
   color: #22c55e;
-  animation: slideInFromTop 0.3s ease-out;
 }
 
 .newsletter-status.error {
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
   color: #ef4444;
-  animation: slideInFromTop 0.3s ease-out;
 }
 
-@keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Estilo especial para el estado "ya suscrito" */
 .newsletter-status.warning {
-  background-color: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
   color: #f59e0b;
-  animation: slideInFromTop 0.3s ease-out;
 }
 
-/* === FORMULARIO === */
+/* === FORMULARIO DE CONTACTO === */
 .contact-form {
-  background-color: #0E0E0E;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 32px;
   text-align: start;
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .form-label {
   display: block;
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: white;
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: #ccc;
   margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.1em;
 }
 
 .form-input,
@@ -301,13 +275,13 @@
 .form-textarea {
   width: 100%;
   padding: 12px 16px;
-  background-color: #1a1a1a;
-  border: 2px solid #333;
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
   color: white;
   font-family: inherit;
-  font-size: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
   box-sizing: border-box;
 }
 
@@ -316,12 +290,12 @@
 .form-textarea:focus {
   outline: none;
   border-color: #ff003c;
-  box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: #666;
+  color: #555;
 }
 
 .form-select {
@@ -329,7 +303,7 @@
 }
 
 .form-select option {
-  background-color: #1a1a1a;
+  background: #111;
   color: white;
 }
 
@@ -338,58 +312,56 @@
   min-height: 120px;
 }
 
-/* === ESTADOS DEL FORMULARIO === */
+/* === ESTADOS === */
 .form-status {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
+  border-radius: 10px;
+  margin-bottom: 20px;
   font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .form-status.success {
-  background-color: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
   color: #22c55e;
 }
 
 .form-status.error {
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
   color: #ef4444;
 }
 
-/* === BOTÓN DE ENVÍO === */
+/* === BOTÓN ENVIAR === */
 .submit-button {
   width: 100%;
-  padding: 16px 24px;
-  background-color: #ff003c;
+  padding: 14px 24px;
+  background: #ff003c;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: inherit;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: #e6003a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 0, 60, 0.3);
+  background: #e6003a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(255, 0, 60, 0.4);
 }
 
 .submit-button:disabled {
-  background-color: #666;
-  color: #999;
+  opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 .submit-button.loading {
@@ -402,45 +374,55 @@
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
-/* === INFORMACIÓN DEL FORMULARIO === */
+.newsletter-button.loading::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* === INFO FOOTER === */
 .form-info {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid #333;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .form-info p {
   font-size: 0.75rem;
-  color: #999;
+  color: #666;
   margin: 4px 0;
-  line-height: 1.4;
 }
 
-@keyframes spin {
-  to {
-    transform: translateY(-50%) rotate(360deg);
-  }
-}
-
-/* === RESPONSIVE DESIGN === */
+/* === RESPONSIVE === */
 @media (max-width: 900px) {
   .contacto-content {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
   }
-  
+
   .contacto-title {
     font-size: 2.5rem;
   }
-  
+
   .contact-form {
     padding: 24px;
   }
@@ -450,83 +432,67 @@
   .contacto-section {
     padding: 0 16px;
   }
-  
+
   .contacto-title {
     font-size: 2rem;
   }
-  
+
   .contact-info {
-    gap: 16px;
+    gap: 12px;
   }
-  
+
   .info-card,
   .newsletter-card {
     padding: 20px;
   }
-  
+
   .contact-form {
     padding: 20px;
   }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
+
   .newsletter-input-group {
     flex-direction: column;
-    gap: 12px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 8px;
   }
-  
+
+  .newsletter-input {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
   .newsletter-button {
     width: 100%;
+    padding: 12px;
   }
 }
 
 /* === ACCESIBILIDAD === */
+.submit-button:focus-visible,
+.form-input:focus-visible,
+.form-select:focus-visible,
+.form-textarea:focus-visible,
+.newsletter-button:focus-visible {
+  outline: 2px solid #ff003c;
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .info-card,
   .newsletter-card,
   .submit-button,
-  .newsletter-button,
-  .form-input,
-  .form-select,
-  .form-textarea,
-  .newsletter-input {
+  .newsletter-button {
     transition: none;
-  }
-  
-  .submit-button.loading::after,
-  .newsletter-button.loading::after {
-    animation: none;
-  }
-  
-  .newsletter-card::before {
-    animation: none;
-  }
-  
-  .newsletter-status {
-    animation: none;
   }
 }
 
-/* Estados de validación */
+/* Validación */
 .form-input:invalid:not(:focus):not(:placeholder-shown),
 .form-select:invalid:not(:focus),
 .form-textarea:invalid:not(:focus):not(:placeholder-shown) {
-  border-color: #ef4444;
-}
-
-.form-input:valid:not(:focus):not(:placeholder-shown),
-.form-select:valid:not(:focus),
-.form-textarea:valid:not(:focus):not(:placeholder-shown) {
-  border-color: #22c55e;
-}
-
-/* Focus visible para navegación por teclado */
-.submit-button:focus-visible,
-.form-input:focus-visible,
-.form-select:focus-visible,
-.form-textarea:focus-visible {
-  outline: 2px solid #ff003c;
-  outline-offset: 2px;
+  border-color: rgba(239, 68, 68, 0.5);
 }
