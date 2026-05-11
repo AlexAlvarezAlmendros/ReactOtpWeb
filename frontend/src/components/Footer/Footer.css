@@ -7,7 +7,7 @@
   color: #fff;
   padding: 80px 32px 28px;
   margin: -2rem;        /* break out of .container 2rem padding */
-  margin-top: 4rem;
+  margin-top: 0rem;
   overflow: hidden;
   isolation: isolate;
 }
