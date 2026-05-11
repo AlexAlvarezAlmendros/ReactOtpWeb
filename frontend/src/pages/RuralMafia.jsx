@@ -160,6 +160,7 @@ function RuralMafia () {
               <span className="rm-poster__label">DJs:</span>
               <div className="rm-poster__acts">
                 <span className="rm-poster__act">OGYBORY · EXTA6IX</span>
+                <span className="rm-poster__act">SANTAMARIA</span>
               </div>
             </div>
             <div className="rm-poster__tba">+ Nombres por confirmar</div>
