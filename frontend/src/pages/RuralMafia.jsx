@@ -338,6 +338,27 @@ function RuralMafia () {
             )}
           </form>
         </article>
+
+        <article className="rm-block rm-colabs">
+          <div className="rm-block__head">
+            <span className="rm-block__eyebrow">Colaboradores</span>
+            <h2 className="rm-block__title">Con el apoyo de.</h2>
+          </div>
+          <div className="rm-colabs__grid">
+            <div className="rm-colabs__item">
+              <img src="/img/colabs/frameworksclub.png" alt="FrameWorks Club" />
+            </div>
+            <div className="rm-colabs__item">
+              <img src="/img/colabs/logoagullons.svg" alt="Ales Agullons" />
+            </div>
+            <div className="rm-colabs__item">
+              <img src="/img/colabs/logoinvertido.png" alt="Colaborador" />
+            </div>
+            <div className="rm-colabs__item">
+              <img src="/img/colabs/estraperlologp.svg" alt="Estraperlologp" />
+            </div>
+          </div>
+        </article>
       </section>
       <Footer />
     </>

@@ -155,7 +155,7 @@ export default function AudioAnalyzer () {
             </span>
             <span className={styles.aa__metaName}>{file.name}</span>
             <span className={styles.aa__metaDur}>{formatDuration(results.duration)}</span>
-            <span className={styles.aa__cardHint}>Análisis de los primeros 30 s</span>
+            <span className={styles.aa__cardHint}>Análisis del fragmento central</span>
           </div>
         </div>
       )}
