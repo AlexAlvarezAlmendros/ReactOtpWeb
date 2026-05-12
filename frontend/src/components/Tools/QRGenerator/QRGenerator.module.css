@@ -15,6 +15,12 @@
   }
 }
 
+@media (max-width: 480px) {
+  .qr__row {
+    flex-wrap: wrap;
+  }
+}
+
 /* Controls */
 .qr__controls {
   display: flex;

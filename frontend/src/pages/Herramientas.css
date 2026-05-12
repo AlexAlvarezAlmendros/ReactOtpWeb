@@ -55,6 +55,7 @@
   min-height: 100vh;
   background: #0e0e0e;
   margin: -2rem;
+  overflow-x: hidden;
 }
 
 .tools-body {
@@ -228,12 +229,15 @@
   }
 
   .tools-sidebar__item {
+    flex: 1;
     flex-shrink: 0;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
     white-space: nowrap;
+    border-radius: 10px;
   }
 
   .tools-sidebar__desc {
@@ -467,35 +471,41 @@
   justify-content: flex-start;
 }
 
+.tools-beats__grid .card {
+  width: clamp(220px, 30vw, 320px);
+  flex-shrink: 0;
+}
+
 /* =====================
    RESPONSIVE — PROMOS
    ===================== */
 @media (max-width: 900px) {
   .tools-release {
-    width: 100%;
+    width: auto;
+    align-self: stretch;
     position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
     order: 3;
   }
 
   .tools-release__cover {
-    width: 90px;
-    aspect-ratio: 1 / 1;
-    flex-shrink: 0;
+    width: 100%;
+    max-width: 200px;
   }
 
-  .tools-release__info,
+  .tools-release__info {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
   .tools-release__links {
-    flex: 1 1 auto;
-    min-width: 0;
+    justify-content: center;
   }
 
   .tools-release__cta {
     width: 100%;
-    flex-basis: 100%;
   }
 
   .tools-beats {
