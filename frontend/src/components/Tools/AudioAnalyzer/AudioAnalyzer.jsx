@@ -1,15 +1,36 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { analyzeAudio } from '../../../utils/audioAnalysis.js'
+import { analyzeAudioFile, disposeAnalyzer } from '../../../utils/audioAnalysis.js'
 import styles from './AudioAnalyzer.module.css'
 
 const ACCEPTED = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/flac', 'audio/mp4', 'audio/aac', 'audio/x-m4a']
 const MAX_MB   = 80
 
+const STAGE_LABELS = {
+  decode: 'Decodificando audio',
+  bpm:    'Detectando BPM',
+  key:    'Analizando tonalidad',
+  done:   'Finalizando',
+}
+
+const MODE_ES = { major: 'mayor', minor: 'menor' }
+const REL_ES  = { relative: 'relativa', fifth: 'quinta', parallel: 'paralela', other: '', same: '' }
+
+const AUDIO_ERROR_MESSAGES = {
+  AUDIO_TOO_SHORT: 'El archivo es demasiado corto para un análisis fiable (mínimo ~3 segundos).',
+  AUDIO_SILENT:    'El archivo parece estar en silencio.',
+}
+
 function formatDuration (secs) {
   const m = Math.floor(secs / 60)
   const s = Math.floor(secs % 60)
   return `${m}:${String(s).padStart(2, '0')}`
+}
+
+function formatTuning (hz, cents) {
+  if (!hz) return null
+  const sign = cents > 0 ? '+' : ''
+  return cents !== 0 ? `${hz} Hz (${sign}${cents} cents)` : `${hz} Hz`
 }
 
 export default function AudioAnalyzer () {
@@ -18,13 +39,18 @@ export default function AudioAnalyzer () {
   const [results,  setResults]  = useState(null)
   const [error,    setError]    = useState('')
   const [dragging, setDragging] = useState(false)
+  const [progress, setProgress] = useState({ stage: 'decode', pct: 0 })
   const inputRef = useRef(null)
+  const jobRef   = useRef(0)
+
+  useEffect(() => () => { jobRef.current++; disposeAnalyzer() }, [])
 
   const acceptFile = useCallback((f) => {
     if (!f) return
     const okType = ACCEPTED.some(t => f.type === t) || f.name.match(/\.(mp3|wav|ogg|flac|m4a|aac)$/i)
     if (!okType) { setError('Formato no compatible. Usa MP3, WAV, OGG, FLAC o M4A.'); setPhase('error'); return }
     if (f.size > MAX_MB * 1024 * 1024) { setError(`El archivo supera el límite de ${MAX_MB} MB.`); setPhase('error'); return }
+    jobRef.current++
     setFile(f)
     setResults(null)
     setError('')
@@ -38,21 +64,34 @@ export default function AudioAnalyzer () {
 
   const handleAnalyze = async () => {
     if (!file) return
+    const job = ++jobRef.current
     setPhase('analyzing')
-    // Yield to React so loading state renders before heavy computation
-    await new Promise(r => setTimeout(r, 60))
+    setProgress({ stage: 'decode', pct: 0 })
     try {
-      const buf  = await file.arrayBuffer()
-      const data = await analyzeAudio(buf)
+      const data = await analyzeAudioFile(file, {
+        onProgress: (p) => { if (jobRef.current === job) setProgress(p) },
+      })
+      if (jobRef.current !== job) return
       setResults(data)
       setPhase('done')
     } catch (e) {
-      setError('No se pudo analizar el archivo. Comprueba que es un audio válido.')
+      if (jobRef.current !== job) return
+      setError(AUDIO_ERROR_MESSAGES[e.message] ?? 'No se pudo analizar el archivo. Comprueba que es un audio válido.')
       setPhase('error')
     }
   }
 
-  const reset = () => { setPhase('idle'); setFile(null); setResults(null); setError(''); if (inputRef.current) inputRef.current.value = '' }
+  const reset = () => {
+    jobRef.current++
+    setPhase('idle')
+    setFile(null)
+    setResults(null)
+    setError('')
+    if (inputRef.current) inputRef.current.value = ''
+  }
+
+  const keyAlt = results?.keyAlternative
+  const keyAltRel = keyAlt ? REL_ES[keyAlt.relationship] ?? '' : ''
 
   return (
     <div className={styles.aa}>
@@ -101,7 +140,7 @@ export default function AudioAnalyzer () {
       {/* ── Actions ── */}
       {(phase === 'ready' || phase === 'done') && (
         <div className={styles.aa__actions}>
-          <button className={styles.aa__btn} onClick={handleAnalyze} disabled={phase === 'analyzing'}>
+          <button className={styles.aa__btn} onClick={handleAnalyze}>
             <FontAwesomeIcon icon={['fas', 'gauge-high']} />
             {phase === 'done' ? 'Analizar de nuevo' : 'Analizar'}
           </button>
@@ -112,12 +151,15 @@ export default function AudioAnalyzer () {
         </div>
       )}
 
-      {/* ── Analyzing ── */}
+      {/* ── Analyzing (staged progress) ── */}
       {phase === 'analyzing' && (
         <div className={styles.aa__loading}>
           <FontAwesomeIcon icon={['fas', 'spinner']} spin className={styles.aa__spinner} />
-          <p className={styles.aa__loadingTitle}>Analizando…</p>
-          <p className={styles.aa__loadingSub}>Calculando BPM y tonalidad</p>
+          <p className={styles.aa__loadingTitle}>{STAGE_LABELS[progress.stage] ?? 'Analizando'}…</p>
+          <div className={styles.aa__progress}>
+            <div className={styles.aa__progressFill} style={{ width: `${progress.pct}%` }} />
+          </div>
+          <p className={styles.aa__loadingSub}>{progress.pct}% · análisis local, tu audio no se sube a ningún servidor</p>
         </div>
       )}
 
@@ -128,11 +170,14 @@ export default function AudioAnalyzer () {
             <span className={styles.aa__cardLabel}>
               <FontAwesomeIcon icon={['fas', 'gauge-high']} /> BPM
             </span>
-            <span className={styles.aa__cardValue}>{results.bpm}</span>
+            <span className={styles.aa__cardValue}>{results.bpmDisplay}</span>
             <div className={styles.aa__bar}>
               <div className={styles.aa__barFill} style={{ width: `${results.bpmConfidence}%` }} />
             </div>
             <span className={styles.aa__cardHint}>{results.bpmConfidence}% de confianza</span>
+            {results.bpmAltDisplay && (
+              <span className={styles.aa__cardAlt}>Alternativa: {results.bpmAltDisplay} BPM</span>
+            )}
           </div>
 
           <div className={styles.aa__card}>
@@ -141,12 +186,19 @@ export default function AudioAnalyzer () {
             </span>
             <span className={styles.aa__cardValue}>
               {results.key}
-              <span className={styles.aa__cardMode}>{results.mode}</span>
+              <span className={styles.aa__cardMode}>{MODE_ES[results.mode] ?? results.mode}</span>
+              {results.camelot && <span className={styles.aa__camelot} title="Notación Camelot (mezcla armónica)">{results.camelot}</span>}
             </span>
             <div className={styles.aa__bar}>
               <div className={styles.aa__barFill} style={{ width: `${results.keyConfidence}%` }} />
             </div>
             <span className={styles.aa__cardHint}>{results.keyConfidence}% de confianza</span>
+            {keyAlt && (
+              <span className={styles.aa__cardAlt}>
+                Alternativa: {keyAlt.note} {MODE_ES[keyAlt.mode] ?? keyAlt.mode}
+                {keyAltRel ? ` (${keyAltRel})` : ''} · {keyAlt.camelot}
+              </span>
+            )}
           </div>
 
           <div className={`${styles.aa__card} ${styles['aa__card--meta']}`}>
@@ -155,7 +207,10 @@ export default function AudioAnalyzer () {
             </span>
             <span className={styles.aa__metaName}>{file.name}</span>
             <span className={styles.aa__metaDur}>{formatDuration(results.duration)}</span>
-            <span className={styles.aa__cardHint}>Análisis del fragmento central</span>
+            {results.tuningHz && (
+              <span className={styles.aa__cardHint}>Afinación: {formatTuning(results.tuningHz, results.tuningCents)}</span>
+            )}
+            <span className={styles.aa__cardHint}>Análisis 100% local</span>
           </div>
         </div>
       )}
