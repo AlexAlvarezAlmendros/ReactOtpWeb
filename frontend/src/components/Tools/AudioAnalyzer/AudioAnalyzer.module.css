@@ -183,6 +183,23 @@
   margin: 0;
 }
 
+/* Staged progress bar */
+.aa__progress {
+  width: min(320px, 80%);
+  height: 6px;
+  background: #1e1e1e;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.aa__progressFill {
+  height: 100%;
+  background: #ff003c;
+  border-radius: 3px;
+  transition: width 0.25s ease;
+}
+
 /* ── Results ── */
 .aa__results {
   display: grid;
@@ -243,6 +260,26 @@
   font-weight: 500;
   color: #666;
   letter-spacing: 0;
+}
+
+/* Camelot wheel chip (harmonic mixing notation) */
+.aa__camelot {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ff5c7c;
+  background: rgba(255, 0, 60, 0.12);
+  border: 1px solid rgba(255, 0, 60, 0.35);
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  align-self: center;
+}
+
+/* Secondary interpretation (octave / relative key) */
+.aa__cardAlt {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.15rem;
 }
 
 /* Confidence bar */

@@ -21,7 +21,7 @@ const TOOLS = [
   {
     id: 'audio-analyzer',
     label: 'Detector BPM / Tono',
-    description: 'Analiza el BPM y la tonalidad de cualquier canción directamente desde tu dispositivo.',
+    description: 'Detección profesional de BPM y tonalidad (con notación Camelot), 100% local en tu dispositivo.',
     icon: 'gauge-high',
     component: AudioAnalyzer,
   },
