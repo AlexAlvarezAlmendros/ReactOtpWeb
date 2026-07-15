@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { useContact } from '../hooks/useContact'
+import { useEffect } from 'react'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Footer from '../components/Footer/Footer'
@@ -7,20 +6,7 @@ import { IsoShop, IsoSpray, IsoBeer, IsoHam, IsoTent } from './RuralMafiaIcons'
 import './RuralMafia.css'
 import './ListingPage.css'
 
-const FORM_SUBJECT = 'rural-mafia-invitation'
-
 function RuralMafia () {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    instagram: '',
-    companionsCount: '0',
-    companionsNames: '',
-    reason: ''
-  })
-
-  const { sendMessage, loading, success, error, reset } = useContact()
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -30,59 +16,6 @@ function RuralMafia () {
     description: 'Evento privado de Other People Records · Showcases y sesiones DJ',
     image: '/img/logoruralmafia.png'
   })
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    let nextValue = value
-    if (name === 'companionsCount') {
-      if (value === '') {
-        nextValue = ''
-      } else {
-        const parsed = Number.parseInt(value, 10)
-        if (Number.isNaN(parsed)) {
-          nextValue = '0'
-        } else {
-          nextValue = String(Math.min(2, Math.max(0, parsed)))
-        }
-      }
-    }
-    setFormData(prev => ({ ...prev, [name]: nextValue }))
-    if (error || success) reset()
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const message = [
-      'Solicitud de invitación · OTP! Rural Mafia',
-      '',
-      `Instagram: ${formData.instagram.trim()}`,
-
-      `Acompañantes: ${formData.companionsCount || '0'}`,
-      `Nombres acompañantes: ${formData.companionsNames.trim() || '—'}`,
-      '',
-      '¿Por qué quieres asistir?',
-      formData.reason.trim() || '—'
-    ].join('\n')
-
-    try {
-      await sendMessage({
-        name: formData.name,
-        email: formData.email,
-        subject: FORM_SUBJECT,
-        message
-      })
-      setFormData({
-        name: '',
-        email: '',
-        instagram: '',
-        companionsCount: '0',
-        companionsNames: '',
-        reason: ''
-      })
-    } catch {
-      // El hook ya gestiona el toast/estado de error
-    }
-  }
 
   return (
     <>
@@ -115,10 +48,6 @@ function RuralMafia () {
                 <span>Sólo invitación</span>
               </div>
             </div>
-            <a href="#solicitar" className="rm-hero__cta">
-              Solicitar invitación
-              <FontAwesomeIcon icon={['fas', 'arrow-right']} />
-            </a>
           </div>
         </header>
 
@@ -228,115 +157,6 @@ function RuralMafia () {
             La ubicación exacta y los detalles de logística sólo se comparten con invitados
             confirmados.
           </p>
-        </article>
-
-        <article className="rm-block" id="solicitar">
-          <div className="rm-block__head">
-            <span className="rm-block__eyebrow">Solicitar invitación</span>
-            <h2 className="rm-block__title">Cuéntanos quién eres.</h2>
-          </div>
-          <p className="rm-block__lead">
-            Si tu perfil encaja con la línea del evento, te confirmaremos la invitación por email
-            con todos los detalles de acceso.
-          </p>
-
-          <form className="rm-form" onSubmit={handleSubmit}>
-            <div className="rm-form__row">
-              <div className="rm-form__group">
-                <label htmlFor="rm-name">Nombre completo *</label>
-                <input
-                  id="rm-name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  maxLength={100}
-                  autoComplete="name"
-                />
-              </div>
-              <div className="rm-form__group">
-                <label htmlFor="rm-email">Email *</label>
-                <input
-                  id="rm-email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  autoComplete="email"
-                />
-              </div>
-            </div>
-
-            <div className="rm-form__row">
-              <div className="rm-form__group">
-                <label htmlFor="rm-instagram">Instagram *</label>
-                <input
-                  id="rm-instagram"
-                  name="instagram"
-                  value={formData.instagram}
-                  onChange={handleChange}
-                  placeholder="@usuario"
-                  required
-                />
-              </div>
-              <div className="rm-form__group">
-                <label htmlFor="rm-companions">Nº de acompañantes</label>
-                <input
-                  id="rm-companions"
-                  name="companionsCount"
-                  type="number"
-                  min="0"
-                  max="2"
-                  value={formData.companionsCount}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="rm-form__group">
-              <label htmlFor="rm-companions-names">Nombres de los acompañantes</label>
-              <input
-                id="rm-companions-names"
-                name="companionsNames"
-                value={formData.companionsNames}
-                onChange={handleChange}
-                placeholder="Ej. María García, Luis Martín"
-              />
-            </div>
-
-            <div className="rm-form__group">
-              <label htmlFor="rm-reason">¿Por qué quieres asistir? (opcional)</label>
-              <textarea
-                id="rm-reason"
-                name="reason"
-                rows={4}
-                value={formData.reason}
-                onChange={handleChange}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className={`rm-form__submit ${loading ? 'is-loading' : ''}`}
-              disabled={loading}
-            >
-              {loading ? 'Enviando solicitud...' : 'Enviar solicitud'}
-            </button>
-
-            {success && (
-              <div className="rm-form__status rm-form__status--success" role="status">
-                <FontAwesomeIcon icon={['fas', 'check']} />
-                Solicitud enviada. Te contactaremos pronto.
-              </div>
-            )}
-            {error && (
-              <div className="rm-form__status rm-form__status--error" role="alert">
-                <FontAwesomeIcon icon={['fas', 'circle-exclamation']} />
-                {error}
-              </div>
-            )}
-          </form>
         </article>
 
         <article className="rm-block rm-colabs">
