@@ -3,7 +3,6 @@ import { useContact } from '../hooks/useContact'
 import { useNewsletter } from '../hooks/useNewsletter'
 import './Contacto.css'
 import './ListingPage.css'
-import SilkBackground from '../components/SilkBackground'
 import Footer from '../components/Footer/Footer'
 import GlassSurface from '../components/GlassSurface'
 
@@ -100,7 +99,6 @@ function Contacto () {
 
   return (
     <>
-      <SilkBackground />
     <section className="contacto-section">
       <div className="contacto-container">
         {/* Encabezado de sección */}

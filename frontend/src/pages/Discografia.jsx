@@ -5,7 +5,6 @@ import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import './InfiniteScroll.css'
 import './ListingPage.css'
-import SilkBackground from '../components/SilkBackground'
 
 const API_URL = import.meta.env.VITE_API_URL
 const RELEASES_ENDPOINT = `${API_URL}/releases`
@@ -51,7 +50,6 @@ function Discografia () {
 
   return (
     <div className="listing-page">
-      <SilkBackground />
       <div className="listing-content">
         <h1>Nuestra Discografía</h1>
         {error && <p className="error-message">Error: {error}</p>}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './Estudios.css'
 import './ListingPage.css'
-import SilkBackground from '../components/SilkBackground'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
 import { useReserva } from '../hooks/useReserva'
 import Footer from '../components/Footer/Footer'
@@ -126,7 +125,6 @@ function Estudios () {
 
   return (
     <>
-      <SilkBackground />
       <section className="estudios-section">
       <div className="estudios-container">
         {/* Encabezado de sección */}

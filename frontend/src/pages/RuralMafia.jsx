@@ -5,7 +5,6 @@ import Footer from '../components/Footer/Footer'
 import { IsoShop, IsoSpray, IsoBeer, IsoHam, IsoTent } from './RuralMafiaIcons'
 import './RuralMafia.css'
 import './ListingPage.css'
-import SilkBackground from '../components/SilkBackground'
 
 function RuralMafia () {
   useEffect(() => {
@@ -20,7 +19,6 @@ function RuralMafia () {
 
   return (
     <>
-      <SilkBackground />
       <section className="rm-page">
         <header className="rm-hero">
           <div className="rm-hero__glow" aria-hidden="true" />

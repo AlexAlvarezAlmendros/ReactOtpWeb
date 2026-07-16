@@ -15,15 +15,14 @@ describe('SilkBackground', () => {
     expect(container.querySelector('.listing-orb.listing-orb--1')).toBeInTheDocument()
     expect(container.querySelector('.listing-orb.listing-orb--2')).toBeInTheDocument()
     expect(container.querySelector('.listing-orb.listing-orb--3')).toBeInTheDocument()
-    expect(container.querySelector('.silk-background')).not.toBeInTheDocument()
     expect(container.querySelector('canvas')).not.toBeInTheDocument()
   })
 
   test('respeta el prefijo de clase de orbes del contexto', () => {
     mockCapability = false
-    const { container } = render(<SilkBackground orbClass='footer-orb' />)
+    const { container } = render(<SilkBackground orbClass='lp-orb' />)
 
-    expect(container.querySelector('.footer-orb.footer-orb--1')).toBeInTheDocument()
+    expect(container.querySelector('.lp-orb.lp-orb--1')).toBeInTheDocument()
     expect(container.querySelector('.listing-orb')).not.toBeInTheDocument()
   })
 })

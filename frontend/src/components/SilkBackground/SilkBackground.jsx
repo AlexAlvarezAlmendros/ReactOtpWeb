@@ -19,11 +19,14 @@ function hasWebGL () {
 }
 
 /**
- * Fondo ambiental Silk (ReactBits, WebGL). En equipos antiguos/lentos, con
- * reduced-motion o sin WebGL renderiza los orbes rojos CSS de siempre
- * (`orbClass` es el prefijo actual: listing-orb, footer-orb, lp-orb).
- * Los orbes también actúan de placeholder mientras carga el chunk de three.
- * El canvas deja de redibujar cuando sale del viewport (footer).
+ * Fondo ambiental Silk (ReactBits, WebGL). Se monta una sola vez por árbol
+ * (RootLayout para todo el sitio, LinksPage aparte por ser ruta suelta) y va
+ * fijo detrás de todo el contenido, así que páginas y footer comparten
+ * exactamente el mismo fondo.
+ *
+ * En equipos antiguos/lentos, con reduced-motion o sin WebGL renderiza los
+ * orbes rojos CSS de siempre (`orbClass` es el prefijo: listing-orb, lp-orb),
+ * que además hacen de placeholder mientras carga el chunk de three.
  */
 function SilkBackground ({
   orbClass = 'listing-orb',
@@ -59,24 +62,27 @@ function SilkBackground ({
     </>
   )
 
-  if (!capable || !hasWebGL()) {
-    return orbs
-  }
-
+  // El contenedor fija el fondo detrás de todo (z-index: -1) también en modo
+  // fallback: los orbes llevan z-index propio pensado para páginas de listado
+  // y sin él taparían el contenido de páginas sin capa posicionada (Inicio).
   return (
     <div ref={containerRef} className={`silk-background ${className}`} aria-hidden='true'>
-      <Suspense fallback={orbs}>
-        <Silk
-          speed={speed}
-          scale={scale}
-          color={color}
-          noiseIntensity={noiseIntensity}
-          rotation={rotation}
-          fps={fps}
-          dpr={dpr}
-          active={visible}
-        />
-      </Suspense>
+      {!capable || !hasWebGL()
+        ? orbs
+        : (
+          <Suspense fallback={orbs}>
+            <Silk
+              speed={speed}
+              scale={scale}
+              color={color}
+              noiseIntensity={noiseIntensity}
+              rotation={rotation}
+              fps={fps}
+              dpr={dpr}
+              active={visible}
+            />
+          </Suspense>
+          )}
     </div>
   )
 }

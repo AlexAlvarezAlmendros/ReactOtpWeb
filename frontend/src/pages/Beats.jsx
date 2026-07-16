@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './InfiniteScroll.css'
 import './Beats.css'
 import './ListingPage.css'
-import SilkBackground from '../components/SilkBackground'
 
 const API_URL = import.meta.env.VITE_API_URL
 const BEATS_ENDPOINT = `${API_URL}/beats`
@@ -90,7 +89,6 @@ function Beats () {
 
   return (
     <div className="listing-page">
-      <SilkBackground />
       <div className="listing-content">
         <div className="beats-page-header">
           <h1>Nuestros Beats</h1>

@@ -1,15 +1,12 @@
-/* Ocupa el viewport (páginas de listado) o la sección padre (footer) por
-   detrás del contenido, igual que los orbes a los que sustituye. */
+/* Fondo fijo detrás de TODO el contenido: el fondo negro del body queda por
+   debajo (es el canvas de la página) y cualquier sección opaca lo tapa donde
+   así lo quiera su diseño. Al no vivir dentro de ninguna página, el footer
+   comparte exactamente el mismo fondo. */
 .silk-background {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: -1;
   pointer-events: none;
-}
-
-.silk-background--footer {
-  position: absolute;
-  z-index: 0;
 }
 
 .silk-background canvas {
