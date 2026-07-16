@@ -131,7 +131,7 @@ function PluginOprW1 () {
                   verticalDistance={56}
                   delay={5000}
                   pauseOnHover
-                  skewAmount={4}
+                  skewAmount={0}
                   swapOnMount={false}
                 >
                   <Card customClass="opr-swap">
