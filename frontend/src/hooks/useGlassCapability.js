@@ -1,4 +1,14 @@
-let cached = null
+let glassCached = null
+let tiltCached = null
+
+/** Hardware modesto o ahorro de datos: nada de efectos caros. */
+function isLowEndDevice () {
+  const nav = window.navigator
+  if (nav.deviceMemory !== undefined && nav.deviceMemory < 4) return true
+  if (nav.hardwareConcurrency !== undefined && nav.hardwareConcurrency < 4) return true
+  if (nav.connection?.saveData) return true
+  return false
+}
 
 /**
  * Decide si el dispositivo puede renderizar el cristal avanzado de GlassSurface
@@ -9,19 +19,14 @@ let cached = null
 function detectGlassCapability () {
   if (typeof window === 'undefined' || typeof document === 'undefined') return false
 
-  const nav = window.navigator
-
-  // Heurísticas de hardware modesto: mantener el glass CSS actual
-  if (nav.deviceMemory !== undefined && nav.deviceMemory < 4) return false
-  if (nav.hardwareConcurrency !== undefined && nav.hardwareConcurrency < 4) return false
-  if (nav.connection?.saveData) return false
+  if (isLowEndDevice()) return false
 
   // Preferencias del usuario
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
   if (window.matchMedia('(prefers-reduced-transparency: reduce)').matches) return false
 
   // backdrop-filter: url(#filtro-svg) solo funciona en Chromium
-  const ua = nav.userAgent
+  const ua = window.navigator.userAgent
   const isSafari = /Safari/.test(ua) && !/Chrom/.test(ua)
   if (isSafari || /Firefox/.test(ua)) return false
 
@@ -30,7 +35,25 @@ function detectGlassCapability () {
   return probe.style.backdropFilter !== ''
 }
 
+/**
+ * Decide si aplicar el tilt 3D de las cards. A diferencia del cristal, no
+ * depende del soporte de filtros SVG (funciona en cualquier navegador), pero sí
+ * necesita puntero con hover: en táctil no hay dónde apoyar el efecto.
+ */
+function detectTiltCapability () {
+  if (typeof window === 'undefined') return false
+  if (isLowEndDevice()) return false
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
+  if (!window.matchMedia('(hover: hover)').matches) return false
+  return true
+}
+
 export function useGlassCapability () {
-  if (cached === null) cached = detectGlassCapability()
-  return cached
+  if (glassCached === null) glassCached = detectGlassCapability()
+  return glassCached
+}
+
+export function useTiltCapability () {
+  if (tiltCached === null) tiltCached = detectTiltCapability()
+  return tiltCached
 }

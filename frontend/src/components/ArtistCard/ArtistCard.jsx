@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink } from 'react-router-dom'
 import LazyImage from '../LazyImage/LazyImage'
 import GlassSurface from '../GlassSurface'
+import { motion } from 'motion/react'
+import { useTilt } from '../../hooks/useTilt'
 
 function ArtistCard ({ card }) {
   const availableLinks = [
@@ -15,8 +17,10 @@ function ArtistCard ({ card }) {
 
   const showLabels = availableLinks.length === 1
 
+  const tilt = useTilt()
+
   return (
-    <GlassSurface as='article' className='card'>
+    <GlassSurface as={motion.article} {...tilt} className='card'>
       <NavLink to={`/artistas/${card.id}`} className="card-image-link">
         <LazyImage src={card.img} alt='Portada de la obra' />
       </NavLink>

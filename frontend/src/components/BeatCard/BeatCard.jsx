@@ -6,6 +6,8 @@ import { useBeatPurchase } from '../../hooks/useBeatPurchase'
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext'
 import LazyImage from '../LazyImage/LazyImage'
 import GlassSurface from '../GlassSurface'
+import { motion } from 'motion/react'
+import { useTilt } from '../../hooks/useTilt'
 import '../Card.css'
 import './BeatCard.css'
 
@@ -141,9 +143,11 @@ function BeatCard ({ card }) {
     }
   }
 
+  const tilt = useTilt()
+
   return (
     <>
-      <GlassSurface as='article' className='card'>
+      <GlassSurface as={motion.article} {...tilt} className='card'>
         <div className="card-image-link beat-card-image-container">
           <LazyImage src={imageUrl} alt={`Portada de ${card.title}`} />
           
