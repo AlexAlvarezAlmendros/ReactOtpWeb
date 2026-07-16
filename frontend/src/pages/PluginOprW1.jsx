@@ -6,6 +6,10 @@ import Footer from '../components/Footer/Footer'
 import { useTilt } from '../hooks/useTilt'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { PLUGINS, PLUGINS_REPO_URL } from '../data/plugins'
+import {
+  FieldDiagram, XoverDiagram, EngineDiagram, HaasDiagram, MonoDiagram,
+  FlowDiagram, KnobGlyph, SegGlyph, ToggleGlyph
+} from './PluginOprW1Diagrams'
 import './Plugins.css' /* reutiliza .plugin-btn y .plugin-chip */
 import './PluginOprW1.css'
 
@@ -13,28 +17,25 @@ const OPR_W1 = PLUGINS.find(plugin => plugin.id === 'opr-w1')
 const DAFX_PAPER_URL = 'https://www.dafx.de/paper-archive/2024/papers/DAFx24_paper_92.pdf'
 
 const CONTROLS = [
-  { control: 'WIDTH LOW / WIDTH HIGH', range: '0–200 % (100 % = neutro)', what: 'El ancho de cada banda' },
-  { control: 'XOVER', range: '100–4000 Hz (log)', what: 'La frontera entre graves y agudos' },
-  { control: 'ENGINE', range: 'M/S · VELVET', what: 'Cómo se genera la anchura' },
-  { control: 'HAAS', range: '0–40 ms', what: 'Micro-retardo en el canal derecho. Mono-inseguro' },
-  { control: 'OUTPUT', range: '−12…+12 dB', what: 'Ganancia de salida' },
-  { control: 'MONO', range: 'on/off', what: 'Pliega la salida a (L+R)/2 para comprobar compatibilidad' }
+  { glyph: <KnobGlyph a={0} hot />, name: 'WIDTH LOW / HIGH', range: '0–200 %', desc: 'El ancho de cada banda. 100 % = neutro.' },
+  { glyph: <KnobGlyph a={-60} />, name: 'XOVER', range: '100 Hz – 4 kHz', desc: 'La frontera entre graves y agudos.' },
+  { glyph: <SegGlyph />, name: 'ENGINE', range: 'M/S · VELVET', desc: 'Cómo se genera la anchura.' },
+  { glyph: <KnobGlyph a={-135} />, name: 'HAAS', range: '0–40 ms', desc: 'Micro-retardo en R. Mono-inseguro.', warn: true },
+  { glyph: <KnobGlyph a={0} />, name: 'OUTPUT', range: '−12…+12 dB', desc: 'Ganancia de salida.' },
+  { glyph: <ToggleGlyph />, name: 'MONO', range: 'on / off', desc: 'Pliega la salida a (L+R)/2.' }
 ]
 
-const DONE = [
-  'Dos bandas con crossover Linkwitz-Riley de 4º orden',
-  'Motores de anchura M/S y VELVET',
-  'Haas y monitor mono',
-  'GUI REDLINE con manual integrado',
-  '11 tests de DSP en verde'
-]
-
-const PENDING = [
-  'Protección de transitorios y motor allpass: diseñados, sin implementar',
-  'Correlómetro y goniómetro: necesitan un puente de metering nativo → UI',
-  'Tipografías D-DIN / JetBrains Mono sin empaquetar — la UI cae al mono del sistema',
-  'Interfaz gráfica en Linux: de momento carga con el editor genérico de JUCE'
-]
+function ManualSection ({ num, title, children }) {
+  return (
+    <section className="opr-man">
+      <header className="opr-man__head">
+        <span className="opr-man__num">{num}</span>
+        <h2 className="opr-man__title">{title}</h2>
+      </header>
+      {children}
+    </section>
+  )
+}
 
 function PlatformCard ({ download }) {
   return (
@@ -54,7 +55,7 @@ function PlatformCard ({ download }) {
           </span>
           )}
       {download.platform === 'Linux' && (
-        <p className="opr-platform__note">Sin interfaz gráfica propia, por ahora</p>
+        <p className="opr-platform__note">Por ahora, sin interfaz gráfica propia</p>
       )}
     </div>
   )
@@ -85,10 +86,9 @@ function PluginOprW1 () {
 
             <span className="opr-hero__eyebrow">Other People Records · Plugins</span>
             <h1 className="opr-hero__title">OPR-W1</h1>
-            <p className="opr-hero__tagline">Plugin de ensanchamiento estéreo — antes «Ancho»</p>
+            <p className="opr-hero__tagline">Ensanchador estéreo de dos bandas</p>
             <p className="opr-hero__sub">
-              DSP en JavaScript con Elementary Audio, GUI en React, shell JUCE.
-              Basado en la plantilla SRVB de Elementary.
+              Graves anclados. Agudos con aire. Y al 100 %, la señal pasa intacta.
             </p>
 
             <div className="opr-hero__meta">
@@ -119,179 +119,140 @@ function PluginOprW1 () {
         </header>
 
         <div className="opr-body">
-          {/* ── Qué hace ── */}
-          <section className="opr-section">
-            <h2 className="opr-section__title"><span>01</span> Qué hace</h2>
-            <p>
-              OPR-W1 controla cuánto se abre el sonido entre los altavoces. Por debajo
-              del 100 % lo concentra en el centro; por encima lo despega hacia los lados.
-              La regla de diseño es que al 100 % la señal pasa intacta: el plugin puede
-              quedarse insertado sin colorear nada, y a partir de ahí abres o cierras.
+          {/* ── 01 · El ancho ── */}
+          <ManualSection num="01" title="El ancho">
+            <figure className="opr-diagram">
+              <FieldDiagram />
+            </figure>
+            <p className="opr-caption">
+              Por debajo del 100 %, el sonido se concentra en el centro.
+              Por encima, se despega hacia los lados.
+              Al 100 % la señal pasa intacta, bit a bit: déjalo insertado sin miedo.
             </p>
-            <p>
-              Lo que lo separa de un widener trivial es que no aplica una anchura única a
-              todo el espectro: parte la señal en dos bandas y cada una lleva su propio
-              ancho — graves estrechos para que la pegada quede sólida y centrada, agudos
-              anchos para dar aire. Basado en el{' '}
+          </ManualSection>
+
+          {/* ── 02 · Dos bandas ── */}
+          <ManualSection num="02" title="Dos bandas">
+            <figure className="opr-diagram">
+              <XoverDiagram />
+            </figure>
+            <p className="opr-caption">
+              Cada banda lleva su propio ancho.
+              Graves estrechos: pegada sólida y centrada.
+              Agudos anchos: aire.
+              XOVER decide dónde está la frontera.
+            </p>
+          </ManualSection>
+
+          {/* ── 03 · Los mandos ── */}
+          <ManualSection num="03" title="Los mandos">
+            <ul className="opr-ctl">
+              {CONTROLS.map(control => (
+                <li key={control.name} className="opr-ctl__item">
+                  {control.glyph}
+                  <div className="opr-ctl__info">
+                    <span className="opr-ctl__name">{control.name}</span>
+                    <span className="opr-ctl__range">{control.range}</span>
+                    <span className={`opr-ctl__desc ${control.warn ? 'opr-ctl__desc--warn' : ''}`}>
+                      {control.desc}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </ManualSection>
+
+          {/* ── 04 · Dos motores ── */}
+          <ManualSection num="04" title="Dos motores">
+            <div className="opr-engines">
+              <figure className="opr-engine">
+                <figcaption className="opr-engine__name">M/S</figcaption>
+                <EngineDiagram />
+                <p className="opr-engine__desc">
+                  Transparente. Reordena el estéreo que ya existe; no inventa nada.
+                  Sobre una fuente mono, no hace nada.
+                </p>
+              </figure>
+              <figure className="opr-engine">
+                <figcaption className="opr-engine__name opr-engine__name--hot">VELVET</figcaption>
+                <EngineDiagram widen />
+                <p className="opr-engine__desc">
+                  Crea estéreo real, incluso desde mono. Colorea un poco.
+                </p>
+              </figure>
+            </div>
+            <p className="opr-caption">
+              Por debajo del 100 % son idénticos.
+              Y el cambio entre ambos es un fundido continuo: automatízalo desde tu DAW.
+            </p>
+          </ManualSection>
+
+          {/* ── 05 · Haas ── */}
+          <ManualSection num="05" title="Haas">
+            <figure className="opr-diagram">
+              <HaasDiagram />
+            </figure>
+            <p className="opr-caption">
+              Hasta 40 ms de retardo, solo en el canal derecho.
+              Anchura extrema — al precio de perderse en mono.
+              Úsalo con oído.
+            </p>
+          </ManualSection>
+
+          {/* ── 06 · La prueba del mono ── */}
+          <ManualSection num="06" title="La prueba del mono">
+            <figure className="opr-diagram">
+              <MonoDiagram />
+            </figure>
+            <p className="opr-caption">
+              Pulsa MONO y escucha por un solo altavoz.
+              ¿Sobrevive la mezcla? El ensanchado es sano.
+            </p>
+          </ManualSection>
+
+          {/* ── 07 · Bajo el capó ── */}
+          <ManualSection num="07" title="Bajo el capó">
+            <figure className="opr-diagram opr-diagram--scroll">
+              <FlowDiagram />
+            </figure>
+            <p className="opr-caption">
+              Crossover Linkwitz-Riley de 4º orden: parte la señal y la recompone
+              con respuesta plana.
+              VELVET decorrela con ~15 impulsos deterministas en 15 ms — suena igual
+              en cada carga.
+              Todos los parámetros van suavizados: nada de zipper noise.
+            </p>
+            <p className="opr-caption">
+              Basado en el{' '}
               <a href={DAFX_PAPER_URL} target="_blank" rel="noopener noreferrer">
                 paper de DAFx24 de Orchisama Das
               </a>.
             </p>
-          </section>
+          </ManualSection>
 
-          {/* ── Características ── */}
-          <section className="opr-section">
-            <h2 className="opr-section__title"><span>02</span> Características</h2>
-            <div className="opr-table-wrap">
-              <table className="opr-table">
-                <thead>
-                  <tr>
-                    <th>Control</th>
-                    <th>Rango</th>
-                    <th>Qué es</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {CONTROLS.map(row => (
-                    <tr key={row.control}>
-                      <td className="opr-table__control">{row.control}</td>
-                      <td className="opr-table__range">{row.range}</td>
-                      <td>{row.what}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          {/* ── Motores ── */}
-          <section className="opr-section">
-            <h2 className="opr-section__title"><span>03</span> Dos motores de anchura</h2>
-            <div className="opr-engines">
-              <GlassSurface as="article" className="opr-engine">
-                <h3>M/S</h3>
-                <p>
-                  Sube el canal Side. Transparente: reordena el estéreo que ya existe
-                  pero no inventa nada. Sobre una fuente mono no hace nada, porque no
-                  hay Side que subir.
-                </p>
-              </GlassSurface>
-              <GlassSurface as="article" className="opr-engine">
-                <h3>VELVET</h3>
-                <p>
-                  Decorrelación por ruido velvet. Crea estéreo real incluso desde mono,
-                  a cambio de algo de coloración.
-                </p>
-              </GlassSurface>
-            </div>
-            <p>
-              Por debajo del 100 % los dos motores son idénticos: el motor solo entra en
-              juego al ensanchar. Y aunque la UI ofrece dos botones, por dentro es un
-              fundido continuo, así que el host puede automatizarlo y quedarse a medio camino.
-            </p>
-            <p>
-              El monitor mono es la red de seguridad: si la mezcla sobrevive plegada a un
-              solo altavoz, el ensanchado es sano. La UI incluye un manual integrado
-              (botón ?) de cuatro páginas ilustradas.
-            </p>
-          </section>
-
-          {/* ── Cómo funciona ── */}
-          <section className="opr-section">
-            <h2 className="opr-section__title"><span>04</span> Cómo funciona</h2>
-            <pre className="opr-flow">
-{`in L/R → Haas (retardo en R) → crossover LR4 → widen por banda → suma → gain → monitor mono
-                             ↘ decorrelador velvet → crossover LR4 ↗`}
-            </pre>
-            <p>
-              El crossover es un Linkwitz-Riley de 4º orden (dos Butterworth en cascada,
-              Q = 1/√2). Es la elección correcta porque las dos bandas vuelven a sumarse:
-              un LR4 suma con magnitud plana, así que partir la señal y recomponerla no
-              deja baches en la respuesta.
-            </p>
-            <p>
-              El motor M/S convierte a Mid/Side y multiplica el Side por el ancho: a 0 %
-              el Side desaparece (mono puro), a 100 % queda intacto, a 200 % se dobla.
-            </p>
-            <p>
-              El motor VELVET decorrela con una convolución dispersa: ~15 impulsos
-              repartidos en 15 ms, concentrados al principio, con signos ±1 aleatorios y
-              decayendo hasta −60 dB. Al ser impulsos aislados en vez de ruido denso,
-              decorrela sin sonar a reverb. Cada canal usa una semilla distinta: es la
-              baja correlación entre ambas secuencias lo que abre el estéreo. Las semillas
-              son deterministas, así que el plugin suena igual en cada carga y la mezcla
-              de ayer sigue siendo la de hoy.
-            </p>
-            <p>
-              Al pasar de 100 %, VELVET funde hacia la señal decorrelada con ley sin/cos,
-              que preserva la energía — un crossfade lineal dejaría un bache de volumen a
-              mitad de recorrido. Ojo con un detalle práctico: al 200 % el fundido llega
-              al final y la señal original desaparece por completo; lo que sale es solo
-              el decorrelador.
-            </p>
-            <p>
-              Todos los parámetros van suavizados (~20 ms) antes de entrar al grafo: los
-              saltos crudos del host producirían zipper noise.
-            </p>
-          </section>
-
-          {/* ── Estado ── */}
-          <section className="opr-section">
-            <h2 className="opr-section__title"><span>05</span> Estado</h2>
-            <div className="opr-status">
-              <div className="opr-status__col">
-                <h3>Funcional</h3>
-                <ul>
-                  {DONE.map(item => (
-                    <li key={item}>
-                      <FontAwesomeIcon icon={['fas', 'check']} className="opr-status__icon opr-status__icon--ok" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="opr-status__col">
-                <h3>Pendiente</h3>
-                <ul>
-                  {PENDING.map(item => (
-                    <li key={item}>
-                      <FontAwesomeIcon icon={['fas', 'clock']} className="opr-status__icon" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          {/* ── Descargas ── */}
-          <section className="opr-section" id="descargas">
-            <h2 className="opr-section__title"><span>06</span> Descargas</h2>
-            <div className="opr-platforms">
+          {/* ── 08 · Descargas ── */}
+          <ManualSection num="08" title="Descargas">
+            <div className="opr-platforms" id="descargas">
               {OPR_W1.downloads.map(download => (
                 <PlatformCard key={download.platform} download={download} />
               ))}
             </div>
-            <p className="opr-install">
-              Descomprime el .zip y copia <code>OPR-W1.vst3</code> a la carpeta VST3 de
-              tu sistema — <code>C:\Program Files\Common Files\VST3</code> en Windows,{' '}
-              <code>~/.vst3</code> en Linux — y vuelve a escanear plugins en tu DAW.
+            <p className="opr-caption">
+              Descomprime y copia <code>OPR-W1.vst3</code> a{' '}
+              <code>C:\Program Files\Common Files\VST3</code> (Windows) o{' '}
+              <code>~/.vst3</code> (Linux). Re-escanea plugins en tu DAW.
             </p>
             <p className="opr-warning">
               <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} />
-              En Linux el plugin procesa audio con normalidad, pero de momento se abre
-              con el editor genérico de JUCE: la interfaz REDLINE solo está disponible
-              en Windows (y macOS cuando llegue).
+              En Linux suena exactamente igual, pero de momento abre con el editor
+              genérico de JUCE. La interfaz REDLINE llegará.
             </p>
-          </section>
+          </ManualSection>
 
-          {/* ── Licencia ── */}
-          <section className="opr-section">
-            <h2 className="opr-section__title"><span>07</span> Licencia y código</h2>
-            <p>
-              OPR-W1 es software libre bajo licencia GPLv3. El código de la plantilla
-              original SRVB es MIT © 2023 Nick Thompson; JUCE y el SDK VST3 imponen
-              GPLv3 al binario distribuido.
+          {/* ── 09 · Licencia ── */}
+          <ManualSection num="09" title="Licencia y código">
+            <p className="opr-caption">
+              GPLv3. Código abierto de verdad: léelo, compílalo, mejóralo.
             </p>
             <a
               href={PLUGINS_REPO_URL}
@@ -302,7 +263,10 @@ function PluginOprW1 () {
               <FontAwesomeIcon icon={['fab', 'github']} />
               <span>Código fuente</span>
             </a>
-          </section>
+            <p className="opr-roadmap">
+              v0.1.0 · en desarrollo: correlómetro y goniómetro, motor allpass, GUI en Linux
+            </p>
+          </ManualSection>
         </div>
       </div>
       <Footer />

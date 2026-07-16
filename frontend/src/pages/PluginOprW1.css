@@ -1,7 +1,7 @@
 /* =====================
    PÁGINA /plugins/opr-w1
-   Estética REDLINE del plugin (chasis frío + acento rojo único)
-   adaptada al lenguaje visual del sitio.
+   Manual web estilo librito (Teenage Engineering) con la estética
+   REDLINE del plugin: un gráfico por concepto, texto mínimo.
    ===================== */
 .opr-page {
   min-height: 100vh;
@@ -109,7 +109,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.78rem;
-  color: #666;
+  color: #888;
 }
 
 /* La "pintura" es el fallback legacy: GlassSurface la sustituye si está activo. */
@@ -135,111 +135,184 @@
 }
 
 /* =====================
-   CUERPO
+   CUERPO · SECCIONES DEL MANUAL
    ===================== */
 .opr-body {
-  max-width: 860px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 3.5rem 2rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 4rem;
   text-align: left;
 }
 
-.opr-section p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #adb5bd;
-  margin: 0 0 1rem;
+.opr-man__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.opr-section p:last-child {
+.opr-man__num {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid #ff003c;
+  border-radius: 50%;
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #ff003c;
+  flex-shrink: 0;
+}
+
+.opr-man__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0;
+}
+
+/* Panel de diagrama */
+.opr-diagram {
+  margin: 0 0 1.25rem;
+  padding: 1.5rem 1rem;
+  background: #0a0a0c;
+  border: 1px solid #2a2a31;
+  border-radius: 12px;
+}
+
+.opr-diagram--scroll {
+  overflow-x: auto;
+}
+
+.oprd {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.opr-diagram--scroll .oprd {
+  min-width: 560px;
+  max-width: 640px;
+}
+
+.oprd-tag {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  fill: #5d5d68;
+}
+
+.oprd-tag--lit {
+  fill: #9b9ba6;
+}
+
+.oprd-tag--hot {
+  fill: #ff003c;
+}
+
+.oprd-tag--box {
+  font-size: 9px;
+  fill: #efeff2;
+}
+
+/* Texto: una idea por frase */
+.opr-caption {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #adb5bd;
+  margin: 0 0 1rem;
+  max-width: 60ch;
+}
+
+.opr-caption:last-child {
   margin-bottom: 0;
 }
 
-.opr-section p a {
+.opr-caption a {
   color: #ff003c;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.opr-section p a:hover {
+.opr-caption a:hover {
   color: #ff5560;
 }
 
-.opr-section__title {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #fff;
-  margin: 0 0 1.25rem;
-}
-
-.opr-section__title span {
-  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: #ff003c;
+.opr-caption code {
+  background: #1c1c21;
+  border: 1px solid #2a2a31;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  color: #efeff2;
 }
 
 /* =====================
-   TABLA DE CONTROLES
+   LOS MANDOS
    ===================== */
-.opr-table-wrap {
-  overflow-x: auto;
-  border: 1px solid #2a2a31;
-  border-radius: 12px;
+.opr-ctl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+}
+
+.opr-ctl__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.9rem;
   background: #131316;
+  border: 1px solid #2a2a31;
+  border-radius: 10px;
 }
 
-.opr-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.92rem;
+.oprd-glyph {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
 }
 
-.opr-table th {
-  font-size: 0.68rem;
-  font-weight: 700;
+.opr-ctl__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.opr-ctl__name {
+  font-size: 0.8rem;
+  font-weight: 800;
   letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #666;
-  text-align: left;
-  padding: 0.8rem 1.1rem;
-  border-bottom: 1px solid #2a2a31;
-}
-
-.opr-table td {
-  padding: 0.85rem 1.1rem;
-  border-bottom: 1px solid #1c1c21;
-  color: #adb5bd;
-  line-height: 1.5;
-  vertical-align: top;
-}
-
-.opr-table tr:last-child td {
-  border-bottom: none;
-}
-
-.opr-table__control {
-  font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 1px;
   color: #fff;
-  white-space: nowrap;
 }
 
-.opr-table__range {
+.opr-ctl__range {
   font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
   font-variant-numeric: tabular-nums;
-  font-size: 0.82rem;
-  color: #efeff2;
-  white-space: nowrap;
+  font-size: 0.72rem;
+  color: #ff003c;
+}
+
+.opr-ctl__desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #9b9ba6;
+}
+
+.opr-ctl__desc--warn {
+  color: #ffb3c1;
 }
 
 /* =====================
@@ -252,88 +325,39 @@
   margin-bottom: 1.25rem;
 }
 
-/* Fallback legacy de cristal; GlassSurface sustituye la pintura si está activo. */
 .opr-engine {
-  padding: 1.5rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(32px) saturate(160%);
-  -webkit-backdrop-filter: blur(32px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.opr-engine h3 {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #ff003c;
-  margin: 0 0 0.6rem;
-}
-
-.opr-engine p {
   margin: 0;
-}
-
-/* =====================
-   DIAGRAMA DE SEÑAL
-   ===================== */
-.opr-flow {
+  padding: 1.25rem;
   background: #0a0a0c;
   border: 1px solid #2a2a31;
   border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  overflow-x: auto;
-  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
-  font-size: 0.78rem;
-  line-height: 1.8;
-  color: #9b9ba6;
-  margin: 0 0 1.5rem;
-}
-
-/* =====================
-   ESTADO
-   ===================== */
-.opr-status {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-.opr-status__col h3 {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #fff;
-  margin: 0 0 0.75rem;
-}
-
-.opr-status__col ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.opr-status__col li {
   display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  padding: 0.4rem 0;
-  font-size: 0.92rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.opr-engine__name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #efeff2;
+}
+
+.opr-engine__name--hot {
+  color: #ff003c;
+}
+
+.oprd--engine {
+  max-width: 200px;
+}
+
+.opr-engine__desc {
+  font-size: 0.85rem;
   line-height: 1.55;
-  color: #adb5bd;
-}
-
-.opr-status__icon {
-  margin-top: 4px;
-  font-size: 0.8rem;
-  color: #666;
-  flex-shrink: 0;
-}
-
-.opr-status__icon--ok {
-  color: #28a745;
+  color: #9b9ba6;
+  text-align: center;
+  margin: 0;
 }
 
 /* =====================
@@ -383,23 +407,14 @@
 .opr-platform__btn--disabled {
   background: #1c1c21;
   border: 1px dashed #3b3b44;
-  color: #666;
+  color: #888;
   cursor: default;
 }
 
 .opr-platform__note {
   font-size: 0.72rem;
-  color: #666;
+  color: #888;
   margin: 0;
-}
-
-.opr-install code {
-  background: #1c1c21;
-  border: 1px solid #2a2a31;
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 0.85em;
-  color: #efeff2;
 }
 
 .opr-warning {
@@ -410,13 +425,27 @@
   border: 1px solid rgba(255, 0, 60, 0.25);
   border-radius: 12px;
   padding: 1rem 1.25rem;
-  color: #ddd !important;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #ddd;
+  margin: 0;
 }
 
 .opr-warning svg {
   color: #ff003c;
   margin-top: 4px;
   flex-shrink: 0;
+}
+
+/* =====================
+   LICENCIA
+   ===================== */
+.opr-roadmap {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  color: #888;
+  margin: 1.25rem 0 0;
 }
 
 /* =====================
@@ -434,10 +463,6 @@
     margin: 0 auto;
   }
 
-  .opr-status {
-    grid-template-columns: 1fr;
-  }
-
   .opr-engines {
     grid-template-columns: 1fr;
   }
@@ -447,10 +472,16 @@
   }
 }
 
+@media (max-width: 700px) {
+  .opr-ctl {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 600px) {
   .opr-body {
     padding: 2.5rem 1.25rem 1.5rem;
-    gap: 2.75rem;
+    gap: 3rem;
   }
 
   .opr-hero__actions {
@@ -464,5 +495,9 @@
 
   .opr-hero__soon {
     justify-content: center;
+  }
+
+  .opr-diagram {
+    padding: 1.25rem 0.75rem;
   }
 }
