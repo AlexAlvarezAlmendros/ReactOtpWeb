@@ -5,6 +5,7 @@ import './ProximosEventos.css'
 import { Cards } from '../CardList/CardList'
 import { useEvents } from '../../hooks/useEvents'
 import LazyImage from '../LazyImage/LazyImage'
+import GlassSurface from '../GlassSurface'
 
 export function ProximosEventos () {
   const [currentPage] = useState(1)
@@ -58,7 +59,7 @@ export function ProximosEventos () {
     return (
       <section className='proximos-eventos-section'>
         <h2 className='proximos-eventos-title'>Próximo evento</h2>
-        <div className='evento-destacado'>
+        <GlassSurface className='evento-destacado'>
           <div className='evento-destacado-imagen'>
             <LazyImage src={event.img} alt={event.title} />
           </div>
@@ -119,7 +120,7 @@ export function ProximosEventos () {
               )}
             </div>
           </div>
-        </div>
+        </GlassSurface>
       </section>
     )
   }

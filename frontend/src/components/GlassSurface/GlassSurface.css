@@ -5,8 +5,14 @@
  * (background + backdrop-filter). Los !important son necesarios para ganar
  * a esas clases sin depender del orden de los CSS en el bundle.
  */
-.glass-surface {
+/* En :where() (especificidad 0) para no pisar el posicionamiento propio del
+   elemento: p. ej. el sticky del header. Solo da un contexto al SVG del filtro
+   cuando el elemento es estático. */
+:where(.glass-surface) {
   position: relative;
+}
+
+.glass-surface {
   background: var(--glass-bg, transparent) !important;
   backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) !important;
   -webkit-backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) !important;

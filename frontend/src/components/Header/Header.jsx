@@ -5,13 +5,14 @@ import LoginButton from '../Auth/LoginButton'
 import LogoutButton from '../Auth/LogoutButton'
 import MobileNavToggle from '../MobileNav/MobileNavToggle'
 import { useMobileNavContext } from '../../contexts/MobileNavContext'
+import GlassSurface from '../GlassSurface'
 
 function Header ({ children }) {
   const { isAuthenticated, isLoading } = useAuth()
   const { isOpen, togglePanel } = useMobileNavContext()
 
   return (
-    <header className='header'>
+    <GlassSurface as='header' className='header' borderRadius={0}>
       <div className='header-content'>
         <NavLink to="/herramientas" className='logo-section'>
           <img
@@ -51,7 +52,7 @@ function Header ({ children }) {
         <MobileNavToggle isOpen={isOpen} onToggle={togglePanel} />
       </div>
       {children}
-    </header>
+    </GlassSurface>
   )
 }
 
