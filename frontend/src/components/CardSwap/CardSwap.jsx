@@ -42,6 +42,7 @@ const CardSwap = ({
   onCardClick,
   skewAmount = 6,
   easing = 'elastic',
+  swapOnMount = true,
   children
 }) => {
   const config =
@@ -138,7 +139,9 @@ const CardSwap = ({
       })
     }
 
-    swap()
+    // Con swapOnMount=false la primera tarjeta se queda delante un ciclo
+    // completo antes del primer intercambio (el original hace swap al montar).
+    if (swapOnMount) swap()
     intervalRef.current = window.setInterval(swap, delay)
 
     if (pauseOnHover) {
@@ -161,7 +164,7 @@ const CardSwap = ({
     }
     return () => clearInterval(intervalRef.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing])
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, swapOnMount])
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

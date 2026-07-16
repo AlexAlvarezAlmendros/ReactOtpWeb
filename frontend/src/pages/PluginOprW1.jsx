@@ -132,6 +132,7 @@ function PluginOprW1 () {
                   delay={5000}
                   pauseOnHover
                   skewAmount={5}
+                  swapOnMount={false}
                 >
                   <Card customClass="opr-swap">
                     <div className="opr-swap__bar"><span className="opr-swap__sq" />OPR-W1 · GUI</div>
