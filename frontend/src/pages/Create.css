@@ -1,8 +1,13 @@
 .dashboard {
   display: flex;
-  height: calc(100vh - 72px);
+  /* Ocupa el viewport completo: llega hasta el borde superior (el navbar
+     flota encima) y sus columnas compensan ese hueco con padding-top, así
+     nada queda debajo del navbar. Antes restaba 72px dando por hecho el
+     header de ancho completo, y con la isla flotante desbordaba. */
+  height: 100vh;
   overflow: hidden;
   margin: -2rem;
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
 }
 
 /* =====================
@@ -25,7 +30,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1.25rem 1.25rem 1rem;
+  padding: calc(1.25rem + var(--nav-flow, 85px)) 1.25rem 1rem;
   border-bottom: 1px solid #222;
   color: #fff;
   font-size: 0.95rem;
@@ -117,7 +122,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.25rem 2rem;
+  padding: calc(1.25rem + var(--nav-flow, 85px)) 2rem 1.25rem;
   border-bottom: 1px solid #1e1e1e;
   background: #0e0e0e;
   flex-wrap: wrap;
