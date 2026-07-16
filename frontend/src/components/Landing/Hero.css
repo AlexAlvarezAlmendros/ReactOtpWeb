@@ -18,7 +18,8 @@
   margin-top: -2rem;
   margin-bottom: 4rem;
   box-sizing: border-box;
-  background: #000;
+  /* Sin fondo negro propio: deja ver el fondo Silk de la página por debajo
+     del vídeo, que es lo que permite el fundido del borde inferior. */
 }
 
 /* ============================================
@@ -30,6 +31,12 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  /* Funde a transparente todas las capas de fondo del hero (vídeo, overlay,
+     viñeta y rejilla) para que asome el fondo Silk fijo y el hero encadene
+     con la página. Va aquí y no en .hero-section para no desvanecer también
+     el contenido ni el marquee, que son hermanos de este contenedor. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 260px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 260px), transparent 100%);
 }
 
 .hero-video {
@@ -59,22 +66,6 @@
   z-index: 2;
 }
 
-.hero-overlay::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(
-    to top,
-    #000 0%,
-    rgba(0, 0, 0, 0.85) 30%,
-    rgba(0, 0, 0, 0.4) 60%,
-    transparent 100%
-  );
-  z-index: 1;
-}
 
 /* Cinematic vignette */
 .hero-vignette {
@@ -487,8 +478,10 @@
     gap: 2rem;
   }
 
-  .hero-overlay::after {
-    height: 160px;
+  /* Fundido inferior más corto: el hero es mucho más bajo aquí */
+  .hero-video-container {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 160px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 160px), transparent 100%);
   }
 }
 
@@ -512,8 +505,9 @@
     letter-spacing: 0.08em;
   }
 
-  .hero-overlay::after {
-    height: 140px;
+  .hero-video-container {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 120px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 120px), transparent 100%);
   }
 }
 
