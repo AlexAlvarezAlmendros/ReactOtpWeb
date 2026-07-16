@@ -107,11 +107,6 @@ export function Hero () {
           ))}
         </div>
       </div>
-
-      <a href="#contenido" className='hero-scroll' aria-label="Desplazar hacia abajo">
-        <span className='hero-scroll__text'>SCROLL</span>
-        <span className='hero-scroll__line'></span>
-      </a>
     </section>
   )
 }

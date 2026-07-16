@@ -396,44 +396,6 @@
 }
 
 /* ============================================
-   SCROLL INDICATOR
-   ============================================ */
-.hero-scroll {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.6);
-  animation: fadeInUp 1s ease-out 1.4s both;
-}
-
-.hero-scroll__text {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-}
-
-.hero-scroll__line {
-  display: block;
-  width: 1px;
-  height: 28px;
-  background: linear-gradient(to bottom, #ff003c, transparent);
-  animation: scrollLine 2s ease-in-out infinite;
-}
-
-@keyframes scrollLine {
-  0%, 100% { transform: scaleY(1); opacity: 0.8; }
-  50% { transform: scaleY(0.4) translateY(8px); opacity: 0.3; }
-}
-
-/* ============================================
    ANIMATIONS
    ============================================ */
 @keyframes fadeInUp {
@@ -550,10 +512,6 @@
     letter-spacing: 0.08em;
   }
 
-  .hero-scroll {
-    display: none;
-  }
-
   .hero-overlay::after {
     height: 140px;
   }
@@ -563,7 +521,6 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-video,
   .hero-badge__dot,
-  .hero-scroll__line,
   .hero-marquee__track {
     animation: none;
   }
