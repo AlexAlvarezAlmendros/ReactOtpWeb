@@ -134,6 +134,84 @@
   background: #0a0a0c;
 }
 
+/* Carrusel CardSwap del hero: tarjetas con chasis REDLINE */
+.opr-hero__swap {
+  position: relative;
+  height: 440px;
+}
+
+/* El translate(5%,20%) de ReactBits saca la tarjeta frontal del hero;
+   aquí el mazo va completo dentro de su columna. Al ganar especificidad
+   sobre el CSS del componente, las variantes móviles se redefinen abajo. */
+.opr-hero__swap .card-swap-container {
+  transform: translate(0, -6%);
+}
+
+@media (max-width: 768px) {
+  .opr-hero__swap .card-swap-container {
+    transform: scale(0.8) translate(-4%, -4%);
+  }
+}
+
+@media (max-width: 480px) {
+  .opr-hero__swap .card-swap-container {
+    transform: scale(0.6) translate(-4%, -8%);
+  }
+}
+
+.opr-swap {
+  border: 1px solid #2a2a31;
+  background: #0a0a0c;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+}
+
+.opr-swap__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.9rem;
+  background: #131316;
+  border-bottom: 1px solid #2a2a31;
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9b9ba6;
+  flex-shrink: 0;
+}
+
+.opr-swap__sq {
+  width: 8px;
+  height: 8px;
+  background: #ff003c;
+  flex-shrink: 0;
+}
+
+.opr-swap__img {
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.opr-swap__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+}
+
+.opr-swap__body .oprd {
+  max-width: 420px;
+  max-height: 100%;
+}
+
 /* =====================
    CUERPO · SECCIONES DEL MANUAL
    ===================== */
@@ -463,6 +541,10 @@
     margin: 0 auto;
   }
 
+  .opr-hero__swap {
+    height: 380px;
+  }
+
   .opr-engines {
     grid-template-columns: 1fr;
   }
@@ -499,5 +581,9 @@
 
   .opr-diagram {
     padding: 1.25rem 0.75rem;
+  }
+
+  .opr-hero__swap {
+    height: 280px;
   }
 }

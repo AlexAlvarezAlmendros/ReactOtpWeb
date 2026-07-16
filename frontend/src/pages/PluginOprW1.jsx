@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { motion } from 'motion/react'
-import GlassSurface from '../components/GlassSurface'
+import CardSwap, { Card } from '../components/CardSwap'
 import Footer from '../components/Footer/Footer'
-import { useTilt } from '../hooks/useTilt'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { PLUGINS, DONATION_URL } from '../data/plugins'
 import {
@@ -15,6 +13,13 @@ import './PluginOprW1.css'
 
 const OPR_W1 = PLUGINS.find(plugin => plugin.id === 'opr-w1')
 const DAFX_PAPER_URL = 'https://www.dafx.de/paper-archive/2024/papers/DAFx24_paper_92.pdf'
+
+// Con movimiento reducido no arrancamos el carrusel GSAP: se muestra la
+// captura estática, que explica lo mismo (mismo criterio que useTilt).
+const REDUCED_MOTION = typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+const HERO_ALT = 'Interfaz de OPR-W1: dos knobs WIDTH LOW y WIDTH HIGH con rack de controles globales'
 
 const CONTROLS = [
   { glyph: <KnobGlyph a={0} hot />, name: 'WIDTH LOW / HIGH', range: '0–200 %', desc: 'El ancho de cada banda. 100 % = neutro.' },
@@ -62,8 +67,6 @@ function PlatformCard ({ download }) {
 }
 
 function PluginOprW1 () {
-  const tilt = useTilt({ rotateAmplitude: 6, scaleOnHover: 1.02 })
-
   usePageMeta({
     title: 'OPR-W1 — Ensanchador estéreo',
     description: 'Plugin gratuito de ensanchamiento estéreo en dos bandas (VST3/AU) de Other People Records. Motores M/S y velvet, crossover LR4, Haas y monitor mono.',
@@ -113,9 +116,38 @@ function PluginOprW1 () {
             </div>
           </div>
 
-          <GlassSurface as={motion.figure} {...tilt} className="opr-hero__preview">
-            <img src={OPR_W1.image} alt="Interfaz de OPR-W1: dos knobs WIDTH LOW y WIDTH HIGH con rack de controles globales" />
-          </GlassSurface>
+          {REDUCED_MOTION
+            ? (
+              <figure className="opr-hero__preview">
+                <img src={OPR_W1.image} alt={HERO_ALT} />
+              </figure>
+              )
+            : (
+              <div className="opr-hero__swap">
+                <CardSwap
+                  width={520}
+                  height={340}
+                  cardDistance={50}
+                  verticalDistance={56}
+                  delay={5000}
+                  pauseOnHover
+                  skewAmount={5}
+                >
+                  <Card customClass="opr-swap">
+                    <div className="opr-swap__bar"><span className="opr-swap__sq" />OPR-W1 · GUI</div>
+                    <img className="opr-swap__img" src={OPR_W1.image} alt={HERO_ALT} />
+                  </Card>
+                  <Card customClass="opr-swap">
+                    <div className="opr-swap__bar"><span className="opr-swap__sq" />El ancho</div>
+                    <div className="opr-swap__body"><FieldDiagram /></div>
+                  </Card>
+                  <Card customClass="opr-swap">
+                    <div className="opr-swap__bar"><span className="opr-swap__sq" />Dos bandas</div>
+                    <div className="opr-swap__body"><XoverDiagram /></div>
+                  </Card>
+                </CardSwap>
+              </div>
+              )}
         </header>
 
         <div className="opr-body">
