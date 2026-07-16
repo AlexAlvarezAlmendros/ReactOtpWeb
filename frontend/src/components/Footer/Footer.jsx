@@ -77,6 +77,7 @@ function Footer () {
               <NavLink to="/eventos">Eventos</NavLink>
               <NavLink to="/discografia">Discografía</NavLink>
               <NavLink to="/beats">Beats</NavLink>
+              <NavLink to="/plugins">Plugins</NavLink>
               <NavLink to="/newsletters">Newsletters</NavLink>
               <NavLink to="/estudios">Estudios</NavLink>
               <NavLink to="/herramientas">Herramientas</NavLink>

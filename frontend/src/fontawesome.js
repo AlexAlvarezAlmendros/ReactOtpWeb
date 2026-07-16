@@ -2,7 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
   faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
-  faTwitch, faDiscord, faLinkedin
+  faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub
 } from '@fortawesome/free-brands-svg-icons'
 import { 
   faPlus, 
@@ -85,7 +85,7 @@ import {
 library.add(
   faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
   faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
-  faTwitch, faDiscord, faLinkedin,
+  faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub,
   faPlus,
   faTrash, 
   faEdit, 

@@ -23,6 +23,8 @@ import Newsletters from './pages/Newsletters.jsx'
 import Unsubscribe from './pages/Unsubscribe.jsx'
 import Perfil from './pages/Perfil.jsx'
 import Herramientas from './pages/Herramientas.jsx'
+import Plugins from './pages/Plugins.jsx'
+import PluginOprW1 from './pages/PluginOprW1.jsx'
 import RuralMafia from './pages/RuralMafia.jsx'
 import LinksPage from './pages/LinksPage.jsx'
 import './fontawesome.js'
@@ -135,6 +137,14 @@ const router = createBrowserRouter([
       {
         path: '/herramientas',
         element: <Herramientas />
+      },
+      {
+        path: '/plugins',
+        element: <Plugins />
+      },
+      {
+        path: '/plugins/opr-w1',
+        element: <PluginOprW1 />
       },
       {
         path: '/ruralmafia',

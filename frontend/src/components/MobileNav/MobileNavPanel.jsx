@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: '/eventos', label: 'Eventos', icon: ['fas', 'calendar'] },
   { to: '/discografia', label: 'Discografía', icon: ['fas', 'compact-disc'] },
   { to: '/beats', label: 'Beats', icon: ['fas', 'headphones'] },
+  { to: '/plugins', label: 'Plugins', icon: ['fas', 'sliders'] },
   { to: '/estudios', label: 'Estudios', icon: ['fas', 'music'] },
   { to: '/contacto', label: 'Contacto', icon: ['fas', 'envelope'] },
 ]

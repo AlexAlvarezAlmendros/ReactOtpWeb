@@ -1,0 +1,468 @@
+/* =====================
+   PÁGINA /plugins/opr-w1
+   Estética REDLINE del plugin (chasis frío + acento rojo único)
+   adaptada al lenguaje visual del sitio.
+   ===================== */
+.opr-page {
+  min-height: 100vh;
+  background: #0e0e0e;
+  margin: -2rem;
+  /* Llega hasta el borde superior (el navbar flota encima); .opr-hero
+     compensa el desplazamiento con su padding y no se mueve de sitio. */
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
+  overflow-x: hidden;
+}
+
+/* =====================
+   HERO
+   ===================== */
+.opr-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+  border-bottom: 1px solid #1e1e1e;
+  padding: calc(4rem + var(--nav-flow, 85px)) max(2rem, calc((100% - 1200px) / 2)) 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.opr-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,0,60,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.opr-hero__inner {
+  position: relative;
+  text-align: left;
+}
+
+.opr-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9b9ba6;
+  text-decoration: none;
+  margin-bottom: 1.75rem;
+  transition: color 0.2s ease;
+}
+
+.opr-back:hover {
+  color: #fff;
+}
+
+.opr-hero__eyebrow {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ff003c;
+  margin-bottom: 0.75rem;
+}
+
+.opr-hero__title {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 2px;
+  margin: 0 0 0.5rem;
+}
+
+.opr-hero__tagline {
+  font-size: 1.15rem;
+  color: #e9ecef;
+  margin: 0 0 0.6rem;
+}
+
+.opr-hero__sub {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #888;
+  margin: 0 0 1.25rem;
+}
+
+.opr-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.opr-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.opr-hero__soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #666;
+}
+
+/* La "pintura" es el fallback legacy: GlassSurface la sustituye si está activo. */
+.opr-hero__preview {
+  position: relative;
+  margin: 0;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(32px) saturate(160%);
+  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.opr-hero__preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #2a2a31;
+  background: #0a0a0c;
+}
+
+/* =====================
+   CUERPO
+   ===================== */
+.opr-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  text-align: left;
+}
+
+.opr-section p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #adb5bd;
+  margin: 0 0 1rem;
+}
+
+.opr-section p:last-child {
+  margin-bottom: 0;
+}
+
+.opr-section p a {
+  color: #ff003c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.opr-section p a:hover {
+  color: #ff5560;
+}
+
+.opr-section__title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 1.25rem;
+}
+
+.opr-section__title span {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #ff003c;
+}
+
+/* =====================
+   TABLA DE CONTROLES
+   ===================== */
+.opr-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #2a2a31;
+  border-radius: 12px;
+  background: #131316;
+}
+
+.opr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.opr-table th {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #666;
+  text-align: left;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid #2a2a31;
+}
+
+.opr-table td {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid #1c1c21;
+  color: #adb5bd;
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+.opr-table tr:last-child td {
+  border-bottom: none;
+}
+
+.opr-table__control {
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.opr-table__range {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  color: #efeff2;
+  white-space: nowrap;
+}
+
+/* =====================
+   MOTORES
+   ===================== */
+.opr-engines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Fallback legacy de cristal; GlassSurface sustituye la pintura si está activo. */
+.opr-engine {
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(32px) saturate(160%);
+  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.opr-engine h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ff003c;
+  margin: 0 0 0.6rem;
+}
+
+.opr-engine p {
+  margin: 0;
+}
+
+/* =====================
+   DIAGRAMA DE SEÑAL
+   ===================== */
+.opr-flow {
+  background: #0a0a0c;
+  border: 1px solid #2a2a31;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: #9b9ba6;
+  margin: 0 0 1.5rem;
+}
+
+/* =====================
+   ESTADO
+   ===================== */
+.opr-status {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.opr-status__col h3 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 0.75rem;
+}
+
+.opr-status__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.opr-status__col li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.4rem 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #adb5bd;
+}
+
+.opr-status__icon {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.opr-status__icon--ok {
+  color: #28a745;
+}
+
+/* =====================
+   DESCARGAS
+   ===================== */
+.opr-platforms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.opr-platform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  background: #131316;
+  border: 1px solid #2a2a31;
+  border-radius: 16px;
+}
+
+.opr-platform--soon {
+  opacity: 0.65;
+}
+
+.opr-platform__icon {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.opr-platform__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.opr-platform__btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.opr-platform__btn--disabled {
+  background: #1c1c21;
+  border: 1px dashed #3b3b44;
+  color: #666;
+  cursor: default;
+}
+
+.opr-platform__note {
+  font-size: 0.72rem;
+  color: #666;
+  margin: 0;
+}
+
+.opr-install code {
+  background: #1c1c21;
+  border: 1px solid #2a2a31;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  color: #efeff2;
+}
+
+.opr-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255, 0, 60, 0.07);
+  border: 1px solid rgba(255, 0, 60, 0.25);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  color: #ddd !important;
+}
+
+.opr-warning svg {
+  color: #ff003c;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* =====================
+   RESPONSIVE
+   ===================== */
+@media (max-width: 900px) {
+  .opr-hero {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .opr-hero__preview {
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .opr-status {
+    grid-template-columns: 1fr;
+  }
+
+  .opr-engines {
+    grid-template-columns: 1fr;
+  }
+
+  .opr-platforms {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .opr-body {
+    padding: 2.5rem 1.25rem 1.5rem;
+    gap: 2.75rem;
+  }
+
+  .opr-hero__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .opr-hero__actions .plugin-btn {
+    width: 100%;
+  }
+
+  .opr-hero__soon {
+    justify-content: center;
+  }
+}
