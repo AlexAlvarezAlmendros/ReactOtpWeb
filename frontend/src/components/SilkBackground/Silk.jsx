@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react'
+import { forwardRef, useRef, useMemo, useLayoutEffect, useEffect } from 'react'
 import { Color } from 'three'
 
 const hexToNormalizedRGB = hex => {
@@ -69,6 +69,35 @@ void main() {
 }
 `
 
+/**
+ * Con frameloop="demand" el canvas solo redibuja cuando se invalida:
+ * aquí limitamos los redibujados a `fps` y los paramos del todo cuando
+ * `active` es false (p. ej. el footer fuera de pantalla). Esto también
+ * reduce a la mitad los re-filtrados del cristal (GlassSurface), que se
+ * recalculan cada vez que el fondo animado cambia.
+ */
+function InvalidateLoop ({ fps, active }) {
+  const { invalidate } = useThree()
+
+  useEffect(() => {
+    if (!active) return
+    let rafId
+    let last = 0
+    const interval = 1000 / fps
+    const tick = t => {
+      rafId = requestAnimationFrame(tick)
+      if (t - last >= interval) {
+        last = t
+        invalidate()
+      }
+    }
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
+  }, [invalidate, fps, active])
+
+  return null
+}
+
 const SilkPlane = forwardRef(function SilkPlane ({ uniforms }, ref) {
   const { viewport } = useThree()
 
@@ -91,7 +120,16 @@ const SilkPlane = forwardRef(function SilkPlane ({ uniforms }, ref) {
 })
 SilkPlane.displayName = 'SilkPlane'
 
-const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => {
+const Silk = ({
+  speed = 5,
+  scale = 1,
+  color = '#7B7481',
+  noiseIntensity = 1.5,
+  rotation = 0,
+  fps = 30,
+  dpr = 0.75,
+  active = true
+}) => {
   const meshRef = useRef()
 
   const uniforms = useMemo(
@@ -107,7 +145,12 @@ const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, r
   )
 
   return (
-    <Canvas dpr={[1, 2]} frameloop='always'>
+    <Canvas
+      dpr={dpr}
+      frameloop='demand'
+      gl={{ antialias: false, alpha: false, powerPreference: 'low-power' }}
+    >
+      <InvalidateLoop fps={fps} active={active} />
       <SilkPlane ref={meshRef} uniforms={uniforms} />
     </Canvas>
   )

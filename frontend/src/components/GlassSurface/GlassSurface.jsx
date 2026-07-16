@@ -37,6 +37,7 @@ function GlassSurface ({
   xChannel = 'R',
   yChannel = 'G',
   mixBlendMode = 'difference',
+  chromaticAberration = false,
   ...rest
 }) {
   const glassEnabled = useGlassCapability()
@@ -89,11 +90,17 @@ function GlassSurface ({
     if (!glassEnabled) return
 
     updateDisplacementMap()
-    ;[
-      { ref: redChannelRef, offset: redOffset },
-      { ref: greenChannelRef, offset: greenOffset },
-      { ref: blueChannelRef, offset: blueOffset }
-    ].forEach(({ ref, offset }) => {
+    // Sin aberración cromática solo existe un mapa (el "rojo"), con el
+    // desplazamiento intermedio de los tres canales
+    const channels = chromaticAberration
+      ? [
+          { ref: redChannelRef, offset: redOffset },
+          { ref: greenChannelRef, offset: greenOffset },
+          { ref: blueChannelRef, offset: blueOffset }
+        ]
+      : [{ ref: redChannelRef, offset: greenOffset }]
+
+    channels.forEach(({ ref, offset }) => {
       if (ref.current) {
         ref.current.setAttribute('scale', (distortionScale + offset).toString())
         ref.current.setAttribute('xChannelSelector', xChannel)
@@ -118,7 +125,8 @@ function GlassSurface ({
     blueOffset,
     xChannel,
     yChannel,
-    mixBlendMode
+    mixBlendMode,
+    chromaticAberration
   ])
 
   useEffect(() => {
@@ -161,41 +169,48 @@ function GlassSurface ({
           <filter id={filterId} colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
             <feImage ref={feImageRef} x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map" />
 
-            <feDisplacementMap ref={redChannelRef} in="SourceGraphic" in2="map" result="dispRed" />
-            <feColorMatrix
-              in="dispRed"
-              type="matrix"
-              values="1 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 1 0"
-              result="red"
-            />
+            {chromaticAberration ? (
+              <>
+                <feDisplacementMap ref={redChannelRef} in="SourceGraphic" in2="map" result="dispRed" />
+                <feColorMatrix
+                  in="dispRed"
+                  type="matrix"
+                  values="1 0 0 0 0
+                          0 0 0 0 0
+                          0 0 0 0 0
+                          0 0 0 1 0"
+                  result="red"
+                />
 
-            <feDisplacementMap ref={greenChannelRef} in="SourceGraphic" in2="map" result="dispGreen" />
-            <feColorMatrix
-              in="dispGreen"
-              type="matrix"
-              values="0 0 0 0 0
-                      0 1 0 0 0
-                      0 0 0 0 0
-                      0 0 0 1 0"
-              result="green"
-            />
+                <feDisplacementMap ref={greenChannelRef} in="SourceGraphic" in2="map" result="dispGreen" />
+                <feColorMatrix
+                  in="dispGreen"
+                  type="matrix"
+                  values="0 0 0 0 0
+                          0 1 0 0 0
+                          0 0 0 0 0
+                          0 0 0 1 0"
+                  result="green"
+                />
 
-            <feDisplacementMap ref={blueChannelRef} in="SourceGraphic" in2="map" result="dispBlue" />
-            <feColorMatrix
-              in="dispBlue"
-              type="matrix"
-              values="0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 1 0 0
-                      0 0 0 1 0"
-              result="blue"
-            />
+                <feDisplacementMap ref={blueChannelRef} in="SourceGraphic" in2="map" result="dispBlue" />
+                <feColorMatrix
+                  in="dispBlue"
+                  type="matrix"
+                  values="0 0 0 0 0
+                          0 0 0 0 0
+                          0 0 1 0 0
+                          0 0 0 1 0"
+                  result="blue"
+                />
 
-            <feBlend in="red" in2="green" mode="screen" result="rg" />
-            <feBlend in="rg" in2="blue" mode="screen" result="output" />
+                <feBlend in="red" in2="green" mode="screen" result="rg" />
+                <feBlend in="rg" in2="blue" mode="screen" result="output" />
+              </>
+            ) : (
+              <feDisplacementMap ref={redChannelRef} in="SourceGraphic" in2="map" result="output" />
+            )}
+
             <feGaussianBlur ref={gaussianBlurRef} in="output" stdDeviation="0.7" />
           </filter>
         </defs>

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useGlassCapability } from '../../hooks/useGlassCapability'
 import './SilkBackground.css'
 
@@ -23,6 +23,7 @@ function hasWebGL () {
  * reduced-motion o sin WebGL renderiza los orbes rojos CSS de siempre
  * (`orbClass` es el prefijo actual: listing-orb, footer-orb, lp-orb).
  * Los orbes también actúan de placeholder mientras carga el chunk de three.
+ * El canvas deja de redibujar cuando sale del viewport (footer).
  */
 function SilkBackground ({
   orbClass = 'listing-orb',
@@ -31,9 +32,24 @@ function SilkBackground ({
   scale = 1.1,
   color = '#4A0D1C',
   noiseIntensity = 1.2,
-  rotation = 0
+  rotation = 0,
+  fps = 30,
+  dpr = 0.75
 }) {
   const capable = useGlassCapability()
+  const containerRef = useRef(null)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    if (!capable || !containerRef.current) return
+    if (typeof IntersectionObserver === 'undefined') return
+
+    const observer = new IntersectionObserver(entries => {
+      setVisible(entries[0]?.isIntersecting ?? true)
+    })
+    observer.observe(containerRef.current)
+    return () => observer.disconnect()
+  }, [capable])
 
   const orbs = (
     <>
@@ -48,7 +64,7 @@ function SilkBackground ({
   }
 
   return (
-    <div className={`silk-background ${className}`} aria-hidden='true'>
+    <div ref={containerRef} className={`silk-background ${className}`} aria-hidden='true'>
       <Suspense fallback={orbs}>
         <Silk
           speed={speed}
@@ -56,6 +72,9 @@ function SilkBackground ({
           color={color}
           noiseIntensity={noiseIntensity}
           rotation={rotation}
+          fps={fps}
+          dpr={dpr}
+          active={visible}
         />
       </Suspense>
     </div>
