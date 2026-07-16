@@ -14,8 +14,8 @@
 
 .glass-surface {
   background: var(--glass-bg, transparent) !important;
-  backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) !important;
-  -webkit-backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) !important;
+  backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) blur(var(--glass-backdrop-blur, 0px)) !important;
+  -webkit-backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) blur(var(--glass-backdrop-blur, 0px)) !important;
 }
 
 .glass-surface__filter {

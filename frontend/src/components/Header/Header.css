@@ -1,13 +1,20 @@
 .header {
   position: sticky;
   position: -webkit-sticky; /* Para Safari */
-  top: 0;
+  top: 16px;
+  /* Isla flotante: ni a todo el ancho ni pegada al borde superior.
+     border-box para que el padding no se sume al ancho: con content-box la
+     isla llegaba a tocar los bordes en móvil. */
+  box-sizing: border-box;
+  width: min(1240px, calc(100% - 2rem));
+  margin: 16px auto 0;
+  border-radius: 999px;
   background: #2b2b2bce;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: #ffffff;
   padding: 1rem;
-  box-shadow: 0 0px 20px rgba(14, 14, 14, 0.63);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   z-index: 15;
   isolation: isolate;
   min-height: 20px;

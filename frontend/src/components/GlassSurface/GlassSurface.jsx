@@ -29,6 +29,9 @@ function GlassSurface ({
   displace = 0.5,
   backgroundOpacity = 0.58,
   saturation = 1,
+  // Desenfoque real del fondo. Distinto de `blur`, que es el desenfoque del
+  // mapa de desplazamiento (afecta a la refracción, no al fondo).
+  backdropBlur = 0,
   tint,
   distortionScale = -180,
   redOffset = 0,
@@ -160,6 +163,7 @@ function GlassSurface ({
     // Frost negro: equivale al modo oscuro del light-dark() de ReactBits
     '--glass-bg': tint || `hsl(0 0% 0% / ${backgroundOpacity})`,
     '--glass-saturation': saturation,
+    '--glass-backdrop-blur': `${backdropBlur}px`,
     '--filter-id': `url(#${filterId})`
   }
 
