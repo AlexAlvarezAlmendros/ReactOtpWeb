@@ -1,0 +1,29 @@
+/*
+ * Solo se aplica en modo mejorado (filtro SVG soportado + equipo capaz).
+ * Las clases del sitio (.card, .glass, .info-card, …) siguen aportando el
+ * layout, borde y sombras; aquí solo se sustituye la "pintura" del cristal
+ * (background + backdrop-filter). Los !important son necesarios para ganar
+ * a esas clases sin depender del orden de los CSS en el bundle.
+ */
+/* En :where() (especificidad 0) para no pisar el posicionamiento propio del
+   elemento: p. ej. el sticky del header. Solo da un contexto al SVG del filtro
+   cuando el elemento es estático. */
+:where(.glass-surface) {
+  position: relative;
+}
+
+.glass-surface {
+  background: var(--glass-bg, transparent) !important;
+  backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) blur(var(--glass-backdrop-blur, 0px)) !important;
+  -webkit-backdrop-filter: var(--filter-id) saturate(var(--glass-saturation, 1)) blur(var(--glass-backdrop-blur, 0px)) !important;
+}
+
+.glass-surface__filter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}

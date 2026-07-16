@@ -2,6 +2,9 @@ import { NavLink } from 'react-router-dom'
 import '../Card.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LazyImage from '../LazyImage/LazyImage'
+import GlassSurface from '../GlassSurface'
+import { motion } from 'motion/react'
+import { useTilt } from '../../hooks/useTilt'
 
 function EventsCard ({ card }) {
   const availableLinks = [
@@ -53,8 +56,10 @@ function EventsCard ({ card }) {
   const targetPath = card.customLink || `/eventos/${card.id}`
   const hasCustomLink = Boolean(card.customLink)
 
+  const tilt = useTilt()
+
   return (
-    <article className='card'>
+    <GlassSurface as={motion.article} {...tilt} className='card'>
       <div className="card-image-link">
         <NavLink to={targetPath} className="card-image-link">
           <LazyImage src={card.img} alt='Portada de la obra' />
@@ -119,7 +124,7 @@ function EventsCard ({ card }) {
           </div>
         )}
       </div>
-    </article>
+    </GlassSurface>
   )
 }
 

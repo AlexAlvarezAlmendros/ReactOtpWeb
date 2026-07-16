@@ -1,13 +1,33 @@
+/* Alto de la isla flotante y su separación del borde. Se declaran aquí, junto
+   a las reglas que determinan ese alto (ver media queries al final), y los
+   consume Hero.css para subir el hero por debajo del navbar. Si cambias el
+   padding o el contenido del header, ajusta --nav-h. */
+:root {
+  --nav-gap: 16px;
+  --nav-h: 69px;
+  /* Espacio que la isla ocupa en el flujo. Los bloques full-bleed que deben
+     llegar al borde superior (los hero de las páginas) lo niegan con un
+     margin-top negativo, y así el navbar flota sobre ellos. */
+  --nav-flow: calc(var(--nav-gap) + var(--nav-h));
+}
+
 .header {
   position: sticky;
   position: -webkit-sticky; /* Para Safari */
-  top: 0;
+  top: var(--nav-gap);
+  /* Isla flotante: ni a todo el ancho ni pegada al borde superior.
+     border-box para que el padding no se sume al ancho: con content-box la
+     isla llegaba a tocar los bordes en móvil. */
+  box-sizing: border-box;
+  width: min(1240px, calc(100% - 2rem));
+  margin: var(--nav-gap) auto 0;
+  border-radius: 20px;
   background: #2b2b2bce;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: #ffffff;
   padding: 1rem;
-  box-shadow: 0 0px 20px rgba(14, 14, 14, 0.63);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   z-index: 15;
   isolation: isolate;
   min-height: 20px;
@@ -133,6 +153,11 @@
   }
 }
 @media (max-width: 768px) {
+  /* Sin enlaces ni auth, la isla es más baja */
+  :root {
+    --nav-h: 62px;
+  }
+
   .header-content {
     display: flex;
     align-content: center;
@@ -161,6 +186,11 @@
 }
 
 @media (max-width: 600px) {
+  /* Menos padding => isla más baja */
+  :root {
+    --nav-h: 54px;
+  }
+
   .header {
     padding: 0.75rem;
   }

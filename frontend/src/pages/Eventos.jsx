@@ -60,9 +60,6 @@ function Eventos () {
 
   return (
     <div className="listing-page">
-      <div className="listing-orb listing-orb--1" aria-hidden="true" />
-      <div className="listing-orb listing-orb--2" aria-hidden="true" />
-      <div className="listing-orb listing-orb--3" aria-hidden="true" />
       <div className="listing-content">
         <h1>Últimos Eventos</h1>
         {error && <p className="error-message">Error: {error}</p>}

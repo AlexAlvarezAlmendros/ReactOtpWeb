@@ -3,13 +3,14 @@
    ========================================= */
 .footer {
   position: relative;
-  background: #060606;
+  /* Sin fondo propio: deja ver el mismo fondo Silk fijo que la página.
+     Sin isolation, que crearía un backdrop root y dejaría a las cards de
+     cristal sin nada que refractar (el fondo vive fuera del footer). */
   color: #fff;
   padding: 80px 32px 28px;
   margin: -2rem;        /* break out of .container 2rem padding */
   margin-top: 0rem;
   overflow: hidden;
-  isolation: isolate;
 }
 
 .footer * {
@@ -26,70 +27,6 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, #ff003c 50%, transparent);
   z-index: 1;
-}
-
-/* =========================================
-   AMBIENT ANIMATED ORBS
-   ========================================= */
-.footer-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
-  opacity: 0.18;
-  z-index: 0;
-}
-
-.footer-orb--1 {
-  width: 60vw;
-  height: 60vw;
-  max-width: 800px;
-  max-height: 800px;
-  background: radial-gradient(circle, #ff003c 0%, transparent 60%);
-  top: -25%;
-  left: -15%;
-  animation: footer-float-1 50s ease-in-out infinite;
-}
-
-.footer-orb--2 {
-  width: 50vw;
-  height: 50vw;
-  max-width: 700px;
-  max-height: 700px;
-  background: radial-gradient(circle, #cc0030 0%, transparent 60%);
-  bottom: -20%;
-  right: -15%;
-  opacity: 0.15;
-  animation: footer-float-2 65s ease-in-out infinite;
-}
-
-.footer-orb--3 {
-  width: 40vw;
-  height: 40vw;
-  max-width: 500px;
-  max-height: 500px;
-  background: radial-gradient(circle, #ff003c 0%, transparent 65%);
-  top: 30%;
-  left: 40%;
-  opacity: 0.08;
-  animation: footer-float-3 80s ease-in-out infinite;
-}
-
-@keyframes footer-float-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(15vw, 8vh) scale(1.1); }
-  66%      { transform: translate(25vw, -5vh) scale(0.9); }
-}
-
-@keyframes footer-float-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(-20vw, -10vh) scale(1.15); }
-  66%      { transform: translate(-10vw, 10vh) scale(0.95); }
-}
-
-@keyframes footer-float-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(-15vw, -15vh) scale(1.2); }
 }
 
 /* =========================================
@@ -551,10 +488,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .footer-orb {
-    animation: none !important;
-  }
-
   .footer-card__nav a:hover,
   .footer-social__link:hover,
   .footer-newsletter__btn:hover {

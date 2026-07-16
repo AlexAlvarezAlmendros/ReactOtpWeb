@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
+import GlassSurface from '../GlassSurface'
 
 export function Hero () {
   const { artists } = useArtists()
@@ -81,18 +82,21 @@ export function Hero () {
           </p>
 
           <div className='hero-buttons'>
-            <NavLink
+            <GlassSurface
+              as={NavLink}
               target="_blank"
               className='hero-cta hero-cta--primary'
+              borderRadius={999}
+              tint="rgba(255, 0, 60, 0.62)"
               to="https://open.spotify.com/playlist/0dn9LnyS9u2kbBGTPKAHPz?si=ba612b6413ea40ad"
             >
               <FontAwesomeIcon icon={['fab', 'spotify']} />
               <span>Escuchar ahora</span>
-            </NavLink>
-            <NavLink className='hero-cta hero-cta--ghost' to="/contacto">
+            </GlassSurface>
+            <GlassSurface as={NavLink} className='hero-cta hero-cta--ghost' borderRadius={999} to="/contacto">
               <span>Booking</span>
               <FontAwesomeIcon icon={['fas', 'arrow-right']} />
-            </NavLink>
+            </GlassSurface>
           </div>
         </div>
       </div>
@@ -107,11 +111,6 @@ export function Hero () {
           ))}
         </div>
       </div>
-
-      <a href="#contenido" className='hero-scroll' aria-label="Desplazar hacia abajo">
-        <span className='hero-scroll__text'>SCROLL</span>
-        <span className='hero-scroll__line'></span>
-      </a>
     </section>
   )
 }

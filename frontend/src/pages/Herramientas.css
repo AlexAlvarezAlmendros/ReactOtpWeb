@@ -4,7 +4,7 @@
 .tools-hero {
   background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
   border-bottom: 1px solid #1e1e1e;
-  padding: 4rem 2rem 3rem;
+  padding: calc(4rem + var(--nav-flow, 85px)) 2rem 3rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -55,6 +55,9 @@
   min-height: 100vh;
   background: #0e0e0e;
   margin: -2rem;
+  /* Llega hasta el borde superior (el navbar flota encima); .tools-hero
+     compensa el desplazamiento con su padding y no se mueve de sitio. */
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
   overflow-x: hidden;
 }
 

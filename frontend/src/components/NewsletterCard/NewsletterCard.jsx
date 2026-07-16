@@ -1,6 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../Card.css'
 import './NewsletterCard.css'
+import GlassSurface from '../GlassSurface'
+import { motion } from 'motion/react'
+import { useTilt } from '../../hooks/useTilt'
 
 function NewsletterCard ({ card, onEdit, onDelete }) {
   // Determine status color/icon
@@ -18,8 +21,10 @@ function NewsletterCard ({ card, onEdit, onDelete }) {
     }
   }
 
+  const tilt = useTilt()
+
   return (
-    <article className='card newsletter-card'>
+    <GlassSurface as={motion.article} {...tilt} className='card newsletter-card'>
       <div className='card-content'>
         <div className='newsletter-top-row'>
             <span className='newsletter-date'>
@@ -48,7 +53,7 @@ function NewsletterCard ({ card, onEdit, onDelete }) {
             </button>
         </div>
       </div>
-    </article>
+    </GlassSurface>
   )
 }
 

@@ -33,6 +33,9 @@
   text-align: left;
   min-height: 100vh;
   margin: -2rem;
+  /* Llega hasta el borde superior (el navbar flota encima); .rm-hero
+     compensa el desplazamiento con su padding y no se mueve de sitio. */
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
   padding-bottom: 80px;
   background: var(--rm-bg);
 }
@@ -41,7 +44,7 @@
 .rm-hero {
   position: relative;
   overflow: hidden;
-  padding: 80px 24px 96px;
+  padding: calc(80px + var(--nav-flow, 85px)) 24px 96px;
   text-align: center;
   background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
   border-bottom: 1px solid var(--rm-border);

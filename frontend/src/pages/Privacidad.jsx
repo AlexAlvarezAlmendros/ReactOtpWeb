@@ -1,6 +1,7 @@
 import React from 'react'
 import './Privacidad.css'
 import Footer from '../components/Footer/Footer'
+import GlassSurface from '../components/GlassSurface'
 
 function Privacidad () {
   return (
@@ -11,7 +12,7 @@ function Privacidad () {
           <p className="legal-date">Última actualización: 29 de julio de 2025</p>
         </header>
 
-        <div className="legal-content">
+        <GlassSurface className="legal-content">
           <section className="legal-section">
             <h2>1. Responsable del Tratamiento</h2>
             <div className="info-box">
@@ -145,7 +146,7 @@ function Privacidad () {
               </ul>
             </div>
           </section>
-        </div>
+        </GlassSurface>
       </div>
 		<Footer />
 	</>

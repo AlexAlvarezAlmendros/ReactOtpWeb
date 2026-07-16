@@ -1182,7 +1182,8 @@
     padding: 0 0 48px;
     margin-left: -2rem;
     margin-right: -2rem;
-    margin-top: -2rem;
+    /* ...y también el hueco del navbar, que flota sobre la portada */
+    margin-top: calc(-2rem - var(--nav-flow, 70px));
   }
 
   .beat-detail__back-link {

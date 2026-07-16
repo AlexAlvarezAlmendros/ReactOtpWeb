@@ -4,6 +4,7 @@ import './ListingPage.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
 import { useReserva } from '../hooks/useReserva'
 import Footer from '../components/Footer/Footer'
+import GlassSurface from '../components/GlassSurface'
 
 function Estudios () {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -124,9 +125,6 @@ function Estudios () {
 
   return (
     <>
-      <div className="listing-orb listing-orb--1" aria-hidden="true" />
-      <div className="listing-orb listing-orb--2" aria-hidden="true" />
-      <div className="listing-orb listing-orb--3" aria-hidden="true" />
       <section className="estudios-section">
       <div className="estudios-container">
         {/* Encabezado de sección */}
@@ -138,8 +136,8 @@ function Estudios () {
         {/* Grid de servicios */}
         <div className="services-grid">
           {services.map((service) => (
-            <div 
-              key={service.id} 
+            <GlassSurface
+              key={service.id}
               className={`service-card ${service.type}`}
               onClick={handleReservaClick}
               role="button"
@@ -184,16 +182,16 @@ function Estudios () {
                   </div>
                 </div>
               )}
-            </div>
+            </GlassSurface>
           ))}
-          <button 
+          <GlassSurface
+              as="button"
               className="cta-button cta-card"
-              role="button"
               aria-haspopup="dialog"
               onClick={handleReservaClick}
             >
               Reserva una Sesión
-            </button>
+            </GlassSurface>
         </div>
       </div>
 

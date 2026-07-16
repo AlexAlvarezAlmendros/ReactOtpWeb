@@ -1,0 +1,16 @@
+/* Fondo fijo detrás de TODO el contenido: el fondo negro del body queda por
+   debajo (es el canvas de la página) y cualquier sección opaca lo tapa donde
+   así lo quiera su diseño. Al no vivir dentro de ninguna página, el footer
+   comparte exactamente el mismo fondo. */
+.silk-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.silk-background canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

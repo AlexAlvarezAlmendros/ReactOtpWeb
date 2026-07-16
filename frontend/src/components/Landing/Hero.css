@@ -15,10 +15,14 @@
   overflow: hidden;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
-  margin-top: -2rem;
+  /* Sube el hero hasta el borde superior: cancela el padding de .container
+     (2rem) y el espacio en flujo del navbar, para que la isla flotante quede
+     sobre el vídeo. El header lleva z-index 15, así que pinta por encima. */
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
   margin-bottom: 4rem;
   box-sizing: border-box;
-  background: #000;
+  /* Sin fondo negro propio: deja ver el fondo Silk de la página por debajo
+     del vídeo, que es lo que permite el fundido del borde inferior. */
 }
 
 /* ============================================
@@ -30,6 +34,12 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  /* Funde a transparente todas las capas de fondo del hero (vídeo, overlay,
+     viñeta y rejilla) para que asome el fondo Silk fijo y el hero encadene
+     con la página. Va aquí y no en .hero-section para no desvanecer también
+     el contenido ni el marquee, que son hermanos de este contenedor. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 260px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 260px), transparent 100%);
 }
 
 .hero-video {
@@ -59,22 +69,6 @@
   z-index: 2;
 }
 
-.hero-overlay::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(
-    to top,
-    #000 0%,
-    rgba(0, 0, 0, 0.85) 30%,
-    rgba(0, 0, 0, 0.4) 60%,
-    transparent 100%
-  );
-  z-index: 1;
-}
 
 /* Cinematic vignette */
 .hero-vignette {
@@ -396,44 +390,6 @@
 }
 
 /* ============================================
-   SCROLL INDICATOR
-   ============================================ */
-.hero-scroll {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.6);
-  animation: fadeInUp 1s ease-out 1.4s both;
-}
-
-.hero-scroll__text {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-}
-
-.hero-scroll__line {
-  display: block;
-  width: 1px;
-  height: 28px;
-  background: linear-gradient(to bottom, #ff003c, transparent);
-  animation: scrollLine 2s ease-in-out infinite;
-}
-
-@keyframes scrollLine {
-  0%, 100% { transform: scaleY(1); opacity: 0.8; }
-  50% { transform: scaleY(0.4) translateY(8px); opacity: 0.3; }
-}
-
-/* ============================================
    ANIMATIONS
    ============================================ */
 @keyframes fadeInUp {
@@ -525,8 +481,10 @@
     gap: 2rem;
   }
 
-  .hero-overlay::after {
-    height: 160px;
+  /* Fundido inferior más corto: el hero es mucho más bajo aquí */
+  .hero-video-container {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 160px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 160px), transparent 100%);
   }
 }
 
@@ -550,12 +508,9 @@
     letter-spacing: 0.08em;
   }
 
-  .hero-scroll {
-    display: none;
-  }
-
-  .hero-overlay::after {
-    height: 140px;
+  .hero-video-container {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 120px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 120px), transparent 100%);
   }
 }
 
@@ -563,7 +518,6 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-video,
   .hero-badge__dot,
-  .hero-scroll__line,
   .hero-marquee__track {
     animation: none;
   }

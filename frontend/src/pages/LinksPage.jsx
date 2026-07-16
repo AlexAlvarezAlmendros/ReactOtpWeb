@@ -2,6 +2,8 @@ import { useParams, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLinksPage } from '../hooks/useLinksPage'
 import { getPlatformIcon, getFaviconUrl } from '../utils/linkIcons'
+import GlassSurface from '../components/GlassSurface'
+import SilkBackground from '../components/SilkBackground'
 import './LinksPage.css'
 
 function LinksPage () {
@@ -49,9 +51,7 @@ function LinksPage () {
         />
       )}
       <div className="lp-bg-overlay" aria-hidden="true" />
-      <div className="lp-orb lp-orb--1" aria-hidden="true" />
-      <div className="lp-orb lp-orb--2" aria-hidden="true" />
-      <div className="lp-orb lp-orb--3" aria-hidden="true" />
+      <SilkBackground orbClass="lp-orb" />
 
       <main className="lp-main">
         <div className="lp-profile">
@@ -69,12 +69,14 @@ function LinksPage () {
 
         <div className="lp-list">
           {socialLinks.map((item, i) => (
-            <a
+            <GlassSurface
+              as="a"
               key={i}
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
               className="lp-item"
+              borderRadius={14}
               style={{ '--lp-color': item.color }}
             >
               <span className="lp-item__icon">
@@ -82,18 +84,20 @@ function LinksPage () {
               </span>
               <span className="lp-item__label">{item.label}</span>
               <FontAwesomeIcon icon={['fas', 'arrow-right']} className="lp-item__arrow" />
-            </a>
+            </GlassSurface>
           ))}
           {customLinks.map((item, i) => {
             const platform = getPlatformIcon(item.icon)
             const faviconUrl = !item.icon ? getFaviconUrl(item.url) : null
             return (
-              <a
+              <GlassSurface
+                as="a"
                 key={`c-${i}`}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="lp-item lp-item--custom"
+                borderRadius={14}
                 style={platform ? { '--lp-color': platform.color } : undefined}
               >
                 {platform ? (
@@ -116,7 +120,7 @@ function LinksPage () {
                 )}
                 <span className="lp-item__label">{item.label}</span>
                 <FontAwesomeIcon icon={['fas', 'arrow-right']} className="lp-item__arrow" />
-              </a>
+              </GlassSurface>
             )
           })}
         </div>

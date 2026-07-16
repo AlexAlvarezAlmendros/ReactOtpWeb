@@ -19,9 +19,6 @@ function RuralMafia () {
 
   return (
     <>
-      <div className="listing-orb listing-orb--1" aria-hidden="true" />
-      <div className="listing-orb listing-orb--2" aria-hidden="true" />
-      <div className="listing-orb listing-orb--3" aria-hidden="true" />
       <section className="rm-page">
         <header className="rm-hero">
           <div className="rm-hero__glow" aria-hidden="true" />

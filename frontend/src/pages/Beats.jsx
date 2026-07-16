@@ -89,9 +89,6 @@ function Beats () {
 
   return (
     <div className="listing-page">
-      <div className="listing-orb listing-orb--1" aria-hidden="true" />
-      <div className="listing-orb listing-orb--2" aria-hidden="true" />
-      <div className="listing-orb listing-orb--3" aria-hidden="true" />
       <div className="listing-content">
         <div className="beats-page-header">
           <h1>Nuestros Beats</h1>

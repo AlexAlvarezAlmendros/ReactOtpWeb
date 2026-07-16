@@ -4,6 +4,7 @@ import { useNewsletter } from '../hooks/useNewsletter'
 import './Contacto.css'
 import './ListingPage.css'
 import Footer from '../components/Footer/Footer'
+import GlassSurface from '../components/GlassSurface'
 
 function Contacto () {
   const [formData, setFormData] = useState({
@@ -98,9 +99,6 @@ function Contacto () {
 
   return (
     <>
-      <div className="listing-orb listing-orb--1" aria-hidden="true" />
-      <div className="listing-orb listing-orb--2" aria-hidden="true" />
-      <div className="listing-orb listing-orb--3" aria-hidden="true" />
     <section className="contacto-section">
       <div className="contacto-container">
         {/* Encabezado de sección */}
@@ -115,33 +113,33 @@ function Contacto () {
         <div className="contacto-content">
           {/* Información de contacto */}
           <div className="contact-info">
-            <div className="info-card">
+            <GlassSurface className="info-card">
               <div className="info-icon">
                 <EmailIcon />
               </div>
               <h3>Email</h3>
               <p>justsomeotherpeople@gmail.com</p>
-            </div>
+            </GlassSurface>
 
-            <div className="info-card">
+            <GlassSurface className="info-card">
               <div className="info-icon">
                 <PhoneIcon />
               </div>
               <h3>Teléfono</h3>
               <p>+34 625 02 90 56</p>
-            </div>
+            </GlassSurface>
 
-            <div className="info-card">
+            <GlassSurface className="info-card">
               <div className="info-icon">
                 <LocationIcon />
               </div>
               <h3>Ubicación</h3>
               <p>Av Europa, Carrer de Dinamarca, 35</p>
               <p>08700 Igualada, Barcelona</p>
-            </div>
+            </GlassSurface>
 
             {/* Newsletter Subscription */}
-            <div className="newsletter-card">
+            <GlassSurface className="newsletter-card">
               <div className="newsletter-content">
                 <div className="newsletter-icon">
                   <NewsletterIcon />
@@ -182,11 +180,11 @@ function Contacto () {
                   )}
                 </form>
               </div>
-            </div>
+            </GlassSurface>
           </div>
 
           {/* Formulario de contacto */}
-          <form className="contact-form" onSubmit={handleSubmit}>
+          <GlassSurface as="form" className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name" className="form-label">
                 Nombre *
@@ -297,7 +295,7 @@ function Contacto () {
             <div className="form-info">
               <p>* Campos obligatorios</p>
             </div>
-          </form>
+          </GlassSurface>
         </div>
       </div>
     </section>

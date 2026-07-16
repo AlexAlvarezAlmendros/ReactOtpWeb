@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNewsletter } from '../../hooks/useNewsletter'
+import GlassSurface from '../GlassSurface'
 import './Footer.css'
 
 function Footer () {
@@ -17,11 +18,6 @@ function Footer () {
 
   return (
     <footer className="footer">
-      {/* Animated red orbs */}
-      <div className="footer-orb footer-orb--1" aria-hidden="true" />
-      <div className="footer-orb footer-orb--2" aria-hidden="true" />
-      <div className="footer-orb footer-orb--3" aria-hidden="true" />
-
       <div className="footer-content">
         {/* Brand block */}
         <div className="footer-brand">
@@ -38,7 +34,7 @@ function Footer () {
         </div>
 
         {/* Newsletter — featured glass card */}
-        <section className="footer-newsletter glass">
+        <GlassSurface as="section" className="footer-newsletter glass">
           <div className="footer-newsletter__head">
             <span className="footer-newsletter__tag">Newsletter</span>
             <h3 className="footer-newsletter__title">No te pierdas nada</h3>
@@ -69,11 +65,11 @@ function Footer () {
               )}
             </button>
           </form>
-        </section>
+        </GlassSurface>
 
         {/* 4-column glass grid */}
         <div className="footer-grid">
-          <div className="footer-card glass">
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Explorar</h4>
             <nav className="footer-card__nav">
               <NavLink to="/">Inicio</NavLink>
@@ -85,9 +81,9 @@ function Footer () {
               <NavLink to="/estudios">Estudios</NavLink>
               <NavLink to="/herramientas">Herramientas</NavLink>
             </nav>
-          </div>
+          </GlassSurface>
 
-          <div className="footer-card glass">
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Servicios</h4>
             <ul className="footer-card__list">
               <li>Grabación profesional</li>
@@ -97,9 +93,9 @@ function Footer () {
               <li>Booking de artistas</li>
               <li>Distribución digital</li>
             </ul>
-          </div>
+          </GlassSurface>
 
-          <div className="footer-card glass">
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Contacto</h4>
             <div className="footer-card__contact">
               <a href="mailto:justsomeotherpeople@gmail.com" className="footer-contact__line">
@@ -118,9 +114,9 @@ function Footer () {
                 Formulario <FontAwesomeIcon icon={['fas', 'arrow-right']} />
               </NavLink>
             </div>
-          </div>
+          </GlassSurface>
 
-          <div className="footer-card glass">
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Síguenos</h4>
             <div className="footer-social">
               <a
@@ -160,7 +156,7 @@ function Footer () {
                 <FontAwesomeIcon icon={['fab', 'spotify']} />
               </a>
             </div>
-          </div>
+          </GlassSurface>
         </div>
 
         {/* Bottom strip */}
