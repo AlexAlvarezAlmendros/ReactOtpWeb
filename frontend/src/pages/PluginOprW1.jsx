@@ -138,14 +138,6 @@ function PluginOprW1 () {
                     <div className="opr-swap__bar"><span className="opr-swap__sq" />OPR-W1 · GUI</div>
                     <img className="opr-swap__img" src={OPR_W1.image} alt={HERO_ALT} />
                   </Card>
-                  <Card customClass="opr-swap">
-                    <div className="opr-swap__bar"><span className="opr-swap__sq" />El ancho</div>
-                    <div className="opr-swap__body"><FieldDiagram /></div>
-                  </Card>
-                  <Card customClass="opr-swap">
-                    <div className="opr-swap__bar"><span className="opr-swap__sq" />Dos bandas</div>
-                    <div className="opr-swap__body"><XoverDiagram /></div>
-                  </Card>
                 </CardSwap>
               </div>
               )}
