@@ -38,7 +38,7 @@ function Footer () {
         </div>
 
         {/* Newsletter — featured glass card */}
-        <GlassSurface as="section" className="footer-newsletter glass" backgroundOpacity={0.05}>
+        <GlassSurface as="section" className="footer-newsletter glass">
           <div className="footer-newsletter__head">
             <span className="footer-newsletter__tag">Newsletter</span>
             <h3 className="footer-newsletter__title">No te pierdas nada</h3>
@@ -73,7 +73,7 @@ function Footer () {
 
         {/* 4-column glass grid */}
         <div className="footer-grid">
-          <GlassSurface className="footer-card glass" backgroundOpacity={0.05}>
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Explorar</h4>
             <nav className="footer-card__nav">
               <NavLink to="/">Inicio</NavLink>
@@ -87,7 +87,7 @@ function Footer () {
             </nav>
           </GlassSurface>
 
-          <GlassSurface className="footer-card glass" backgroundOpacity={0.05}>
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Servicios</h4>
             <ul className="footer-card__list">
               <li>Grabación profesional</li>
@@ -99,7 +99,7 @@ function Footer () {
             </ul>
           </GlassSurface>
 
-          <GlassSurface className="footer-card glass" backgroundOpacity={0.05}>
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Contacto</h4>
             <div className="footer-card__contact">
               <a href="mailto:justsomeotherpeople@gmail.com" className="footer-contact__line">
@@ -120,7 +120,7 @@ function Footer () {
             </div>
           </GlassSurface>
 
-          <GlassSurface className="footer-card glass" backgroundOpacity={0.05}>
+          <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Síguenos</h4>
             <div className="footer-social">
               <a

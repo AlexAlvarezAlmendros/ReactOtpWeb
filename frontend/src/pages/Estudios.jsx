@@ -189,7 +189,6 @@ function Estudios () {
           <GlassSurface
               as="button"
               className="cta-button cta-card"
-              tint="rgba(255, 0, 60, 0.08)"
               aria-haspopup="dialog"
               onClick={handleReservaClick}
             >

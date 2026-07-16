@@ -12,7 +12,7 @@ function Privacidad () {
           <p className="legal-date">Última actualización: 29 de julio de 2025</p>
         </header>
 
-        <GlassSurface className="legal-content" backgroundOpacity={0.03}>
+        <GlassSurface className="legal-content">
           <section className="legal-section">
             <h2>1. Responsable del Tratamiento</h2>
             <div className="info-box">
