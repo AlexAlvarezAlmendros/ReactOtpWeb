@@ -18,7 +18,7 @@
   /* Sube el hero hasta el borde superior: cancela el padding de .container
      (2rem) y el espacio en flujo del navbar, para que la isla flotante quede
      sobre el vídeo. El header lleva z-index 15, así que pinta por encima. */
-  margin-top: calc(-2rem - var(--nav-gap, 16px) - var(--nav-h, 69px));
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
   margin-bottom: 4rem;
   box-sizing: border-box;
   /* Sin fondo negro propio: deja ver el fondo Silk de la página por debajo

@@ -5,6 +5,10 @@
 :root {
   --nav-gap: 16px;
   --nav-h: 69px;
+  /* Espacio que la isla ocupa en el flujo. Los bloques full-bleed que deben
+     llegar al borde superior (los hero de las páginas) lo niegan con un
+     margin-top negativo, y así el navbar flota sobre ellos. */
+  --nav-flow: calc(var(--nav-gap) + var(--nav-h));
 }
 
 .header {

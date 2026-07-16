@@ -18,7 +18,9 @@
   margin-bottom: 40px;
   margin-left: -2rem;
   margin-right: -2rem;
-  margin-top: -2rem;
+  /* Llega hasta el borde superior (el navbar flota encima); el contenido
+     compensa el desplazamiento con su padding y no se mueve de sitio. */
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
 }
 
 .artista-hero__backdrop {
@@ -52,7 +54,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 96px 16px 32px;
+  padding: calc(96px + var(--nav-flow, 85px)) 16px 32px;
 }
 
 /* === HERO PROFILE === */
@@ -362,7 +364,7 @@
   }
 
   .artista-hero__content {
-    padding: 96px 24px 40px;
+    padding: calc(96px + var(--nav-flow, 85px)) 24px 40px;
   }
 
   .artista-hero__avatar {
@@ -408,7 +410,7 @@
   }
 
   .artista-hero__content {
-    padding: 96px 24px 48px;
+    padding: calc(96px + var(--nav-flow, 85px)) 24px 48px;
   }
 
   .artista-hero__profile {
@@ -509,7 +511,7 @@
 
   .artista-hero {
     margin: 0 -2rem;
-    margin-top: -2rem;
+    margin-top: calc(-2rem - var(--nav-flow, 70px));
     min-height: 0;
     display: block;
     position: relative;
