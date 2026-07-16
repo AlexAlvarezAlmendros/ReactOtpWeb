@@ -125,13 +125,13 @@ function PluginOprW1 () {
             : (
               <div className="opr-hero__swap">
                 <CardSwap
-                  width={520}
-                  height={340}
+                  width={620}
+                  height={376}
                   cardDistance={50}
                   verticalDistance={56}
                   delay={5000}
                   pauseOnHover
-                  skewAmount={5}
+                  skewAmount={4}
                   swapOnMount={false}
                 >
                   <Card customClass="opr-swap">

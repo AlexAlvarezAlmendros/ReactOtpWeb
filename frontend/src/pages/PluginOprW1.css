@@ -137,25 +137,31 @@
 /* Carrusel CardSwap del hero: tarjetas con chasis REDLINE */
 .opr-hero__swap {
   position: relative;
-  height: 440px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* El translate(5%,20%) de ReactBits saca la tarjeta frontal del hero;
-   aquí el mazo va completo dentro de su columna. Al ganar especificidad
-   sobre el CSS del componente, las variantes móviles se redefinen abajo. */
+/* ReactBits ancla el mazo a la esquina inferior derecha con un translate
+   que lo saca del hero; aquí va centrado en su columna por flex. Al ganar
+   especificidad sobre el CSS del componente, las variantes móviles se
+   redefinen abajo (solo escalan). */
 .opr-hero__swap .card-swap-container {
-  transform: translate(0, -6%);
+  position: static;
+  transform: none;
+  transform-origin: center;
 }
 
 @media (max-width: 768px) {
   .opr-hero__swap .card-swap-container {
-    transform: scale(0.8) translate(-4%, -4%);
+    transform: scale(0.78);
   }
 }
 
 @media (max-width: 480px) {
   .opr-hero__swap .card-swap-container {
-    transform: scale(0.6) translate(-4%, -8%);
+    transform: scale(0.55);
   }
 }
 
@@ -531,7 +537,9 @@
    ===================== */
 @media (max-width: 900px) {
   .opr-hero {
-    grid-template-columns: 1fr;
+    /* minmax(0,1fr): el contenedor fijo de 620px del CardSwap no debe
+       ensanchar la columna (1fr a secas = min-width auto = 620px). */
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
 
@@ -542,7 +550,7 @@
   }
 
   .opr-hero__swap {
-    height: 380px;
+    height: 340px;
   }
 
   .opr-engines {
@@ -584,6 +592,6 @@
   }
 
   .opr-hero__swap {
-    height: 280px;
+    height: 240px;
   }
 }
