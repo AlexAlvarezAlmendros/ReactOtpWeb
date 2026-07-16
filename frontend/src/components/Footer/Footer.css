@@ -3,6 +3,8 @@
    ========================================= */
 .footer {
   position: relative;
+  /* Por encima del fondo Silk fijo (z-index 1) de las páginas de listado */
+  z-index: 2;
   background: #060606;
   color: #fff;
   padding: 80px 32px 28px;

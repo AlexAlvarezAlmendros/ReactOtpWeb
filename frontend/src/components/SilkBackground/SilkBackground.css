@@ -1,0 +1,19 @@
+/* Ocupa el viewport (páginas de listado) o la sección padre (footer) por
+   detrás del contenido, igual que los orbes a los que sustituye. */
+.silk-background {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.silk-background--footer {
+  position: absolute;
+  z-index: 0;
+}
+
+.silk-background canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

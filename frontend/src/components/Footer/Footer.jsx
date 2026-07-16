@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNewsletter } from '../../hooks/useNewsletter'
 import GlassSurface from '../GlassSurface'
+import SilkBackground from '../SilkBackground'
 import './Footer.css'
 
 function Footer () {
@@ -18,10 +19,8 @@ function Footer () {
 
   return (
     <footer className="footer">
-      {/* Animated red orbs */}
-      <div className="footer-orb footer-orb--1" aria-hidden="true" />
-      <div className="footer-orb footer-orb--2" aria-hidden="true" />
-      <div className="footer-orb footer-orb--3" aria-hidden="true" />
+      {/* Fondo Silk (orbes rojos como fallback) */}
+      <SilkBackground orbClass="footer-orb" className="silk-background--footer" color="#38091A" speed={2} />
 
       <div className="footer-content">
         {/* Brand block */}

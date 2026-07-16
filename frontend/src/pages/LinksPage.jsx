@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLinksPage } from '../hooks/useLinksPage'
 import { getPlatformIcon, getFaviconUrl } from '../utils/linkIcons'
 import GlassSurface from '../components/GlassSurface'
+import SilkBackground from '../components/SilkBackground'
 import './LinksPage.css'
 
 function LinksPage () {
@@ -50,9 +51,7 @@ function LinksPage () {
         />
       )}
       <div className="lp-bg-overlay" aria-hidden="true" />
-      <div className="lp-orb lp-orb--1" aria-hidden="true" />
-      <div className="lp-orb lp-orb--2" aria-hidden="true" />
-      <div className="lp-orb lp-orb--3" aria-hidden="true" />
+      <SilkBackground orbClass="lp-orb" />
 
       <main className="lp-main">
         <div className="lp-profile">

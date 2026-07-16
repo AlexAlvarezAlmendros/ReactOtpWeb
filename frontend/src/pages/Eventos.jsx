@@ -5,6 +5,7 @@ import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import './InfiniteScroll.css'
 import './ListingPage.css'
+import SilkBackground from '../components/SilkBackground'
 
 const API_URL = import.meta.env.VITE_API_URL
 const EVENTS_ENDPOINT = `${API_URL}/events`
@@ -60,9 +61,7 @@ function Eventos () {
 
   return (
     <div className="listing-page">
-      <div className="listing-orb listing-orb--1" aria-hidden="true" />
-      <div className="listing-orb listing-orb--2" aria-hidden="true" />
-      <div className="listing-orb listing-orb--3" aria-hidden="true" />
+      <SilkBackground />
       <div className="listing-content">
         <h1>Últimos Eventos</h1>
         {error && <p className="error-message">Error: {error}</p>}
