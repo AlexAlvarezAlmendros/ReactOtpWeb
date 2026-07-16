@@ -76,6 +76,7 @@ function LinksPage () {
               target="_blank"
               rel="noopener noreferrer"
               className="lp-item"
+              borderRadius={14}
               style={{ '--lp-color': item.color }}
             >
               <span className="lp-item__icon">
@@ -96,6 +97,7 @@ function LinksPage () {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="lp-item lp-item--custom"
+                borderRadius={14}
                 style={platform ? { '--lp-color': platform.color } : undefined}
               >
                 {platform ? (

@@ -21,7 +21,7 @@ function GlassSurface ({
   style = {},
   width,
   height,
-  borderRadius = 50,
+  borderRadius = 16,
   borderWidth = 0.07,
   brightness = 50,
   opacity = 0.91,
