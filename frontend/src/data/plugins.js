@@ -4,6 +4,10 @@
 // `opr-w1-linux.zip` activa los enlaces sin tocar el código.
 export const PLUGINS_REPO_URL = 'https://github.com/AlexAlvarezAlmendros/plugins'
 
+// Enlace de donaciones de la sección de plugins. Cambiar por el handle
+// real de PayPal (o Ko-fi/Stripe) cuando exista la cuenta.
+export const DONATION_URL = 'https://paypal.me/otherpeoplerecords'
+
 export const PLUGINS = [
   {
     id: 'opr-w1',
@@ -11,7 +15,6 @@ export const PLUGINS = [
     tagline: 'Ensanchador estéreo de dos bandas',
     version: 'v0.1.0',
     formats: 'VST3 · AU',
-    license: 'GPLv3',
     image: '/img/plugins/opr-w1.webp',
     detailPath: '/plugins/opr-w1',
     description:

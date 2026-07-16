@@ -5,7 +5,7 @@ import GlassSurface from '../components/GlassSurface'
 import Footer from '../components/Footer/Footer'
 import { useTilt } from '../hooks/useTilt'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { PLUGINS, PLUGINS_REPO_URL } from '../data/plugins'
+import { PLUGINS, DONATION_URL } from '../data/plugins'
 import {
   FieldDiagram, XoverDiagram, EngineDiagram, HaasDiagram, MonoDiagram,
   FlowDiagram, KnobGlyph, SegGlyph, ToggleGlyph
@@ -66,7 +66,7 @@ function PluginOprW1 () {
 
   usePageMeta({
     title: 'OPR-W1 — Ensanchador estéreo',
-    description: 'Plugin gratuito de ensanchamiento estéreo en dos bandas (VST3/AU) de Other People Records. Motores M/S y velvet, crossover LR4, Haas y monitor mono. Código abierto bajo GPLv3.',
+    description: 'Plugin gratuito de ensanchamiento estéreo en dos bandas (VST3/AU) de Other People Records. Motores M/S y velvet, crossover LR4, Haas y monitor mono.',
     image: OPR_W1.image
   })
 
@@ -94,7 +94,7 @@ function PluginOprW1 () {
             <div className="opr-hero__meta">
               <span className="plugin-chip plugin-chip--red">{OPR_W1.version}</span>
               <span className="plugin-chip">{OPR_W1.formats}</span>
-              <span className="plugin-chip">{OPR_W1.license}</span>
+              <span className="plugin-chip">Gratis</span>
             </div>
 
             <div className="opr-hero__actions">
@@ -249,22 +249,23 @@ function PluginOprW1 () {
             </p>
           </ManualSection>
 
-          {/* ── 09 · Licencia ── */}
-          <ManualSection num="09" title="Licencia y código">
+          {/* ── 09 · Donaciones ── */}
+          <ManualSection num="09" title="Apoya el proyecto">
             <p className="opr-caption">
-              GPLv3. Código abierto de verdad: léelo, compílalo, mejóralo.
+              OPR-W1 es gratis y lo seguirá siendo.
+              Si te sirve en tus mezclas, invítanos a un café.
             </p>
             <a
-              href={PLUGINS_REPO_URL}
+              href={DONATION_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="plugin-btn plugin-btn--ghost"
+              className="plugin-btn plugin-btn--primary"
             >
-              <FontAwesomeIcon icon={['fab', 'github']} />
-              <span>Código fuente</span>
+              <FontAwesomeIcon icon={['fab', 'paypal']} />
+              <span>Hacer una donación</span>
             </a>
             <p className="opr-roadmap">
-              v0.1.0 · en desarrollo: correlómetro y goniómetro, motor allpass, GUI en Linux
+              cada donación acelera lo que viene: correlómetro · goniómetro · motor allpass · GUI en Linux
             </p>
           </ManualSection>
         </div>

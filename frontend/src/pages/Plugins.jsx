@@ -99,7 +99,7 @@ function PluginShowcase ({ plugin }) {
         <div className="plugin-showcase__meta">
           <span className="plugin-chip plugin-chip--red">{plugin.version}</span>
           <span className="plugin-chip">{plugin.formats}</span>
-          <span className="plugin-chip">{plugin.license}</span>
+          <span className="plugin-chip">Gratis</span>
         </div>
 
         <h2 className="plugin-showcase__name">{plugin.name}</h2>
