@@ -36,8 +36,16 @@
   pointer-events: none;
 }
 
+/* Fondo Ferrofluid: capa WebGL entre el degradado del hero y el contenido */
+.opr-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
 .opr-hero__inner {
   position: relative;
+  z-index: 1;
   text-align: left;
 }
 
@@ -137,6 +145,7 @@
 /* Carrusel CardSwap del hero: tarjetas con chasis REDLINE */
 .opr-hero__swap {
   position: relative;
+  z-index: 1;
   height: 420px;
   display: flex;
   align-items: center;

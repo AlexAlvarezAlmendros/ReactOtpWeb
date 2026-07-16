@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CardSwap, { Card } from '../components/CardSwap'
+import Ferrofluid from '../components/Ferrofluid'
 import Footer from '../components/Footer/Footer'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { PLUGINS, DONATION_URL } from '../data/plugins'
@@ -81,6 +82,27 @@ function PluginOprW1 () {
       <div className="opr-page">
         {/* ── Hero ── */}
         <header className="opr-hero">
+          {!REDUCED_MOTION && (
+            <div className="opr-hero__bg" aria-hidden="true">
+              <Ferrofluid
+                colors={['#ff003c', '#ff2b38', '#cc0030']}
+                speed={0.35}
+                scale={1.3}
+                turbulence={1}
+                fluidity={0.12}
+                rimWidth={0.18}
+                sharpness={3}
+                shimmer={1}
+                glow={1.6}
+                flowDirection="down"
+                opacity={0.5}
+                mouseInteraction
+                mouseStrength={1}
+                mouseRadius={0.3}
+                dpr={1.5}
+              />
+            </div>
+          )}
           <div className="opr-hero__inner">
             <Link to="/plugins" className="opr-back">
               <FontAwesomeIcon icon={['fas', 'arrow-left']} />
