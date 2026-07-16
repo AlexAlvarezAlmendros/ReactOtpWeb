@@ -4,6 +4,7 @@ import './ListingPage.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
 import { useReserva } from '../hooks/useReserva'
 import Footer from '../components/Footer/Footer'
+import GlassSurface from '../components/GlassSurface'
 
 function Estudios () {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -138,8 +139,8 @@ function Estudios () {
         {/* Grid de servicios */}
         <div className="services-grid">
           {services.map((service) => (
-            <div 
-              key={service.id} 
+            <GlassSurface
+              key={service.id}
               className={`service-card ${service.type}`}
               onClick={handleReservaClick}
               role="button"
@@ -184,16 +185,17 @@ function Estudios () {
                   </div>
                 </div>
               )}
-            </div>
+            </GlassSurface>
           ))}
-          <button 
+          <GlassSurface
+              as="button"
               className="cta-button cta-card"
-              role="button"
+              tint="rgba(255, 0, 60, 0.08)"
               aria-haspopup="dialog"
               onClick={handleReservaClick}
             >
               Reserva una Sesión
-            </button>
+            </GlassSurface>
         </div>
       </div>
 

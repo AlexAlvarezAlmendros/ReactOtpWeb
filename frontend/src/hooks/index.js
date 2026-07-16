@@ -17,6 +17,7 @@ export { useDelete } from './useDelete'
 export { useEvent } from './useEvent'
 export { useEvents } from './useEvents'
 export { useFiles } from './useFiles'
+export { useGlassCapability } from './useGlassCapability'
 export { useFileUpload } from './useFileUpload'
 // export { useFormState } from './useFormState' // TODO: Implementar o eliminar archivo vacío
 export { useInfiniteScroll } from './useInfiniteScroll'

@@ -2,6 +2,7 @@ import '../Card.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink } from 'react-router-dom'
 import LazyImage from '../LazyImage/LazyImage'
+import GlassSurface from '../GlassSurface'
 
 function ArtistCard ({ card }) {
   const availableLinks = [
@@ -15,7 +16,7 @@ function ArtistCard ({ card }) {
   const showLabels = availableLinks.length === 1
 
   return (
-    <article className='card'>
+    <GlassSurface as='article' className='card'>
       <NavLink to={`/artistas/${card.id}`} className="card-image-link">
         <LazyImage src={card.img} alt='Portada de la obra' />
       </NavLink>
@@ -38,7 +39,7 @@ function ArtistCard ({ card }) {
           ))}
         </div>
       </div>
-    </article>
+    </GlassSurface>
   )
 }
 

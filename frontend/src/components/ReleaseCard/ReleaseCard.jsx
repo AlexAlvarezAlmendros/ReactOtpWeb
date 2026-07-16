@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import '../Card.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LazyImage from '../LazyImage/LazyImage'
+import GlassSurface from '../GlassSurface'
 
 function ReleaseCard ({ card }) {
   const availableLinks = [
@@ -15,7 +16,7 @@ function ReleaseCard ({ card }) {
   const showLabels = availableLinks.length === 1
 
   return (
-    <article className='card'>
+    <GlassSurface as='article' className='card'>
       <div className="card-image-link">
         <LazyImage src={card.img} alt={`Portada de ${card.title}`} />
       </div>
@@ -39,7 +40,7 @@ function ReleaseCard ({ card }) {
           ))}
         </div>
       </div>
-    </article>
+    </GlassSurface>
   )
 }
 

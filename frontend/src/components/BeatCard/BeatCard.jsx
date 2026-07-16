@@ -5,6 +5,7 @@ import BeatLicenseModal from '../BeatLicenseModal/BeatLicenseModal'
 import { useBeatPurchase } from '../../hooks/useBeatPurchase'
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext'
 import LazyImage from '../LazyImage/LazyImage'
+import GlassSurface from '../GlassSurface'
 import '../Card.css'
 import './BeatCard.css'
 
@@ -142,7 +143,7 @@ function BeatCard ({ card }) {
 
   return (
     <>
-      <article className='card'>
+      <GlassSurface as='article' className='card'>
         <div className="card-image-link beat-card-image-container">
           <LazyImage src={imageUrl} alt={`Portada de ${card.title}`} />
           
@@ -220,7 +221,7 @@ function BeatCard ({ card }) {
             </button>
           </div>
         </div>
-      </article>
+      </GlassSurface>
 
       {/* License Selection Modal */}
       <BeatLicenseModal 
