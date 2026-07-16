@@ -17,7 +17,7 @@
   box-sizing: border-box;
   width: min(1240px, calc(100% - 2rem));
   margin: var(--nav-gap) auto 0;
-  border-radius: 999px;
+  border-radius: 20px;
   background: #2b2b2bce;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);

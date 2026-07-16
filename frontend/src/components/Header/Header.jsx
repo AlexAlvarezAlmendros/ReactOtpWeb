@@ -12,7 +12,7 @@ function Header ({ children }) {
   const { isOpen, togglePanel } = useMobileNavContext()
 
   return (
-    <GlassSurface as='header' className='header' borderRadius={999} backdropBlur={10}>
+    <GlassSurface as='header' className='header' borderRadius={20} backdropBlur={3}>
       <div className='header-content'>
         <NavLink to="/herramientas" className='logo-section'>
           <img
