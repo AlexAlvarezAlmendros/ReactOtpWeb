@@ -273,7 +273,7 @@ function PluginOprW1 () {
 
           {/* ── 07 · Bajo el capó ── */}
           <ManualSection num="07" title="Bajo el capó">
-            <figure className="opr-diagram opr-diagram--scroll">
+            <figure className="opr-diagram">
               <FlowDiagram />
             </figure>
             <p className="opr-caption">

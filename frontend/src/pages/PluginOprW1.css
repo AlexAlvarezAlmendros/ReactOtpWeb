@@ -291,10 +291,6 @@
   border-radius: 12px;
 }
 
-.opr-diagram--scroll {
-  overflow-x: auto;
-}
-
 .oprd {
   display: block;
   width: 100%;
@@ -303,9 +299,8 @@
   margin: 0 auto;
 }
 
-.opr-diagram--scroll .oprd {
-  min-width: 560px;
-  max-width: 640px;
+.oprd--flow {
+  max-width: 440px;
 }
 
 .oprd-tag {
