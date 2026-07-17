@@ -146,32 +146,32 @@ export function FlowDiagram () {
     </g>
   )
   return (
-    <svg className="oprd oprd--flow" viewBox="0 0 440 340" aria-hidden="true">
-      {box(145, 110, 'IN', 12)}
-      {box(145, 110, 'HAAS', 60)}
-      {box(145, 110, 'XOVER LR4', 108)}
-      {box(145, 110, 'WIDTH L·H', 156)}
-      {box(145, 110, 'Σ', 204)}
-      {box(145, 110, 'OUTPUT', 252)}
-      {box(145, 110, 'MONO', 300)}
+    <svg className="oprd oprd--flow" viewBox="0 0 440 140" aria-hidden="true">
+      {box(8, 26, 'IN', 28)}
+      {box(48, 40, 'HAAS', 28)}
+      {box(102, 62, 'XOVER LR4', 28)}
+      {box(178, 62, 'WIDTH L·H', 28)}
+      {box(254, 20, 'Σ', 28)}
+      {box(288, 50, 'OUTPUT', 28)}
+      {box(352, 42, 'MONO', 28)}
 
       <g stroke={TEXT_MID} strokeWidth="1.5" fill="none">
-        <path d="M 200 38 V 60 M 196 55 L 200 60 L 204 55" />
-        <path d="M 200 86 V 108 M 196 103 L 200 108 L 204 103" />
-        <path d="M 200 134 V 156 M 196 151 L 200 156 L 204 151" />
-        <path d="M 200 182 V 204 M 196 199 L 200 204 L 204 199" />
-        <path d="M 200 230 V 252 M 196 247 L 200 252 L 204 247" />
-        <path d="M 200 278 V 300 M 196 295 L 200 300 L 204 295" />
+        <path d="M 34 41 H 48 M 43 37 L 48 41 L 43 45" />
+        <path d="M 88 41 H 102 M 97 37 L 102 41 L 97 45" />
+        <path d="M 164 41 H 178 M 173 37 L 178 41 L 173 45" />
+        <path d="M 240 41 H 254 M 249 37 L 254 41 L 249 45" />
+        <path d="M 274 41 H 288 M 283 37 L 288 41 L 283 45" />
+        <path d="M 338 41 H 352 M 347 37 L 352 41 L 347 45" />
       </g>
 
-      {box(290, 100, 'VELVET', 108)}
-      {box(290, 100, 'XOVER LR4', 156)}
+      {box(44, 52, 'VELVET', 96)}
+      {box(112, 62, 'XOVER LR4', 96)}
       <g stroke={RED} strokeWidth="1.5" fill="none" strokeDasharray="4 3">
-        <path d="M 255 73 H 340 V 108 M 336 103 L 340 108 L 344 103" />
-        <path d="M 340 134 V 156 M 336 151 L 340 156 L 344 151" />
-        <path d="M 290 169 H 255 M 260 165 L 255 169 L 260 173" />
+        <path d="M 68 54 V 96 M 64 91 L 68 96 L 72 91" />
+        <path d="M 96 108 H 112 M 107 104 L 112 108 L 107 112" />
+        <path d="M 174 108 H 209 V 54 M 205 59 L 209 54 L 213 59" />
       </g>
-      <text x="340" y="202" textAnchor="middle" className="oprd-tag oprd-tag--hot">MOTOR VELVET</text>
+      <text x="230" y="112" className="oprd-tag oprd-tag--hot">MOTOR VELVET</text>
     </svg>
   )
 }
