@@ -275,7 +275,7 @@ function PluginOprW1 () {
           </ManualSection>
 
           {/* ── 07 · Bajo el capó ── */}
-          <ManualSection num="07" title="Bajo el capó" wide>
+          <ManualSection num="07" title="Bajo el capó">
             <figure className="opr-diagram opr-diagram--scroll">
               <FlowDiagram />
             </figure>
