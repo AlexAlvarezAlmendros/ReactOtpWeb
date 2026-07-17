@@ -2,7 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
   faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
-  faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub, faPaypal
+  faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub
 } from '@fortawesome/free-brands-svg-icons'
 import { 
   faPlus, 
@@ -79,13 +79,14 @@ import {
   faEnvelopeOpenText,
   faUserGroup,
   faListCheck,
-  faCircleExclamation
+  faCircleExclamation,
+  faMugHot
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
   faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
-  faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub, faPaypal,
+  faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub,
   faPlus,
   faTrash, 
   faEdit, 
@@ -160,5 +161,6 @@ library.add(
   faEnvelopeOpenText,
   faUserGroup,
   faListCheck,
-  faCircleExclamation
+  faCircleExclamation,
+  faMugHot
 )

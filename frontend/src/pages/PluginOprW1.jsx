@@ -318,7 +318,7 @@ function PluginOprW1 () {
               rel="noopener noreferrer"
               className="plugin-btn plugin-btn--primary"
             >
-              <FontAwesomeIcon icon={['fab', 'paypal']} />
+              <FontAwesomeIcon icon={['fas', 'mug-hot']} />
               <span>Hacer una donación</span>
             </a>
             <p className="opr-roadmap">
