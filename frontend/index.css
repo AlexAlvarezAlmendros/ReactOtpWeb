@@ -24,7 +24,9 @@ html {
 }
 
 body {
-    background-color: #000000;
+    /* Sin background propio: el negro base vive en <html> (estilo inline de
+       index.html). Si body pintara su propio fondo taparía el canvas de
+       SilkBackground, que es position:fixed con z-index:-1. */
     color: #ffffff;
     font-family: 'Montserrat', sans-serif;
     margin: 0px;

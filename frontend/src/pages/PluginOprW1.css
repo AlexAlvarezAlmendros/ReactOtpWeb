@@ -1,0 +1,629 @@
+/* =====================
+   PÁGINA /plugins/opr-w1
+   Manual web estilo librito (Teenage Engineering) con la estética
+   REDLINE del plugin: un gráfico por concepto, texto mínimo.
+   ===================== */
+.opr-page {
+  min-height: 100vh;
+  background: #0e0e0e;
+  margin: -2rem;
+  /* Llega hasta el borde superior (el navbar flota encima); .opr-hero
+     compensa el desplazamiento con su padding y no se mueve de sitio. */
+  margin-top: calc(-2rem - var(--nav-flow, 85px));
+  overflow-x: hidden;
+}
+
+/* =====================
+   HERO
+   ===================== */
+.opr-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+  border-bottom: 1px solid #1e1e1e;
+  padding: calc(4rem + var(--nav-flow, 85px)) max(2rem, calc((100% - 1200px) / 2)) 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.opr-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,0,60,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Fondo Ferrofluid: capa WebGL entre el degradado del hero y el contenido */
+.opr-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.opr-hero__inner {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+}
+
+.opr-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9b9ba6;
+  text-decoration: none;
+  margin-bottom: 1.75rem;
+  transition: color 0.2s ease;
+}
+
+.opr-back:hover {
+  color: #fff;
+}
+
+.opr-hero__eyebrow {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ff003c;
+  margin-bottom: 0.75rem;
+}
+
+.opr-hero__title {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 2px;
+  margin: 0 0 0.5rem;
+}
+
+.opr-hero__tagline {
+  font-size: 1.15rem;
+  color: #e9ecef;
+  margin: 0 0 0.6rem;
+}
+
+.opr-hero__sub {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #888;
+  margin: 0 0 1.25rem;
+}
+
+.opr-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.opr-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.opr-hero__soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #888;
+}
+
+/* La "pintura" es el fallback legacy: GlassSurface la sustituye si está activo. */
+.opr-hero__preview {
+  position: relative;
+  margin: 0;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(32px) saturate(160%);
+  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.opr-hero__preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #2a2a31;
+  background: #0a0a0c;
+}
+
+/* Carrusel CardSwap del hero: tarjetas con chasis REDLINE */
+.opr-hero__swap {
+  position: relative;
+  z-index: 1;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ReactBits ancla el mazo a la esquina inferior derecha con un translate
+   que lo saca del hero; aquí va centrado en su columna por flex. Al ganar
+   especificidad sobre el CSS del componente, las variantes móviles se
+   redefinen abajo (solo escalan). */
+.opr-hero__swap .card-swap-container {
+  position: static;
+  transform: none;
+  transform-origin: center;
+}
+
+@media (max-width: 768px) {
+  .opr-hero__swap .card-swap-container {
+    transform: scale(0.78);
+  }
+}
+
+@media (max-width: 480px) {
+  .opr-hero__swap .card-swap-container {
+    transform: scale(0.55);
+  }
+}
+
+.opr-swap {
+  border: 1px solid #2a2a31;
+  background: #0a0a0c;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+}
+
+.opr-swap__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.9rem;
+  background: #131316;
+  border-bottom: 1px solid #2a2a31;
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9b9ba6;
+  flex-shrink: 0;
+}
+
+.opr-swap__sq {
+  width: 8px;
+  height: 8px;
+  background: #ff003c;
+  flex-shrink: 0;
+}
+
+.opr-swap__img {
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.opr-swap__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+}
+
+.opr-swap__body .oprd {
+  max-width: 420px;
+  max-height: 100%;
+}
+
+/* =====================
+   CUERPO · SECCIONES DEL MANUAL
+   ===================== */
+.opr-body {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  text-align: left;
+}
+
+/* Rejilla de dos columnas para las secciones 01–07 del manual */
+.opr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3.5rem 3rem;
+}
+
+.opr-man--wide {
+  grid-column: 1 / -1;
+}
+
+.opr-man__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.opr-man__num {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid #ff003c;
+  border-radius: 50%;
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #ff003c;
+  flex-shrink: 0;
+}
+
+.opr-man__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0;
+}
+
+/* Panel de diagrama */
+.opr-diagram {
+  margin: 0 0 1.25rem;
+  padding: 1.5rem 1rem;
+  background: #0a0a0c;
+  border: 1px solid #2a2a31;
+  border-radius: 12px;
+}
+
+.oprd {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.oprd--flow {
+  max-width: 440px;
+}
+
+.oprd-tag {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  fill: #5d5d68;
+}
+
+.oprd-tag--lit {
+  fill: #9b9ba6;
+}
+
+.oprd-tag--hot {
+  fill: #ff003c;
+}
+
+.oprd-tag--box {
+  font-size: 9px;
+  fill: #efeff2;
+}
+
+/* Texto: una idea por frase */
+.opr-caption {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #adb5bd;
+  margin: 0 0 1rem;
+  max-width: 60ch;
+}
+
+.opr-caption:last-child {
+  margin-bottom: 0;
+}
+
+.opr-caption--full {
+  max-width: none;
+}
+
+.opr-caption a {
+  color: #ff003c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.opr-caption a:hover {
+  color: #ff5560;
+}
+
+.opr-caption code {
+  background: #1c1c21;
+  border: 1px solid #2a2a31;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  color: #efeff2;
+}
+
+/* =====================
+   LOS MANDOS
+   ===================== */
+.opr-ctl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* La sección 03 ocupa las dos columnas de .opr-grid: en escritorio los
+   seis mandos caben en dos filas de tres. */
+@media (min-width: 901px) {
+  .opr-ctl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.opr-ctl__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.9rem;
+  background: #131316;
+  border: 1px solid #2a2a31;
+  border-radius: 10px;
+}
+
+.oprd-glyph {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.opr-ctl__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.opr-ctl__name {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #fff;
+}
+
+.opr-ctl__range {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  color: #ff003c;
+}
+
+.opr-ctl__desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #9b9ba6;
+}
+
+.opr-ctl__desc--warn {
+  color: #ffb3c1;
+}
+
+/* =====================
+   MOTORES
+   ===================== */
+.opr-engines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.opr-engine {
+  margin: 0;
+  padding: 1.25rem;
+  background: #0a0a0c;
+  border: 1px solid #2a2a31;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.opr-engine__name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #efeff2;
+}
+
+.opr-engine__name--hot {
+  color: #ff003c;
+}
+
+.oprd--engine {
+  max-width: 200px;
+}
+
+.opr-engine__desc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #9b9ba6;
+  text-align: center;
+  margin: 0;
+}
+
+/* =====================
+   DESCARGAS
+   ===================== */
+.opr-platforms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.opr-platform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  background: #131316;
+  border: 1px solid #2a2a31;
+  border-radius: 16px;
+}
+
+.opr-platform--soon {
+  opacity: 0.65;
+}
+
+.opr-platform__icon {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.opr-platform__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.opr-platform__btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.opr-platform__btn--disabled {
+  background: #1c1c21;
+  border: 1px dashed #3b3b44;
+  color: #888;
+  cursor: default;
+}
+
+/* =====================
+   DONACIONES
+   ===================== */
+.opr-man--donate {
+  text-align: center;
+  padding-top: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.opr-man--donate .opr-man__head {
+  justify-content: center;
+}
+
+.opr-man--donate .opr-caption {
+  max-width: 44ch;
+  margin: 0 auto 2rem;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #e9ecef;
+}
+
+.opr-man--donate .plugin-btn {
+  font-size: 1rem;
+  padding: 1.1rem 2.8rem;
+}
+
+.opr-man--donate .opr-roadmap {
+  margin-top: 1.75rem;
+}
+
+.opr-roadmap {
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  color: #888;
+  margin: 1.25rem 0 0;
+}
+
+/* =====================
+   RESPONSIVE
+   ===================== */
+@media (max-width: 900px) {
+  .opr-hero {
+    /* minmax(0,1fr): el contenedor fijo de 620px del CardSwap no debe
+       ensanchar la columna (1fr a secas = min-width auto = 620px). */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  .opr-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .opr-hero__preview {
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .opr-hero__swap {
+    height: 340px;
+  }
+
+  .opr-engines {
+    grid-template-columns: 1fr;
+  }
+
+  .opr-platforms {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .opr-ctl {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .opr-body {
+    padding: 2.5rem 1.25rem 1.5rem;
+    gap: 3rem;
+  }
+
+  .opr-hero__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .opr-hero__actions .plugin-btn {
+    width: 100%;
+  }
+
+  .opr-hero__soon {
+    justify-content: center;
+  }
+
+  .opr-diagram {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .opr-hero__swap {
+    height: 240px;
+  }
+}
