@@ -2,9 +2,8 @@
 // Las descargas apuntan a los instaladores publicados como releases del
 // repo OPR-W1 (Windows: .exe · Linux: .sh).
 
-// Enlace de donaciones de la sección de plugins. Cambiar por el handle
-// real de PayPal (o Ko-fi/Stripe) cuando exista la cuenta.
-export const DONATION_URL = 'https://paypal.me/otherpeoplerecords'
+// Enlace de donaciones de la sección de plugins (Stripe Payment Link).
+export const DONATION_URL = 'https://donate.stripe.com/fZu00i9tT1hg0It9UcgUM00'
 
 export const PLUGINS = [
   {
