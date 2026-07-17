@@ -92,7 +92,7 @@ function PluginShowcase ({ plugin }) {
   const tilt = useTilt({ rotateAmplitude: 8, scaleOnHover: 1.03 })
 
   return (
-    <GlassSurface as="article" className="plugin-showcase">
+    <GlassSurface as="article" className="plugin-showcase" backgroundOpacity={0.42}>
       <motion.div className="plugin-showcase__preview" {...tilt}>
         <img src={plugin.image} alt={`Interfaz de ${plugin.name}`} loading="lazy" />
       </motion.div>
