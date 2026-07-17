@@ -372,11 +372,11 @@
   gap: 1rem;
 }
 
-/* En escritorio la sección vive en media columna de .opr-grid:
-   los mandos van apilados para no estrujar el texto. */
+/* La sección 03 ocupa las dos columnas de .opr-grid: en escritorio los
+   seis mandos caben en dos filas de tres. */
 @media (min-width: 901px) {
   .opr-ctl {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

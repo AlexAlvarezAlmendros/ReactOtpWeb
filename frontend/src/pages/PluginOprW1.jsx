@@ -209,7 +209,7 @@ function PluginOprW1 () {
           </ManualSection>
 
           {/* ── 03 · Los mandos ── */}
-          <ManualSection num="03" title="Los mandos">
+          <ManualSection num="03" title="Los mandos" wide>
             <ul className="opr-ctl">
               {CONTROLS.map(control => (
                 <li key={control.name} className="opr-ctl__item">
