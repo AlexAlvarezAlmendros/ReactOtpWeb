@@ -523,12 +523,6 @@
   cursor: default;
 }
 
-.opr-platform__note {
-  font-size: 0.72rem;
-  color: #888;
-  margin: 0;
-}
-
 .opr-warning {
   display: flex;
   align-items: flex-start;

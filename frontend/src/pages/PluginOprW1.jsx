@@ -65,9 +65,6 @@ function PlatformCard ({ download }) {
             {download.note}
           </span>
           )}
-      {download.platform === 'Linux' && (
-        <p className="opr-platform__note">Por ahora, sin interfaz gráfica propia</p>
-      )}
     </div>
   )
 }
