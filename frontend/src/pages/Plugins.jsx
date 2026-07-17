@@ -137,7 +137,6 @@ function Plugins () {
           <div className="plugins-hero__inner">
             <span className="plugins-hero__eyebrow">Other People Records</span>
             <h1 className="plugins-hero__title">Plugins</h1>
-            <p className="plugins-hero__sub">Efectos de audio VST3/AU, gratuitos y de código abierto</p>
           </div>
         </header>
 
