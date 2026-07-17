@@ -12,7 +12,7 @@ export const PLUGINS = [
     name: 'OPR-W1',
     tagline: 'Ensanchador estéreo de dos bandas',
     version: 'v0.1.0',
-    formats: 'VST3 · AU',
+    formats: 'VST3',
     image: '/img/plugins/opr-w1.webp',
     detailPath: '/plugins/opr-w1',
     description:
