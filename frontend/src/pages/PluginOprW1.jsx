@@ -31,9 +31,9 @@ const CONTROLS = [
   { glyph: <ToggleGlyph />, name: 'MONO', range: 'on / off', desc: 'Pliega la salida a (L+R)/2.' }
 ]
 
-function ManualSection ({ num, title, wide = false, children }) {
+function ManualSection ({ num, title, wide = false, className = '', children }) {
   return (
-    <section className={`opr-man ${wide ? 'opr-man--wide' : ''}`}>
+    <section className={`opr-man ${wide ? 'opr-man--wide' : ''} ${className}`.trim()}>
       <header className="opr-man__head">
         <span className="opr-man__num">{num}</span>
         <h2 className="opr-man__title">{title}</h2>
@@ -299,20 +299,15 @@ function PluginOprW1 () {
                 <PlatformCard key={download.platform} download={download} />
               ))}
             </div>
-            <p className="opr-caption">
+            <p className="opr-caption opr-caption--full">
               En Windows, ejecuta el instalador <code>OPR-W1-Setup.exe</code>.
               En Linux, ejecuta el script: <code>bash OPR-W1-Setup.sh</code>.
               Después, re-escanea plugins en tu DAW.
             </p>
-            <p className="opr-warning">
-              <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} />
-              En Linux suena exactamente igual, pero de momento abre con el editor
-              genérico de JUCE. La interfaz REDLINE llegará.
-            </p>
           </ManualSection>
 
           {/* ── 09 · Donaciones ── */}
-          <ManualSection num="09" title="Apoya el proyecto">
+          <ManualSection num="09" title="Apoya el proyecto" className="opr-man--donate">
             <p className="opr-caption">
               OPR-W1 es gratis y lo seguirá siendo.
               Si te sirve en tus mezclas, invítanos a un café.

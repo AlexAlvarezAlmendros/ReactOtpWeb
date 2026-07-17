@@ -336,6 +336,10 @@
   margin-bottom: 0;
 }
 
+.opr-caption--full {
+  max-width: none;
+}
+
 .opr-caption a {
   color: #ff003c;
   text-decoration: underline;
@@ -518,29 +522,36 @@
   cursor: default;
 }
 
-.opr-warning {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  background: rgba(255, 0, 60, 0.07);
-  border: 1px solid rgba(255, 0, 60, 0.25);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: #ddd;
-  margin: 0;
-}
-
-.opr-warning svg {
-  color: #ff003c;
-  margin-top: 4px;
-  flex-shrink: 0;
-}
-
 /* =====================
-   LICENCIA
+   DONACIONES
    ===================== */
+.opr-man--donate {
+  text-align: center;
+  padding-top: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.opr-man--donate .opr-man__head {
+  justify-content: center;
+}
+
+.opr-man--donate .opr-caption {
+  max-width: 44ch;
+  margin: 0 auto 2rem;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #e9ecef;
+}
+
+.opr-man--donate .plugin-btn {
+  font-size: 1rem;
+  padding: 1.1rem 2.8rem;
+}
+
+.opr-man--donate .opr-roadmap {
+  margin-top: 1.75rem;
+}
+
 .opr-roadmap {
   font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
   font-size: 0.72rem;
