@@ -1,8 +1,6 @@
 // Catálogo estático de los plugins de audio publicados en la web.
-// Windows ya descarga el instalador publicado en el repo OPR-W1; el enlace
-// de Linux sigue la convención `releases/latest/download/opr-w1-linux.zip`
-// del monorepo plugins y se activará al publicar esa release.
-export const PLUGINS_REPO_URL = 'https://github.com/AlexAlvarezAlmendros/plugins'
+// Las descargas apuntan a los instaladores publicados como releases del
+// repo OPR-W1 (Windows: .exe · Linux: .sh).
 
 // Enlace de donaciones de la sección de plugins. Cambiar por el handle
 // real de PayPal (o Ko-fi/Stripe) cuando exista la cuenta.
@@ -32,7 +30,7 @@ export const PLUGINS = [
       {
         platform: 'Linux',
         icon: ['fab', 'linux'],
-        url: `${PLUGINS_REPO_URL}/releases/latest/download/opr-w1-linux.zip`,
+        url: 'https://github.com/AlexAlvarezAlmendros/OPR-W1/releases/download/OPR-W1/OPR-W1-Setup.sh',
         available: true
       },
       {

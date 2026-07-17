@@ -301,8 +301,8 @@ function PluginOprW1 () {
             </div>
             <p className="opr-caption">
               En Windows, ejecuta el instalador <code>OPR-W1-Setup.exe</code>.
-              En Linux, descomprime y copia <code>OPR-W1.vst3</code> a{' '}
-              <code>~/.vst3</code>. Después, re-escanea plugins en tu DAW.
+              En Linux, ejecuta el script: <code>bash OPR-W1-Setup.sh</code>.
+              Después, re-escanea plugins en tu DAW.
             </p>
             <p className="opr-warning">
               <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} />
