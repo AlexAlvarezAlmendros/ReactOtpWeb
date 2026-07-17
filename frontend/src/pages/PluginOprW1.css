@@ -231,13 +231,24 @@
    CUERPO · SECCIONES DEL MANUAL
    ===================== */
 .opr-body {
-  max-width: 760px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 3.5rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 4rem;
   text-align: left;
+}
+
+/* Rejilla de dos columnas para las secciones 01–07 del manual */
+.opr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3.5rem 3rem;
+}
+
+.opr-man--wide {
+  grid-column: 1 / -1;
 }
 
 .opr-man__head {
@@ -358,7 +369,15 @@
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem 2rem;
+  gap: 1rem;
+}
+
+/* En escritorio la sección vive en media columna de .opr-grid:
+   los mandos van apilados para no estrujar el texto. */
+@media (min-width: 901px) {
+  .opr-ctl {
+    grid-template-columns: 1fr;
+  }
 }
 
 .opr-ctl__item {
@@ -550,6 +569,10 @@
        ensanchar la columna (1fr a secas = min-width auto = 620px). */
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
+  }
+
+  .opr-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .opr-hero__preview {

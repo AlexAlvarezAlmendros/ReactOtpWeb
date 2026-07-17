@@ -63,6 +63,8 @@ function DownloadMenu ({ plugin }) {
                   key={download.platform}
                   className="plugin-dl__item"
                   href={download.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
                 >
                   <FontAwesomeIcon icon={download.icon} />

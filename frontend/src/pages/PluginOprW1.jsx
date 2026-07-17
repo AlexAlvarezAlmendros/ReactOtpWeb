@@ -31,9 +31,9 @@ const CONTROLS = [
   { glyph: <ToggleGlyph />, name: 'MONO', range: 'on / off', desc: 'Pliega la salida a (L+R)/2.' }
 ]
 
-function ManualSection ({ num, title, children }) {
+function ManualSection ({ num, title, wide = false, children }) {
   return (
-    <section className="opr-man">
+    <section className={`opr-man ${wide ? 'opr-man--wide' : ''}`}>
       <header className="opr-man__head">
         <span className="opr-man__num">{num}</span>
         <h2 className="opr-man__title">{title}</h2>
@@ -50,9 +50,14 @@ function PlatformCard ({ download }) {
       <span className="opr-platform__name">{download.platform}</span>
       {download.available
         ? (
-          <a href={download.url} className="plugin-btn plugin-btn--primary opr-platform__btn">
+          <a
+            href={download.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="plugin-btn plugin-btn--primary opr-platform__btn"
+          >
             <FontAwesomeIcon icon={['fas', 'download']} />
-            <span>Descargar .zip</span>
+            <span>Descargar</span>
           </a>
           )
         : (
@@ -123,11 +128,21 @@ function PluginOprW1 () {
             </div>
 
             <div className="opr-hero__actions">
-              <a href={windows.url} className="plugin-btn plugin-btn--primary">
+              <a
+                href={windows.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="plugin-btn plugin-btn--primary"
+              >
                 <FontAwesomeIcon icon={['fab', 'windows']} />
                 <span>Windows</span>
               </a>
-              <a href={linux.url} className="plugin-btn plugin-btn--ghost">
+              <a
+                href={linux.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="plugin-btn plugin-btn--ghost"
+              >
                 <FontAwesomeIcon icon={['fab', 'linux']} />
                 <span>Linux</span>
               </a>
@@ -166,6 +181,8 @@ function PluginOprW1 () {
         </header>
 
         <div className="opr-body">
+          {/* Secciones 01–07 en rejilla de dos columnas (07 a ancho completo) */}
+          <div className="opr-grid">
           {/* ── 01 · El ancho ── */}
           <ManualSection num="01" title="El ancho">
             <figure className="opr-diagram">
@@ -258,7 +275,7 @@ function PluginOprW1 () {
           </ManualSection>
 
           {/* ── 07 · Bajo el capó ── */}
-          <ManualSection num="07" title="Bajo el capó">
+          <ManualSection num="07" title="Bajo el capó" wide>
             <figure className="opr-diagram opr-diagram--scroll">
               <FlowDiagram />
             </figure>
@@ -276,6 +293,7 @@ function PluginOprW1 () {
               </a>.
             </p>
           </ManualSection>
+          </div>
 
           {/* ── 08 · Descargas ── */}
           <ManualSection num="08" title="Descargas">
@@ -285,9 +303,9 @@ function PluginOprW1 () {
               ))}
             </div>
             <p className="opr-caption">
-              Descomprime y copia <code>OPR-W1.vst3</code> a{' '}
-              <code>C:\Program Files\Common Files\VST3</code> (Windows) o{' '}
-              <code>~/.vst3</code> (Linux). Re-escanea plugins en tu DAW.
+              En Windows, ejecuta el instalador <code>OPR-W1-Setup.exe</code>.
+              En Linux, descomprime y copia <code>OPR-W1.vst3</code> a{' '}
+              <code>~/.vst3</code>. Después, re-escanea plugins en tu DAW.
             </p>
             <p className="opr-warning">
               <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} />
