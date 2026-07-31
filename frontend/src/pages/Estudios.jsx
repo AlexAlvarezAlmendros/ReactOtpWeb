@@ -1,12 +1,63 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Estudios.css'
 import './ListingPage.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
 import { useReserva } from '../hooks/useReserva'
+import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 import Footer from '../components/Footer/Footer'
 import GlassSurface from '../components/GlassSurface'
 
+/**
+ * Catálogo de servicios del estudio en JSON-LD. Cuelga del nodo
+ * EntertainmentBusiness (#estudio) que ya declara index.html.
+ */
+const ESTUDIO_JSONLD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'EntertainmentBusiness',
+      '@id': 'https://www.otherpeople.es/#estudio',
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Servicios de estudio',
+        itemListElement: [
+          'Grabación de voces',
+          'Mezcla',
+          'Mastering',
+          'Producción de beats',
+          'Sesiones de composición',
+          'Pulido de vocales'
+        ].map((name) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name,
+            areaServed: { '@type': 'AdministrativeArea', name: 'Barcelona' },
+            provider: { '@id': 'https://www.otherpeople.es/#organization' }
+          }
+        }))
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
+        { '@type': 'ListItem', position: 2, name: 'Estudio de grabación', item: 'https://www.otherpeople.es/estudios' }
+      ]
+    }
+  ]
+}
+
 function Estudios () {
+  usePageMeta({
+    title: 'Estudio de grabación en Barcelona — Mezcla y mastering',
+    description: 'Estudio de grabación profesional en Igualada (Barcelona): grabación de voces, mezcla, mastering, producción de beats y sesiones de composición. Reserva tu sesión.'
+  })
+
+  useJsonLd(ESTUDIO_JSONLD)
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const { enviarReserva, isLoading, error } = useReserva()
@@ -129,8 +180,15 @@ function Estudios () {
       <div className="estudios-container">
         {/* Encabezado de sección */}
         <header className="estudios-header">
-          <h1 className="estudios-title">SERVICIOS DE<br />ESTUDIO</h1>
+          <h1 className="estudios-title">ESTUDIO DE GRABACIÓN<br />EN BARCELONA</h1>
           <div className="estudios-underline"></div>
+          <p className="estudios-intro">
+            Grabamos, mezclamos y masterizamos en nuestro estudio de Igualada, a 45 minutos
+            de Barcelona. Trabajamos sobre todo música urbana —trap, rap y drill— pero
+            entra cualquier proyecto que necesite un sonido serio. Si además buscas{' '}
+            <Link to="/discografica-barcelona">sello</Link> o{' '}
+            <Link to="/booking-artistas">booking</Link>, lo hablamos en la misma sesión.
+          </p>
         </header>
 
         {/* Grid de servicios */}

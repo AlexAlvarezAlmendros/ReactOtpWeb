@@ -6,6 +6,7 @@ import { useArtistBeats } from '../hooks/useArtistBeats'
 import { useBeatPurchase } from '../hooks/useBeatPurchase'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 import BeatCard from '../components/BeatCard/BeatCard'
 import LazyImage from '../components/LazyImage/LazyImage'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
@@ -32,11 +33,64 @@ function BeatDetalle () {
     ? (typeof beat.producer === 'object' ? beat.producer?.name : beat.producer)
     : null
 
+  const beatTitle = beat?.title || beat?.name
+  const beatFacts = [
+    producerName ? `Prod. ${producerName}` : null,
+    beat?.genre,
+    beat?.bpm ? `${beat.bpm} BPM` : null,
+    beat?.key
+  ].filter(Boolean).join(' · ')
+
   usePageMeta({
-    title: beat?.title || beat?.name,
-    description: [producerName ? `Prod. ${producerName}` : null, beat?.genre, beat?.bpm ? `${beat.bpm} BPM` : null].filter(Boolean).join(' · '),
-    image: beat?.coverUrl || beat?.img
+    title: beatTitle,
+    description: beatTitle
+      ? `${beatTitle}${beatFacts ? ` — ${beatFacts}` : ''}. Beat de música urbana disponible con licencia en Other People Records. Escúchalo y compra tu licencia online.`
+      : undefined,
+    image: beat?.coverUrl || beat?.img,
+    type: 'music.song'
   })
+
+  // Precio de referencia: la licencia más barata disponible.
+  const beatLowPrice = useMemo(() => {
+    const prices = Array.isArray(beat?.licenses) && beat.licenses.length
+      ? beat.licenses.map(l => l.price).filter(p => typeof p === 'number')
+      : (typeof beat?.price === 'number' ? [beat.price] : [])
+    return prices.length ? Math.min(...prices) : null
+  }, [beat])
+
+  useJsonLd(beat
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Product',
+            name: beatTitle,
+            url: `https://www.otherpeople.es/beats/${id}`,
+            image: beat.coverUrl || beat.img || undefined,
+            description: `${beatTitle}${beatFacts ? ` — ${beatFacts}` : ''}. Beat disponible con licencia.`,
+            category: beat.genre || 'Beat',
+            brand: { '@id': 'https://www.otherpeople.es/#organization' },
+            offers: beatLowPrice != null
+              ? {
+                  '@type': 'Offer',
+                  url: `https://www.otherpeople.es/beats/${id}`,
+                  price: String(beatLowPrice),
+                  priceCurrency: 'EUR',
+                  availability: 'https://schema.org/InStock'
+                }
+              : undefined
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
+              { '@type': 'ListItem', position: 2, name: 'Beats', item: 'https://www.otherpeople.es/beats' },
+              { '@type': 'ListItem', position: 3, name: beatTitle, item: `https://www.otherpeople.es/beats/${id}` }
+            ]
+          }
+        ]
+      }
+    : null)
   const { beats: moreBeats, loading: moreLoading } = useArtistBeats(producerName, 8)
 
   // Filter out current beat from "more beats"

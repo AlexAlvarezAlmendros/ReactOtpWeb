@@ -80,7 +80,8 @@ import {
   faUserGroup,
   faListCheck,
   faCircleExclamation,
-  faMugHot
+  faMugHot,
+  faGear
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -162,5 +163,6 @@ library.add(
   faUserGroup,
   faListCheck,
   faCircleExclamation,
-  faMugHot
+  faMugHot,
+  faGear
 )

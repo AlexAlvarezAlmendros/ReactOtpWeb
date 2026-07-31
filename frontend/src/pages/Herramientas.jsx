@@ -8,6 +8,7 @@ import LazyImage from '../components/LazyImage/LazyImage.jsx'
 import { useReleases } from '../hooks/useReleases.js'
 import { useBeats } from '../hooks/useBeats.js'
 import Footer from '../components/Footer/Footer'
+import { usePageMeta } from '../hooks/usePageMeta'
 import './Herramientas.css'
 
 const TOOLS = [
@@ -82,6 +83,11 @@ function ReleasePromo ({ release }) {
 }
 
 function Herramientas () {
+  usePageMeta({
+    title: 'Detector de BPM y tonalidad online gratis',
+    description: 'Herramientas gratuitas para productores: detecta el BPM y la tonalidad de cualquier canción desde el navegador y genera códigos QR para tus lanzamientos.'
+  })
+
   const [activeTool, setActiveTool] = useState(TOOLS[0].id)
   const { releases, loading: relLoading } = useReleases({ count: 1, sortBy: 'date', sortOrder: 'desc' })
   const { beats,    loading: bLoading   } = useBeats({    count: 3, sortBy: 'createdAt', sortOrder: 'desc' })
@@ -96,8 +102,11 @@ function Herramientas () {
         <header className="tools-hero">
           <div className="tools-hero__inner">
             <span className="tools-hero__eyebrow">Other People Records</span>
-            <h1 className="tools-hero__title">Herramientas</h1>
-            <p className="tools-hero__sub">Utilidades gratuitas para tus proyectos</p>
+            <h1 className="tools-hero__title">Herramientas para productores</h1>
+            <p className="tools-hero__sub">
+              Detector de BPM y tonalidad y generador de QR. Gratis, sin registro y sin
+              subir tus archivos a ningún servidor.
+            </p>
           </div>
         </header>
 

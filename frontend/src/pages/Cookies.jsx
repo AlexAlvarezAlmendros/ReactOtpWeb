@@ -1,8 +1,14 @@
 import React from 'react'
 import './Cookies.css'
 import Footer from '../components/Footer/Footer'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function Cookies () {
+  usePageMeta({
+    title: 'Política de Cookies',
+    description: 'Qué cookies utiliza otherpeople.es y cómo gestionarlas.'
+  })
+
   return (
     
 	<>

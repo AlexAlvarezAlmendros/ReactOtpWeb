@@ -5,12 +5,15 @@ import { useProfile } from '../hooks/useProfile'
 import { useToast } from '../contexts/ToastContext'
 import LinkIconPicker from '../components/LinkIconPicker/LinkIconPicker'
 import './Perfil.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 const SITE_URL = window.location.origin
 
 function Perfil () {
+  usePageMeta({ title: 'Mi perfil', noindex: true })
+
   const { isAuthenticated, isLoading: authLoading, getToken } = useAuth()
   const { isAdmin, isArtist } = useUser()
   const { profile, loading, saving, fetchProfile, updateProfile } = useProfile()

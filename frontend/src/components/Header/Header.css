@@ -99,6 +99,41 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Acceso a /herramientas: el logo ya no lleva ahí, ahora va a la home. */
+.tools-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0 !important;
+  border-radius: 50%;
+  color: #bbb !important;
+  font-size: 1rem !important;
+  flex: none;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.3s ease;
+}
+
+.tools-link:hover {
+  color: #ffffff !important;
+  transform: rotate(45deg);
+}
+
+.tools-link.active {
+  padding: 0 !important;
+  border-radius: 50% !important;
+  color: #ffffff !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-link,
+  .tools-link:hover {
+    transition: none;
+    transform: none;
+  }
 }
 
 .auth-links {

@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { usePageMeta } from '../hooks/usePageMeta'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import './InfiniteScroll.css'
 import './ListingPage.css'
@@ -10,6 +12,11 @@ const API_URL = import.meta.env.VITE_API_URL
 const RELEASES_ENDPOINT = `${API_URL}/releases`
 
 function Discografia () {
+  usePageMeta({
+    title: 'Discografía del sello — Lanzamientos de música urbana',
+    description: 'Todos los álbumes, EPs y singles publicados por Other People Records, sello discográfico independiente de Barcelona. Escúchalos en Spotify, Apple Music y YouTube.'
+  })
+
   const fetchReleases = useCallback(async (options) => {
     const params = new URLSearchParams()
     params.append('page', options.page.toString())
@@ -52,6 +59,12 @@ function Discografia () {
     <div className="listing-page">
       <div className="listing-content">
         <h1>Nuestra Discografía</h1>
+        <p className="listing-intro">
+          Álbumes, EPs y singles editados por Other People Records, sello discográfico
+          independiente de Barcelona. Cada lanzamiento se produce, mezcla y masteriza en{' '}
+          <Link to="/estudios">nuestro estudio</Link> y se distribuye en todas las
+          plataformas digitales.
+        </p>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={releases} type={'release'} loading={loading} />
 

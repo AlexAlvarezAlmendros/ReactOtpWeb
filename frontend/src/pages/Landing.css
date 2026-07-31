@@ -1,0 +1,141 @@
+/* =========================================
+   LANDINGS SEO (discográfica / booking)
+   Estructura de artículo largo sobre el fondo
+   Silk que monta RootLayout.
+   ========================================= */
+.seo-landing {
+  position: relative;
+  z-index: 2;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  text-align: start;
+}
+
+.seo-landing__eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ff003c;
+  margin-bottom: 0.75rem;
+}
+
+.seo-landing h1 {
+  font-size: 2.8rem;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+.seo-landing__lead {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 2.5rem;
+}
+
+.seo-landing h2 {
+  font-size: 1.75rem;
+  margin: 2.75rem 0 1rem;
+}
+
+.seo-landing h3 {
+  font-size: 1.15rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.seo-landing p,
+.seo-landing li {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.seo-landing p {
+  margin: 0 0 1rem;
+}
+
+.seo-landing ul {
+  padding-left: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.seo-landing li {
+  margin-bottom: 0.5rem;
+}
+
+.seo-landing a {
+  color: #ff003c;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 0, 60, 0.4);
+  transition: border-color 0.2s ease;
+}
+
+.seo-landing a:hover {
+  border-bottom-color: #ff003c;
+}
+
+/* Bloque de preguntas frecuentes */
+.seo-faq__item {
+  border-top: 1px solid #262626;
+  padding: 1.25rem 0;
+}
+
+.seo-faq__item h3 {
+  margin-top: 0;
+}
+
+/* Llamada a la acción final */
+.seo-cta {
+  margin-top: 3rem;
+  padding: 2rem;
+  border: 1px solid #333;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+  text-align: center;
+}
+
+.seo-cta h2 {
+  margin-top: 0;
+}
+
+.seo-cta__button {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border: none;
+  border-bottom: none;
+  border-radius: 999px;
+  background: #ff003c;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.seo-cta__button:hover {
+  background: #d90033;
+  border-bottom: none;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .seo-landing h1 {
+    font-size: 2.1rem;
+  }
+
+  .seo-landing h2 {
+    font-size: 1.45rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seo-cta__button {
+    transition: none;
+  }
+
+  .seo-cta__button:hover {
+    transform: none;
+  }
+}

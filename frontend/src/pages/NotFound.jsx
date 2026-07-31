@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 import './NotFound.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function NotFound () {
+  usePageMeta({
+    title: 'Página no encontrada',
+    description: 'La página que buscas no existe.',
+    noindex: true
+  })
+
   const [currentJoke, setCurrentJoke] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
 
