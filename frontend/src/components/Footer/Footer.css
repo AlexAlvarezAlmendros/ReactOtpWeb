@@ -100,6 +100,23 @@
   margin: 4px 0 0;
 }
 
+.footer-brand__nap {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: normal;
+  line-height: 1.6;
+  margin: 12px 0 0;
+}
+
+.footer-brand__nap a {
+  color: #777;
+  text-decoration: none;
+}
+
+.footer-brand__nap a:hover {
+  color: #ff003c;
+}
+
 /* =========================================
    NEWSLETTER CARD
    ========================================= */

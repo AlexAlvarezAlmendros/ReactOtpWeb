@@ -1,15 +1,20 @@
 {
   "rewrites": [
     {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+
+    {
       "source": "/artistas/:id",
       "has": [
         {
           "type": "header",
           "key": "user-agent",
-          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Googlebot|Bingbot|Yandex|Applebot|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
         }
       ],
-      "destination": "/api/og?type=artists&id=:id"
+      "destination": "/api/og?type=artists&id=:id&mode=index"
     },
     {
       "source": "/eventos/:id",
@@ -17,10 +22,10 @@
         {
           "type": "header",
           "key": "user-agent",
-          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Googlebot|Bingbot|Yandex|Applebot|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
         }
       ],
-      "destination": "/api/og?type=events&id=:id"
+      "destination": "/api/og?type=events&id=:id&mode=index"
     },
     {
       "source": "/beats/:id",
@@ -28,11 +33,46 @@
         {
           "type": "header",
           "key": "user-agent",
-          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Googlebot|Bingbot|Yandex|Applebot|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
         }
       ],
-      "destination": "/api/og?type=beats&id=:id"
+      "destination": "/api/og?type=beats&id=:id&mode=index"
     },
+
+    {
+      "source": "/artistas/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=artists&id=:id&mode=social"
+    },
+    {
+      "source": "/eventos/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=events&id=:id&mode=social"
+    },
+    {
+      "source": "/beats/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=beats&id=:id&mode=social"
+    },
+
     {
       "source": "/(.*)",
       "destination": "/index.html"

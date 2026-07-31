@@ -38,6 +38,25 @@
   margin: 0 auto;
 }
 
+.estudios-intro {
+  max-width: 64ch;
+  margin: 24px auto 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.estudios-intro a {
+  color: #ff003c;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 0, 60, 0.4);
+  transition: border-color 0.2s ease;
+}
+
+.estudios-intro a:hover {
+  border-bottom-color: #ff003c;
+}
+
 /* === GRID DE SERVICIOS === */
 .services-grid {
   display: grid;

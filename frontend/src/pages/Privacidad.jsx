@@ -2,8 +2,14 @@ import React from 'react'
 import './Privacidad.css'
 import Footer from '../components/Footer/Footer'
 import GlassSurface from '../components/GlassSurface'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function Privacidad () {
+  usePageMeta({
+    title: 'Política de Privacidad',
+    description: 'Información sobre el tratamiento de datos personales en otherpeople.es, web de Other People Records.'
+  })
+
   return (
 	<>
       <div className="legal-container">

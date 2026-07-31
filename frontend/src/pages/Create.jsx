@@ -9,6 +9,7 @@ import NewsletterForm from '../components/Forms/NewsletterForm.jsx'
 import ManageCards from '../components/ManageCards/ManageCards.jsx'
 import QRGenerator from '../components/Tools/QRGenerator/QRGenerator.jsx'
 import './Create.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const NAV = {
   create: [
@@ -38,6 +39,8 @@ const ALL_ITEMS = [
 ]
 
 function Create () {
+  usePageMeta({ title: 'Panel de gestión', noindex: true })
+
   const { isAuthenticated } = useAuth()
   const [activeView, setActiveView] = useState('create:release')
   const [sidebarOpen, setSidebarOpen] = useState(false)

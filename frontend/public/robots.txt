@@ -1,0 +1,11 @@
+# Other People Records — https://www.otherpeople.es
+# Las páginas privadas (perfil, crear, scanner, entradas, /l/:slug) se excluyen
+# con <meta name="robots" content="noindex, follow">, no aquí: si las
+# bloqueáramos por robots.txt Google no podría leer ese noindex.
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://www.otherpeople.es/sitemap.xml

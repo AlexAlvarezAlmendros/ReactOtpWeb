@@ -3,6 +3,7 @@ import { useArtist } from '../hooks/useArtist'
 import { useArtistReleases } from '../hooks/useArtistReleases'
 import { useArtistBeats } from '../hooks/useArtistBeats'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import ReleaseCard from '../components/ReleaseCard/ReleaseCard'
@@ -16,11 +17,51 @@ function ArtistaDetalle () {
   const { releases, loading: releasesLoading } = useArtistReleases(artist?.title, 3)
   const { beats, loading: beatsLoading } = useArtistBeats(artist?.title, 6)
 
+  const artistFacts = [artist?.artistType, artist?.genre, artist?.location]
+    .filter(Boolean).join(' · ')
+
   usePageMeta({
     title: artist?.title,
-    description: [artist?.artistType, artist?.location].filter(Boolean).join(' · '),
-    image: artist?.img
+    // La descripción antigua ("Cantante · Barcelona") era demasiado corta para
+    // servir de snippet: la completamos con el contexto del sello.
+    description: artist?.title
+      ? `${artist.title}${artistFacts ? ` — ${artistFacts}` : ''}. Artista de Other People Records, sello discográfico independiente en Barcelona. Escucha su música y contrata su booking.`
+      : undefined,
+    image: artist?.img,
+    type: 'profile'
   })
+
+  useJsonLd(artist
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'MusicGroup',
+            name: artist.title,
+            url: `https://www.otherpeople.es/artistas/${id}`,
+            image: artist.img || undefined,
+            genre: artist.genre || undefined,
+            recordLabel: { '@id': 'https://www.otherpeople.es/#organization' },
+            sameAs: [
+              artist.spotifyLink,
+              artist.youtubeLink,
+              artist.appleMusicLink,
+              artist.instagramLink,
+              artist.soundCloudLink,
+              artist.beatStarsLink
+            ].filter(Boolean)
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
+              { '@type': 'ListItem', position: 2, name: 'Artistas', item: 'https://www.otherpeople.es/artistas' },
+              { '@type': 'ListItem', position: 3, name: artist.title, item: `https://www.otherpeople.es/artistas/${id}` }
+            ]
+          }
+        ]
+      }
+    : null)
 
   if (loading) {
     return <LoadingSpinner message="Cargando artista..." />

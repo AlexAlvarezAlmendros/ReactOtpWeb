@@ -27,6 +27,8 @@ import Plugins from './pages/Plugins.jsx'
 import PluginOprW1 from './pages/PluginOprW1.jsx'
 import RuralMafia from './pages/RuralMafia.jsx'
 import LinksPage from './pages/LinksPage.jsx'
+import DiscograficaBarcelona from './pages/DiscograficaBarcelona.jsx'
+import BookingArtistas from './pages/BookingArtistas.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
@@ -69,6 +71,14 @@ const router = createBrowserRouter([
       {
         path: '/estudios',
         element: <Estudios />
+      },
+      {
+        path: '/discografica-barcelona',
+        element: <DiscograficaBarcelona />
+      },
+      {
+        path: '/booking-artistas',
+        element: <BookingArtistas />
       },
       {
         path: '/eventos',

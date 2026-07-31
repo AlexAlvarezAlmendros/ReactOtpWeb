@@ -1,12 +1,18 @@
 import { useState } from 'react'
 import { useContact } from '../hooks/useContact'
 import { useNewsletter } from '../hooks/useNewsletter'
+import { usePageMeta } from '../hooks/usePageMeta'
 import './Contacto.css'
 import './ListingPage.css'
 import Footer from '../components/Footer/Footer'
 import GlassSurface from '../components/GlassSurface'
 
 function Contacto () {
+  usePageMeta({
+    title: 'Contacto y booking de artistas en Barcelona',
+    description: 'Contacta con Other People Records para booking de artistas urbanos, demos, reservas de estudio o colaboraciones. Estamos en Igualada, Barcelona.'
+  })
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -103,10 +109,11 @@ function Contacto () {
       <div className="contacto-container">
         {/* Encabezado de sección */}
         <header className="contacto-header">
-          <h1 className="contacto-title">CONTÁCTANOS</h1>
+          <h1 className="contacto-title">CONTACTO Y BOOKING</h1>
           <div className="contacto-underline"></div>
           <p className="contacto-subtitle">
-            ¿Tienes un proyecto en mente? Hablemos sobre cómo podemos llevarlo al siguiente nivel.
+            Booking de artistas, envío de demos, reservas de estudio o colaboraciones:
+            escríbenos y te respondemos. Estamos en Igualada, provincia de Barcelona.
           </p>
         </header>
 

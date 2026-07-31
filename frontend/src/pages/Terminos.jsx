@@ -1,8 +1,14 @@
 import React from 'react'
 import './Terminos.css'
 import Footer from '../components/Footer/Footer'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function Terminos () {
+  usePageMeta({
+    title: 'Términos de Uso',
+    description: 'Condiciones de uso de otherpeople.es: compra de entradas, licencias de beats y servicios de Other People Records.'
+  })
+
   return (
     <>
 	<div className="legal-page">
