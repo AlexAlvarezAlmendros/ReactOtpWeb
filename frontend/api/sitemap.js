@@ -67,19 +67,48 @@ function urlEntry ({ path, priority, changefreq, lastmod }) {
   ].filter(Boolean).join('\n')
 }
 
-/** Descarga una colección de la API. Devuelve [] ante cualquier problema. */
+// La API rechaza con 400 cualquier count > 100, así que paginamos.
+const PAGE_SIZE = 100
+// Tope de seguridad: 20 páginas son 2000 fichas, muy por encima del catálogo
+// real. Evita un bucle infinito si la paginación de la API se comporta raro.
+const MAX_PAGES = 20
+
+/**
+ * Descarga una colección completa de la API paginando de 100 en 100.
+ * Devuelve lo que haya conseguido hasta el momento del fallo: un sitemap
+ * incompleto es mejor que un 500 que Search Console marque como error.
+ */
 async function fetchCollection (endpoint) {
-  try {
-    const res = await fetch(`${API_URL}/${endpoint}?count=500&page=1`, {
-      headers: { accept: 'application/json' }
-    })
-    if (!res.ok) return []
-    const body = await res.json()
-    const list = body.data || body[endpoint] || body
-    return Array.isArray(list) ? list : []
-  } catch {
-    return []
+  const items = []
+
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    let body
+    try {
+      const res = await fetch(`${API_URL}/${endpoint}?count=${PAGE_SIZE}&page=${page}`, {
+        headers: { accept: 'application/json' }
+      })
+      if (!res.ok) {
+        console.error(`[sitemap] ${endpoint} p${page}: HTTP ${res.status}`)
+        break
+      }
+      body = await res.json()
+    } catch (err) {
+      console.error(`[sitemap] ${endpoint} p${page}: ${err.message}`)
+      break
+    }
+
+    const list = body?.data || body?.[endpoint] || body
+    if (!Array.isArray(list) || list.length === 0) break
+
+    items.push(...list)
+
+    // Preferimos el total de páginas que declara la API; si no viene, paramos
+    // en cuanto una página llega incompleta.
+    const totalPages = body?.pagination?.pages
+    if (totalPages ? page >= totalPages : list.length < PAGE_SIZE) break
   }
+
+  return items
 }
 
 export default async function handler (req, res) {
