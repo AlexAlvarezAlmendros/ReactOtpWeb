@@ -164,8 +164,8 @@ function Footer () {
         <div className="footer-bottom">
           <span className="footer-bottom__item">© {year} Other People Records</span>
           <span className="footer-bottom__item footer-bottom__author">
-            Diseño + código por{' '}
-            <a href="https://alexalvarez.dev" target="_blank" rel="noopener noreferrer">
+            Diseñado y Desarrollado por{' '}
+            <a href="https://www.alexalvarez.dev" target="_blank" rel="noopener noreferrer">
               alexalvarez.dev
             </a>
           </span>
