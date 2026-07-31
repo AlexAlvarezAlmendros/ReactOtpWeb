@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { usePageMeta } from '../hooks/usePageMeta'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import './InfiniteScroll.css'
 import './ListingPage.css'
@@ -10,6 +12,11 @@ const API_URL = import.meta.env.VITE_API_URL
 const ARTISTS_ENDPOINT = `${API_URL}/artists`
 
 function Artistas () {
+  usePageMeta({
+    title: 'Artistas urbanos en Barcelona',
+    description: 'Roster de Other People Records: cantantes, raperos y productores de trap, rap y drill en Barcelona. Escucha su música y contrata su booking.'
+  })
+
   const fetchArtists = useCallback(async (options) => {
     const params = new URLSearchParams()
     params.append('page', options.page.toString())
@@ -55,7 +62,13 @@ function Artistas () {
   return (
     <div className="listing-page">
       <div className="listing-content">
-        <h1>Nuestros Artistas</h1>
+        <h1>Artistas urbanos en Barcelona</h1>
+        <p className="listing-intro">
+          Estos son los artistas de Other People Records: cantantes, raperos y productores
+          de trap, rap y drill con base en Barcelona. Si quieres contratar a alguno para un
+          concierto o una colaboración, escríbenos a través de{' '}
+          <Link to="/contacto">booking</Link>.
+        </p>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={artists} type={'artist'} loading={loading} />
 

@@ -2,10 +2,16 @@ import { useNewsletters } from '../hooks/useNewsletters'
 import { NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './Newsletters.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 function Newsletters () {
+  usePageMeta({
+    title: 'Newsletters — Novedades del sello',
+    description: 'Archivo de newsletters de Other People Records: lanzamientos, eventos y noticias de nuestros artistas urbanos en Barcelona.'
+  })
+
   const { newsletters, loading, error } = useNewsletters({ 
     count: 100, 
     sortBy: 'createdAt',

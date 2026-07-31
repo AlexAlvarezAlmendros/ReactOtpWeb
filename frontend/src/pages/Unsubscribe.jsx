@@ -4,8 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelopeOpenText, faCheckCircle, faExclamationCircle, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useUnsubscribe } from '../hooks'
 import './Unsubscribe.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export default function Unsubscribe () {
+  usePageMeta({ title: 'Baja de la newsletter', noindex: true })
+
   const navigate = useNavigate()
   const { unsubscribe, loading, error, success, email, response } = useUnsubscribe()
   const [manualEmail, setManualEmail] = useState('')

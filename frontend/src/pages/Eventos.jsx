@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { usePageMeta } from '../hooks/usePageMeta'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import './InfiniteScroll.css'
 import './ListingPage.css'
@@ -10,6 +12,11 @@ const API_URL = import.meta.env.VITE_API_URL
 const EVENTS_ENDPOINT = `${API_URL}/events`
 
 function Eventos () {
+  usePageMeta({
+    title: 'Conciertos y eventos de música urbana en Barcelona',
+    description: 'Agenda de conciertos, showcases y fiestas de Other People Records en Barcelona y alrededores. Consulta fechas y compra tus entradas online.'
+  })
+
   const fetchEvents = useCallback(async (options) => {
     const params = new URLSearchParams()
     params.append('page', options.page.toString())
@@ -61,7 +68,12 @@ function Eventos () {
   return (
     <div className="listing-page">
       <div className="listing-content">
-        <h1>Últimos Eventos</h1>
+        <h1>Conciertos y eventos de música urbana</h1>
+        <p className="listing-intro">
+          Todas las fechas del sello en Barcelona y alrededores: conciertos, showcases y
+          fiestas de trap, rap y drill. Compra tu entrada aquí o descubre a los{' '}
+          <Link to="/artistas">artistas</Link> que estarán sobre el escenario.
+        </p>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={events} type={'event'} loading={loading} />
 

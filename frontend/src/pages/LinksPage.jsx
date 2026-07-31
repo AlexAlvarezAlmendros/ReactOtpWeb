@@ -5,10 +5,22 @@ import { getPlatformIcon, getFaviconUrl } from '../utils/linkIcons'
 import GlassSurface from '../components/GlassSurface'
 import SilkBackground from '../components/SilkBackground'
 import './LinksPage.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function LinksPage () {
   const { slug } = useParams()
   const { artist, loading, error } = useLinksPage(slug)
+
+  // noindex para no competir con la ficha del artista, pero 'follow' para que
+  // los enlaces que llegan desde redes sigan empujando a /artistas/:id.
+  usePageMeta({
+    title: artist?.name ? `Enlaces de ${artist.name}` : 'Enlaces del artista',
+    description: artist?.name
+      ? `Todos los enlaces de ${artist.name}: música, redes y próximos eventos.`
+      : undefined,
+    image: artist?.img,
+    noindex: true
+  })
 
   if (loading) {
     return (

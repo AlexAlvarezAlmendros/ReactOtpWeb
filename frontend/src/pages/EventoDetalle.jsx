@@ -2,6 +2,7 @@ import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useEvent } from '../hooks/useEvent'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
@@ -14,11 +15,61 @@ function EventoDetalle () {
   const { event, loading, error } = useEvent(id)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
+  const eventDateLabel = event?.date
+    ? new Date(event.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+    : null
+
   usePageMeta({
     title: event?.title,
-    description: [event?.subtitle, event?.eventType].filter(Boolean).join(' · '),
-    image: event?.img
+    description: event?.title
+      ? (event.description ||
+          `${event.title}: ${[event.eventType, event.location, eventDateLabel].filter(Boolean).join(' · ')}. Evento de Other People Records. Consulta la información y compra tu entrada.`)
+      : undefined,
+    image: event?.img,
+    type: 'article'
   })
+
+  useJsonLd(event
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'MusicEvent',
+            name: event.title,
+            url: `https://www.otherpeople.es/eventos/${id}`,
+            image: event.img || undefined,
+            description: event.description || undefined,
+            startDate: event.date || undefined,
+            eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+            eventStatus: 'https://schema.org/EventScheduled',
+            location: event.location
+              ? { '@type': 'Place', name: event.location, address: event.location }
+              : undefined,
+            organizer: { '@id': 'https://www.otherpeople.es/#organization' },
+            // Solo declaramos precio si de verdad se venden entradas.
+            offers: event.ticketsEnabled && event.ticketPrice > 0
+              ? {
+                  '@type': 'Offer',
+                  url: event.externalTicketUrl || `https://www.otherpeople.es/eventos/${id}`,
+                  price: String(event.ticketPrice),
+                  priceCurrency: event.ticketCurrency || 'EUR',
+                  availability: event.availableTickets > 0
+                    ? 'https://schema.org/InStock'
+                    : 'https://schema.org/SoldOut'
+                }
+              : undefined
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
+              { '@type': 'ListItem', position: 2, name: 'Eventos', item: 'https://www.otherpeople.es/eventos' },
+              { '@type': 'ListItem', position: 3, name: event.title, item: `https://www.otherpeople.es/eventos/${id}` }
+            ]
+          }
+        ]
+      }
+    : null)
 
   // Detectar si volvemos de un pago exitoso
   useEffect(() => {

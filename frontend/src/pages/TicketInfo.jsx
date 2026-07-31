@@ -4,10 +4,13 @@ import { useUser } from '../hooks/useUser';
 import { useAuth } from '../hooks/useAuth';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import './TicketInfo.css';
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 function TicketInfo () {
+  usePageMeta({ title: 'Tu entrada', noindex: true })
+
   const { validationCode } = useParams()
   const { user, canValidateTickets } = useUser()
   const { getToken } = useAuth()

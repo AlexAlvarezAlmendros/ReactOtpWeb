@@ -29,7 +29,8 @@ function Footer () {
           <h2 className="footer-brand__name">Other People Records</h2>
           <div className="footer-brand__accent" />
           <p className="footer-brand__desc">
-            Discográfica independiente desde Igualada. Conectamos talento musical emergente con el mundo.
+            Sello discográfico independiente de música urbana en Igualada, provincia de
+            Barcelona. Conectamos talento emergente con el mundo.
           </p>
         </div>
 
@@ -86,14 +87,14 @@ function Footer () {
 
           <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Servicios</h4>
-            <ul className="footer-card__list">
-              <li>Grabación profesional</li>
-              <li>Mezcla y mastering</li>
-              <li>Producción de beats</li>
-              <li>Sesiones de composición</li>
-              <li>Booking de artistas</li>
-              <li>Distribución digital</li>
-            </ul>
+            <nav className="footer-card__nav">
+              <NavLink to="/discografica-barcelona">Discográfica en Barcelona</NavLink>
+              <NavLink to="/booking-artistas">Booking de artistas urbanos</NavLink>
+              <NavLink to="/estudios">Estudio de grabación</NavLink>
+              <NavLink to="/estudios">Mezcla y mastering</NavLink>
+              <NavLink to="/beats">Producción de beats</NavLink>
+              <NavLink to="/discografia">Distribución digital</NavLink>
+            </nav>
           </GlassSurface>
 
           <GlassSurface className="footer-card glass">

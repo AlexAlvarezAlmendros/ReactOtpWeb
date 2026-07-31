@@ -1,5 +1,6 @@
 import './Header.css'
 import { NavLink } from 'react-router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuth } from '../../hooks/useAuth'
 import LoginButton from '../Auth/LoginButton'
 import LogoutButton from '../Auth/LogoutButton'
@@ -14,10 +15,10 @@ function Header ({ children }) {
   return (
     <GlassSurface as='header' className='header' borderRadius={20} backdropBlur={3}>
       <div className='header-content'>
-        <NavLink to="/herramientas" className='logo-section'>
+        <NavLink to="/" className='logo-section' aria-label='Other People Records — inicio'>
           <img
             src='/img/otpLogo2.png'
-            alt='Logo'
+            alt='Other People Records'
             className='logo'
           />
         </NavLink>
@@ -33,6 +34,15 @@ function Header ({ children }) {
         </nav>
         
         <div className="auth-section">
+          <NavLink
+            to="/herramientas"
+            className="tools-link"
+            aria-label="Herramientas"
+            title="Herramientas"
+          >
+            <FontAwesomeIcon icon={['fas', 'gear']} />
+          </NavLink>
+
           {isLoading
             ? (
               <div className="auth-loading">Cargando...</div>

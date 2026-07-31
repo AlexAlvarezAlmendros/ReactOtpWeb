@@ -4,8 +4,11 @@ import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useUser } from '../hooks/useUser';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import './Scanner.css';
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function Scanner () {
+  usePageMeta({ title: 'Escanear entrada', noindex: true })
+
   const { canValidateTickets, loading } = useUser()
   const navigate = useNavigate()
   const [scanning, setScanning] = useState(false)

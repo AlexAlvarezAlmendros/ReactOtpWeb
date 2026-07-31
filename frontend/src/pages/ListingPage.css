@@ -85,3 +85,26 @@
     animation: none !important;
   }
 }
+
+/* =========================================
+   LISTING PAGE — INTRO SEO
+   ========================================= */
+.listing-intro {
+  max-width: 62ch;
+  margin: -0.5rem auto 2.5rem;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 1rem;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.listing-intro a {
+  color: #ff003c;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 0, 60, 0.4);
+  transition: border-color 0.2s ease;
+}
+
+.listing-intro a:hover {
+  border-bottom-color: #ff003c;
+}

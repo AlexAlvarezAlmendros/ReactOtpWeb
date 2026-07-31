@@ -4,6 +4,7 @@ import CreateButton from '../components/CreateButton/CreateButton'
 import BeatsFilterBar from '../components/BeatsFilterBar/BeatsFilterBar'
 import BeatListRow from '../components/BeatCard/BeatListRow'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { useArtistsWithBeats } from '../hooks/useArtistsWithBeats'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
@@ -27,6 +28,11 @@ const INITIAL_FILTERS = {
 }
 
 function Beats () {
+  usePageMeta({
+    title: 'Comprar beats de trap, rap y drill online',
+    description: 'Catálogo de beats e instrumentales de trap, rap y drill producidos en Barcelona. Escucha, filtra por BPM y tonalidad y compra tu licencia al instante.'
+  })
+
   const [filters, setFilters] = useState(INITIAL_FILTERS)
   const [viewMode, setViewMode] = useState('list') // 'grid' | 'list'
 
@@ -91,7 +97,7 @@ function Beats () {
     <div className="listing-page">
       <div className="listing-content">
         <div className="beats-page-header">
-          <h1>Nuestros Beats</h1>
+          <h1>Beats de trap, rap y drill</h1>
           <div className="beats-view-toggle">
             <button
               className={`beats-view-btn ${viewMode === 'grid' ? 'active' : ''}`}

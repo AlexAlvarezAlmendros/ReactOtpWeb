@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './NewsletterBuilder.css'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 import { useReleases } from '../hooks/useReleases'
 import { useEvents } from '../hooks/useEvents'
@@ -38,6 +39,8 @@ function generateSlug(title) {
 }
 
 function NewsletterBuilder () {
+  usePageMeta({ title: 'Constructor de newsletter', noindex: true })
+
   const navigate = useNavigate()
   
   // State for Search
