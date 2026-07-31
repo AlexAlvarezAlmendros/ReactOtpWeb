@@ -32,13 +32,6 @@ function Footer () {
             Sello discográfico independiente de música urbana en Igualada, provincia de
             Barcelona. Conectamos talento emergente con el mundo.
           </p>
-          {/* NAP (nombre, dirección, teléfono) en texto: refuerza el SEO local
-              y debe coincidir con la ficha de Google Business Profile. */}
-          <address className="footer-brand__nap">
-            Carrer de Dinamarca, 35 · Av. Europa<br />
-            08700 Igualada, Barcelona<br />
-            <a href="tel:+34625029056">+34 625 02 90 56</a>
-          </address>
         </div>
 
         {/* Newsletter — featured glass card */}
