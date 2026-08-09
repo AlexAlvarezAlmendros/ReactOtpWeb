@@ -112,14 +112,6 @@
   gap: 1rem;
 }
 
-.opr-hero__soon {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.78rem;
-  color: #888;
-}
-
 /* La "pintura" es el fallback legacy: GlassSurface la sustituye si está activo. */
 .opr-hero__preview {
   position: relative;
@@ -613,10 +605,6 @@
 
   .opr-hero__actions .plugin-btn {
     width: 100%;
-  }
-
-  .opr-hero__soon {
-    justify-content: center;
   }
 
   .opr-diagram {
