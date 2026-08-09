@@ -78,6 +78,7 @@ function PluginOprW1 () {
 
   const windows = OPR_W1.downloads.find(d => d.platform === 'Windows')
   const linux = OPR_W1.downloads.find(d => d.platform === 'Linux')
+  const macos = OPR_W1.downloads.find(d => d.platform === 'macOS')
 
   return (
     <>
@@ -143,10 +144,15 @@ function PluginOprW1 () {
                 <FontAwesomeIcon icon={['fab', 'linux']} />
                 <span>Linux</span>
               </a>
-              <span className="opr-hero__soon">
+              <a
+                href={macos.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="plugin-btn plugin-btn--ghost"
+              >
                 <FontAwesomeIcon icon={['fab', 'apple']} />
-                macOS próximamente
-              </span>
+                <span>macOS</span>
+              </a>
             </div>
           </div>
 
@@ -302,6 +308,9 @@ function PluginOprW1 () {
             <p className="opr-caption opr-caption--full">
               En Windows, ejecuta el instalador <code>OPR-W1-Setup.exe</code>.
               En Linux, ejecuta el script: <code>bash OPR-W1-Setup.sh</code>.
+              En macOS, abre <code>OPR-W1-Setup.command</code> con clic derecho →
+              Abrir: el instalador no está firmado y, con doble clic, macOS lo
+              bloquea. Instala el VST3 y el AU.
               Después, re-escanea plugins en tu DAW.
             </p>
           </ManualSection>
