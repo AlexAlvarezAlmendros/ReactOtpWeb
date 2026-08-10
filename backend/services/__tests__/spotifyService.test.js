@@ -216,6 +216,100 @@ describe('SpotifyService', () => {
     });
   });
   
+  describe('getArtistAlbums', () => {
+    const mockTokenResponse = {
+      data: { access_token: 'test_token', expires_in: 3600 }
+    };
+
+    const buildAlbum = (id, overrides = {}) => ({
+      id,
+      name: `Album ${id}`,
+      artists: [{ id: 'artist1', name: 'Test Artist' }],
+      release_date: '2024-01-01',
+      release_date_precision: 'day',
+      total_tracks: 10,
+      images: [{ url: `https://example.com/${id}.jpg` }],
+      external_urls: { spotify: `https://open.spotify.com/album/${id}` },
+      album_type: 'album',
+      album_group: 'album',
+      ...overrides
+    });
+
+    test('should map albums to the normalized shape', async () => {
+      mockedAxios.post.mockResolvedValue(mockTokenResponse);
+      mockedAxios.get.mockResolvedValue({
+        data: { items: [buildAlbum('a1')], total: 1, next: null }
+      });
+
+      const albums = await spotifyService.getArtistAlbums('artist1');
+
+      expect(albums).toEqual([{
+        id: 'a1',
+        name: 'Album a1',
+        artists: [{ id: 'artist1', name: 'Test Artist' }],
+        releaseDate: '2024-01-01',
+        releaseDatePrecision: 'day',
+        totalTracks: 10,
+        images: [{ url: 'https://example.com/a1.jpg' }],
+        spotifyUrl: 'https://open.spotify.com/album/a1',
+        albumType: 'album',
+        albumGroup: 'album'
+      }]);
+
+      expect(mockedAxios.get).toHaveBeenCalledWith(
+        'https://api.spotify.com/v1/artists/artist1/albums',
+        expect.objectContaining({
+          params: expect.objectContaining({
+            include_groups: 'album,single,compilation',
+            market: 'ES',
+            limit: 50,
+            offset: 0
+          })
+        })
+      );
+    });
+
+    test('should paginate until there are no more pages', async () => {
+      mockedAxios.post.mockResolvedValue(mockTokenResponse);
+      mockedAxios.get
+        .mockResolvedValueOnce({
+          data: { items: [buildAlbum('a1')], total: 2, next: 'https://api.spotify.com/next' }
+        })
+        .mockResolvedValueOnce({
+          data: { items: [buildAlbum('a2')], total: 2, next: null }
+        });
+
+      const albums = await spotifyService.getArtistAlbums('artist1');
+
+      expect(albums.map(a => a.id)).toEqual(['a1', 'a2']);
+      expect(mockedAxios.get).toHaveBeenCalledTimes(2);
+      expect(mockedAxios.get.mock.calls[1][1].params.offset).toBe(50);
+    });
+
+    test('should drop albums repeated across include_groups', async () => {
+      mockedAxios.post.mockResolvedValue(mockTokenResponse);
+      mockedAxios.get.mockResolvedValue({
+        data: { items: [buildAlbum('a1'), buildAlbum('a1')], total: 2, next: null }
+      });
+
+      const albums = await spotifyService.getArtistAlbums('artist1');
+
+      expect(albums).toHaveLength(1);
+    });
+
+    test('should surface rate limiting with its retry delay', async () => {
+      mockedAxios.post.mockResolvedValue(mockTokenResponse);
+      mockedAxios.get.mockRejectedValue({
+        response: { status: 429, headers: { 'retry-after': '12' } }
+      });
+
+      await expect(spotifyService.getArtistAlbums('artist1')).rejects.toMatchObject({
+        name: 'SpotifyRateLimitError',
+        retryAfter: 12
+      });
+    });
+  });
+
   describe('Cache functionality', () => {
     test('should clear cache', () => {
       spotifyService.clearCache();

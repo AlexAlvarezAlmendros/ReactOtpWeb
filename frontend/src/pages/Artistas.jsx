@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
@@ -63,12 +62,6 @@ function Artistas () {
     <div className="listing-page">
       <div className="listing-content">
         <h1>Artistas urbanos en Barcelona</h1>
-        <p className="listing-intro">
-          Estos son los artistas de Other People Records: cantantes, raperos y productores
-          de trap, rap y drill con base en Barcelona. Si quieres contratar a alguno para un
-          concierto o una colaboración, escríbenos a través de{' '}
-          <Link to="/contacto">booking</Link>.
-        </p>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={artists} type={'artist'} loading={loading} />
 

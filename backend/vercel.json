@@ -38,6 +38,10 @@
     {
       "path": "/api/cron/process-newsletters",
       "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/cron/sync-discography",
+      "schedule": "0 5 * * *"
     }
   ]
 }
