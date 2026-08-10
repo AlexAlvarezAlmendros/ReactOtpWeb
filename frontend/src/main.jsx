@@ -32,6 +32,7 @@ import BookingArtistas from './pages/BookingArtistas.jsx'
 import './fontawesome.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
+import AnalyticsRoot from './layouts/AnalyticsRoot.jsx'
 import { lazy, Suspense } from 'react'
 import { Analytics } from "@vercel/analytics/react"
 
@@ -45,124 +46,130 @@ const SpeedInsights = lazy(() =>
 
 const router = createBrowserRouter([
   {
-    path: '/l/:slug',
-    element: <LinksPage />
-  },
-  {
-    element: <RootLayout />, // 1. El Layout es el elemento padre
-    // 2. Las páginas se renderizan como hijos dentro del <Outlet /> del Layout
+    // Envoltorio de analítica: cubre toda la app, dentro y fuera de RootLayout
+    element: <AnalyticsRoot />,
     children: [
       {
-        path: '/',
-        element: <Inicio />
+        path: '/l/:slug',
+        element: <LinksPage />
       },
       {
-        path: '/artistas',
-        element: <Artistas />
-      },
-      {
-        path: '/artistas/:id',
-        element: <ArtistaDetalle />
-      },
-      {
-        path: '/contacto',
-        element: <Contacto />
-      },
-      {
-        path: '/estudios',
-        element: <Estudios />
-      },
-      {
-        path: '/discografica-barcelona',
-        element: <DiscograficaBarcelona />
-      },
-      {
-        path: '/booking-artistas',
-        element: <BookingArtistas />
-      },
-      {
-        path: '/eventos',
-        element: <Eventos />
-      },
-      {
-        path: '/eventos/:id',
-        element: <EventoDetalle />
-      },
-      {
-        path: '/discografia',
-        element: <Discografia />
-      },
-      {
-        path: '/beats',
-        element: <Beats />
-      },
-      {
-        path: '/beats/:id',
-        element: <BeatDetalle />
-      },
-      {
-        path: '/crear',
-        element: <Create />
-      },
-      {
-        path: '/privacidad',
-        element: <Privacidad />
-      },
-      {
-        path: '/terminos',
-        element: <Terminos />
-      },
-      {
-        path: '/cookies',
-        element: <Cookies />
-      },
-      {
-        path: '/ticket/:validationCode',
-        element: <TicketInfo />
-      },
-      {
-        path: '/scanner',
-        element: <Scanner />
-      },
-      {
-        path: '/admin/newsletter',
-        element: <NewsletterBuilder />
-      },
-      {
-        path: '/newsletters',
-        element: <Newsletters />
-      },
-      {
-        path: '/news/:slug',
-        element: <NewsletterViewer />
-      },
-      {
-        path: '/unsubscribe',
-        element: <Unsubscribe />
-      },
-      {
-        path: '/perfil',
-        element: <Perfil />
-      },
-      {
-        path: '/herramientas',
-        element: <Herramientas />
-      },
-      {
-        path: '/plugins',
-        element: <Plugins />
-      },
-      {
-        path: '/plugins/opr-w1',
-        element: <PluginOprW1 />
-      },
-      {
-        path: '/ruralmafia',
-        element: <RuralMafia />
-      },
-      {
-        path: '*',
-        element: <NotFound />
+        element: <RootLayout />, // 1. El Layout es el elemento padre
+        // 2. Las páginas se renderizan como hijos dentro del <Outlet /> del Layout
+        children: [
+          {
+            path: '/',
+            element: <Inicio />
+          },
+          {
+            path: '/artistas',
+            element: <Artistas />
+          },
+          {
+            path: '/artistas/:id',
+            element: <ArtistaDetalle />
+          },
+          {
+            path: '/contacto',
+            element: <Contacto />
+          },
+          {
+            path: '/estudios',
+            element: <Estudios />
+          },
+          {
+            path: '/discografica-barcelona',
+            element: <DiscograficaBarcelona />
+          },
+          {
+            path: '/booking-artistas',
+            element: <BookingArtistas />
+          },
+          {
+            path: '/eventos',
+            element: <Eventos />
+          },
+          {
+            path: '/eventos/:id',
+            element: <EventoDetalle />
+          },
+          {
+            path: '/discografia',
+            element: <Discografia />
+          },
+          {
+            path: '/beats',
+            element: <Beats />
+          },
+          {
+            path: '/beats/:id',
+            element: <BeatDetalle />
+          },
+          {
+            path: '/crear',
+            element: <Create />
+          },
+          {
+            path: '/privacidad',
+            element: <Privacidad />
+          },
+          {
+            path: '/terminos',
+            element: <Terminos />
+          },
+          {
+            path: '/cookies',
+            element: <Cookies />
+          },
+          {
+            path: '/ticket/:validationCode',
+            element: <TicketInfo />
+          },
+          {
+            path: '/scanner',
+            element: <Scanner />
+          },
+          {
+            path: '/admin/newsletter',
+            element: <NewsletterBuilder />
+          },
+          {
+            path: '/newsletters',
+            element: <Newsletters />
+          },
+          {
+            path: '/news/:slug',
+            element: <NewsletterViewer />
+          },
+          {
+            path: '/unsubscribe',
+            element: <Unsubscribe />
+          },
+          {
+            path: '/perfil',
+            element: <Perfil />
+          },
+          {
+            path: '/herramientas',
+            element: <Herramientas />
+          },
+          {
+            path: '/plugins',
+            element: <Plugins />
+          },
+          {
+            path: '/plugins/opr-w1',
+            element: <PluginOprW1 />
+          },
+          {
+            path: '/ruralmafia',
+            element: <RuralMafia />
+          },
+          {
+            path: '*',
+            element: <NotFound />
+          }
+        ]
       }
     ]
   }
