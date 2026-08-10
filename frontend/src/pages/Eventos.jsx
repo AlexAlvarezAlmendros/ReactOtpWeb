@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
@@ -69,11 +68,6 @@ function Eventos () {
     <div className="listing-page">
       <div className="listing-content">
         <h1>Conciertos y eventos de música urbana</h1>
-        <p className="listing-intro">
-          Todas las fechas del sello en Barcelona y alrededores: conciertos, showcases y
-          fiestas de trap, rap y drill. Compra tu entrada aquí o descubre a los{' '}
-          <Link to="/artistas">artistas</Link> que estarán sobre el escenario.
-        </p>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={events} type={'event'} loading={loading} />
 

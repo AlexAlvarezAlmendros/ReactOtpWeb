@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import { Cards } from '../components/CardList/CardList'
 import CreateButton from '../components/CreateButton/CreateButton'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
@@ -59,12 +58,6 @@ function Discografia () {
     <div className="listing-page">
       <div className="listing-content">
         <h1>Nuestra Discografía</h1>
-        <p className="listing-intro">
-          Álbumes, EPs y singles editados por Other People Records, sello discográfico
-          independiente de Barcelona. Cada lanzamiento se produce, mezcla y masteriza en{' '}
-          <Link to="/estudios">nuestro estudio</Link> y se distribuye en todas las
-          plataformas digitales.
-        </p>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={releases} type={'release'} loading={loading} />
 
