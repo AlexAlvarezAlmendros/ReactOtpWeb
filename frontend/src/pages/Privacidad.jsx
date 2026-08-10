@@ -15,7 +15,7 @@ function Privacidad () {
       <div className="legal-container">
         <header className="legal-header">
           <h1>Política de Privacidad</h1>
-          <p className="legal-date">Última actualización: 29 de julio de 2025</p>
+          <p className="legal-date">Última actualización: 10 de agosto de 2026</p>
         </header>
 
         <GlassSurface className="legal-content">
@@ -38,6 +38,7 @@ function Privacidad () {
               <li><strong>Newsletter:</strong> Para enviarle información sobre nuestros servicios, eventos y novedades</li>
               <li><strong>Reservas de estudio:</strong> Para gestionar las reservas de sesiones de grabación y otros servicios</li>
               <li><strong>Marketing directo:</strong> Para informarle sobre nuestros servicios y promociones</li>
+              <li><strong>Analítica web:</strong> Para conocer cómo se utiliza el sitio y mejorar su contenido y usabilidad</li>
             </ul>
           </section>
 
@@ -49,6 +50,8 @@ function Privacidad () {
               <li><strong>Datos de contacto:</strong> Dirección de correo electrónico y número de teléfono</li>
               <li><strong>Datos de la reserva:</strong> Fecha, hora y tipo de servicio solicitado</li>
               <li><strong>Datos de comunicación:</strong> Mensajes y consultas que nos envíe</li>
+              <li><strong>Datos de navegación:</strong> Páginas visitadas, página de procedencia, tipo de dispositivo, navegador, sistema operativo, idioma, resolución de pantalla y país aproximado</li>
+              <li><strong>Datos de interacción:</strong> Clics, desplazamiento y movimientos del cursor dentro de las páginas públicas (ver apartado 7)</li>
             </ul>
           </section>
 
@@ -57,7 +60,7 @@ function Privacidad () {
             <div className="info-box">
               <p><strong>Consentimiento:</strong> Para el envío de newsletter y comunicaciones de marketing</p>
               <p><strong>Ejecución de contrato:</strong> Para la gestión de reservas y prestación de servicios</p>
-              <p><strong>Interés legítimo:</strong> Para responder a consultas y mejorar nuestros servicios</p>
+              <p><strong>Interés legítimo:</strong> Para responder a consultas, mejorar nuestros servicios y medir el uso del sitio web (art. 6.1.f RGPD)</p>
             </div>
           </section>
 
@@ -69,6 +72,7 @@ function Privacidad () {
               <li><strong>Newsletter:</strong> Hasta que se desuscriba</li>
               <li><strong>Reservas:</strong> Durante 5 años desde la última actividad</li>
               <li><strong>Consultas:</strong> Durante 2 años desde la respuesta</li>
+              <li><strong>Datos de navegación y grabaciones de sesión:</strong> Durante 12 meses</li>
             </ul>
           </section>
 
@@ -79,11 +83,35 @@ function Privacidad () {
               <li><strong>Nodemailer + Gmail:</strong> Para el envío de correos electrónicos</li>
               <li><strong>Herramientas propias:</strong> Para la gestión de la web y los servicios</li>
             </ul>
-            <p>No utilizamos Google Analytics ni otras herramientas de terceros para el análisis.</p>
+            <p>No utilizamos Google Analytics ni ninguna plataforma publicitaria o de analítica de terceros. Las estadísticas de uso se generan con <strong>Umami</strong>, una herramienta de software libre alojada en un servidor propio del responsable, de modo que los datos de navegación no salen de nuestra infraestructura ni se ceden a nadie.</p>
           </section>
 
           <section className="legal-section">
-            <h2>7. Sus Derechos</h2>
+            <h2>7. Analítica Web y Grabación de Sesiones</h2>
+            <p>Para entender cómo se usa la web y poder mejorarla, utilizamos <strong>Umami</strong>, una herramienta de analítica de software libre <strong>alojada en un servidor propio</strong> (analiticas.alexalvarez.dev). No interviene ningún proveedor externo de publicidad ni de perfilado.</p>
+
+            <div className="info-box">
+              <p><strong>Sin cookies:</strong> la analítica no instala cookies ni almacena identificadores permanentes en su dispositivo</p>
+              <p><strong>Sin IP almacenada:</strong> su dirección IP se usa únicamente, en el momento de la visita, para deducir el país y generar un identificador de sesión anónimo; no se conserva</p>
+              <p><strong>Sin perfiles individuales:</strong> no cruzamos estos datos con su nombre, email ni con ninguna cuenta de usuario</p>
+            </div>
+
+            <h3>7.1 Qué medimos</h3>
+            <ul>
+              <li>Páginas visitadas, momento de la visita y página de procedencia</li>
+              <li>Datos técnicos del dispositivo: navegador, sistema operativo, idioma, resolución y país aproximado</li>
+              <li><strong>Grabación de sesión y mapas de calor:</strong> registramos los clics, el desplazamiento y los movimientos del cursor para reproducir de forma anónima el recorrido por la web y detectar problemas de usabilidad</li>
+            </ul>
+
+            <h3>7.2 Dónde se aplica</h3>
+            <p>La analítica y la grabación de sesiones funcionan <strong>únicamente en las páginas públicas</strong> del sitio. Las áreas que requieren iniciar sesión —perfil de usuario, panel de creación de contenido, escáner de entradas y administración— están <strong>excluidas</strong>: en ellas no se registra ninguna página vista.</p>
+
+            <h3>7.3 Conservación y oposición</h3>
+            <p>Las estadísticas agregadas y las grabaciones de sesión se conservan un máximo de <strong>12 meses</strong>, tras los cuales se eliminan. Puede oponerse a esta medición en cualquier momento escribiendo a <strong>justsomeotherpeople@gmail.com</strong>, o activando la opción <em>«No rastrear» (Do Not Track)</em> o un bloqueador de scripts en su navegador.</p>
+          </section>
+
+          <section className="legal-section">
+            <h2>8. Sus Derechos</h2>
             <p>De conformidad con el RGPD, usted tiene los siguientes derechos:</p>
             <div className="rights-grid">
               <div className="right-item">
@@ -114,7 +142,7 @@ function Privacidad () {
           </section>
 
           <section className="legal-section">
-            <h2>8. Ejercicio de Derechos</h2>
+            <h2>9. Ejercicio de Derechos</h2>
             <div className="contact-box">
               <p>Para ejercer cualquiera de estos derechos, puede contactarnos:</p>
               <ul>
@@ -127,7 +155,7 @@ function Privacidad () {
           </section>
 
           <section className="legal-section">
-            <h2>9. Autoridad de Control</h2>
+            <h2>10. Autoridad de Control</h2>
             <p>Si considera que el tratamiento de sus datos no se ajusta a la normativa, puede presentar una reclamación ante la <strong>Agencia Española de Protección de Datos (AEPD)</strong>:</p>
             <div className="info-box">
               <p><strong>Web:</strong> www.aepd.es</p>
@@ -137,12 +165,12 @@ function Privacidad () {
           </section>
 
           <section className="legal-section">
-            <h2>10. Modificaciones</h2>
+            <h2>11. Modificaciones</h2>
             <p>Esta Política de Privacidad puede ser actualizada periódicamente. Le notificaremos cualquier cambio significativo a través de nuestro sitio web o por correo electrónico.</p>
           </section>
 
           <section className="legal-section">
-            <h2>11. Contacto</h2>
+            <h2>12. Contacto</h2>
             <div className="contact-box">
               <p>Si tiene alguna pregunta sobre esta Política de Privacidad, puede contactarnos:</p>
               <ul>
