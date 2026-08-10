@@ -13,7 +13,7 @@ const ARTISTS_ENDPOINT = `${API_URL}/artists`
 function Artistas () {
   usePageMeta({
     title: 'Artistas urbanos en Barcelona',
-    description: 'Roster de Other People Records: cantantes, raperos y productores de trap, rap y drill en Barcelona. Escucha su música y contrata su booking.'
+    description: 'Roster de Other People Records: cantantes, raperos y productores en Barcelona. Escucha su música y contrata su booking.'
   })
 
   const fetchArtists = useCallback(async (options) => {
@@ -61,7 +61,7 @@ function Artistas () {
   return (
     <div className="listing-page">
       <div className="listing-content">
-        <h1>Artistas urbanos en Barcelona</h1>
+        <h1>Artistas</h1>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={artists} type={'artist'} loading={loading} />
 

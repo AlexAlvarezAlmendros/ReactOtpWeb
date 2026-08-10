@@ -67,7 +67,7 @@ function Eventos () {
   return (
     <div className="listing-page">
       <div className="listing-content">
-        <h1>Conciertos y eventos de música urbana</h1>
+        <h1>Conciertos y eventos</h1>
         {error && <p className="error-message">Error: {error}</p>}
         <Cards cards={events} type={'event'} loading={loading} />
 
