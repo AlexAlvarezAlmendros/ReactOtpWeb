@@ -13,7 +13,7 @@ const RELEASES_ENDPOINT = `${API_URL}/releases`
 function Discografia () {
   usePageMeta({
     title: 'Discografía del sello — Lanzamientos de música urbana',
-    description: 'Todos los álbumes, EPs y singles publicados por Other People Records, sello discográfico independiente de Barcelona. Escúchalos en Spotify, Apple Music y YouTube.'
+    description: 'Todos los álbumes, EPs y singles publicados por los artistas deOther People Records, sello discográfico independiente de Barcelona. Escúchalos en Spotify, Apple Music y YouTube.'
   })
 
   const fetchReleases = useCallback(async (options) => {
