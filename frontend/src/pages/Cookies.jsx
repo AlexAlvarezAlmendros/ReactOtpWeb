@@ -16,7 +16,7 @@ function Cookies () {
       <div className="legal-container">
         <header className="legal-header">
           <h1>Política de Cookies</h1>
-          <p className="legal-date">Última actualización: 29 de julio de 2025</p>
+          <p className="legal-date">Última actualización: 10 de agosto de 2026</p>
         </header>
 
         <div className="legal-content">
@@ -68,7 +68,7 @@ function Cookies () {
               <div className="no-cookie-grid">
                 <div className="no-cookie-item">
                   <h4>Análisis/Estadísticas</h4>
-                  <p>No utilizamos Google Analytics ni otras herramientas de análisis</p>
+                  <p>No utilizamos Google Analytics. Medimos las visitas con Umami, que funciona <strong>sin cookies</strong> (ver apartado 6)</p>
                 </div>
                 <div className="no-cookie-item">
                   <h4>Redes Sociales</h4>
@@ -80,7 +80,7 @@ function Cookies () {
                 </div>
                 <div className="no-cookie-item">
                   <h4>Terceros</h4>
-                  <p>No compartimos datos con terceros (excepto Auth0)</p>
+                  <p>No compartimos datos con terceros (excepto Auth0). La analítica se aloja en un servidor propio</p>
                 </div>
               </div>
             </div>
@@ -136,7 +136,35 @@ function Cookies () {
           </section>
 
           <section className="legal-section">
-            <h2>6. Cookies de Terceros</h2>
+            <h2>6. Analítica sin Cookies y Grabación de Sesiones</h2>
+            <p>Medimos el uso de la web con <strong>Umami</strong>, una herramienta de software libre <strong>alojada en un servidor propio</strong>. A diferencia de las soluciones habituales, <strong>no instala ninguna cookie</strong> ni almacena identificadores permanentes en su dispositivo, por lo que no necesita su consentimiento previo conforme a la guía de la AEPD.</p>
+
+            <div className="cookie-type">
+              <h3>📊 Qué recogemos</h3>
+              <div className="cookie-item">
+                <h4>Estadísticas de visita</h4>
+                <p><strong>Finalidad:</strong> Saber qué páginas se visitan y desde dónde llegan los visitantes</p>
+                <p><strong>Datos:</strong> Página visitada, página de procedencia, navegador, sistema operativo, idioma, resolución y país aproximado</p>
+                <p><strong>Almacenamiento en su dispositivo:</strong> Ninguno</p>
+              </div>
+
+              <div className="cookie-item">
+                <h4>Mapas de calor y grabación de sesión</h4>
+                <p><strong>Finalidad:</strong> Detectar problemas de usabilidad viendo de forma anónima cómo se recorre la web</p>
+                <p><strong>Datos:</strong> Clics, desplazamiento y movimientos del cursor</p>
+                <p><strong>Alcance:</strong> Solo en páginas públicas. Las zonas con sesión iniciada (perfil, panel de gestión, escáner de entradas y administración) quedan excluidas</p>
+              </div>
+            </div>
+
+            <div className="warning-box">
+              <p><strong>Cómo desactivarlo:</strong> respetamos la señal <em>«No rastrear» (Do Not Track)</em> de su navegador: si la tiene activada, no se carga ningún script de analítica. También puede usar un bloqueador de scripts o escribirnos a justsomeotherpeople@gmail.com para oponerse a esta medición.</p>
+            </div>
+
+            <p>Puede consultar el detalle completo de este tratamiento en nuestra <a href="/privacidad">Política de Privacidad</a>.</p>
+          </section>
+
+          <section className="legal-section">
+            <h2>7. Cookies de Terceros</h2>
             
             <h3>Auth0</h3>
             <div className="third-party-info">
@@ -148,13 +176,13 @@ function Cookies () {
           </section>
 
           <section className="legal-section">
-            <h2>7. Actualización de la Política</h2>
+            <h2>8. Actualización de la Política</h2>
             <p>Esta Política de Cookies puede ser actualizada periódicamente para reflejar cambios en nuestras prácticas o por motivos operativos, legales o regulatorios.</p>
             <p>Le recomendamos revisar esta página periódicamente para estar informado sobre cómo utilizamos las cookies.</p>
           </section>
 
           <section className="legal-section">
-            <h2>8. Más Información</h2>
+            <h2>9. Más Información</h2>
             <div className="info-links">
               <p>Para obtener más información sobre las cookies, puede consultar:</p>
               <ul>
@@ -166,7 +194,7 @@ function Cookies () {
           </section>
 
           <section className="legal-section">
-            <h2>9. Contacto</h2>
+            <h2>10. Contacto</h2>
             <div className="contact-box">
               <p>Si tiene alguna pregunta sobre nuestra Política de Cookies:</p>
               <ul>
