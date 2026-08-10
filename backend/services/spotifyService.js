@@ -135,6 +135,78 @@ class SpotifyService {
     }
   }
 
+  /**
+   * Devuelve la discografía completa de un artista paginando /artists/{id}/albums.
+   *
+   * @param {string} artistId - ID de artista en Spotify
+   * @param {object} [options]
+   * @param {string} [options.includeGroups='album,single,compilation'] - Grupos de Spotify a incluir
+   * @param {string} [options.market='ES'] - Mercado para filtrar disponibilidad
+   * @param {number} [options.maxAlbums=300] - Tope de seguridad para artistas con catálogos enormes
+   * @returns {Promise<Array<object>>} Álbumes normalizados, sin duplicados por id
+   */
+  async getArtistAlbums(artistId, options = {}) {
+    const {
+      includeGroups = 'album,single,compilation',
+      market = 'ES',
+      maxAlbums = 300
+    } = options;
+
+    const cacheKey = `artist_albums_${artistId}_${includeGroups}_${market}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached) return cached;
+
+    try {
+      const token = await this.getAccessToken();
+      const pageSize = 50;
+      const albums = [];
+      const seenIds = new Set();
+      let offset = 0;
+      let hasNextPage = true;
+
+      while (hasNextPage && albums.length < maxAlbums) {
+        const response = await axios.get(`${this.apiBaseUrl}/artists/${artistId}/albums`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+          params: {
+            include_groups: includeGroups,
+            market,
+            limit: pageSize,
+            offset
+          }
+        });
+
+        const page = response.data || {};
+
+        for (const album of page.items || []) {
+          // Spotify puede devolver el mismo álbum en varios grupos (p.ej. album y compilation)
+          if (!album?.id || seenIds.has(album.id)) continue;
+          seenIds.add(album.id);
+
+          albums.push({
+            id: album.id,
+            name: album.name || '',
+            artists: album.artists?.map(a => ({ id: a.id, name: a.name })) || [],
+            releaseDate: album.release_date || '',
+            releaseDatePrecision: album.release_date_precision || '',
+            totalTracks: album.total_tracks || 0,
+            images: album.images || [],
+            spotifyUrl: album.external_urls?.spotify || '',
+            albumType: album.album_type || 'album',
+            albumGroup: album.album_group || album.album_type || 'album'
+          });
+        }
+
+        hasNextPage = Boolean(page.next);
+        offset += pageSize;
+      }
+
+      this.cache.set(cacheKey, albums);
+      return albums;
+    } catch (error) {
+      this._handleApiError(error, 'artist albums');
+    }
+  }
+
   async getReleaseData(albumId) {
     const cacheKey = `album_${albumId}`;
     const cached = this.cache.get(cacheKey);
@@ -207,6 +279,14 @@ class SpotifyService {
     }
     if (status === 404) {
       throw new Error(`${context} not found on Spotify`);
+    }
+    if (status === 429) {
+      // Spotify indica en Retry-After cuántos segundos hay que esperar
+      const retryAfter = parseInt(error.response?.headers?.['retry-after'], 10) || 30;
+      const rateLimitError = new Error(`Spotify rate limit reached — retry after ${retryAfter}s`);
+      rateLimitError.name = 'SpotifyRateLimitError';
+      rateLimitError.retryAfter = retryAfter;
+      throw rateLimitError;
     }
     console.error(`Error getting ${context}:`, error.message);
     throw new Error(`Failed to get ${context} from Spotify`);

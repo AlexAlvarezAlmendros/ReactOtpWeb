@@ -8,6 +8,7 @@
     "dev": "nodemon index.js",
     "migrate:tickets": "node migrations/add-tickets-to-events.js",
     "migrate:licenses": "node migrations/init-license-templates.js",
+    "sync:discography": "node migrations/backfill-spotify-discography.js",
     "test:license": "node tests/test-license-generation.js"
   },
   "keywords": [],

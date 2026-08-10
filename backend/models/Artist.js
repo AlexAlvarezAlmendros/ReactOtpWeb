@@ -29,7 +29,12 @@ const artistSchema = new Schema({
 		label: { type: String, required: true },
 		url: { type: String, required: true },
 		icon: { type: String, default: '' }
-	}]
+	}],
+	// Sincronización de discografía desde Spotify
+	spotifyArtistId: { type: String, default: null },
+	spotifySyncEnabled: { type: Boolean, default: true },
+	spotifySyncedAt: { type: Date, default: null },
+	spotifySyncError: { type: String, default: null }
 }, {
 	timestamps: true // Esto añade createdAt y updatedAt automáticamente
 });
