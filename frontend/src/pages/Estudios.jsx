@@ -53,7 +53,7 @@ const ESTUDIO_JSONLD = {
 function Estudios () {
   usePageMeta({
     title: 'Estudio de grabación en Barcelona — Mezcla y mastering',
-    description: 'Estudio de grabación profesional en Igualada (Barcelona): grabación de voces, mezcla, mastering, producción de beats y sesiones de composición. Reserva tu sesión.'
+    description: 'Estudio de grabación profesional en Sant Joan de Mediona: grabación de voces, mezcla, mastering, producción de beats y sesiones de composición. Reserva tu sesión.'
   })
 
   useJsonLd(ESTUDIO_JSONLD)
@@ -180,12 +180,13 @@ function Estudios () {
       <div className="estudios-container">
         {/* Encabezado de sección */}
         <header className="estudios-header">
-          <h1 className="estudios-title">ESTUDIO DE GRABACIÓN<br />EN BARCELONA</h1>
+          <h1 className="estudios-title">ESTUDIO DE GRABACIÓN</h1>
           <div className="estudios-underline"></div>
           <p className="estudios-intro">
-            Grabamos, mezclamos y masterizamos en nuestro estudio de Igualada, a 45 minutos
-            de Barcelona. Trabajamos sobre todo música urbana —trap, rap y drill— pero
-            entra cualquier proyecto que necesite un sonido serio. Si además buscas{' '}
+            Grabamos, mezclamos y masterizamos en nuestro estudio de Sant Joan de Mediona, a 1 hora
+            de Barcelona en la Masia {' '}
+            <Link to="https://www.google.com/maps/place/Masia+Agullons/@41.4786912,1.5878298,827m/data=!3m2!1e3!4b1!4m6!3m5!1s0x12a46c2fa4d3840d:0x2f99fa16b0f0a188!8m2!3d41.4786872!4d1.5904047!16s%2Fg%2F11ckqr7mm9?entry=ttu&g_ep=EgoyMDI2MDgwNS4xIKXMDSoASAFQAw%3D%3D">Ales Agullons</Link>{' '}situada en un entorno natural 
+            que ayuda a crear un ambiente propicio para la creatividad. Si además buscas{' '}
             <Link to="/discografica-barcelona">sello</Link> o{' '}
             <Link to="/booking-artistas">booking</Link>, lo hablamos en la misma sesión.
           </p>
