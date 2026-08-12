@@ -186,9 +186,7 @@ function Estudios () {
             Grabamos, mezclamos y masterizamos en nuestro estudio de Sant Joan de Mediona, a 1 hora
             de Barcelona en la Masia {' '}
             <Link to="https://www.google.com/maps/place/Masia+Agullons/@41.4786912,1.5878298,827m/data=!3m2!1e3!4b1!4m6!3m5!1s0x12a46c2fa4d3840d:0x2f99fa16b0f0a188!8m2!3d41.4786872!4d1.5904047!16s%2Fg%2F11ckqr7mm9?entry=ttu&g_ep=EgoyMDI2MDgwNS4xIKXMDSoASAFQAw%3D%3D">Ales Agullons</Link>{' '}situada en un entorno natural 
-            que ayuda a crear un ambiente propicio para la creatividad. Si además buscas{' '}
-            <Link to="/discografica-barcelona">sello</Link> o{' '}
-            <Link to="/booking-artistas">booking</Link>, lo hablamos en la misma sesión.
+            que ayuda a crear un ambiente propicio para la creatividad.
           </p>
         </header>
 
