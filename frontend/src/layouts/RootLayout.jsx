@@ -9,6 +9,7 @@ import { MobileNavProvider } from '../contexts/MobileNavContext'
 import { ToastProvider } from '../contexts/ToastContext'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import SessionGuard from '../components/SessionGuard/SessionGuard'
+import ScrollToTop from '../components/ScrollToTop/ScrollToTop'
 
 /**
  * Componente de plantilla que define la estructura principal de la página
@@ -21,6 +22,7 @@ function RootLayout () {
       <ToastProvider>
         <AudioPlayerProvider>
           <MobileNavProvider>
+            <ScrollToTop />
             <SessionGuard />
             <ToastContainer />
             <SilkBackground />
