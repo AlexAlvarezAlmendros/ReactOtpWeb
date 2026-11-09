@@ -14,12 +14,31 @@ const ARTIST = {
   artistType: 'Producer',
   img: 'https://img.test/lilbru.jpg',
   spotifyLink: 'https://open.spotify.com/artist/x',
-  bio: 'LilBru es productor de trap de Igualada.\n\nHa producido para todo el roster del sello.'
+  bio: 'LilBru es productor de trap de Igualada.\n\nHa producido para todo el roster del sello.',
+  city: 'Igualada',
+  activeSince: 2021,
+  pressQuotes: [{ quote: 'Un productor a seguir', source: 'Revista X', url: 'https://revista.test/lilbru' }],
+  videos: [{ title: 'Videoclip', url: 'https://www.youtube.com/watch?v=abcdefghijk' }]
 }
 
-const RELEASES = [
-  { _id: 'r1', title: 'Sexología', subtitle: 'LilBru, pinkdolly', releaseType: 'Song', date: '2026-08-25T00:00:00.000Z', spotifyLink: 'https://open.spotify.com/album/r1' }
-]
+const ARTIST_SLUGGED = { ...ARTIST, _id: '687cfc1601b314edbe1f15ba', slug: 'lilbru' }
+
+const RELEASE = {
+  _id: 'r1',
+  slug: 'sexologia-lilbru',
+  title: 'Sexología',
+  subtitle: 'LilBru, pinkdolly',
+  releaseType: 'Song',
+  date: '2026-08-25T00:00:00.000Z',
+  img: 'https://img.test/r1.jpg',
+  spotifyLink: 'https://open.spotify.com/track/r1',
+  artistIds: ['a1'],
+  description: 'Single de verano grabado en la masía.',
+  credits: [{ role: 'Mezcla', name: 'LilBru', inHouse: true }, { role: 'Portada', name: 'Alguien', inHouse: false }]
+}
+
+const RELEASES = [RELEASE]
+
 
 const BEAT_PLAIN = {
   _id: 'b1',
@@ -53,6 +72,8 @@ function routes (url) {
   const u = new URL(url)
   const path = u.pathname.replace('/api', '')
   if (path === '/artists/a1') return { status: 200, body: ARTIST }
+  if (path === '/artists/687cfc1601b314edbe1f15ba') return { status: 200, body: ARTIST_SLUGGED }
+  if (path === '/releases/r1') return { status: 200, body: RELEASE }
   if (path.startsWith('/releases/artist/')) return { status: 200, body: { data: RELEASES } }
   if (path === '/beats') return { status: 200, body: { data: [BEAT_PLAIN, BEAT_DESCRIBED, BEAT_INACTIVE], pagination: { pages: 1 } } }
   if (path === '/beats/b1') return { status: 200, body: BEAT_PLAIN }
@@ -62,6 +83,7 @@ function routes (url) {
   if (path === '/events/e1') return { status: 200, body: EVENT }
   if (path === '/events') return { status: 200, body: { data: [EVENT], pagination: { pages: 1 } } }
   if (path === '/artists') return { status: 200, body: { data: [ARTIST], pagination: { pages: 1 } } }
+  if (path === '/releases') return { status: 200, body: { data: [RELEASE], pagination: { pages: 1 } } }
   return { status: 404, body: { error: 'not found' } }
 }
 
@@ -162,11 +184,32 @@ describe('api/og.js (modo index)', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body).toContain('<p>LilBru es productor de trap de Igualada.</p>')
     expect(res.body).toContain('<h2>Lanzamientos de LilBru</h2>')
-    expect(res.body).toContain('Sexología')
+    expect(res.body).toContain('href="https://www.otherpeople.es/discografia/sexologia-lilbru"')
+    expect(res.body).toContain('<h2>Prensa</h2>')
+    expect(res.body).toContain('Revista X')
+    expect(res.body).toContain('<h2>Vídeos de LilBru</h2>')
+    expect(res.body).toContain('"foundingLocation":{"@type":"Place","name":"Igualada"}')
     expect(res.body).toContain('<h2>Beats producidos por LilBru</h2>')
     // El beat desactivado no se enlaza.
     expect(res.body).not.toContain('/beats/b3')
     expect(res.body).toContain('<title>LilBru — trap | Other People Records</title>')
+  })
+
+  test('URL con ObjectId y ficha con slug: 301 al slug', async () => {
+    const res = await render('artists', '687cfc1601b314edbe1f15ba')
+    expect(res.statusCode).toBe(301)
+    expect(res.headers.location).toBe('https://www.otherpeople.es/artistas/lilbru')
+  })
+
+  test('lanzamiento: créditos enlazados al servicio del estudio', async () => {
+    const res = await render('releases', 'r1')
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toContain('<link rel="canonical" href="https://www.otherpeople.es/discografia/sexologia-lilbru" />')
+    expect(res.body).toContain('<title>Sexología — LilBru, pinkdolly (Single, 2026) | Other People Records</title>')
+    expect(res.body).toContain('Mezcla: LilBru — <a href="https://www.otherpeople.es/estudio/mezcla-y-mastering">')
+    expect(res.body).toContain('Portada: Alguien</li>')
+    expect(res.body).toContain('href="https://www.otherpeople.es/artistas/a1"')
+    expect(res.body).toContain('"@type":"MusicRecording"')
   })
 
   test('la API dice 404: 404', async () => {
@@ -196,15 +239,43 @@ describe('api/og.js (modo social)', () => {
 })
 
 describe('api/sitemap.js', () => {
-  test('solo URLs indexables y sin priority/changefreq', async () => {
+  async function sitemapOf (type) {
     const res = mockRes()
-    await sitemap({}, res)
+    await sitemap({ query: type ? { type } : {} }, res)
+    return res
+  }
+
+  test('índice con un sitemap por tipo', async () => {
+    const res = await sitemapOf()
     expect(res.statusCode).toBe(200)
+    expect(res.body).toContain('<sitemapindex')
+    expect(res.body).toContain('<loc>https://www.otherpeople.es/sitemap-beats.xml</loc>')
+    expect(res.body).toContain('<loc>https://www.otherpeople.es/sitemap-lanzamientos.xml</loc>')
+  })
+
+  test('beats: solo los indexables', async () => {
+    const res = await sitemapOf('beats')
     expect(res.body).toContain('<loc>https://www.otherpeople.es/beats/b2</loc>')
     expect(res.body).not.toContain('/beats/b1<')
     expect(res.body).not.toContain('/beats/b3<')
-    expect(res.body).toContain('<loc>https://www.otherpeople.es/artistas/a1</loc>')
-    expect(res.body).toContain('<loc>https://www.otherpeople.es/eventos/e1</loc>')
     expect(res.body).not.toMatch(/<priority>|<changefreq>/)
+  })
+
+  test('artistas y lanzamientos con imagen y slug', async () => {
+    const artistas = await sitemapOf('artistas')
+    expect(artistas.body).toContain('<loc>https://www.otherpeople.es/artistas/a1</loc>')
+    expect(artistas.body).toContain('<image:loc>https://img.test/lilbru.jpg</image:loc>')
+    const lanzamientos = await sitemapOf('lanzamientos')
+    expect(lanzamientos.body).toContain('<loc>https://www.otherpeople.es/discografia/sexologia-lilbru</loc>')
+  })
+
+  test('páginas: categorías solo con 8 beats o más', async () => {
+    const res = await sitemapOf('paginas')
+    expect(res.body).toContain('<loc>https://www.otherpeople.es/estudio/mezcla-y-mastering</loc>')
+    expect(res.body).not.toContain('/beats/reggaeton<')
+  })
+
+  test('tipo desconocido: 404', async () => {
+    expect((await sitemapOf('nada')).statusCode).toBe(404)
   })
 })

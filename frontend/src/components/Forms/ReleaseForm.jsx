@@ -6,6 +6,8 @@ import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
 import './Forms.css'
 
+const CREDIT_ROLES = ['Producción', 'Composición', 'Grabación', 'Mezcla', 'Mastering', 'Beat', 'Videoclip', 'Portada']
+
 export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎵 ReleaseForm - initialData:', initialData)
   console.log('🎵 ReleaseForm - isEditMode:', isEditMode)
@@ -23,11 +25,15 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
     youtubeLink: initialData?.youtubeLink || '',
     appleMusicLink: initialData?.appleMusicLink || initialData?.appleLink || '',
     instagramLink: initialData?.instagramLink || '',
-    soundcloudLink: initialData?.soundcloudLink || '',
+    soundcloudLink: initialData?.soundcloudLink || initialData?.soundCloudLink || '',
     beatStarsLink: initialData?.beatStarsLink || '',
     twitterLink: initialData?.twitterLink || '',
-    video: initialData?.video || '',
-    ubicacion: initialData?.ubicacion || ''
+    // El enlace de YouTube se guarda como youtubeLink: sin leerlo aquí,
+    // editar un lanzamiento lo vaciaba.
+    video: initialData?.video || initialData?.youtubeLink || '',
+    ubicacion: initialData?.ubicacion || '',
+    description: initialData?.description || '',
+    credits: Array.isArray(initialData?.credits) ? initialData.credits : []
   })
   
   console.log('🎵 ReleaseForm - formData inicial:', formData)
@@ -97,6 +103,19 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
     }))
   }, [])
 
+  const updateCredit = (index, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      credits: prev.credits.map((c, i) => (i === index ? { ...c, [field]: value } : c))
+    }))
+  }
+  const addCredit = () => {
+    setFormData(prev => ({ ...prev, credits: [...prev.credits, { role: 'Producción', name: '', inHouse: false }] }))
+  }
+  const removeCredit = (index) => {
+    setFormData(prev => ({ ...prev, credits: prev.credits.filter((_, i) => i !== index) }))
+  }
+
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault()
 
@@ -160,6 +179,10 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
         img: formData.img || '',
         releaseType: formData.type,
         date: formData.date || new Date().toISOString(),
+        description: formData.description.trim(),
+        credits: formData.credits
+          .map(c => ({ ...c, name: (c.name || '').trim() }))
+          .filter(c => c.role && c.name),
         userId: user?.sub || null
       }
 
@@ -185,7 +208,9 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
           beatStarsLink: '',
           twitterLink: '',
           video: '',
-          ubicacion: ''
+          ubicacion: '',
+          description: '',
+          credits: []
         })
         setImageFile(null)
         
@@ -272,6 +297,57 @@ export default function ReleaseForm ({ onSuccess, initialData = null, isEditMode
                 <option value="Videoclip">Videoclip</option>
                 </select>
             </div>
+          </div>
+        </fieldset>
+
+        {/* --- Ficha pública /discografia/:slug --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Ficha del lanzamiento</legend>
+          <div className="form-group">
+            <label htmlFor="release-description">Descripción</label>
+            <textarea
+              id="release-description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              rows={5}
+              maxLength={3000}
+              placeholder="De qué va el tema o el proyecto, cómo se hizo, con quién, dónde se grabó…"
+            />
+            <small>Texto propio para la página del lanzamiento. Entre 60 y 200 palabras.</small>
+          </div>
+
+          <div className="form-group">
+            <label>Créditos</label>
+            {formData.credits.map((credit, i) => (
+              <div key={i} className="release-credit-row">
+                <select
+                  aria-label="Rol"
+                  value={credit.role}
+                  onChange={e => updateCredit(i, 'role', e.target.value)}
+                >
+                  {CREDIT_ROLES.map(role => <option key={role} value={role}>{role}</option>)}
+                </select>
+                <input
+                  type="text"
+                  aria-label="Nombre"
+                  placeholder="Nombre"
+                  value={credit.name}
+                  onChange={e => updateCredit(i, 'name', e.target.value)}
+                />
+                <label className="release-credit-row__inhouse">
+                  <input
+                    type="checkbox"
+                    checked={!!credit.inHouse}
+                    onChange={e => updateCredit(i, 'inHouse', e.target.checked)}
+                  />
+                  En nuestro estudio
+                </label>
+                <button type="button" onClick={() => removeCredit(i)} aria-label="Quitar crédito">✕</button>
+              </div>
+            ))}
+            <button type="button" className="release-credit-add" onClick={addCredit}>+ Añadir crédito</button>
+            <small>«En nuestro estudio» enlaza el crédito con la página del servicio (producción, mezcla, mastering…).</small>
           </div>
         </fieldset>
 

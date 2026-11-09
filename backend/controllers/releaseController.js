@@ -1,3 +1,4 @@
+const { findByIdOrSlug, ensureSlug } = require('../utils/slug');
 const Release = require('../models/Release');
 const mongoose = require('mongoose');
 const connectDB = require('../utils/dbConnection');
@@ -86,14 +87,13 @@ const getReleases = async (req, res) => {
 // GET a single release
 const getRelease = async (req, res) => {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'ID de release no válido' });
-    }
     try {
-        const release = await Release.findById(id);
+        // Acepta el ObjectId (URLs antiguas) o el slug (URLs nuevas).
+        const release = await findByIdOrSlug(Release, id);
         if (!release) {
             return res.status(404).json({ error: 'Release no encontrado' });
         }
+        await ensureSlug(Release, release);
         res.status(200).json(release);
     } catch (error) {
         res.status(500).json({ error: error.message });

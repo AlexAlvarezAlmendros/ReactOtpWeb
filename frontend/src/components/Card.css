@@ -188,3 +188,13 @@
     z-index: 1;
     pointer-events: none;
 }
+/* Título enlazado a la ficha (lanzamientos): hereda el aspecto del h2. */
+.card h2 .card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card h2 .card-title-link:hover,
+.card h2 .card-title-link:focus-visible {
+  text-decoration: underline;
+}

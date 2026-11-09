@@ -36,6 +36,7 @@ export function useArtistsWithBeats () {
       const raw = result.data || result
       const mapped = raw.map((artist) => ({
         id: artist._id,
+        slug: artist.slug || null,
         title: artist.name,
         img: artist.img
       }))

@@ -651,3 +651,52 @@
     min-width: 0;
   }
 }
+
+.artista-hero__facts {
+  margin: 0.6rem 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.artista-detail__quotes {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.artista-detail__quote {
+  margin: 0;
+  padding: 1.25rem;
+  border-left: 3px solid #ff003c;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0 12px 12px 0;
+}
+
+.artista-detail__quote p {
+  margin: 0 0 0.75rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+.artista-detail__quote cite {
+  font-style: normal;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.artista-detail__quote cite a {
+  color: inherit;
+}
+
+.artista-detail__videos {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.artista-detail__video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 12px;
+}

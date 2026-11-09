@@ -11,6 +11,9 @@ import BeatCard from '../components/BeatCard/BeatCard'
 import LazyImage from '../components/LazyImage/LazyImage'
 import { excerpt } from '../utils/seoText'
 import './ArtistaDetalle.css'
+import { artistPath, youtubeId } from '../utils/paths'
+import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs'
+import { useCanonicalSlug } from '../hooks/useCanonicalSlug'
 
 function ArtistaDetalle () {
   const { id } = useParams()
@@ -18,8 +21,12 @@ function ArtistaDetalle () {
   const { releases, loading: releasesLoading } = useArtistReleases(artist?.title, 3)
   const { beats, loading: beatsLoading } = useArtistBeats(artist?.title, 6)
 
-  const artistFacts = [artist?.artistType, artist?.genre, artist?.location]
+  const artistFacts = [artist?.artistType, artist?.genre, artist?.city || artist?.location]
     .filter(Boolean).join(' · ')
+  const videos = (artist?.videos || [])
+    .map(video => ({ ...video, youtube: youtubeId(video.url) }))
+    .filter(video => video.youtube)
+  const pressQuotes = artist?.pressQuotes || []
 
   const bioParagraphs = (artist?.bio || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean)
 
@@ -34,8 +41,12 @@ function ArtistaDetalle () {
           : `${artist.title}${artistFacts ? ` — ${artistFacts}` : ''}. Artista de Other People Records, sello independiente de trap y música urbana. Escucha su música y contrata su booking.`)
       : undefined,
     image: artist?.img,
+    url: artist ? artistPath(artist) : undefined,
     type: 'profile'
   })
+
+  // /artistas/<ObjectId> → /artistas/<slug>
+  useCanonicalSlug(id, artist, artistPath)
 
   useJsonLd(artist
     ? {
@@ -44,10 +55,21 @@ function ArtistaDetalle () {
           {
             '@type': 'MusicGroup',
             name: artist.title,
-            url: `https://www.otherpeople.es/artistas/${id}`,
+            url: `https://www.otherpeople.es${artistPath(artist)}`,
             image: artist.img || undefined,
             genre: artist.genre || undefined,
             description: artist.bio ? excerpt(artist.bio, 300) : undefined,
+            foundingLocation: artist.city ? { '@type': 'Place', name: artist.city } : undefined,
+            foundingDate: artist.activeSince ? String(artist.activeSince) : undefined,
+            subjectOf: videos.length
+              ? videos.map(video => ({
+                  '@type': 'VideoObject',
+                  name: video.title,
+                  embedUrl: `https://www.youtube.com/embed/${video.youtube}`,
+                  thumbnailUrl: `https://i.ytimg.com/vi/${video.youtube}/hqdefault.jpg`,
+                  url: video.url
+                }))
+              : undefined,
             recordLabel: { '@id': 'https://www.otherpeople.es/#organization' },
             sameAs: [
               artist.spotifyLink,
@@ -63,7 +85,7 @@ function ArtistaDetalle () {
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
               { '@type': 'ListItem', position: 2, name: 'Artistas', item: 'https://www.otherpeople.es/artistas' },
-              { '@type': 'ListItem', position: 3, name: artist.title, item: `https://www.otherpeople.es/artistas/${id}` }
+              { '@type': 'ListItem', position: 3, name: artist.title, item: `https://www.otherpeople.es${artistPath(artist)}` }
             ]
           }
         ]
@@ -124,10 +146,11 @@ function ArtistaDetalle () {
           <div className="artista-hero__overlay" />
         </div>
         <div className="artista-hero__content">
-          <Link to="/artistas" className="artista-detail__back-link">
-            <FontAwesomeIcon icon={['fas', 'arrow-left']} />
-            Artistas
-          </Link>
+          <Breadcrumbs items={[
+            { label: 'Inicio', to: '/' },
+            { label: 'Artistas', to: '/artistas' },
+            { label: artist.title }
+          ]} />
           <div className="artista-hero__profile">
             <div className="artista-hero__avatar-wrapper">
               <LazyImage
@@ -141,6 +164,11 @@ function ArtistaDetalle () {
               <div className="artista-hero__accent" />
               {artist.artistType && (
                 <span className="artista-hero__badge">{artist.artistType}</span>
+              )}
+              {(artist.city || artist.activeSince) && (
+                <p className="artista-hero__facts">
+                  {[artist.city, artist.activeSince && `En activo desde ${artist.activeSince}`].filter(Boolean).join(' · ')}
+                </p>
               )}
             </div>
           </div>
@@ -159,6 +187,47 @@ function ArtistaDetalle () {
             <div className="artista-detail__bio">
               {bioParagraphs.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Prensa */}
+        {pressQuotes.length > 0 && (
+          <div className="artista-detail__section">
+            <div className="artista-detail__section-header">
+              <h2>Prensa</h2>
+              <div className="artista-detail__section-line" />
+            </div>
+            <div className="artista-detail__quotes">
+              {pressQuotes.map((q, i) => (
+                <blockquote key={i} className="artista-detail__quote">
+                  <p>«{q.quote}»</p>
+                  <cite>{q.url ? <a href={q.url} target="_blank" rel="noopener noreferrer">{q.source}</a> : q.source}</cite>
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Vídeos */}
+        {videos.length > 0 && (
+          <div className="artista-detail__section">
+            <div className="artista-detail__section-header">
+              <h2>Vídeos</h2>
+              <div className="artista-detail__section-line" />
+            </div>
+            <div className="artista-detail__videos">
+              {videos.map(video => (
+                <iframe
+                  key={video.youtube}
+                  className="artista-detail__video"
+                  src={`https://www.youtube-nocookie.com/embed/${video.youtube}`}
+                  title={video.title}
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
               ))}
             </div>
           </div>

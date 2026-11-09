@@ -99,6 +99,7 @@ export function useReleases (options = {}) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedCards = releasesFromApi.map(release => ({
         id: release._id, // MongoDB usa _id por defecto
+        slug: release.slug || null,
         title: release.title,
         subtitle: release.subtitle,
         spotifyLink: release.spotifyLink,
@@ -111,6 +112,10 @@ export function useReleases (options = {}) {
         releaseType: release.releaseType,
         date: release.date,
         img: release.img,
+        // Para editar sin perderlos (EditModal usa este mapeo como initialData).
+        description: release.description || '',
+        credits: release.credits || [],
+        artistIds: release.artistIds || [],
         // Beats fields
         bpm: release.bpm,
         price: release.price,

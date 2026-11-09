@@ -32,6 +32,10 @@
       "destination": "/api/sitemap"
     },
     {
+      "source": "/sitemap-:type.xml",
+      "destination": "/api/sitemap?type=:type"
+    },
+    {
       "source": "/artistas/:id",
       "has": [
         {
@@ -54,7 +58,7 @@
       "destination": "/api/og?type=events&id=:id&mode=index"
     },
     {
-      "source": "/beats/:id",
+      "source": "/beats/:id((?!(?:trap|hoodtrap|reggaeton|jerk|drill)$)[^/]+)",
       "has": [
         {
           "type": "header",
@@ -63,6 +67,17 @@
         }
       ],
       "destination": "/api/og?type=beats&id=:id&mode=index"
+    },
+    {
+      "source": "/discografia/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
+        }
+      ],
+      "destination": "/api/og?type=releases&id=:id&mode=index"
     },
     {
       "source": "/artistas/:id",
@@ -87,7 +102,7 @@
       "destination": "/api/og?type=events&id=:id&mode=social"
     },
     {
-      "source": "/beats/:id",
+      "source": "/beats/:id((?!(?:trap|hoodtrap|reggaeton|jerk|drill)$)[^/]+)",
       "has": [
         {
           "type": "header",
@@ -98,6 +113,17 @@
       "destination": "/api/og?type=beats&id=:id&mode=social"
     },
     {
+      "source": "/discografia/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=releases&id=:id&mode=social"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     },
@@ -106,7 +132,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/:section(artistas|eventos|beats|news|ticket|l)/:id",
+      "source": "/:section(artistas|eventos|beats|discografia|news|ticket|l)/:id",
       "destination": "/index.html"
     },
     {

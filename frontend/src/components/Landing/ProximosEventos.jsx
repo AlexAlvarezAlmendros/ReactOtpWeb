@@ -6,6 +6,7 @@ import { Cards } from '../CardList/CardList'
 import { useEvents } from '../../hooks/useEvents'
 import LazyImage from '../LazyImage/LazyImage'
 import GlassSurface from '../GlassSurface'
+import { eventPath } from '../../utils/paths'
 
 export function ProximosEventos () {
   const [currentPage] = useState(1)
@@ -103,7 +104,7 @@ export function ProximosEventos () {
                 </a>
               ) : hasInternalTickets ? (
                 <Link 
-                  to={`/eventos/${event.id}`} 
+                  to={eventPath(event)} 
                   className='evento-destacado-btn-comprar'
                 >
                   <FontAwesomeIcon icon={['fas', 'ticket-alt']} />
@@ -111,7 +112,7 @@ export function ProximosEventos () {
                 </Link>
               ) : (
                 <Link 
-                  to={`/eventos/${event.id}`} 
+                  to={eventPath(event)} 
                   className='evento-destacado-btn-detalles'
                 >
                   Ver Detalles

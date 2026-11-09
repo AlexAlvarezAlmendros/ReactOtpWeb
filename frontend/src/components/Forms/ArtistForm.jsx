@@ -32,7 +32,11 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
     instagram: initialData?.instagram || initialData?.instagramLink || '',
     soundcloud: initialData?.soundcloud || initialData?.soundCloudLink || initialData?.soundcloudLink || '',
     type: initialData?.type || initialData?.artistType || '',
-    bio: initialData?.bio || ''
+    bio: initialData?.bio || '',
+    city: initialData?.city || '',
+    activeSince: initialData?.activeSince || '',
+    pressQuotes: Array.isArray(initialData?.pressQuotes) ? initialData.pressQuotes : [],
+    videos: Array.isArray(initialData?.videos) ? initialData.videos : []
   })
   
   console.log('🎨 ArtistForm - formData inicial:', formData)
@@ -70,7 +74,11 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
       instagram: '',
       soundcloud: '',
       type: '',
-      bio: ''
+      bio: '',
+      city: '',
+      activeSince: '',
+      pressQuotes: [],
+      videos: []
     })
   }, [])
 
@@ -81,6 +89,16 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
       [name]: value
     }))
   }, [])
+
+  /** Editar listas de objetos (citas de prensa, vídeos). */
+  const updateRow = (field, index, key, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: prev[field].map((row, i) => (i === index ? { ...row, [key]: value } : row))
+    }))
+  }
+  const addRow = (field, empty) => setFormData(prev => ({ ...prev, [field]: [...prev[field], empty] }))
+  const removeRow = (field, index) => setFormData(prev => ({ ...prev, [field]: prev[field].filter((_, i) => i !== index) }))
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault()
@@ -139,6 +157,14 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
         soundCloudLink: formData.soundcloud || '',
         artistType: formData.type,
         bio: formData.bio.trim(),
+        city: formData.city.trim(),
+        activeSince: formData.activeSince ? Number(formData.activeSince) : null,
+        pressQuotes: formData.pressQuotes
+          .map(q => ({ quote: (q.quote || '').trim(), source: (q.source || '').trim(), url: (q.url || '').trim() }))
+          .filter(q => q.quote && q.source),
+        videos: formData.videos
+          .map(v => ({ title: (v.title || '').trim(), url: (v.url || '').trim() }))
+          .filter(v => v.title && v.url),
         userId: user?.sub || null
       }
 
@@ -160,7 +186,11 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
           instagram: '',
           soundcloud: '',
           type: '',
-          bio: ''
+          bio: '',
+          city: '',
+          activeSince: '',
+          pressQuotes: [],
+          videos: []
         })
         setImageFile(null)
         
@@ -264,6 +294,43 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
               Entre 150 y 400 palabras, escritas por el sello. Sin biografía la ficha es una plantilla y Google no la indexa.
               {' '}{countWords(formData.bio)} palabras.
             </small>
+          </div>
+
+          <div className="form-layout__grid">
+            <div className="form-group">
+              <label htmlFor="city">Ciudad</label>
+              <input type="text" id="city" name="city" value={formData.city} onChange={handleInputChange} placeholder="Igualada (Barcelona)" maxLength={80} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="activeSince">En activo desde (año)</label>
+              <input type="number" id="activeSince" name="activeSince" value={formData.activeSince} onChange={handleInputChange} min="1950" max="2100" placeholder="2021" />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Citas de prensa</label>
+            {formData.pressQuotes.map((row, i) => (
+              <div key={i} className="release-credit-row">
+                <input type="text" aria-label="Cita" placeholder="«Una de las voces a seguir…»" value={row.quote} onChange={e => updateRow('pressQuotes', i, 'quote', e.target.value)} maxLength={400} />
+                <input type="text" aria-label="Medio" placeholder="Medio" value={row.source} onChange={e => updateRow('pressQuotes', i, 'source', e.target.value)} />
+                <input type="url" aria-label="Enlace" placeholder="https://…" value={row.url} onChange={e => updateRow('pressQuotes', i, 'url', e.target.value)} />
+                <button type="button" onClick={() => removeRow('pressQuotes', i)} aria-label="Quitar cita">✕</button>
+              </div>
+            ))}
+            <button type="button" className="release-credit-add" onClick={() => addRow('pressQuotes', { quote: '', source: '', url: '' })}>+ Añadir cita</button>
+          </div>
+
+          <div className="form-group">
+            <label>Vídeos de YouTube</label>
+            {formData.videos.map((row, i) => (
+              <div key={i} className="release-credit-row">
+                <input type="text" aria-label="Título" placeholder="Título del vídeo" value={row.title} onChange={e => updateRow('videos', i, 'title', e.target.value)} />
+                <input type="url" aria-label="URL de YouTube" placeholder="https://www.youtube.com/watch?v=…" value={row.url} onChange={e => updateRow('videos', i, 'url', e.target.value)} />
+                <span />
+                <button type="button" onClick={() => removeRow('videos', i)} aria-label="Quitar vídeo">✕</button>
+              </div>
+            ))}
+            <button type="button" className="release-credit-add" onClick={() => addRow('videos', { title: '', url: '' })}>+ Añadir vídeo</button>
           </div>
         </fieldset>
 

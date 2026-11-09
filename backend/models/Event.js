@@ -71,6 +71,9 @@ const eventSchema = new Schema({
 // Mongoose por defecto crea un campo virtual 'id' que es una representación en string del '_id' de MongoDB.
 // Así que no necesitamos definirlo explícitamente en el schema.
 
+eventSchema.plugin(require('./plugins/slugPlugin'));
+eventSchema.plugin(require('../services/indexNowService').indexNowPlugin);
+
 const Event = mongoose.model('Event', eventSchema);
 
 module.exports = Event;

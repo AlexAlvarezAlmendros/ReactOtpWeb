@@ -99,6 +99,7 @@ export function useEvents (options = {}) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedCards = eventsFromApi.map((event) => ({
         id: event._id,
+        slug: event.slug || null,
         title: event.name,
         subtitle: event.location,
         spotifyLink: event.spotifyLink,

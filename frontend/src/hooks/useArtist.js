@@ -51,6 +51,7 @@ export function useArtist (artistId) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedArtist = {
         id: artistFromApi._id,
+        slug: artistFromApi.slug || null,
         title: artistFromApi.name,
         subtitle: artistFromApi.genre,
         spotifyLink: artistFromApi.spotifyLink,
@@ -65,6 +66,11 @@ export function useArtist (artistId) {
         img: artistFromApi.img,
         // Campos adicionales para la vista de detalle
         bio: artistFromApi.bio || '',
+        city: artistFromApi.city || '',
+        activeSince: artistFromApi.activeSince || null,
+        pressQuotes: artistFromApi.pressQuotes || [],
+        videos: artistFromApi.videos || [],
+        linksSlug: artistFromApi.linksSlug || null,
         location: artistFromApi.location || '',
         createdAt: artistFromApi.createdAt,
         updatedAt: artistFromApi.updatedAt

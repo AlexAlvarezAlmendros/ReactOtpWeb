@@ -10,6 +10,7 @@ import { motion } from 'motion/react'
 import { useTilt } from '../../hooks/useTilt'
 import '../Card.css'
 import './BeatCard.css'
+import { beatPath } from '../../utils/paths'
 
 function BeatCard ({ card }) {
   // Normalizar colaboradores (puede llegar como string JSON o array)
@@ -170,7 +171,7 @@ function BeatCard ({ card }) {
         </div>
         <div className='card-content'>
           <div>
-            <Link to={`/beats/${card._id || card.id}`} className="beat-card-title-link">
+            <Link to={beatPath(card)} className="beat-card-title-link">
               <h2>{card.title}</h2>
             </Link>
             {card.producer && (

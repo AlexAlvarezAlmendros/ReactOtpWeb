@@ -5,6 +5,7 @@ import LazyImage from '../LazyImage/LazyImage'
 import GlassSurface from '../GlassSurface'
 import { motion } from 'motion/react'
 import { useTilt } from '../../hooks/useTilt'
+import { artistPath } from '../../utils/paths'
 
 function ArtistCard ({ card }) {
   const availableLinks = [
@@ -21,7 +22,7 @@ function ArtistCard ({ card }) {
 
   return (
     <GlassSurface as={motion.article} {...tilt} className='card'>
-      <NavLink to={`/artistas/${card.id}`} className="card-image-link">
+      <NavLink to={artistPath(card)} className="card-image-link">
         <LazyImage src={card.img} alt='Portada de la obra' />
       </NavLink>
       <div className='card-content'>

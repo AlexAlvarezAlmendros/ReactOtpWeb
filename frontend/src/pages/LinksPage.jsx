@@ -6,6 +6,7 @@ import GlassSurface from '../components/GlassSurface'
 import SilkBackground from '../components/SilkBackground'
 import './LinksPage.css'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { artistPath } from '../utils/paths'
 
 function LinksPage () {
   const { slug } = useParams()
@@ -76,6 +77,13 @@ function LinksPage () {
           )}
           {artist.linksBio && (
             <p className="lp-bio">{artist.linksBio}</p>
+          )}
+
+          {/* Enlace a la ficha: esta página es noindex, la que debe posicionar es la del artista. */}
+          {(artist._id || artist.id) && (
+            <Link to={artistPath(artist)} className="lp-profile-link">
+              Biografía, música y conciertos de {artist.name}
+            </Link>
           )}
         </div>
 

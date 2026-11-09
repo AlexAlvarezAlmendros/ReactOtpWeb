@@ -97,6 +97,7 @@ export function useArtists (options = {}) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedCards = artistsFromApi.map((artist) => ({
         id: artist._id,
+        slug: artist.slug || null,
         userId: artist.userId,
         title: artist.name,
         subtitle: artist.genre,
@@ -110,7 +111,11 @@ export function useArtists (options = {}) {
         artistType: artist.artistType,
         genre: artist.genre,
         img: artist.img,
-        bio: artist.bio || ''
+        bio: artist.bio || '',
+        city: artist.city || '',
+        activeSince: artist.activeSince || null,
+        pressQuotes: artist.pressQuotes || [],
+        videos: artist.videos || []
       }))
 
       setArtists(mappedCards)

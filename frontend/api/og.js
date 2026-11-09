@@ -136,6 +136,31 @@ function idOf (item) {
   return item?._id || item?.id || null
 }
 
+/** Segmento de URL de una ficha: el slug si lo tiene, si no el id. */
+function keyOf (item) {
+  return item?.slug || idOf(item)
+}
+
+function isObjectId (value) {
+  return /^[a-f0-9]{24}$/i.test(String(value || ''))
+}
+
+/** Id de YouTube de una URL (watch?v=, youtu.be/, /embed/, /shorts/). */
+function youtubeId (url) {
+  const match = String(url || '').match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/)
+  return match ? match[1] : null
+}
+
+/** Servicio del estudio enlazado desde un crédito hecho en casa (ver src/data/studioServices.js). */
+const CREDIT_SERVICES = {
+  Producción: ['produccion-musical', 'Producción musical'],
+  Composición: ['produccion-musical', 'Producción musical'],
+  Grabación: ['grabacion', 'Grabación de voces'],
+  Mezcla: ['mezcla-y-mastering', 'Mezcla y mastering'],
+  Mastering: ['mezcla-y-mastering', 'Mezcla y mastering'],
+  Beat: ['beats-a-medida', 'Beats a medida']
+}
+
 /* -------------------------------------------------------------------------- */
 /* HTML                                                                       */
 /* -------------------------------------------------------------------------- */
@@ -188,7 +213,7 @@ const SITE_NAV = `  <nav>
     <a href="${SITE_URL}/discografia">Discografía</a> ·
     <a href="${SITE_URL}/eventos">Conciertos y eventos</a> ·
     <a href="${SITE_URL}/beats">Beats</a> ·
-    <a href="${SITE_URL}/estudios">Estudio de grabación</a> ·
+    <a href="${SITE_URL}/estudio">Estudio de grabación</a> ·
     <a href="${SITE_URL}/booking-artistas">Booking de artistas</a> ·
     <a href="${SITE_URL}/contacto">Contacto</a>
   </nav>`
@@ -312,11 +337,15 @@ const RELEASE_TYPES = { Album: 'Álbum', EP: 'EP', Song: 'Single', Single: 'Sing
 
 function describeArtist (data, id, baseUrl, extras) {
   const name = data.name || 'Artista'
-  const url = `${SITE_URL}/artistas/${id}`
+  const url = `${SITE_URL}/artistas/${keyOf(data) || id}`
   const image = toAbsoluteUrl(data.img, baseUrl)
   const genre = genreLabel(data.genre)
   const bio = (data.bio || '').trim()
-  const facts = [data.artistType, data.genre, data.location].filter(Boolean).join(' · ')
+  const facts = [data.artistType, data.genre, data.city || data.location].filter(Boolean).join(' · ')
+  const quotes = Array.isArray(data.pressQuotes) ? data.pressQuotes.filter(q => q.quote && q.source) : []
+  const videos = (Array.isArray(data.videos) ? data.videos : [])
+    .map(v => ({ ...v, youtube: youtubeId(v.url) }))
+    .filter(v => v.youtube && v.title)
 
   const title = genre ? `${name} — ${genre}` : name
   const description = bio
@@ -333,7 +362,7 @@ function describeArtist (data, id, baseUrl, extras) {
   ].filter(([, href]) => href)
 
   const releases = extras.releases.map(release => ({
-    href: release.spotifyLink || `${SITE_URL}/discografia`,
+    href: `${SITE_URL}/discografia/${keyOf(release)}`,
     label: release.title,
     note: [
       RELEASE_TYPES[release.releaseType] || release.releaseType,
@@ -343,15 +372,26 @@ function describeArtist (data, id, baseUrl, extras) {
   }))
 
   const beats = extras.beats.slice(0, 12).map(beat => ({
-    href: `${SITE_URL}/beats/${idOf(beat)}`,
+    href: `${SITE_URL}/beats/${keyOf(beat)}`,
     label: beat.title,
     note: [genreLabel(beat.genre), beat.bpm && `${beat.bpm} BPM`].filter(Boolean).join(' · ')
   }))
 
+  const profile = [
+    data.city && `<strong>Ciudad:</strong> ${esc(data.city)}`,
+    data.activeSince && `<strong>En activo desde:</strong> ${esc(data.activeSince)}`,
+    data.genre && `<strong>Estilo:</strong> ${esc(data.genre)}`
+  ].filter(Boolean)
+
   const body = [
     bio ? paragraphsHtml(bio) : `    <p>${esc(description)}</p>`,
+    profile.length ? `    <p>${profile.join('<br />')}</p>` : '',
+    quotes.length
+      ? `    <h2>Prensa</h2>\n${quotes.map(q => `    <blockquote><p>«${esc(q.quote)}»</p><cite>${q.url ? `<a href="${esc(q.url)}" rel="noopener">${esc(q.source)}</a>` : esc(q.source)}</cite></blockquote>`).join('\n')}`
+      : '',
     linkList(`Lanzamientos de ${name}`, releases),
     linkList(`Beats producidos por ${name}`, beats),
+    linkList(`Vídeos de ${name}`, videos.map(v => ({ href: v.url, label: v.title }))),
     links.length
       ? `    <h2>Escucha a ${esc(name)}</h2>
     <ul>${links.map(([label, href]) => `<li><a href="${esc(href)}" rel="noopener">${label}</a></li>`).join('')}</ul>`
@@ -367,12 +407,23 @@ function describeArtist (data, id, baseUrl, extras) {
     image: image || undefined,
     description: bio ? excerpt(bio, 300) : undefined,
     genre: data.genre || undefined,
+    foundingLocation: data.city ? { '@type': 'Place', name: data.city } : undefined,
+    foundingDate: data.activeSince ? String(data.activeSince) : undefined,
+    subjectOf: videos.length
+      ? videos.map(v => ({
+          '@type': 'VideoObject',
+          name: v.title,
+          embedUrl: `https://www.youtube.com/embed/${v.youtube}`,
+          thumbnailUrl: `https://i.ytimg.com/vi/${v.youtube}/hqdefault.jpg`,
+          url: v.url
+        }))
+      : undefined,
     recordLabel: { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: `${SITE_URL}/` },
     album: extras.releases.length
       ? extras.releases.slice(0, 12).map(release => ({
           '@type': 'MusicAlbum',
           name: release.title,
-          url: release.spotifyLink || undefined,
+          url: `${SITE_URL}/discografia/${keyOf(release)}`,
           image: release.img || undefined,
           datePublished: release.date ? String(release.date).slice(0, 10) : undefined
         }))
@@ -396,7 +447,7 @@ function describeArtist (data, id, baseUrl, extras) {
 
 function describeEvent (data, id, baseUrl) {
   const name = data.name || 'Evento'
-  const url = `${SITE_URL}/eventos/${id}`
+  const url = `${SITE_URL}/eventos/${keyOf(data) || id}`
   const image = toAbsoluteUrl(data.img || data.poster || data.image, baseUrl)
   const dateLabel = formatDate(data.date)
   const text = htmlToText(data.description)
@@ -470,11 +521,11 @@ function describeEvent (data, id, baseUrl) {
 
 function describeBeat (data, id, baseUrl) {
   const name = data.title || data.name || 'Beat'
-  const url = `${SITE_URL}/beats/${id}`
+  const url = `${SITE_URL}/beats/${keyOf(data) || id}`
   const image = toAbsoluteUrl(data.coverUrl || data.img, baseUrl)
   const producer = data.producer && typeof data.producer === 'object' ? data.producer : null
   const producerName = producer ? producer.name : data.producer
-  const producerId = producer ? idOf(producer) : null
+  const producerId = producer ? keyOf(producer) : null
   const genre = genreLabel(data.genre)
   const own = (data.description || '').trim()
 
@@ -550,6 +601,91 @@ function describeBeat (data, id, baseUrl) {
   }
 }
 
+
+const RELEASE_LABELS = { Album: 'Álbum', EP: 'EP', Song: 'Single', Videoclip: 'Videoclip' }
+
+/** Artistas del sello que firman un lanzamiento (por artistIds). */
+async function fetchReleaseArtists (release) {
+  const ids = (release.artistIds || []).map(String)
+  if (!ids.length) return []
+  const artists = listOf(await fetchJson(`${API_URL}/artists?count=100&page=1`))
+  return artists.filter(a => ids.includes(String(idOf(a))))
+}
+
+function describeRelease (data, id, baseUrl, artists) {
+  const name = data.title || 'Lanzamiento'
+  const url = `${SITE_URL}/discografia/${keyOf(data) || id}`
+  const image = toAbsoluteUrl(data.img, baseUrl)
+  const typeLabel = RELEASE_LABELS[data.releaseType] || data.releaseType || 'Lanzamiento'
+  const year = data.date ? new Date(data.date).getFullYear() : null
+  const dateLabel = formatDate(data.date)
+  const own = (data.description || '').trim()
+
+  const title = `${name}${data.subtitle ? ` — ${data.subtitle}` : ''} (${[typeLabel, year].filter(Boolean).join(', ')})`
+  const description = own
+    ? excerpt(own)
+    : `${typeLabel} «${name}»${data.subtitle ? ` de ${data.subtitle}` : ''}${dateLabel ? `, publicado el ${dateLabel}` : ''} por ${SITE_NAME}, ${LABEL_TAGLINE}.`
+
+  const credits = Array.isArray(data.credits) ? data.credits.filter(c => c.role && c.name) : []
+  const listen = [
+    ['Spotify', data.spotifyLink],
+    ['Apple Music', data.appleMusicLink],
+    ['YouTube', data.youtubeLink],
+    ['SoundCloud', data.soundCloudLink]
+  ].filter(([, href]) => href)
+
+  const body = [
+    `    <p>${esc([typeLabel, data.subtitle, dateLabel].filter(Boolean).join(' · '))}</p>`,
+    own ? paragraphsHtml(own) : `    <p>${esc(description)}</p>`,
+    linkList('Artistas', artists.map(a => ({ href: `${SITE_URL}/artistas/${keyOf(a)}`, label: a.name, note: a.artistType }))),
+    credits.length
+      ? `    <h2>Créditos</h2>
+    <ul>
+${credits.map(c => {
+  const service = c.inHouse ? CREDIT_SERVICES[c.role] : null
+  return `      <li>${esc(c.role)}: ${esc(c.name)}${service ? ` — <a href="${SITE_URL}/estudio/${service[0]}">${esc(service[1])} en ${SITE_NAME}</a>` : ''}</li>`
+}).join('\n')}
+    </ul>`
+      : '',
+    listen.length
+      ? `    <h2>Escúchalo</h2>
+    <ul>${listen.map(([label, href]) => `<li><a href="${esc(href)}" rel="noopener">${label}</a></li>`).join('')}</ul>`
+      : '',
+    `    <p>Más música del sello en la <a href="${SITE_URL}/discografia">discografía</a>.</p>`
+  ].filter(Boolean).join('\n')
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': data.releaseType === 'Song' ? 'MusicRecording' : 'MusicAlbum',
+    name,
+    url,
+    image: image || undefined,
+    datePublished: data.date ? String(data.date).slice(0, 10) : undefined,
+    description: own ? excerpt(own, 300) : description,
+    byArtist: (artists.length ? artists.map(a => ({ name: a.name, url: `${SITE_URL}/artistas/${keyOf(a)}` })) : [{ name: data.subtitle }])
+      .filter(a => a.name)
+      .map(a => ({ '@type': 'MusicGroup', ...a })),
+    recordLabel: { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: `${SITE_URL}/` },
+    sameAs: listen.map(([, href]) => href)
+  }
+  if (data.releaseType && data.releaseType !== 'Song') {
+    jsonLd.albumReleaseType = data.releaseType === 'EP' ? 'https://schema.org/EPRelease' : 'https://schema.org/AlbumRelease'
+  }
+
+  return {
+    title,
+    h1: name,
+    socialTitle: name,
+    description,
+    image,
+    url,
+    ogType: 'music.album',
+    body,
+    jsonLd,
+    breadcrumb: buildBreadcrumb({ listName: 'Discografía', listPath: '/discografia', title: name, url })
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* Handler                                                                    */
 /* -------------------------------------------------------------------------- */
@@ -557,7 +693,8 @@ function describeBeat (data, id, baseUrl) {
 const TYPES = {
   artists: { endpoint: 'artists', listName: 'Artistas', listPath: '/artistas' },
   events: { endpoint: 'events', listName: 'Eventos', listPath: '/eventos' },
-  beats: { endpoint: 'beats', listName: 'Beats', listPath: '/beats' }
+  beats: { endpoint: 'beats', listName: 'Beats', listPath: '/beats' },
+  releases: { endpoint: 'releases', listName: 'Discografía', listPath: '/discografia' }
 }
 
 function sendGone (res, status, config) {
@@ -618,6 +755,14 @@ export default async function handler (req, res) {
     return
   }
 
+  // URL antigua con ObjectId y la ficha ya tiene slug: 301 a la nueva.
+  if (isObjectId(id) && data.slug && data.slug !== id) {
+    res.setHeader('Location', `${SITE_URL}${config.listPath}/${encodeURIComponent(data.slug)}`)
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400')
+    res.status(301).send('')
+    return
+  }
+
   // Detect base URL from Vercel env or request host
   const protocol = req.headers['x-forwarded-proto'] || 'https'
   const host = req.headers['x-forwarded-host'] || req.headers.host
@@ -632,6 +777,8 @@ export default async function handler (req, res) {
     meta = describeArtist(data, id, baseUrl, extras)
   } else if (type === 'events') {
     meta = describeEvent(data, id, baseUrl)
+  } else if (type === 'releases') {
+    meta = describeRelease(data, id, baseUrl, mode === 'index' ? await fetchReleaseArtists(data) : [])
   } else {
     meta = describeBeat(data, id, baseUrl)
   }

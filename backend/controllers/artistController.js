@@ -1,3 +1,4 @@
+const { findByIdOrSlug, ensureSlug } = require('../utils/slug');
 const Artist = require('../models/Artist');
 const mongoose = require('mongoose');
 const connectDB = require('../utils/dbConnection');
@@ -108,14 +109,13 @@ const getArtistBySlug = async (req, res) => {
 // GET a single artist
 const getArtist = async (req, res) => {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'ID de artista no válido' });
-    }
     try {
-        const artist = await Artist.findById(id);
+        // Acepta el ObjectId (URLs antiguas) o el slug (URLs nuevas).
+        const artist = await findByIdOrSlug(Artist, id);
         if (!artist) {
             return res.status(404).json({ error: 'Artista no encontrado' });
         }
+        await ensureSlug(Artist, artist);
         res.status(200).json(artist);
     } catch (error) {
         res.status(500).json({ error: error.message });

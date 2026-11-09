@@ -61,3 +61,74 @@
     display: none;
   }
 }
+
+/* Enlaces a las categorías (/beats/trap…) */
+.beats-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+
+.beats-categories__link {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.beats-categories__link:hover,
+.beats-categories__link:focus-visible {
+  border-color: #ff003c;
+  color: white;
+}
+
+/* Página de categoría */
+.beats-category__header {
+  text-align: left;
+}
+
+.beats-category__intro {
+  max-width: 70ch;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+}
+
+.beats-category__intro p {
+  margin: 0 0 0.75rem;
+}
+
+.beats-category__facts {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.beats-category__empty {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.beats-category__empty a,
+.beats-category__others a {
+  color: #ff003c;
+}
+
+.beats-category__others {
+  margin-top: 2.5rem;
+}
+
+.beats-category__others h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+}
+
+.beats-category__others ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

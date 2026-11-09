@@ -33,7 +33,13 @@ export const routes = [
           { path: '/eventos', lazy: page(() => import('./pages/Eventos.jsx')) },
           { path: '/eventos/:id', lazy: page(() => import('./pages/EventoDetalle.jsx')) },
           { path: '/discografia', lazy: page(() => import('./pages/Discografia.jsx')) },
+          { path: '/discografia/:id', lazy: page(() => import('./pages/ReleaseDetalle.jsx')) },
           { path: '/beats', lazy: page(() => import('./pages/Beats.jsx')) },
+          // Categorías antes que la ficha: /beats/trap no es un beat.
+          ...['trap', 'hoodtrap', 'reggaeton', 'jerk', 'drill'].map(slug => ({
+            path: `/beats/${slug}`,
+            lazy: page(() => import('./pages/BeatsCategoria.jsx'))
+          })),
           { path: '/beats/:id', lazy: page(() => import('./pages/BeatDetalle.jsx')) },
           { path: '/privacidad', lazy: page(() => import('./pages/Privacidad.jsx')) },
           { path: '/terminos', lazy: page(() => import('./pages/Terminos.jsx')) },

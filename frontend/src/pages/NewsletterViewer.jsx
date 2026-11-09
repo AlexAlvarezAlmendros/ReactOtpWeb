@@ -9,6 +9,7 @@ import { useNewsletter } from '../hooks/useNewsletter'
 import { useAuth } from '../hooks/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './NewsletterViewer.css'
+import { eventPath } from '../utils/paths'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -320,7 +321,7 @@ function NewsletterViewer () {
                           </a>
                         ) : events[0].ticketsEnabled && events[0].availableTickets > 0 ? (
                           <Link 
-                            to={`/eventos/${events[0].id}`} 
+                            to={eventPath(events[0])} 
                             className='evento-destacado-btn-comprar'
                           >
                             <FontAwesomeIcon icon={['fas', 'ticket-alt']} />
@@ -328,7 +329,7 @@ function NewsletterViewer () {
                           </Link>
                         ) : (
                           <Link 
-                            to={`/eventos/${events[0].id}`} 
+                            to={eventPath(events[0])} 
                             className='evento-destacado-btn-detalles'
                           >
                             Ver Detalles

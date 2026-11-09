@@ -9,6 +9,8 @@ import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
 import LazyImage from '../components/LazyImage/LazyImage'
 import { htmlToText, excerpt } from '../utils/seoText'
 import './EventoDetalle.css'
+import { eventPath } from '../utils/paths'
+import { useCanonicalSlug } from '../hooks/useCanonicalSlug'
 
 function EventoDetalle () {
   const { id } = useParams()
@@ -35,8 +37,12 @@ function EventoDetalle () {
           : `${event.title}: ${[event.eventType, event.location, eventDateLabel].filter(Boolean).join(' · ')}. Evento de Other People Records. Consulta la información y compra tu entrada.`)
       : undefined,
     image: event?.img,
+    url: event ? eventPath(event) : undefined,
     type: 'article'
   })
+
+  // /eventos/<ObjectId> → /eventos/<slug>
+  useCanonicalSlug(id, event, eventPath)
 
   useJsonLd(event
     ? {
@@ -45,7 +51,7 @@ function EventoDetalle () {
           {
             '@type': 'MusicEvent',
             name: event.title,
-            url: `https://www.otherpeople.es/eventos/${id}`,
+            url: `https://www.otherpeople.es${eventPath(event)}`,
             image: event.img || undefined,
             description: eventText ? excerpt(eventText, 300) : undefined,
             startDate: event.date || undefined,
@@ -59,7 +65,7 @@ function EventoDetalle () {
             offers: event.ticketsEnabled && event.ticketPrice > 0
               ? {
                   '@type': 'Offer',
-                  url: event.externalTicketUrl || `https://www.otherpeople.es/eventos/${id}`,
+                  url: event.externalTicketUrl || `https://www.otherpeople.es${eventPath(event)}`,
                   price: String(event.ticketPrice),
                   priceCurrency: event.ticketCurrency || 'EUR',
                   availability: event.availableTickets > 0
@@ -73,7 +79,7 @@ function EventoDetalle () {
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
               { '@type': 'ListItem', position: 2, name: 'Eventos', item: 'https://www.otherpeople.es/eventos' },
-              { '@type': 'ListItem', position: 3, name: event.title, item: `https://www.otherpeople.es/eventos/${id}` }
+              { '@type': 'ListItem', position: 3, name: event.title, item: `https://www.otherpeople.es${eventPath(event)}` }
             ]
           }
         ]
@@ -86,7 +92,7 @@ function EventoDetalle () {
       setShowSuccessMessage(true)
 
       // Limpiar el parámetro de la URL
-      window.history.replaceState({}, '', `/eventos/${id}`)
+      window.history.replaceState({}, '', window.location.pathname)
 
       // Ocultar mensaje después de 5 segundos
       setTimeout(() => {

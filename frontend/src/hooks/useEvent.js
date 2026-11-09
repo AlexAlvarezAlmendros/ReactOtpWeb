@@ -51,6 +51,7 @@ export function useEvent (eventId) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedEvent = {
         id: eventFromApi._id,
+        slug: eventFromApi.slug || null,
         title: eventFromApi.name,
         subtitle: eventFromApi.location,
         spotifyLink: eventFromApi.spotifyLink,

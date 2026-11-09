@@ -47,6 +47,9 @@ const beatSchema = new Schema({
     timestamps: true
 });
 
+beatSchema.plugin(require('./plugins/slugPlugin'));
+beatSchema.plugin(require('../services/indexNowService').indexNowPlugin);
+
 const Beat = mongoose.model('Beat', beatSchema);
 
 module.exports = Beat;

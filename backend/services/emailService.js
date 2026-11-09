@@ -1038,7 +1038,7 @@ OTP Records
                     <div>
                         <h3 style="margin: 0; font-size: 20px;">${event.name}</h3>
                         <p style="color: #ddd; margin: 8px 0;">📍 ${event.location} | 🕒 ${new Date(event.date).toLocaleDateString()}</p>
-                        <a href="https://www.otherpeople.es/eventos/${event._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block;">Comprar Entradas</a>
+                        <a href="https://www.otherpeople.es/eventos/${event.slug || event._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block;">Comprar Entradas</a>
                     </div>
                 </div>`;
             });
@@ -1054,7 +1054,7 @@ OTP Records
                     <div>
                         <h3 style="margin: 0; font-size: 18px;">${beat.title}</h3>
                         <p style="color: #ccc; margin: 4px 0;">${beat.key} • ${beat.bpm} BPM</p>
-                        <a href="https://www.otherpeople.es/beats/${beat._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 8px;">${beat.price === 0 ? 'Descargar' : `${beat.price}€`}</a>
+                        <a href="https://www.otherpeople.es/beats/${beat.slug || beat._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 8px;">${beat.price === 0 ? 'Descargar' : `${beat.price}€`}</a>
                     </div>
                 </div>`;
             });

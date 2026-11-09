@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
 import GlassSurface from '../GlassSurface'
+import { eventPath } from '../../utils/paths'
 
 /**
  * ¿Merece la pena cargar el vídeo? No con ahorro de datos, conexiones lentas
@@ -112,7 +113,7 @@ export function Hero () {
           ? (
             <a
               className='hero-badge'
-              href={nextEvent.externalTicketUrl || `/eventos/${nextEvent.id}`}
+              href={nextEvent.externalTicketUrl || eventPath(nextEvent)}
               target={nextEvent.externalTicketUrl ? '_blank' : undefined}
               rel={nextEvent.externalTicketUrl ? 'noopener noreferrer' : undefined}
             >
