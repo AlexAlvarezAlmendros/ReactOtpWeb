@@ -10,6 +10,7 @@ import { useJsonLd } from '../hooks/useJsonLd'
 import BeatCard from '../components/BeatCard/BeatCard'
 import LazyImage from '../components/LazyImage/LazyImage'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
+import { beatSeoTitle, excerpt } from '../utils/seoText'
 import './BeatDetalle.css'
 
 const fmt = (s) => {
@@ -41,13 +42,23 @@ function BeatDetalle () {
     beat?.key
   ].filter(Boolean).join(' · ')
 
+  const beatDescription = (beat?.description || '').trim()
+
   usePageMeta({
-    title: beatTitle,
+    title: beatTitle
+      ? beatSeoTitle({ title: beatTitle, genre: beat.genre, bpm: beat.bpm, producerName })
+      : undefined,
     description: beatTitle
-      ? `${beatTitle}${beatFacts ? ` — ${beatFacts}` : ''}. Beat de música urbana disponible con licencia en Other People Records. Escúchalo y compra tu licencia online.`
+      ? (beatDescription
+          ? excerpt(beatDescription)
+          : `${beatTitle}${beatFacts ? ` — ${beatFacts}` : ''}. Beat de música urbana disponible con licencia en Other People Records. Escúchalo y compra tu licencia online.`)
       : undefined,
     image: beat?.coverUrl || beat?.img,
-    type: 'music.song'
+    type: 'music.song',
+    // Sin texto propio la ficha es una plantilla casi idéntica a las otras 77:
+    // fuera del índice hasta que tenga descripción. Lo mismo para los
+    // desactivados. Debe coincidir con api/og.js y api/sitemap.js.
+    noindex: !!beat && (!beatDescription || beat.active === false)
   })
 
   // Precio de referencia: la licencia más barata disponible.
@@ -67,7 +78,9 @@ function BeatDetalle () {
             name: beatTitle,
             url: `https://www.otherpeople.es/beats/${id}`,
             image: beat.coverUrl || beat.img || undefined,
-            description: `${beatTitle}${beatFacts ? ` — ${beatFacts}` : ''}. Beat disponible con licencia.`,
+            description: beatDescription
+              ? excerpt(beatDescription, 300)
+              : `${beatTitle}${beatFacts ? ` — ${beatFacts}` : ''}. Beat disponible con licencia.`,
             category: beat.genre || 'Beat',
             brand: { '@id': 'https://www.otherpeople.es/#organization' },
             offers: beatLowPrice != null

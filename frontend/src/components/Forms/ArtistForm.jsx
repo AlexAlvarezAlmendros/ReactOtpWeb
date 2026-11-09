@@ -6,6 +6,13 @@ import SpotifyImport from '../SpotifyImport/SpotifyImport.jsx'
 import { ImageUploader } from '../ImageUploader/ImageUploader.jsx'
 import './Forms.css'
 
+// Tope del modelo Artist.bio en el backend.
+const BIO_MAX = 5000
+
+function countWords (text) {
+  return (text || '').trim().split(/\s+/).filter(Boolean).length
+}
+
 export default function ArtistForm ({ onSuccess, initialData = null, isEditMode = false }) {
   console.log('🎨 ArtistForm - initialData:', initialData)
   console.log('🎨 ArtistForm - isEditMode:', isEditMode)
@@ -19,10 +26,13 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
     img: initialData?.img || '',
     spotify: initialData?.spotify || initialData?.spotifyLink || '',
     youtube: initialData?.youtube || initialData?.youtubeLink || '',
-    apple: initialData?.apple || initialData?.appleLink || '',
+    // El listado mapea estos dos como appleMusicLink y soundCloudLink: sin
+    // leerlos aquí, editar un artista vaciaba su enlace de Apple Music.
+    apple: initialData?.apple || initialData?.appleMusicLink || initialData?.appleLink || '',
     instagram: initialData?.instagram || initialData?.instagramLink || '',
-    soundcloud: initialData?.soundcloud || initialData?.soundcloudLink || '',
-    type: initialData?.type || initialData?.artistType || ''
+    soundcloud: initialData?.soundcloud || initialData?.soundCloudLink || initialData?.soundcloudLink || '',
+    type: initialData?.type || initialData?.artistType || '',
+    bio: initialData?.bio || ''
   })
   
   console.log('🎨 ArtistForm - formData inicial:', formData)
@@ -59,7 +69,8 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
       apple: '',
       instagram: '',
       soundcloud: '',
-      type: ''
+      type: '',
+      bio: ''
     })
   }, [])
 
@@ -83,6 +94,10 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
     // Validación del género
     if (formData.genre && formData.genre.length > 60) {
       validationErrors.push('El género no puede tener más de 60 caracteres')
+    }
+
+    if (formData.bio && formData.bio.length > BIO_MAX) {
+      validationErrors.push(`La biografía no puede tener más de ${BIO_MAX} caracteres`)
     }
 
     // Validación de URLs (máximo 300 caracteres)
@@ -119,8 +134,11 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
         youtubeLink: formData.youtube || '',
         appleMusicLink: formData.apple || '',
         instagramLink: formData.instagram || '',
-        soundcloudLink: formData.soundcloud || '',
+        // El modelo lo llama soundCloudLink: con «soundcloudLink» Mongoose lo
+        // descartaba y el enlace nunca se guardaba.
+        soundCloudLink: formData.soundcloud || '',
         artistType: formData.type,
+        bio: formData.bio.trim(),
         userId: user?.sub || null
       }
 
@@ -141,7 +159,8 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
           apple: '',
           instagram: '',
           soundcloud: '',
-          type: ''
+          type: '',
+          bio: ''
         })
         setImageFile(null)
         
@@ -224,6 +243,27 @@ export default function ArtistForm ({ onSuccess, initialData = null, isEditMode 
                   <option value="Band" />
                 </datalist>
             </div>
+          </div>
+        </fieldset>
+
+        {/* --- Biografía (lo que hace que la ficha se indexe) --- */}
+        <fieldset className="form-layout__fieldset">
+          <legend className="form-layout__legend">Biografía</legend>
+          <div className="form-group">
+            <label htmlFor="bio">Biografía pública</label>
+            <textarea
+              id="bio"
+              name="bio"
+              value={formData.bio}
+              onChange={handleInputChange}
+              rows={8}
+              maxLength={BIO_MAX}
+              placeholder="De dónde es, qué estilo hace, lanzamientos clave, con quién ha trabajado, hitos (conciertos, playlists, cifras)…"
+            />
+            <small>
+              Entre 150 y 400 palabras, escritas por el sello. Sin biografía la ficha es una plantilla y Google no la indexa.
+              {' '}{countWords(formData.bio)} palabras.
+            </small>
           </div>
         </fieldset>
 

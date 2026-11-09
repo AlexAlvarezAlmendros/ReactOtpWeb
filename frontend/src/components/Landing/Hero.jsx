@@ -24,7 +24,7 @@ export function Hero () {
 
   const formatEventDate = (dateStr) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('Milanes-ES', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()
+    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()
   }
 
   return (

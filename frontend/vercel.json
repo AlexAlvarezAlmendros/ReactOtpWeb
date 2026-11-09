@@ -1,10 +1,36 @@
 {
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(), geolocation=(), payment=(), usb=()"
+        },
+        {
+          "key": "Content-Security-Policy-Report-Only",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://analiticas.alexalvarez.dev https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: https://res.cloudinary.com https://*.amazonaws.com; font-src 'self' data:; connect-src 'self' https://otp-web-back.vercel.app https://*.auth0.com https://analiticas.alexalvarez.dev https://api.stripe.com https://api.cloudinary.com https://res.cloudinary.com https://*.amazonaws.com; frame-src https://open.spotify.com https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://js.stripe.com https://*.auth0.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; frame-ancestors 'self'"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },
-
     {
       "source": "/artistas/:id",
       "has": [
@@ -38,7 +64,6 @@
       ],
       "destination": "/api/og?type=beats&id=:id&mode=index"
     },
-
     {
       "source": "/artistas/:id",
       "has": [
@@ -72,9 +97,24 @@
       ],
       "destination": "/api/og?type=beats&id=:id&mode=social"
     },
-
     {
-      "source": "/(.*)",
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/:page(artistas|eventos|beats|discografia|discografica-barcelona|booking-artistas|estudios|contacto|herramientas|plugins|newsletters|privacidad|terminos|cookies|ruralmafia|crear|scanner|perfil|unsubscribe)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/:section(artistas|eventos|beats|news|ticket|l)/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/plugins/opr-w1",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/newsletter",
       "destination": "/index.html"
     }
   ]

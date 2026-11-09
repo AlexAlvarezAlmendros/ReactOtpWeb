@@ -109,7 +109,8 @@ export function useArtists (options = {}) {
         video: artist.video,
         artistType: artist.artistType,
         genre: artist.genre,
-        img: artist.img
+        img: artist.img,
+        bio: artist.bio || ''
       }))
 
       setArtists(mappedCards)

@@ -12,8 +12,8 @@ const EVENTS_ENDPOINT = `${API_URL}/events`
 
 function Eventos () {
   usePageMeta({
-    title: 'Conciertos y eventos de música urbana en Barcelona',
-    description: 'Agenda de conciertos, showcases y fiestas de Other People Records en Barcelona y alrededores. Consulta fechas y compra tus entradas online.'
+    title: 'Conciertos de trap y música urbana',
+    description: 'Agenda de conciertos, showcases y fiestas de trap y música urbana de Other People Records. Consulta fechas y compra tus entradas online.'
   })
 
   const fetchEvents = useCallback(async (options) => {

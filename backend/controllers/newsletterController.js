@@ -57,7 +57,7 @@ const subscribeToNewsletter = async (req, res) => {
         const sanitizedEmail = email.trim().toLowerCase();
         
         // Validar formato de email
-        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
         if (!emailRegex.test(sanitizedEmail)) {
             return res.status(400).json({
                 error: 'INVALID_EMAIL',
@@ -173,7 +173,7 @@ const unsubscribeFromNewsletter = async (req, res) => {
         const sanitizedEmail = email.trim().toLowerCase();
         
         // Validar formato de email
-        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
         if (!emailRegex.test(sanitizedEmail)) {
             return res.status(400).json({
                 error: 'INVALID_EMAIL',

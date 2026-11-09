@@ -160,16 +160,6 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
     }))
   }, [availableFileKeys])
 
-  // Set description for all licenses whenever formData.description changes
-  useEffect(() => {
-    if (formData.description) {
-      setLicenses(prev => prev.map(lic => ({
-        ...lic,
-        description: formData.description
-      })))
-    }
-  }, [formData.description])
-
   // Initialize form data, files and licenses from initialData (no artist dependency)
   useEffect(() => {
     if (!isEditMode || !initialData) return
@@ -341,7 +331,7 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
     return {
       name: '',
       price: '',
-      description: formData?.description || '',
+      description: '',
       formats: [],
       fileKeys: [],
       terms: {
@@ -734,10 +724,15 @@ export default function BeatForm ({ onSuccess, initialData, isEditMode = false }
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                  placeholder="Descripción del beat. Esta descripción se usará para todas las licencias."
-                  rows={3}
+                  placeholder="Mood, referencias (type beat de…), instrumentos, para qué tipo de tema sirve, a quién le encaja…"
+                  rows={4}
+                  maxLength={2000}
                 />
-                <small>Se aplicará como descripción de todas las licencias</small>
+                {/* Sin descripción la ficha del beat queda en noindex y fuera del sitemap (api/og.js, api/sitemap.js). */}
+                <small>
+                  Entre 40 y 80 palabras, propias de este beat. Sin descripción, la ficha no se indexa en Google.
+                  {' '}{(formData.description || '').trim().split(/\s+/).filter(Boolean).length} palabras.
+                </small>
               </div>
             </fieldset>
 

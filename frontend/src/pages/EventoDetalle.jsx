@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import TicketPurchase from '../components/TicketPurchase/TicketPurchase'
 import LazyImage from '../components/LazyImage/LazyImage'
+import { htmlToText, excerpt } from '../utils/seoText'
 import './EventoDetalle.css'
 
 function EventoDetalle () {
@@ -19,11 +20,19 @@ function EventoDetalle () {
     ? new Date(event.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
     : null
 
+  // La descripción viene en HTML de Tiptap: para metadatos solo vale el texto.
+  const eventText = htmlToText(event?.description)
+  // Varios eventos se llaman igual («OTP!»): el lugar y la fecha hacen único el title.
+  const eventWhereWhen = [event?.location, eventDateLabel].filter(Boolean).join(', ')
+
   usePageMeta({
-    title: event?.title,
+    title: event?.title
+      ? `${event.title}${eventWhereWhen ? ` — ${eventWhereWhen}` : ''}`
+      : undefined,
     description: event?.title
-      ? (event.description ||
-          `${event.title}: ${[event.eventType, event.location, eventDateLabel].filter(Boolean).join(' · ')}. Evento de Other People Records. Consulta la información y compra tu entrada.`)
+      ? (eventText
+          ? excerpt(eventText)
+          : `${event.title}: ${[event.eventType, event.location, eventDateLabel].filter(Boolean).join(' · ')}. Evento de Other People Records. Consulta la información y compra tu entrada.`)
       : undefined,
     image: event?.img,
     type: 'article'
@@ -38,7 +47,7 @@ function EventoDetalle () {
             name: event.title,
             url: `https://www.otherpeople.es/eventos/${id}`,
             image: event.img || undefined,
-            description: event.description || undefined,
+            description: eventText ? excerpt(eventText, 300) : undefined,
             startDate: event.date || undefined,
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             eventStatus: 'https://schema.org/EventScheduled',

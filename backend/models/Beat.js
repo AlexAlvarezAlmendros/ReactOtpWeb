@@ -7,6 +7,9 @@ const beatSchema = new Schema({
     key: { type: String },
     genre: { type: String },
     tags: [{ type: String }],
+    // Texto propio del beat (mood, referencias, para qué tipo de tema sirve).
+    // Sin él la ficha es una plantilla y no se indexa: ver frontend/api/og.js.
+    description: { type: String, trim: true, maxlength: 2000, default: '' },
     price: { type: Number, required: true },
     audioUrl: { type: String },
     coverUrl: { type: String },

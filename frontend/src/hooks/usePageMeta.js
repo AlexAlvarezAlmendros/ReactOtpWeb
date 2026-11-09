@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 const SITE_NAME = 'Other People Records'
 const SITE_URL = 'https://www.otherpeople.es'
-const DEFAULT_IMAGE = '/img/hero/portada1.png'
+const DEFAULT_IMAGE = '/img/og/otp-og.jpg'
 
 /** Convierte una ruta relativa en URL absoluta del sitio. */
 function absolute (path) {

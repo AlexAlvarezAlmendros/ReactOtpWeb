@@ -29,8 +29,8 @@ const INITIAL_FILTERS = {
 
 function Beats () {
   usePageMeta({
-    title: 'Comprar beats de nuestros productores online',
-    description: 'Catálogo de beats e instrumentales producidos por nuestros productores. Escucha, filtra por BPM y tonalidad y compra tu licencia al instante.'
+    title: 'Comprar beats de trap, drill y reggaetón con licencia',
+    description: 'Beats e instrumentales de trap, hoodtrap, jerk y reggaetón de los productores del sello. Escucha, filtra por BPM y tonalidad y compra tu licencia al instante.'
   })
 
   const [filters, setFilters] = useState(INITIAL_FILTERS)

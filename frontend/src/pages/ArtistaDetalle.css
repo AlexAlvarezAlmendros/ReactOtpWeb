@@ -204,6 +204,21 @@
   padding: 48px 0;
 }
 
+.artista-detail__bio {
+  max-width: 70ch;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.artista-detail__bio p {
+  margin: 0 0 1em;
+}
+
+.artista-detail__bio p:last-child {
+  margin-bottom: 0;
+}
+
 .artista-detail__empty {
   text-align: center;
   padding: 48px 24px;

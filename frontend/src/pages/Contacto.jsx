@@ -9,7 +9,7 @@ import GlassSurface from '../components/GlassSurface'
 
 function Contacto () {
   usePageMeta({
-    title: 'Contacto y booking de artistas en Barcelona',
+    title: 'Contacto, booking y envío de maquetas',
     description: 'Contacta con Other People Records para booking de artistas urbanos, demos, reservas de estudio o colaboraciones. Estamos en Igualada, Barcelona.'
   })
 

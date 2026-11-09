@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL
 function Newsletters () {
   usePageMeta({
     title: 'Newsletters — Novedades del sello',
-    description: 'Archivo de newsletters de Other People Records: lanzamientos, eventos y noticias de nuestros artistas urbanos en Barcelona.'
+    description: 'Archivo de newsletters de Other People Records: lanzamientos, eventos y noticias de los artistas de trap y música urbana del sello.'
   })
 
   const { newsletters, loading, error } = useNewsletters({ 

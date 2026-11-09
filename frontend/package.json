@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-404.mjs",
     "preview": "vite preview",
     "test": "jest",
     "test:watch": "jest --watch",

@@ -67,7 +67,7 @@ const JSONLD = {
 
 function BookingArtistas () {
   usePageMeta({
-    title: 'Booking de artistas urbanos en Barcelona',
+    title: 'Booking de artistas de trap y rap en toda España',
     description: 'Contrata artistas de trap, rap y drill para tu sala, festival o fiesta. Booking en Barcelona, Cataluña y toda España con presupuesto cerrado y rider claro.',
     url: '/booking-artistas'
   })

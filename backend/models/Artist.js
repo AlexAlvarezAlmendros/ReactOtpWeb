@@ -14,6 +14,10 @@ const artistSchema = new Schema({
 	soundCloudLink: { type: String, required: false },
 	beatStarsLink: { type: String, required: false },
 	img: { type: String, required: true },
+	// Biografía larga para la ficha pública (150–400 palabras). La ficha sin
+	// bio es una plantilla y Google no la indexa. linksBio es otra cosa: la
+	// frase corta de la página de enlaces /l/:slug.
+	bio: { type: String, trim: true, maxlength: 5000, default: '' },
 	profileUrl: { type: String, required: false },
 	artistType: {
 		type: String,

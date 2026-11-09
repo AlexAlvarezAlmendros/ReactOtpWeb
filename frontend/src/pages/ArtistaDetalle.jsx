@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import ReleaseCard from '../components/ReleaseCard/ReleaseCard'
 import BeatCard from '../components/BeatCard/BeatCard'
 import LazyImage from '../components/LazyImage/LazyImage'
+import { excerpt } from '../utils/seoText'
 import './ArtistaDetalle.css'
 
 function ArtistaDetalle () {
@@ -20,12 +21,17 @@ function ArtistaDetalle () {
   const artistFacts = [artist?.artistType, artist?.genre, artist?.location]
     .filter(Boolean).join(' · ')
 
+  const bioParagraphs = (artist?.bio || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean)
+
   usePageMeta({
-    title: artist?.title,
-    // La descripción antigua ("Cantante · Barcelona") era demasiado corta para
-    // servir de snippet: la completamos con el contexto del sello.
+    title: artist?.title
+      ? `${artist.title}${artist.genre ? ` — ${artist.genre}` : ''}`
+      : undefined,
+    // Con biografía, el snippet sale de ella; sin ella, de los datos básicos.
     description: artist?.title
-      ? `${artist.title}${artistFacts ? ` — ${artistFacts}` : ''}. Artista de Other People Records, sello discográfico independiente en Barcelona. Escucha su música y contrata su booking.`
+      ? (artist.bio
+          ? excerpt(artist.bio)
+          : `${artist.title}${artistFacts ? ` — ${artistFacts}` : ''}. Artista de Other People Records, sello independiente de trap y música urbana. Escucha su música y contrata su booking.`)
       : undefined,
     image: artist?.img,
     type: 'profile'
@@ -41,6 +47,7 @@ function ArtistaDetalle () {
             url: `https://www.otherpeople.es/artistas/${id}`,
             image: artist.img || undefined,
             genre: artist.genre || undefined,
+            description: artist.bio ? excerpt(artist.bio, 300) : undefined,
             recordLabel: { '@id': 'https://www.otherpeople.es/#organization' },
             sameAs: [
               artist.spotifyLink,
@@ -142,6 +149,21 @@ function ArtistaDetalle () {
 
       {/* Body */}
       <div className="artista-detail__body">
+        {/* Biografía */}
+        {bioParagraphs.length > 0 && (
+          <div className="artista-detail__section">
+            <div className="artista-detail__section-header">
+              <h2>Biografía</h2>
+              <div className="artista-detail__section-line" />
+            </div>
+            <div className="artista-detail__bio">
+              {bioParagraphs.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Proyectos */}
         <div className="artista-detail__section">
           <div className="artista-detail__section-header">

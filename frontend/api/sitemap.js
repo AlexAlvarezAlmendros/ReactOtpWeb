@@ -4,6 +4,13 @@
  * Genera el sitemap a partir de las rutas estáticas de la SPA más las fichas
  * de artistas, eventos, lanzamientos y beats que devuelve la API.
  *
+ * Solo lleva URLs que queremos indexadas. Los beats sin descripción propia
+ * (o desactivados) se quedan fuera: son plantillas casi idénticas y api/og.js
+ * los sirve con noindex. Un sitemap con URLs noindex es una señal
+ * contradictoria para Google.
+ *
+ * Sin <priority> ni <changefreq>: Google los ignora. Sí <lastmod> real.
+ *
  * Si la API falla, devolvemos igualmente el sitemap con las rutas estáticas:
  * es preferible un sitemap incompleto a un 500 que Search Console marque
  * como error.
@@ -12,31 +19,36 @@
 const API_URL = process.env.VITE_API_URL
 const SITE_URL = 'https://www.otherpeople.es'
 
-/** Rutas estáticas indexables, con su prioridad y frecuencia de cambio. */
+/** Rutas estáticas indexables. */
 const STATIC_ROUTES = [
-  { path: '/', priority: '1.0', changefreq: 'weekly' },
-  { path: '/discografica-barcelona', priority: '0.9', changefreq: 'monthly' },
-  { path: '/booking-artistas', priority: '0.9', changefreq: 'monthly' },
-  { path: '/artistas', priority: '0.9', changefreq: 'weekly' },
-  { path: '/eventos', priority: '0.9', changefreq: 'daily' },
-  { path: '/discografia', priority: '0.8', changefreq: 'weekly' },
-  { path: '/beats', priority: '0.8', changefreq: 'weekly' },
-  { path: '/estudios', priority: '0.8', changefreq: 'monthly' },
-  { path: '/plugins', priority: '0.7', changefreq: 'monthly' },
-  { path: '/plugins/opr-w1', priority: '0.7', changefreq: 'monthly' },
-  { path: '/contacto', priority: '0.7', changefreq: 'yearly' },
-  { path: '/herramientas', priority: '0.6', changefreq: 'monthly' },
-  { path: '/newsletters', priority: '0.4', changefreq: 'weekly' },
-  { path: '/privacidad', priority: '0.2', changefreq: 'yearly' },
-  { path: '/terminos', priority: '0.2', changefreq: 'yearly' },
-  { path: '/cookies', priority: '0.2', changefreq: 'yearly' }
+  '/',
+  '/discografica-barcelona',
+  '/booking-artistas',
+  '/artistas',
+  '/eventos',
+  '/discografia',
+  '/beats',
+  '/estudios',
+  '/plugins',
+  '/plugins/opr-w1',
+  '/contacto',
+  '/herramientas',
+  '/newsletters',
+  '/privacidad',
+  '/terminos',
+  '/cookies'
 ]
+
+/** Un beat solo se indexa si tiene texto propio y sigue a la venta. */
+function isIndexableBeat (beat) {
+  return beat.active !== false && typeof beat.description === 'string' && beat.description.trim() !== ''
+}
 
 /** Colecciones de la API que generan URLs de detalle. */
 const COLLECTIONS = [
-  { endpoint: 'artists', prefix: '/artistas', priority: '0.8', changefreq: 'monthly' },
-  { endpoint: 'events', prefix: '/eventos', priority: '0.7', changefreq: 'weekly' },
-  { endpoint: 'beats', prefix: '/beats', priority: '0.6', changefreq: 'monthly' }
+  { endpoint: 'artists', prefix: '/artistas' },
+  { endpoint: 'events', prefix: '/eventos' },
+  { endpoint: 'beats', prefix: '/beats', include: isIndexableBeat }
 ]
 
 function esc (str) {
@@ -56,13 +68,11 @@ function toLastmod (value) {
   return date.toISOString().slice(0, 10)
 }
 
-function urlEntry ({ path, priority, changefreq, lastmod }) {
+function urlEntry ({ path, lastmod }) {
   return [
     '  <url>',
     `    <loc>${esc(SITE_URL + path)}</loc>`,
     lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
-    `    <changefreq>${changefreq}</changefreq>`,
-    `    <priority>${priority}</priority>`,
     '  </url>'
   ].filter(Boolean).join('\n')
 }
@@ -112,20 +122,19 @@ async function fetchCollection (endpoint) {
 }
 
 export default async function handler (req, res) {
-  const entries = STATIC_ROUTES.map(urlEntry)
+  const entries = STATIC_ROUTES.map(path => urlEntry({ path }))
 
   if (API_URL) {
     const results = await Promise.all(
       COLLECTIONS.map(async (collection) => {
         const items = await fetchCollection(collection.endpoint)
         return items
+          .filter(item => !collection.include || collection.include(item))
           .map((item) => {
             const id = item._id || item.id
             if (!id) return null
             return urlEntry({
               path: `${collection.prefix}/${id}`,
-              priority: collection.priority,
-              changefreq: collection.changefreq,
               lastmod: toLastmod(item.updatedAt || item.createdAt || item.date)
             })
           })

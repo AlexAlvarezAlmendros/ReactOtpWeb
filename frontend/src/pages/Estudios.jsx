@@ -100,7 +100,7 @@ function Estudios () {
     },
     {
       id: 6,
-      title: 'Pulido de Volcales Pro',
+      title: 'Pulido de Vocales Pro',
       description: 'Mejora de la calidad vocal en grabaciones',
       type: 'image',
       image: '/img/studio/vocal.png'
