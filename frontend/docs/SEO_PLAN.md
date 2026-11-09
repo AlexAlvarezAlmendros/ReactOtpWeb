@@ -7,8 +7,9 @@
 > Versión 2 · 2026-11-09. Incorpora los datos de Search Console (últimos 3 meses, 08/08–07/11/2026)
 > y la auditoría externa de YAG Comunicación (07/11/2026). Estado del código: `main` en `aa0a5d7`.
 >
-> **Fase 0:** la parte de código está en la rama `feat/seo-fase-0` (2026-11-09), sin desplegar. Ver
-> «Estado de la Fase 0» en la sección 4.
+> **Estado:** todo el código del plan (Fases 0 a 4 y 7) está en la rama `feat/seo-fase-0`
+> (2026-11-09), sin desplegar. Lo que queda es contenido y trabajo fuera de la web: ver
+> «Estado de ejecución» justo debajo y `docs/SEO_OFFSITE.md`.
 
 ---
 
@@ -27,6 +28,28 @@
 5. Las búsquedas genéricas («trap», «música urbana») no son un objetivo realista. Las comerciales
    («discográfica de trap», «mezcla y mastering online», «enviar maqueta», «beats de drill») sí se
    pueden ganar en toda España, en un plazo de 6–12 meses.
+
+---
+
+## Estado de ejecución (2026-11-09)
+
+| Fase | Código | Lo que falta (no es código) |
+|---|---|---|
+| 0 — Indexación | ✅ Hecho (ver «Estado de la Fase 0») | 308 en el panel de Vercel; exportar URLs de Search Console; escribir 12 bios y 78 descripciones de beats |
+| 1 — Rendimiento | ✅ Lazy por rutas (chunk inicial 618 → 193 KB gzip), vídeo 34 MB → 1,9/4 MB, póster AVIF/WebP precargado, logo GIF 26 MB → WebP 2 MB, imágenes y fuentes optimizadas (`public/img` 36 → 5 MB) | Medir en pagespeed.web.dev tras desplegar. La tarjeta 3D de Contacto (Lanyard, en otra rama) sigue pendiente de Draco/meshopt |
+| 2 — HTML para bots | ✅ Prerender en el build de 31 páginas (`scripts/prerender.mjs`); fichas con `api/og.js` | Comprobar con `curl` tras desplegar que `/estudio` devuelve el HTML prerenderizado |
+| 3 — URLs y entidades | ✅ Slugs con 301, `/discografia/:slug`, categorías `/beats/:estilo`, ficha de artista ampliada, sitemap índice con imágenes, IndexNow, migas de pan, NAP en JSON-LD | `npm run migrate:slugs` en el backend (una vez); rellenar ciudad, año, prensa y vídeos de cada artista y créditos de cada lanzamiento |
+| 4 — Contenido | ✅ Home, `/discografica`, `/nuevos-talentos`, `/enviar-maqueta` (con backend y bandeja en el panel), estudio por servicios, `/revista` (con editor y RSS), herramientas con URL propia, booking nacional | Revisar los textos; publicar 1 artículo por semana; abrir convocatorias (`src/data/convocatorias.js`) |
+| 5 — Local y marca | — | Todo en `docs/SEO_OFFSITE.md`: ficha de Google, reseñas, directorios, Wikidata, MusicBrainz, Discogs |
+| 6 — Enlaces | — | `docs/SEO_OFFSITE.md`: prensa, listas, YouTube, KVR, escuelas, eventos, roster |
+| 7 — IA | ✅ `llms.txt`, bots de IA permitidos, HTML prerenderizado | Datos coherentes en Wikidata/Discogs (Fase 5) |
+| Medición | ✅ Eventos de Umami: `maqueta-enviada`, `reserva-estudio`, `estudio-presupuesto`, `booking-presupuesto`, `beat-checkout`, `entradas-checkout` | Configurar Search Console, Bing Webmaster Tools y el rank tracker (`docs/SEO_OFFSITE.md`) |
+
+**Despliegue, en este orden:**
+1. Backend (modelos nuevos, slugs, maquetas, revista, IndexNow).
+2. `npm run migrate:slugs -- --dry` y después `npm run migrate:slugs` contra la base de producción.
+3. Frontend.
+4. Search Console: reenviar el sitemap, inspeccionar la home y `http://otherpeople.es/`.
 
 ---
 
@@ -236,6 +259,13 @@ Resuelve I5, I6 y T2 de raíz y hace el sitio legible para Bing y los buscadores
 
 **Recomendación: React Router v7 en *framework mode* con SSR en Vercel y caché en el CDN.**
 
+> **Decisión tomada (2026-11-09): la alternativa de prerender.** El *framework mode* obliga a cambiar el
+> preset de framework y la salida del proyecto en el panel de Vercel, y no se puede verificar sin
+> desplegar. El prerender deja `dist/` estático y no toca el panel. Se prerenderizan las 31 páginas fijas
+> con su contenido; las fichas siguen con `api/og.js`, que ya da el mismo contenido que ve el usuario.
+> Los listados salen sin datos en el HTML estático: Google los ve completos al ejecutar el JavaScript.
+> Si más adelante se quiere SSR completo, `routes.jsx` y `entry-server.jsx` ya son la base.
+
 | Tarea | Detalle | Tamaño |
 |---|---|---|
 | 2.1 Migración | `createBrowserRouter` → `app/routes.ts` + `@react-router/dev` + `@vercel/react-router`. Las rutas públicas cargan sus datos con `loader`. | L |
@@ -396,13 +426,19 @@ todo de la Fase 6.
 
 ## 7. Decisiones pendientes y datos que faltan
 
-1. **Dirección real** del sello y del estudio (Igualada, Sant Joan de Mediona o las dos). Bloquea
-   la tarea 0.10 y la ficha de Google.
+Para no bloquear el código se han tomado estas decisiones por defecto. Todas son reversibles:
+
+1. **Dirección:** sello en Igualada (Carrer de Dinamarca 35) y estudio en la Masia Agullons (Sant Joan
+   de Mediona), que es lo que ya decía la web en el footer y en `/estudios`. **Confirmar** y cuadrar la
+   ficha de Google con la del estudio.
 2. **Quién redacta** las biografías de artistas y las descripciones de beats (Fase 0.1–0.2). Es
-   trabajo de contenido, no de código, y es el que desbloquea la indexación.
-3. **¿Se publican las tarifas del estudio?**
-4. **¿Maquetas abiertas o solo por convocatorias?**
-5. **SSR**: ¿framework mode (recomendado) o prerender parcial?
+   trabajo de contenido, no de código, y es el que desbloquea la indexación. **Sigue pendiente.**
+3. **Tarifas del estudio:** no se publican; las páginas hablan de «presupuesto cerrado antes de
+   empezar». Para publicarlas: campo `price` en `src/data/studioServices.js`.
+4. **Maquetas:** abiertas todo el año por `/enviar-maqueta` y, además, convocatorias puntuales
+   (`src/data/convocatorias.js`, vacío hasta que se abra una).
+5. **SSR:** prerender en el build (ver Fase 2). **Mezcla y mastering online para toda España:** las
+   páginas lo ofrecen; confirmar que es un servicio real.
 6. **Faltan de Search Console**: las URLs concretas de «Soft 404» y «Rastreada: actualmente sin
    indexar» (tarea 0.12) y el cruce consulta × página de «music production».
 7. **YAG**: este plan cubre lo que proponen en su hoja de ruta de 90 días y va más allá en lo
