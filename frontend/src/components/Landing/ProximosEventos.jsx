@@ -27,7 +27,8 @@ export function ProximosEventos () {
   })
 
   // Detectar si es mobile
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  // typeof window: en el prerender del build no hay window.
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768)
 
   // Actualizar estado al cambiar el tamaño de ventana
   useEffect(() => {

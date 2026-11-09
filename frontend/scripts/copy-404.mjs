@@ -1,5 +1,8 @@
 /**
- * Copia dist/index.html a dist/404.html después del build.
+ * Copia dist/index.html a dist/404.html y a dist/spa.html después del build.
+ *
+ * spa.html es el shell limpio de la SPA: vercel.json reescribe a él las rutas
+ * que no tienen HTML prerenderizado (la home, en index.html, sí lo tiene).
  *
  * vercel.json ya no tiene un catch-all: solo reescribe a index.html las rutas
  * que existen. El resto cae en 404.html, que Vercel sirve con estado 404. Al
@@ -20,4 +23,5 @@ if (!existsSync(from)) {
 }
 
 copyFileSync(from, join(dist, '404.html'))
-console.log('[copy-404] dist/404.html listo')
+copyFileSync(from, join(dist, 'spa.html'))
+console.log('[copy-404] dist/404.html y dist/spa.html listos')

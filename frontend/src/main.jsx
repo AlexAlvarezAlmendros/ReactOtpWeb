@@ -62,5 +62,9 @@ function render () {
   )
 }
 
+// El JSON-LD del HTML prerenderizado (scripts/prerender.mjs) lo vuelve a poner
+// cada página con useJsonLd: quitamos el estático para no duplicarlo.
+document.querySelectorAll('script[type="application/ld+json"][data-prerender]').forEach(el => el.remove())
+
 // Si falla la precarga (red caída), arrancamos igual: el router la reintenta.
 preloadCurrentRoute().catch(() => {}).finally(render)

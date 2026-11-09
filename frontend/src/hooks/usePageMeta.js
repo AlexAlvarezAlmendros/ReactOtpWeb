@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { HeadContext } from '../ssr/HeadContext'
 
 const SITE_NAME = 'Other People Records'
 const SITE_URL = 'https://www.otherpeople.es'
@@ -34,6 +35,12 @@ export function usePageMeta ({
   noindex = false,
   appendSiteName = true
 } = {}) {
+  // Prerender del build: sin efectos, así que se apunta en el contexto.
+  const head = useContext(HeadContext)
+  if (head && title) {
+    head.meta = { title, description, image, url, type, noindex, appendSiteName }
+  }
+
   useEffect(() => {
     if (!title) return
 
