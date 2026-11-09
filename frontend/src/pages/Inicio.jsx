@@ -3,6 +3,7 @@ import { Hero } from '../components/Landing/Hero'
 import { ProximosEventos } from '../components/Landing/ProximosEventos'
 import { UltimosLanzamientos } from '../components/Landing/UltimosLanzamientos'
 import { UltimosBeats } from '../components/Landing/UltimosBeats'
+import { QueHacemos } from '../components/Landing/QueHacemos'
 import Footer from '../components/Footer/Footer'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -17,6 +18,7 @@ function Inicio () {
   return (
     <>
       <Hero/>
+      <QueHacemos />
       <ProximosEventos />
       <UltimosLanzamientos />
       <UltimosBeats />

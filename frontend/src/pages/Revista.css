@@ -1,0 +1,93 @@
+.revista-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.seo-landing .revista-categories a {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #333;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.seo-landing .revista-categories a.is-active,
+.seo-landing .revista-categories a:hover {
+  border-color: #ff003c;
+  color: #fff;
+}
+
+.revista-list {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.revista-item {
+  display: grid;
+  grid-template-columns: minmax(0, 240px) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.revista-item:not(:has(.revista-item__cover)) {
+  grid-template-columns: 1fr;
+}
+
+.revista-item__cover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.revista-item h2 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.seo-landing .revista-item h2 a {
+  color: #fff;
+  border-bottom: none;
+}
+
+.revista-item__meta,
+.revista-post__byline,
+.revista-post__tags {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+}
+
+.revista-post__cover {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  margin: 1rem 0 2rem;
+}
+
+.revista-post__content {
+  line-height: 1.8;
+}
+
+.revista-post__content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.revista-rss {
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .revista-item {
+    grid-template-columns: 1fr;
+  }
+}

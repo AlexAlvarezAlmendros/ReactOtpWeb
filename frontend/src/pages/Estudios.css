@@ -391,3 +391,18 @@
     transition: none;
   }
 }
+
+/* Enlaces a las páginas de cada servicio */
+.estudios-services-links {
+  margin-top: 3rem;
+}
+
+.estudios-subtitle {
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 0 0 1rem;
+}
+
+.estudios-services-links .estudios-intro a {
+  color: #ff003c;
+}

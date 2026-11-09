@@ -26,6 +26,13 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/estudios",
+      "destination": "/estudio",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/sitemap.xml",
@@ -34,6 +41,10 @@
     {
       "source": "/sitemap-:type.xml",
       "destination": "/api/sitemap?type=:type"
+    },
+    {
+      "source": "/revista/rss.xml",
+      "destination": "/api/rss"
     },
     {
       "source": "/artistas/:id",
@@ -80,6 +91,17 @@
       "destination": "/api/og?type=releases&id=:id&mode=index"
     },
     {
+      "source": "/revista/:id((?!rss\\.xml$)[^/]+)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
+        }
+      ],
+      "destination": "/api/og?type=posts&id=:id&mode=index"
+    },
+    {
       "source": "/artistas/:id",
       "has": [
         {
@@ -124,19 +146,38 @@
       "destination": "/api/og?type=releases&id=:id&mode=social"
     },
     {
+      "source": "/revista/:id((?!rss\\.xml$)[^/]+)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=posts&id=:id&mode=social"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     },
     {
-      "source": "/:page(artistas|eventos|beats|discografia|discografica-barcelona|booking-artistas|estudios|contacto|herramientas|plugins|newsletters|privacidad|terminos|cookies|ruralmafia|crear|scanner|perfil|unsubscribe)",
+      "source": "/:page(artistas|eventos|beats|discografia|discografica|discografica-barcelona|nuevos-talentos|enviar-maqueta|booking-artistas|estudio|revista|contacto|herramientas|plugins|newsletters|privacidad|terminos|cookies|ruralmafia|crear|scanner|perfil|unsubscribe)",
       "destination": "/index.html"
     },
     {
-      "source": "/:section(artistas|eventos|beats|discografia|news|ticket|l)/:id",
+      "source": "/:section(artistas|eventos|beats|discografia|revista|news|ticket|l)/:id",
       "destination": "/index.html"
     },
     {
       "source": "/plugins/opr-w1",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/estudio/:servicio(produccion-musical|grabacion|mezcla-y-mastering|beats-a-medida)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/herramientas/:herramienta(detector-bpm|detector-tonalidad|generador-qr)",
       "destination": "/index.html"
     },
     {

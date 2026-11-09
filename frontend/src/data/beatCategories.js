@@ -38,7 +38,7 @@ export const BEAT_CATEGORIES = [
     tokens: ['reggaeton'],
     title: 'Beats de reggaetón con licencia',
     intro: [
-      'Beats de reggaetón y dembow entre 87 y 100 BPM: del perreo más clásico al reggaetón oscuro y al jerk, con baterías que pegan y espacio para la voz.',
+      'Beats de reggaetón y dembow: del perreo más clásico al reggaetón oscuro y al jerk, con baterías que pegan y espacio para la voz.',
       'Escúchalos enteros, elige la licencia que necesitas (MP3, WAV o stems) y descárgalos al momento.'
     ]
   },

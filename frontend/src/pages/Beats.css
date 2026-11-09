@@ -88,6 +88,14 @@
 /* Página de categoría */
 .beats-category__header {
   text-align: left;
+  /* Alineado con la rejilla de tarjetas, que va con 4rem de margen. */
+  padding: 0 4rem;
+}
+
+@media (max-width: 768px) {
+  .beats-category__header {
+    padding: 0 1rem;
+  }
 }
 
 .beats-category__intro {
@@ -117,6 +125,13 @@
 
 .beats-category__others {
   margin-top: 2.5rem;
+  padding: 0 4rem;
+}
+
+@media (max-width: 768px) {
+  .beats-category__others {
+    padding: 0 1rem;
+  }
 }
 
 .beats-category__others h2 {

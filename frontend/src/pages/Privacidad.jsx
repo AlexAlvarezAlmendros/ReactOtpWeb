@@ -15,7 +15,7 @@ function Privacidad () {
       <div className="legal-container">
         <header className="legal-header">
           <h1>Política de Privacidad</h1>
-          <p className="legal-date">Última actualización: 10 de agosto de 2026</p>
+          <p className="legal-date">Última actualización: 9 de noviembre de 2026</p>
         </header>
 
         <GlassSurface className="legal-content">
@@ -37,6 +37,7 @@ function Privacidad () {
               <li><strong>Gestión de contacto:</strong> Para responder a sus consultas y solicitudes de información</li>
               <li><strong>Newsletter:</strong> Para enviarle información sobre nuestros servicios, eventos y novedades</li>
               <li><strong>Reservas de estudio:</strong> Para gestionar las reservas de sesiones de grabación y otros servicios</li>
+              <li><strong>Maquetas:</strong> Para escuchar y valorar la música que nos envía por el formulario de maquetas y, si nos interesa, contactarle</li>
               <li><strong>Marketing directo:</strong> Para informarle sobre nuestros servicios y promociones</li>
               <li><strong>Analítica web:</strong> Para conocer cómo se utiliza el sitio y mejorar su contenido y usabilidad</li>
             </ul>
@@ -50,6 +51,7 @@ function Privacidad () {
               <li><strong>Datos de contacto:</strong> Dirección de correo electrónico y número de teléfono</li>
               <li><strong>Datos de la reserva:</strong> Fecha, hora y tipo de servicio solicitado</li>
               <li><strong>Datos de comunicación:</strong> Mensajes y consultas que nos envíe</li>
+              <li><strong>Datos de la maqueta:</strong> Nombre artístico, ciudad, estilos, enlaces a su música y redes, y el mensaje que nos escriba</li>
               <li><strong>Datos de navegación:</strong> Páginas visitadas, página de procedencia, tipo de dispositivo, navegador, sistema operativo, idioma, resolución de pantalla y país aproximado</li>
               <li><strong>Datos de interacción:</strong> Clics, desplazamiento y movimientos del cursor dentro de las páginas públicas (ver apartado 7)</li>
             </ul>
@@ -58,7 +60,7 @@ function Privacidad () {
           <section className="legal-section">
             <h2>4. Base Legal del Tratamiento</h2>
             <div className="info-box">
-              <p><strong>Consentimiento:</strong> Para el envío de newsletter y comunicaciones de marketing</p>
+              <p><strong>Consentimiento:</strong> Para el envío de newsletter y comunicaciones de marketing, y para valorar las maquetas que nos envíe</p>
               <p><strong>Ejecución de contrato:</strong> Para la gestión de reservas y prestación de servicios</p>
               <p><strong>Interés legítimo:</strong> Para responder a consultas, mejorar nuestros servicios y medir el uso del sitio web (art. 6.1.f RGPD)</p>
             </div>
@@ -72,6 +74,7 @@ function Privacidad () {
               <li><strong>Newsletter:</strong> Hasta que se desuscriba</li>
               <li><strong>Reservas:</strong> Durante 5 años desde la última actividad</li>
               <li><strong>Consultas:</strong> Durante 2 años desde la respuesta</li>
+              <li><strong>Maquetas:</strong> Durante 2 años desde el envío, salvo que pida antes su supresión</li>
               <li><strong>Datos de navegación y grabaciones de sesión:</strong> Durante 12 meses</li>
             </ul>
           </section>

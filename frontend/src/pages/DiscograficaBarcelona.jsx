@@ -26,7 +26,7 @@ const FAQ = [
   },
   {
     q: '¿Cómo os envío mi maqueta?',
-    a: 'Por el formulario de contacto o por email a justsomeotherpeople@gmail.com, con un enlace para escuchar la música (Spotify, YouTube, SoundCloud o Drive). Escuchamos todo lo que llega, aunque tardemos.'
+    a: 'Por el formulario de maquetas de la web (otherpeople.es/enviar-maqueta), con un enlace para escuchar la música (Spotify, YouTube, SoundCloud o Drive). Escuchamos todo lo que llega, aunque tardemos.'
   }
 ]
 
@@ -90,7 +90,7 @@ function DiscograficaBarcelona () {
         <ul>
           <li>
             <strong>Producción y estudio.</strong> Grabación de voces, mezcla y mastering en{' '}
-            <Link to="/estudios">nuestro estudio</Link>, además de producción de
+            <Link to="/estudio">nuestro estudio</Link>, además de producción de
             instrumentales a medida.
           </li>
           <li>
@@ -129,6 +129,11 @@ function DiscograficaBarcelona () {
           <Link to="/discografia">discografía</Link>.
         </p>
 
+        <p>
+          ¿No estás en Barcelona? Trabajamos con artistas de toda España: te lo contamos en{' '}
+          <Link to="/discografica">discográfica independiente de trap y música urbana</Link>.
+        </p>
+
         <h2>Cómo firmamos</h2>
         <h3>1. Nos mandas tu música</h3>
         <p>
@@ -162,7 +167,7 @@ function DiscograficaBarcelona () {
             Mándanos tu música. Escuchamos todo lo que llega y respondemos a lo que nos
             interesa.
           </p>
-          <Link to="/contacto" className="seo-cta__button">
+          <Link to="/enviar-maqueta" className="seo-cta__button">
             Enviar mi maqueta
           </Link>
         </GlassSurface>

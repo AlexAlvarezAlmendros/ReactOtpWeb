@@ -53,3 +53,21 @@ export function hasDoNotTrack (
 
   return signals.some(signal => signal === '1' || signal === 'yes')
 }
+
+/**
+ * Evento de conversión en Umami (envío de maqueta, reserva de estudio,
+ * petición de booking…). No hace nada si Umami no se ha cargado (Do Not
+ * Track, ruta privada o bloqueador).
+ *
+ * @param {string} name   Nombre del evento, en kebab-case: 'maqueta-enviada'.
+ * @param {object} [data] Datos sin información personal.
+ */
+export function trackEvent (name, data) {
+  try {
+    if (typeof window !== 'undefined' && typeof window.umami?.track === 'function') {
+      window.umami.track(name, data)
+    }
+  } catch {
+    // La analítica nunca debe romper la página.
+  }
+}

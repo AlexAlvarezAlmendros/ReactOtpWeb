@@ -686,6 +686,52 @@ ${credits.map(c => {
   }
 }
 
+
+const POST_CATEGORIES = { guias: 'Guías para artistas', escena: 'Escena', produccion: 'Producción', noticias: 'Noticias del sello' }
+
+function describePost (data, id, baseUrl) {
+  const name = data.title || 'Artículo'
+  const url = `${SITE_URL}/revista/${keyOf(data) || id}`
+  const image = toAbsoluteUrl(data.coverImage, baseUrl)
+  const text = htmlToText(data.content)
+  const description = data.excerpt || excerpt(text)
+  const author = data.author?.name || SITE_NAME
+  const dateLabel = formatDate(data.publishedAt)
+
+  const body = [
+    `    <p>Por ${data.author?.url ? `<a href="${esc(data.author.url)}">${esc(author)}</a>` : esc(author)}${dateLabel ? ` · ${esc(dateLabel)}` : ''}${POST_CATEGORIES[data.category] ? ` · ${esc(POST_CATEGORIES[data.category])}` : ''}</p>`,
+    data.excerpt ? `    <p><strong>${esc(data.excerpt)}</strong></p>` : '',
+    paragraphsHtml(text),
+    `    <p>Más artículos en la <a href="${SITE_URL}/revista">revista</a>. ¿Eres artista? <a href="${SITE_URL}/enviar-maqueta">Envíanos tu maqueta</a>.</p>`
+  ].filter(Boolean).join('\n')
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: name,
+    description,
+    image: image || undefined,
+    datePublished: data.publishedAt || data.createdAt || undefined,
+    dateModified: data.updatedAt || undefined,
+    mainEntityOfPage: url,
+    inLanguage: 'es-ES',
+    articleSection: POST_CATEGORIES[data.category],
+    author: { '@type': 'Person', name: author, url: data.author?.url || undefined },
+    publisher: { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: `${SITE_URL}/` }
+  }
+
+  return {
+    title: name,
+    description,
+    image,
+    url,
+    ogType: 'article',
+    body,
+    jsonLd,
+    breadcrumb: buildBreadcrumb({ listName: 'Revista', listPath: '/revista', title: name, url })
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* Handler                                                                    */
 /* -------------------------------------------------------------------------- */
@@ -694,7 +740,8 @@ const TYPES = {
   artists: { endpoint: 'artists', listName: 'Artistas', listPath: '/artistas' },
   events: { endpoint: 'events', listName: 'Eventos', listPath: '/eventos' },
   beats: { endpoint: 'beats', listName: 'Beats', listPath: '/beats' },
-  releases: { endpoint: 'releases', listName: 'Discografía', listPath: '/discografia' }
+  releases: { endpoint: 'releases', listName: 'Discografía', listPath: '/discografia' },
+  posts: { endpoint: 'posts', listName: 'Revista', listPath: '/revista' }
 }
 
 function sendGone (res, status, config) {
@@ -777,6 +824,8 @@ export default async function handler (req, res) {
     meta = describeArtist(data, id, baseUrl, extras)
   } else if (type === 'events') {
     meta = describeEvent(data, id, baseUrl)
+  } else if (type === 'posts') {
+    meta = describePost(data, id, baseUrl)
   } else if (type === 'releases') {
     meta = describeRelease(data, id, baseUrl, mode === 'index' ? await fetchReleaseArtists(data) : [])
   } else {

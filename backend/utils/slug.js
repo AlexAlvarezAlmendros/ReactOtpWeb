@@ -39,7 +39,8 @@ const SOURCES = {
     // Hay varios eventos llamados igual («OTP!»): lugar y año los distinguen.
     Event: (doc) => [doc.name, firstOf(doc.location), doc.date ? new Date(doc.date).getFullYear() : ''].join(' '),
     Beat: (doc) => [doc.title, firstOf(doc.genre), doc.bpm ? `${doc.bpm} bpm` : ''].join(' '),
-    Release: (doc) => [doc.title, firstOf(doc.subtitle)].join(' ')
+    Release: (doc) => [doc.title, firstOf(doc.subtitle)].join(' '),
+    Post: (doc) => doc.title
 };
 
 /**
@@ -50,7 +51,8 @@ const RESERVED = {
     Beat: ['trap', 'hoodtrap', 'reggaeton', 'jerk', 'drill', 'rap', 'boom-bap', 'rnb', 'afro', 'dancehall', 'genero', 'categoria'],
     Artist: [],
     Event: [],
-    Release: []
+    Release: [],
+    Post: ['rss', 'rss-xml', 'categoria']
 };
 
 /**

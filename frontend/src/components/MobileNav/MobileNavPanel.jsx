@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { to: '/discografia', label: 'Discografía', icon: ['fas', 'compact-disc'] },
   { to: '/beats', label: 'Beats', icon: ['fas', 'headphones'] },
   { to: '/plugins', label: 'Plugins', icon: ['fas', 'sliders'] },
-  { to: '/estudios', label: 'Estudios', icon: ['fas', 'music'] },
+  { to: '/estudio', label: 'Estudio', icon: ['fas', 'music'] },
   { to: '/contacto', label: 'Contacto', icon: ['fas', 'envelope'] },
   // En escritorio esto es el engranaje del header, que aquí no se ve.
   { to: '/herramientas', label: 'Herramientas', icon: ['fas', 'gear'] },

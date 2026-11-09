@@ -8,6 +8,8 @@ import BeatForm from '../components/Forms/BeatForm.jsx'
 import NewsletterForm from '../components/Forms/NewsletterForm.jsx'
 import ManageCards from '../components/ManageCards/ManageCards.jsx'
 import QRGenerator from '../components/Tools/QRGenerator/QRGenerator.jsx'
+import PostsManager from '../components/Admin/PostsManager.jsx'
+import DemosManager from '../components/Admin/DemosManager.jsx'
 import './Create.css'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -26,6 +28,8 @@ const NAV = {
     { type: 'beats',        label: 'Beats',        icon: 'music' },
     { type: 'newsletters',  label: 'Newsletters',  icon: 'envelope-open' },
     { type: 'files',        label: 'Archivos',     icon: 'folder' },
+    { type: 'posts',        label: 'Revista',      icon: 'newspaper' },
+    { type: 'demos',        label: 'Maquetas',     icon: 'inbox' },
   ],
   tools: [
     { type: 'qr-generator', label: 'Generador QR', icon: 'qrcode' },
@@ -87,6 +91,8 @@ function Create () {
         default:             return null
       }
     }
+    if (type === 'posts') return <PostsManager />
+    if (type === 'demos') return <DemosManager />
     return <ManageCards activeTab={type} />
   }
 

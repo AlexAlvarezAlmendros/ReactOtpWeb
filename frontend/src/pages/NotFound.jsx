@@ -117,7 +117,7 @@ function NotFound () {
               <div className='nav-icon'>🎵</div>
               <div className='nav-text'>Eventos</div>
             </Link>
-            <Link to="/estudios" className='nav-card'>
+            <Link to="/estudio" className='nav-card'>
               <div className='nav-icon'>🎧</div>
               <div className='nav-text'>Estudios</div>
             </Link>

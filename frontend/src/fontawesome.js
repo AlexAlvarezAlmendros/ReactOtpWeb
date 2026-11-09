@@ -81,10 +81,14 @@ import {
   faListCheck,
   faCircleExclamation,
   faMugHot,
-  faGear
+  faGear,
+  faNewspaper,
+  faInbox
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
+  faNewspaper,
+  faInbox,
   faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
   faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
   faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub,

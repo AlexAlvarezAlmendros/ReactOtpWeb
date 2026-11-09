@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout.jsx'
 import AnalyticsRoot from './layouts/AnalyticsRoot.jsx'
 
@@ -27,9 +28,20 @@ export const routes = [
           { path: '/artistas', lazy: page(() => import('./pages/Artistas.jsx')) },
           { path: '/artistas/:id', lazy: page(() => import('./pages/ArtistaDetalle.jsx')) },
           { path: '/contacto', lazy: page(() => import('./pages/Contacto.jsx')) },
-          { path: '/estudios', lazy: page(() => import('./pages/Estudios.jsx')) },
+          // /estudios → /estudio (301 en vercel.json; aquí, para la navegación interna).
+          { path: '/estudios', element: <Navigate to="/estudio" replace /> },
+          { path: '/estudio', lazy: page(() => import('./pages/Estudios.jsx')) },
+          ...['produccion-musical', 'grabacion', 'mezcla-y-mastering', 'beats-a-medida'].map(slug => ({
+            path: `/estudio/${slug}`,
+            lazy: page(() => import('./pages/EstudioServicio.jsx'))
+          })),
           { path: '/discografica-barcelona', lazy: page(() => import('./pages/DiscograficaBarcelona.jsx')) },
           { path: '/booking-artistas', lazy: page(() => import('./pages/BookingArtistas.jsx')) },
+          { path: '/discografica', lazy: page(() => import('./pages/Discografica.jsx')) },
+          { path: '/nuevos-talentos', lazy: page(() => import('./pages/NuevosTalentos.jsx')) },
+          { path: '/enviar-maqueta', lazy: page(() => import('./pages/EnviarMaqueta.jsx')) },
+          { path: '/revista', lazy: page(() => import('./pages/Revista.jsx')) },
+          { path: '/revista/:id', lazy: page(() => import('./pages/RevistaPost.jsx')) },
           { path: '/eventos', lazy: page(() => import('./pages/Eventos.jsx')) },
           { path: '/eventos/:id', lazy: page(() => import('./pages/EventoDetalle.jsx')) },
           { path: '/discografia', lazy: page(() => import('./pages/Discografia.jsx')) },
@@ -48,6 +60,10 @@ export const routes = [
           { path: '/news/:slug', lazy: page(() => import('./pages/NewsletterViewer.jsx')) },
           { path: '/unsubscribe', lazy: page(() => import('./pages/Unsubscribe.jsx')) },
           { path: '/herramientas', lazy: page(() => import('./pages/Herramientas.jsx')) },
+          ...['detector-bpm', 'detector-tonalidad', 'generador-qr'].map(slug => ({
+            path: `/herramientas/${slug}`,
+            lazy: page(() => import('./pages/Herramientas.jsx'))
+          })),
           { path: '/plugins', lazy: page(() => import('./pages/Plugins.jsx')) },
           { path: '/plugins/opr-w1', lazy: page(() => import('./pages/PluginOprW1.jsx')) },
           { path: '/ruralmafia', lazy: page(() => import('./pages/RuralMafia.jsx')) },

@@ -79,8 +79,9 @@ function Footer () {
               <NavLink to="/discografia">Discografía</NavLink>
               <NavLink to="/beats">Beats</NavLink>
               <NavLink to="/plugins">Plugins</NavLink>
+              <NavLink to="/revista">Revista</NavLink>
               <NavLink to="/newsletters">Newsletters</NavLink>
-              <NavLink to="/estudios">Estudios</NavLink>
+              <NavLink to="/estudio">Estudio</NavLink>
               <NavLink to="/herramientas">Herramientas</NavLink>
             </nav>
           </GlassSurface>
@@ -88,12 +89,15 @@ function Footer () {
           <GlassSurface className="footer-card glass">
             <h4 className="footer-card__title">Servicios</h4>
             <nav className="footer-card__nav">
+              <NavLink to="/discografica">Discográfica de música urbana</NavLink>
+              <NavLink to="/nuevos-talentos">Nuevos talentos</NavLink>
+              <NavLink to="/enviar-maqueta">Enviar maqueta</NavLink>
+              <NavLink to="/estudio/produccion-musical">Producción musical</NavLink>
+              <NavLink to="/estudio/grabacion">Estudio de grabación</NavLink>
+              <NavLink to="/estudio/mezcla-y-mastering">Mezcla y mastering</NavLink>
+              <NavLink to="/estudio/beats-a-medida">Beats a medida</NavLink>
+              <NavLink to="/booking-artistas">Booking de artistas</NavLink>
               <NavLink to="/discografica-barcelona">Discográfica en Barcelona</NavLink>
-              <NavLink to="/booking-artistas">Booking de artistas urbanos</NavLink>
-              <NavLink to="/estudios">Estudio de grabación</NavLink>
-              <NavLink to="/estudios">Mezcla y mastering</NavLink>
-              <NavLink to="/beats">Producción de beats</NavLink>
-              <NavLink to="/discografia">Distribución digital</NavLink>
             </nav>
           </GlassSurface>
 

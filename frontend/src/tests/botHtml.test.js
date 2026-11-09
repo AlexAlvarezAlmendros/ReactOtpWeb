@@ -39,6 +39,18 @@ const RELEASE = {
 
 const RELEASES = [RELEASE]
 
+const POST = {
+  _id: 'p1',
+  slug: 'como-enviar-una-maqueta',
+  title: 'Cómo enviar una maqueta a una discográfica',
+  excerpt: 'Lo que miramos cuando nos llega música.',
+  content: '<h2>Antes de enviar</h2><p>Elige tus <strong>tres</strong> mejores temas.</p>',
+  category: 'guias',
+  author: { name: 'Alex', url: 'https://www.otherpeople.es/artistas/lilbru' },
+  status: 'published',
+  publishedAt: '2026-11-10T10:00:00.000Z'
+}
+
 
 const BEAT_PLAIN = {
   _id: 'b1',
@@ -74,6 +86,8 @@ function routes (url) {
   if (path === '/artists/a1') return { status: 200, body: ARTIST }
   if (path === '/artists/687cfc1601b314edbe1f15ba') return { status: 200, body: ARTIST_SLUGGED }
   if (path === '/releases/r1') return { status: 200, body: RELEASE }
+  if (path === '/posts/como-enviar-una-maqueta') return { status: 200, body: POST }
+  if (path === '/posts') return { status: 200, body: { data: [POST], pagination: { pages: 1 } } }
   if (path.startsWith('/releases/artist/')) return { status: 200, body: { data: RELEASES } }
   if (path === '/beats') return { status: 200, body: { data: [BEAT_PLAIN, BEAT_DESCRIBED, BEAT_INACTIVE], pagination: { pages: 1 } } }
   if (path === '/beats/b1') return { status: 200, body: BEAT_PLAIN }
@@ -105,11 +119,13 @@ function mockRes () {
 
 let og
 let sitemap
+let rss
 
 beforeAll(async () => {
   process.env.VITE_API_URL = API
   og = (await import('../../api/og.js')).default
   sitemap = (await import('../../api/sitemap.js')).default
+  rss = (await import('../../api/rss.js')).default
 })
 
 beforeEach(mockFetch)
@@ -212,6 +228,15 @@ describe('api/og.js (modo index)', () => {
     expect(res.body).toContain('"@type":"MusicRecording"')
   })
 
+  test('artículo de la revista: Article con autor', async () => {
+    const res = await render('posts', 'como-enviar-una-maqueta')
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toContain('<p>Elige tus tres mejores temas.</p>')
+    expect(res.body).toContain('"@type":"Article"')
+    expect(res.body).toContain('"author":{"@type":"Person","name":"Alex"')
+    expect(res.body).toContain('<link rel="canonical" href="https://www.otherpeople.es/revista/como-enviar-una-maqueta" />')
+  })
+
   test('la API dice 404: 404', async () => {
     const res = await render('beats', 'nope')
     expect(res.statusCode).toBe(404)
@@ -277,5 +302,22 @@ describe('api/sitemap.js', () => {
 
   test('tipo desconocido: 404', async () => {
     expect((await sitemapOf('nada')).statusCode).toBe(404)
+  })
+})
+
+describe('api/rss.js', () => {
+  test('feed con los artículos publicados', async () => {
+    const res = mockRes()
+    await rss({}, res)
+    expect(res.statusCode).toBe(200)
+    expect(res.headers['content-type']).toContain('application/rss+xml')
+    expect(res.body).toContain('<link>https://www.otherpeople.es/revista/como-enviar-una-maqueta</link>')
+    expect(res.body).toContain('<dc:creator>Alex</dc:creator>')
+  })
+
+  test('sitemap de la revista', async () => {
+    const res = mockRes()
+    await sitemap({ query: { type: 'revista' } }, res)
+    expect(res.body).toContain('<loc>https://www.otherpeople.es/revista/como-enviar-una-maqueta</loc>')
   })
 })
