@@ -84,7 +84,7 @@ export const NewsletterEmail = ({
           <Section style={headerStyle}>
             {/* Replace with actual logo URL */}
             <Img
-              src="https://www.otherpeople.es/img/OTPNewsletter.png"
+              src="https://www.otherpeople.es/img/OTPNewsletter-600.png"
               width="50"
               height="50"
               alt="Other People Records Logo"

@@ -14,7 +14,7 @@ function RuralMafia () {
   usePageMeta({
     title: 'Rural Mafia',
     description: 'Evento privado de Other People Records · Showcases y sesiones DJ',
-    image: '/img/logoruralmafia.png'
+    image: '/img/logoruralmafia-og.png'
   })
 
   return (
@@ -27,7 +27,7 @@ function RuralMafia () {
               <span className="rm-hero__org-dot" /> Other People Records presenta
             </span>
             <img
-              src="/img/logoruralmafia.png"
+              src="/img/logoruralmafia.webp"
               alt="OTP! Rural Mafia"
               className="rm-hero__logo"
             />
@@ -169,7 +169,7 @@ function RuralMafia () {
               <img src="/img/colabs/logoagullons.svg" alt="Ales Agullons" />
             </div>
             <div className="rm-colabs__item">
-              <img src="/img/colabs/logoinvertido.png" alt="Colaborador" />
+              <img src="/img/colabs/logoinvertido.webp" alt="Colaborador" />
             </div>
             <div className="rm-colabs__item">
               <img src="/img/colabs/estraperlologp.svg" alt="Estraperlologp" />

@@ -1083,7 +1083,7 @@ OTP Records
         <body style="background-color: #000000; font-family: Arial, sans-serif; color: #ffffff; margin: 0; padding: 0;">
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                 <div style="text-align: center; background-color: #111; padding: 24px;">
-                    <img src="https://www.otherpeople.es/img/OTPNewsletter.png" width="200" alt="Other People Records" style="max-width: 50%; height: auto;" />
+                    <img src="https://www.otherpeople.es/img/OTPNewsletter-600.png" width="200" alt="Other People Records" style="max-width: 50%; height: auto;" />
                     <h1 style="font-size: 28px; margin: 16px 0 0;">${title}</h1>
                 </div>
                 

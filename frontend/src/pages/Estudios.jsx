@@ -89,21 +89,21 @@ function Estudios () {
       title: 'Producción de Beats',
       description: 'Creación de instrumentales personalizadas',
       type: 'image',
-      image: '/img/studio/prod.png'
+      image: '/img/studio/prod.webp'
     },
     {
       id: 5,
       title: 'Sesiones de Composición',
       description: 'Espacios creativos para desarrollar tus ideas musicales',
       type: 'image',
-      image: '/img/studio/comp.png'
+      image: '/img/studio/comp.webp'
     },
     {
       id: 6,
       title: 'Pulido de Vocales Pro',
       description: 'Mejora de la calidad vocal en grabaciones',
       type: 'image',
-      image: '/img/studio/vocal.png'
+      image: '/img/studio/vocal.webp'
     }
   ]
 

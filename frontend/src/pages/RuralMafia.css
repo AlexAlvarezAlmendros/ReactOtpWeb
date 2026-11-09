@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'UTSouthDrink';
-  src: url('/fonts/UT South DrinkScript Demo.ttf') format('truetype');
+  src: url('/fonts/ut-south-drink-script.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'BerlinSans';
-  src: url('/fonts/BRLNSDB.TTF') format('truetype');
+  src: url('/fonts/berlin-sans-demi.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -54,7 +54,7 @@
   content: '';
   position: absolute;
   inset: -10%;
-  background: url('/img/Cartelrural mafia.png') center center / cover no-repeat;
+  background: url('/img/cartel-rural-mafia.webp') center center / cover no-repeat;
   filter: blur(18px) saturate(0.6) brightness(0.35);
   transform: scale(1.05);
   z-index: 0;
