@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useBeats } from '../hooks/useBeats'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useJsonLd } from '../hooks/useJsonLd'
 import { Cards } from '../components/CardList/CardList'
 import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs'
+import { SeoButton, SeoChips, SeoSection } from '../components/SeoPage/SeoBlocks'
 import Footer from '../components/Footer/Footer'
 import { BEAT_CATEGORIES, MIN_INDEXABLE, categoryPath, findCategory, inCategory } from '../data/beatCategories'
 import { beatPath } from '../utils/paths'
@@ -87,44 +88,53 @@ function BeatsCategoria () {
     <>
       <section className="listing-page beats-category">
         <div className="listing-content">
-        <div className="beats-page-header beats-category__header">
-          <Breadcrumbs items={[
-            { label: 'Inicio', to: '/' },
-            { label: 'Beats', to: '/beats' },
-            { label: category.name }
-          ]} />
-          <h1>{category.title}</h1>
+        <header className="beats-category__header">
+          <Breadcrumbs
+            align="center"
+            items={[
+              { label: 'Inicio', to: '/' },
+              { label: 'Beats', to: '/beats' },
+              { label: category.name }
+            ]}
+          />
+          <span className="seo-eyebrow">Catálogo de beats</span>
+          <h1 className="beats-category__title">{category.title}</h1>
+          <div className="seo-accent" aria-hidden="true" />
           <div className="beats-category__intro">
             {category.intro.map((p, i) => <p key={i}>{p}</p>)}
-            {!loading && beats.length > 0 && (
-              <p className="beats-category__facts">
-                {beats.length} {beats.length === 1 ? 'beat' : 'beats'}
-                {range && ` · de ${range[0]} a ${range[1]} BPM`}
-                {producers.length > 0 && ` · prod. ${producers.join(', ')}`}
-              </p>
-            )}
           </div>
-        </div>
+          {!loading && beats.length > 0 && (
+            <ul className="beats-category__facts" aria-label="Resumen de la categoría">
+              <li><strong>{beats.length}</strong> {beats.length === 1 ? 'beat' : 'beats'}</li>
+              {range && <li><strong>{range[0]}–{range[1]}</strong> BPM</li>}
+              {producers.length > 0 && <li>Prod. <strong>{producers.join(', ')}</strong></li>}
+            </ul>
+          )}
+        </header>
 
         {!loading && beats.length === 0
           ? (
-            <p className="beats-category__empty">
-              Todavía no hay beats en esta categoría. Mira el <Link to="/beats">catálogo completo</Link> o{' '}
-              <Link to="/estudio/beats-a-medida">pide un beat a medida</Link>.
-            </p>
+            <div className="beats-category__empty">
+              <p>Todavía no hay beats en esta categoría.</p>
+              <div className="seo-actions">
+                <SeoButton to="/beats" variant="secondary">Ver todo el catálogo</SeoButton>
+                <SeoButton to="/estudio/beats-a-medida" icon="arrow-right">Pedir un beat a medida</SeoButton>
+              </div>
+            </div>
             )
           : <Cards cards={beats} type="beat" loading={loading} />}
 
-        <nav className="beats-category__others" aria-label="Otras categorías de beats">
-          <h2>Otros estilos</h2>
-          <ul>
-            {others.map(c => (
-              <li key={c.slug}><Link to={categoryPath(c)}>{c.title}</Link></li>
-            ))}
-            <li><Link to="/beats">Todos los beats</Link></li>
-            <li><Link to="/estudio/beats-a-medida">Beats a medida</Link></li>
-          </ul>
-        </nav>
+        <div className="beats-category__others">
+          <SeoSection title="Otros estilos" intro="¿No es lo que buscas? Hay más sonidos en el catálogo, o te hacemos uno a medida.">
+            <SeoChips
+              items={[
+                ...others.map(c => ({ key: c.slug, to: categoryPath(c), label: c.title })),
+                { key: 'todos', to: '/beats', label: 'Todos los beats' },
+                { key: 'a-medida', to: '/estudio/beats-a-medida', label: 'Beats a medida' }
+              ]}
+            />
+          </SeoSection>
+        </div>
         </div>
       </section>
       <Footer />

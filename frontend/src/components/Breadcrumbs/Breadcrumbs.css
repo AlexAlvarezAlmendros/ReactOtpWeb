@@ -30,3 +30,7 @@
   color: rgba(255, 255, 255, 0.9);
   overflow-wrap: anywhere;
 }
+
+.breadcrumbs--center ol {
+  justify-content: center;
+}

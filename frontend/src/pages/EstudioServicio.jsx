@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SeoPage from '../components/SeoPage/SeoPage'
+import { SeoChips, SeoFeatures, SeoLocation, SeoProse, SeoSection, SeoSteps } from '../components/SeoPage/SeoBlocks'
 import { useReleases } from '../hooks/useReleases'
 import { STUDIO_SERVICES, STUDIO_LOCATION, findStudioService, studioServicePath } from '../data/studioServices'
 import { BEAT_CATEGORIES, categoryPath } from '../data/beatCategories'
@@ -10,23 +11,20 @@ import NotFound from './NotFound'
 
 const SITE_URL = 'https://www.otherpeople.es'
 
-/** Bloque de contenido de un servicio: texto, lista con título o pasos. */
+const LOCATION_H2 = 'Dónde estamos'
+
+/** Bloque de contenido de un servicio: texto, tarjetas (list) o pasos (steps). */
 function Section ({ section }) {
   return (
-    <>
-      <h2>{section.h2}</h2>
-      {section.text && <p>{section.text}</p>}
+    <SeoSection title={section.h2}>
       {section.list && (
-        <ul>
-          {section.list.map(([title, text]) => <li key={title}><strong>{title}.</strong> {text}</li>)}
-        </ul>
+        <SeoFeatures items={section.list.map(([title, text, icon]) => ({ title, text, icon: icon || 'check' }))} />
       )}
       {section.steps && (
-        <ol className="seo-steps">
-          {section.steps.map(([title, text]) => <li key={title}><strong>{title}.</strong> {text}</li>)}
-        </ol>
+        <SeoSteps items={section.steps.map(([title, text]) => ({ title, text }))} />
       )}
-    </>
+      {section.text && <SeoProse><p>{section.text}</p></SeoProse>}
+    </SeoSection>
   )
 }
 
@@ -50,6 +48,8 @@ function EstudioServicio () {
   if (!service) return <NotFound />
 
   const others = STUDIO_SERVICES.filter(s => s.slug !== service.slug)
+  const locationNote = service.sections.find(section => section.h2 === LOCATION_H2)?.text
+  const budget = () => trackEvent('estudio-presupuesto', { servicio: service.slug })
 
   return (
     <SeoPage
@@ -66,8 +66,12 @@ function EstudioServicio () {
         text: 'Cuéntanos qué necesitas y te pasamos un presupuesto cerrado antes de empezar.',
         to: '/estudio?reservar=1',
         label: 'Reservar o pedir presupuesto',
-        onClick: () => trackEvent('estudio-presupuesto', { servicio: service.slug })
+        onClick: budget
       }}
+      actions={[
+        { label: 'Pedir presupuesto', to: '/estudio?reservar=1', icon: 'arrow-right', onClick: budget },
+        { label: 'Ver el estudio', to: '/estudio', variant: 'secondary' }
+      ]}
       jsonLd={[{
         '@type': 'Service',
         name: service.name,
@@ -87,51 +91,51 @@ function EstudioServicio () {
           : undefined
       }]}
     >
-      {service.sections.map(section => <Section key={section.h2} section={section} />)}
+      {service.sections
+        .filter(section => section.h2 !== LOCATION_H2)
+        .map(section => <Section key={section.h2} section={section} />)}
 
       {service.slug === 'beats-a-medida' && (
-        <p>
-          Catálogo por estilos:{' '}
-          {BEAT_CATEGORIES.map((c, i) => (
-            <span key={c.slug}>{i > 0 && ' · '}<Link to={categoryPath(c)}>{c.name}</Link></span>
-          ))}.
-        </p>
+        <SeoSection title="Catálogo por estilos" intro="Si prefieres empezar hoy, cualquier beat del catálogo se licencia al momento.">
+          <SeoChips items={BEAT_CATEGORIES.map(c => ({ key: c.slug, to: categoryPath(c), label: c.name }))} />
+        </SeoSection>
       )}
 
       {portfolio.length > 0 && (
-        <>
-          <h2>Trabajos hechos en el estudio</h2>
-          <ul>
-            {portfolio.map(release => (
-              <li key={release.id}>
-                <Link to={releasePath(release)}>{release.title}</Link>
-                {release.subtitle && <span> · {release.subtitle}</span>}
-              </li>
-            ))}
-          </ul>
-        </>
+        <SeoSection title="Trabajos hechos en el estudio">
+          <SeoChips
+            items={portfolio.map(release => ({
+              key: release.id,
+              to: releasePath(release),
+              label: release.title,
+              meta: release.subtitle,
+              img: release.img
+            }))}
+          />
+        </SeoSection>
       )}
 
-      <h2>Dónde estamos</h2>
-      <p>
-        El estudio está en la{' '}
-        <a href={STUDIO_LOCATION.mapsUrl} target="_blank" rel="noopener noreferrer">{STUDIO_LOCATION.name}</a>, en{' '}
-        {STUDIO_LOCATION.town} ({STUDIO_LOCATION.province}), a una hora de Barcelona.
-        {service.online && ' Para artistas de fuera, el servicio funciona igual online.'}{' '}
-        Más detalles en la página del <Link to="/estudio">estudio</Link>.
-      </p>
+      <SeoSection title={LOCATION_H2}>
+        <SeoLocation
+          name={STUDIO_LOCATION.name}
+          place={`${STUDIO_LOCATION.town} (${STUDIO_LOCATION.province}), a una hora de Barcelona.`}
+          mapsUrl={STUDIO_LOCATION.mapsUrl}
+          note={locationNote}
+        />
+        <SeoProse>
+          <p>
+            {service.online && 'Para artistas de fuera, el servicio funciona igual online. '}
+            Más detalles en la página del <Link to="/estudio">estudio</Link>.
+          </p>
+        </SeoProse>
+      </SeoSection>
 
-      <h2>Otros servicios del estudio</h2>
-      <ul className="seo-cards">
-        {others.map(s => (
-          <li key={s.slug}>
-            <Link to={studioServicePath(s)} className="seo-card">
-              <strong>{s.name}</strong>
-              <span>{s.short}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <SeoSection title="Otros servicios del estudio">
+        <SeoFeatures
+          more="Ver servicio"
+          items={others.map(s => ({ icon: s.icon, title: s.name, text: s.short, to: studioServicePath(s) }))}
+        />
+      </SeoSection>
     </SeoPage>
   )
 }

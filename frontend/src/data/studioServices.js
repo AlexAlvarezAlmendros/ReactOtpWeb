@@ -17,6 +17,7 @@ export const STUDIO_LOCATION = {
 export const STUDIO_SERVICES = [
   {
     slug: 'produccion-musical',
+    icon: 'sliders',
     name: 'Producción musical',
     short: 'Del boceto al tema terminado: beat, arreglos, dirección de voces y sonido final.',
     creditRoles: ['Producción', 'Composición'],
@@ -30,10 +31,10 @@ export const STUDIO_SERVICES = [
       {
         h2: 'Qué incluye la producción',
         list: [
-          ['Instrumental a medida', 'Un beat hecho para tu tema, no uno de catálogo, con la estructura que pide la canción.'],
-          ['Arreglos y estructura', 'Intro, estribillos, puentes y cambios: que el tema crezca y no se haga largo.'],
-          ['Dirección de voces', 'Tomas, dobles, ad-libs y armonías, trabajados en la sesión con alguien que conoce el género.'],
-          ['Mezcla y mastering', 'El tema sale con sonido final, listo para Spotify, Apple Music y YouTube.']
+          ['Instrumental a medida', 'Un beat hecho para tu tema, no uno de catálogo, con la estructura que pide la canción.', 'music'],
+          ['Arreglos y estructura', 'Intro, estribillos, puentes y cambios: que el tema crezca y no se haga largo.', 'list-check'],
+          ['Dirección de voces', 'Tomas, dobles, ad-libs y armonías, trabajados en la sesión con alguien que conoce el género.', 'microphone'],
+          ['Mezcla y mastering', 'El tema sale con sonido final, listo para Spotify, Apple Music y YouTube.', 'headphones']
         ]
       },
       {
@@ -59,6 +60,7 @@ export const STUDIO_SERVICES = [
   },
   {
     slug: 'grabacion',
+    icon: 'microphone',
     name: 'Grabación de voces',
     short: 'Sesiones de grabación en la masía, sin prisas y con alguien que conoce el género.',
     creditRoles: ['Grabación'],
@@ -71,7 +73,7 @@ export const STUDIO_SERVICES = [
     sections: [
       {
         h2: 'Cómo es una sesión',
-        list: [
+        steps: [
           ['Preparación', 'Antes de la sesión revisamos el beat, la letra y las referencias para no perder tiempo en el estudio.'],
           ['Grabación', 'Tomas principales, dobles, ad-libs y coros, con alguien al otro lado del cristal que conoce el género.'],
           ['Edición', 'Selección de las mejores tomas, afinación y limpieza para que la voz quede lista para mezclar.'],
@@ -95,6 +97,7 @@ export const STUDIO_SERVICES = [
   },
   {
     slug: 'mezcla-y-mastering',
+    icon: 'headphones',
     name: 'Mezcla y mastering',
     short: 'Mezcla y master de trap y música urbana, en el estudio u online desde cualquier ciudad.',
     creditRoles: ['Mezcla', 'Mastering'],
@@ -117,10 +120,10 @@ export const STUDIO_SERVICES = [
       {
         h2: 'Cómo preparar las pistas',
         list: [
-          ['WAV a 24 bits', 'A la misma frecuencia de muestreo que el proyecto (44,1 o 48 kHz), todas desde el compás 1.'],
-          ['Voces por separado', 'Principal, dobles, ad-libs y coros en pistas distintas, sin efectos de mezcla aplicados (o mándanos las dos versiones).'],
-          ['Beat en stems', 'Si puedes, el beat separado por grupos: 808, batería, melodías y efectos. Si no, el beat en estéreo.'],
-          ['Sin limitador en el máster', 'Nada en el bus principal: el volumen final lo damos en el mastering.']
+          ['WAV a 24 bits', 'A la misma frecuencia de muestreo que el proyecto (44,1 o 48 kHz), todas desde el compás 1.', 'file-audio'],
+          ['Voces por separado', 'Principal, dobles, ad-libs y coros en pistas distintas, sin efectos de mezcla aplicados (o mándanos las dos versiones).', 'microphone'],
+          ['Beat en stems', 'Si puedes, el beat separado por grupos: 808, batería, melodías y efectos. Si no, el beat en estéreo.', 'sliders'],
+          ['Sin limitador en el máster', 'Nada en el bus principal: el volumen final lo damos en el mastering.', 'gauge-high']
         ]
       },
       {
@@ -137,6 +140,7 @@ export const STUDIO_SERVICES = [
   },
   {
     slug: 'beats-a-medida',
+    icon: 'compact-disc',
     name: 'Beats a medida',
     short: 'Un instrumental hecho para tu tema, con exclusiva y stems.',
     creditRoles: ['Beat'],

@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SeoPage from '../components/SeoPage/SeoPage'
+import { SeoFeatures, SeoProse, SeoSection, SeoSteps } from '../components/SeoPage/SeoBlocks'
+import GlassSurface from '../components/GlassSurface'
 import { trackEvent } from '../utils/analytics'
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -88,105 +91,127 @@ function EnviarMaqueta () {
       h1="Envía tu maqueta"
       lead="Somos un sello independiente de trap y música urbana y buscamos artistas nuevos con música propia e identidad clara. Rellena el formulario con dos o tres temas y los escuchamos. Es gratis y no hace falta tener números."
       crumbs={[{ label: 'Discográfica', to: '/discografica' }, { label: 'Enviar maqueta' }]}
+      actions={[{ label: 'Ir al formulario', href: '#formulario', icon: 'arrow-right' }]}
       faq={FAQ}
     >
-      <h2>Qué buscamos</h2>
-      <ul>
-        <li><strong>Música terminada.</strong> Mejor tres temas que digan algo que diez bocetos.</li>
-        <li><strong>Identidad.</strong> Que se te reconozca: tu forma de escribir, tu voz, tu estética.</li>
-        <li><strong>Ganas de trabajar en equipo.</strong> Un sello es un proyecto a medio plazo, no un single suelto.</li>
-      </ul>
-      <p>
-        No miramos los seguidores antes que la música. Si quieres saber cómo trabajamos con los artistas que firmamos,
-        lo contamos en <Link to="/nuevos-talentos">nuevos talentos</Link> y en <Link to="/discografica">qué hace el sello</Link>.
-      </p>
+      <SeoSection title="Qué buscamos">
+        <SeoFeatures
+          items={[
+            { icon: 'compact-disc', title: 'Música terminada', text: 'Mejor tres temas que digan algo que diez bocetos.' },
+            { icon: 'microphone', title: 'Identidad', text: 'Que se te reconozca: tu forma de escribir, tu voz, tu estética.' },
+            { icon: 'user-group', title: 'Ganas de trabajar en equipo', text: 'Un sello es un proyecto a medio plazo, no un single suelto.' }
+          ]}
+        />
+        <SeoProse>
+          <p>
+            No miramos los seguidores antes que la música. Si quieres saber cómo trabajamos con los artistas que
+            firmamos, lo contamos en <Link to="/nuevos-talentos">nuevos talentos</Link> y en{' '}
+            <Link to="/discografica">qué hace el sello</Link>.
+          </p>
+        </SeoProse>
+      </SeoSection>
 
-      <h2>Formulario</h2>
-      {status === 'sent'
-        ? (
-          <div className="seo-form__success" role="status">
-            <h3>¡Maqueta recibida!</h3>
-            <p>Te hemos mandado un correo de confirmación. Si encaja con lo que buscamos, te escribiremos nosotros.</p>
-            <p>Mientras tanto, escucha lo que hemos publicado en la <Link to="/discografia">discografía</Link>.</p>
-          </div>
-          )
-        : (
-          <form className="seo-form" onSubmit={onSubmit} noValidate={false}>
-            <div className="seo-form__row">
-              <label>
-                Nombre artístico*
-                <input name="artistName" value={form.artistName} onChange={onChange} required maxLength={100} autoComplete="nickname" />
-              </label>
-              <label>
-                Email*
-                <input type="email" name="email" value={form.email} onChange={onChange} required maxLength={120} autoComplete="email" />
-              </label>
+      <SeoSection
+        id="formulario"
+        title="Mándanos tu música"
+        intro="Con el nombre, un email y un enlace es suficiente. El resto nos ayuda a escucharte con contexto."
+      >
+        {status === 'sent'
+          ? (
+            <div className="seo-form__success" role="status">
+              <h3>¡Maqueta recibida!</h3>
+              <p>Te hemos mandado un correo de confirmación. Si encaja con lo que buscamos, te escribiremos nosotros.</p>
+              <p>Mientras tanto, escucha lo que hemos publicado en la <Link to="/discografia">discografía</Link>.</p>
             </div>
-            <div className="seo-form__row">
-              <label>
-                Ciudad
-                <input name="city" value={form.city} onChange={onChange} maxLength={100} placeholder="Barcelona, Madrid, Valencia…" />
+            )
+          : (
+            <GlassSurface as="form" className="seo-form" onSubmit={onSubmit} noValidate={false}>
+              <div className="seo-form__row">
+                <Field label="Nombre artístico" required>
+                  <input name="artistName" value={form.artistName} onChange={onChange} required maxLength={100} autoComplete="nickname" placeholder="Cómo firmas tus temas" />
+                </Field>
+                <Field label="Email" required>
+                  <input type="email" name="email" value={form.email} onChange={onChange} required maxLength={120} autoComplete="email" placeholder="tu@email.com" />
+                </Field>
+              </div>
+              <div className="seo-form__row">
+                <Field label="Ciudad">
+                  <input name="city" value={form.city} onChange={onChange} maxLength={100} placeholder="Barcelona, Madrid, Valencia…" />
+                </Field>
+                <Field label="Estilos">
+                  <input name="genres" value={form.genres} onChange={onChange} maxLength={120} placeholder="trap, drill, R&B…" />
+                </Field>
+              </div>
+              <Field label="Enlace a tu música" required>
+                <input type="url" name="link1" value={form.link1} onChange={onChange} required placeholder="https://open.spotify.com/… o SoundCloud, YouTube, Drive" />
+              </Field>
+              <div className="seo-form__row">
+                <Field label="Otro enlace">
+                  <input type="url" name="link2" value={form.link2} onChange={onChange} placeholder="https://…" />
+                </Field>
+                <Field label="Otro enlace">
+                  <input type="url" name="link3" value={form.link3} onChange={onChange} placeholder="https://…" />
+                </Field>
+              </div>
+              <div className="seo-form__row">
+                <Field label="Instagram">
+                  <input name="instagram" value={form.instagram} onChange={onChange} maxLength={200} placeholder="@tuusuario" />
+                </Field>
+                <Field label="Nombre real">
+                  <input name="realName" value={form.realName} onChange={onChange} maxLength={100} autoComplete="name" />
+                </Field>
+              </div>
+              <Field label="Cuéntanos algo de ti">
+                <textarea name="message" value={form.message} onChange={onChange} rows={5} maxLength={2000} placeholder="Desde cuándo haces música, con quién trabajas, qué tienes preparado…" />
+              </Field>
+              {/* Campo trampa para bots: no lo rellenes. */}
+              <label className="seo-form__trap" aria-hidden="true">
+                Web
+                <input name="website" value={form.website} onChange={onChange} tabIndex={-1} autoComplete="off" />
               </label>
-              <label>
-                Estilos
-                <input name="genres" value={form.genres} onChange={onChange} maxLength={120} placeholder="trap, drill, R&B…" />
+              <label className="seo-form__check">
+                <input type="checkbox" name="consent" checked={form.consent} onChange={onChange} required />
+                <span>
+                  Acepto que Other People Records guarde estos datos para valorar mi música y contactarme. Más
+                  información en la <Link to="/privacidad">política de privacidad</Link>.
+                  <span className="seo-form__required"> *</span>
+                </span>
               </label>
-            </div>
-            <label>
-              Enlace a tu música*
-              <input type="url" name="link1" value={form.link1} onChange={onChange} required placeholder="https://open.spotify.com/… o SoundCloud, YouTube, Drive" />
-            </label>
-            <div className="seo-form__row">
-              <label>
-                Otro enlace
-                <input type="url" name="link2" value={form.link2} onChange={onChange} placeholder="https://…" />
-              </label>
-              <label>
-                Otro enlace
-                <input type="url" name="link3" value={form.link3} onChange={onChange} placeholder="https://…" />
-              </label>
-            </div>
-            <div className="seo-form__row">
-              <label>
-                Instagram
-                <input name="instagram" value={form.instagram} onChange={onChange} maxLength={200} placeholder="@tuusuario" />
-              </label>
-              <label>
-                Nombre real
-                <input name="realName" value={form.realName} onChange={onChange} maxLength={100} autoComplete="name" />
-              </label>
-            </div>
-            <label>
-              Cuéntanos algo de ti
-              <textarea name="message" value={form.message} onChange={onChange} rows={5} maxLength={2000} placeholder="Desde cuándo haces música, con quién trabajas, qué tienes preparado…" />
-            </label>
-            {/* Campo trampa para bots: no lo rellenes. */}
-            <label className="seo-form__trap" aria-hidden="true">
-              Web
-              <input name="website" value={form.website} onChange={onChange} tabIndex={-1} autoComplete="off" />
-            </label>
-            <label className="seo-form__check">
-              <input type="checkbox" name="consent" checked={form.consent} onChange={onChange} required />
-              <span>
-                Acepto que Other People Records guarde estos datos para valorar mi música y contactarme. Más información en la{' '}
-                <Link to="/privacidad">política de privacidad</Link>.*
-              </span>
-            </label>
-            {error && <p className="seo-form__error" role="alert">{error}</p>}
-            <button type="submit" className="seo-cta__button" disabled={status === 'sending'}>
-              {status === 'sending' ? 'Enviando…' : 'Enviar mi maqueta'}
-            </button>
-            <p className="seo-form__hint">* Obligatorio.</p>
-          </form>
-          )}
+              {error && <p className="seo-form__error" role="alert">{error}</p>}
+              <div className="seo-form__footer">
+                <button type="submit" className="seo-button" disabled={status === 'sending'}>
+                  {status === 'sending' ? 'Enviando…' : 'Enviar mi maqueta'}
+                  {status !== 'sending' && <FontAwesomeIcon icon={['fas', 'paper-plane']} className="seo-button__icon" aria-hidden="true" />}
+                </button>
+                <p className="seo-form__hint">Los campos con * son obligatorios.</p>
+              </div>
+            </GlassSurface>
+            )}
+      </SeoSection>
 
-      <h2>Qué pasa después</h2>
-      <ol className="seo-steps">
-        <li><strong>Te llega un correo de confirmación</strong> con lo que acabas de enviar.</li>
-        <li><strong>Escuchamos tu música.</strong> Lo hace alguien del equipo, no un filtro automático.</li>
-        <li><strong>Si encaja, te escribimos</strong> para conocerte, en el estudio o por videollamada si estás lejos.</li>
-      </ol>
+      <SeoSection title="Qué pasa después">
+        <SeoSteps
+          items={[
+            { title: 'Te llega un correo', text: 'Una confirmación con lo que acabas de enviar, para que sepas que ha llegado.' },
+            { title: 'Escuchamos tu música', text: 'Lo hace alguien del equipo, no un filtro automático.' },
+            { title: 'Si encaja, te escribimos', text: 'Para conocerte, en el estudio o por videollamada si estás lejos.' }
+          ]}
+        />
+      </SeoSection>
     </SeoPage>
+  )
+}
+
+/** Campo con su etiqueta en el estilo del formulario de Contacto. */
+function Field ({ label, required = false, children }) {
+  return (
+    <label className="seo-form__field">
+      <span className="seo-form__label">
+        {label}
+        {required && <span className="seo-form__required"> *</span>}
+      </span>
+      {children}
+    </label>
   )
 }
 

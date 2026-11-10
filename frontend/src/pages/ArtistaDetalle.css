@@ -166,6 +166,7 @@
 /* === SECTIONS === */
 .artista-detail__section-header {
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .artista-detail__section-header h2 {
@@ -180,6 +181,7 @@
 .artista-detail__section-line {
   width: 36px;
   height: 3px;
+  margin: 0 auto;
   background: #ff003c;
   border-radius: 2px;
 }
@@ -206,7 +208,9 @@
 
 .artista-detail__bio {
   max-width: 70ch;
+  margin: 0 auto;
   color: rgba(255, 255, 255, 0.78);
+  text-align: center;
   font-size: 1rem;
   line-height: 1.7;
 }

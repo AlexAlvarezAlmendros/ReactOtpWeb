@@ -394,15 +394,36 @@
 
 /* Enlaces a las páginas de cada servicio */
 .estudios-services-links {
-  margin-top: 3rem;
+  margin-top: 112px;
+  padding-bottom: 104px;
 }
 
 .estudios-subtitle {
-  text-align: center;
-  font-size: 1.6rem;
-  margin: 0 0 1rem;
+  margin: 0 0 8px;
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-.estudios-services-links .estudios-intro a {
-  color: #ff003c;
+.estudios-services-links .estudios-header {
+  margin-bottom: 40px;
+}
+
+.estudios-services-links__more {
+  margin-top: 48px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .estudios-services-links {
+    margin-top: 80px;
+    padding-bottom: 72px;
+  }
+
+  .estudios-subtitle {
+    font-size: 1.6rem;
+  }
 }
