@@ -3,6 +3,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import { useJsonLd } from '../hooks/useJsonLd'
 import { SeoLayout } from '../components/SeoPage/SeoPage'
 import { SeoFeatures, SeoProse, SeoSection, SeoSteps } from '../components/SeoPage/SeoBlocks'
+import { STUDIO_LOCATION } from '../data/studioServices'
 
 const URL = 'https://www.otherpeople.es/discografica-barcelona'
 
@@ -17,7 +18,7 @@ const FAQ = [
   },
   {
     q: '¿Trabajáis solo con artistas de Barcelona?',
-    a: 'Estamos en Igualada y la mayoría de nuestro roster es del área de Barcelona, pero trabajamos con artistas de toda España. El estudio es presencial; el resto —distribución, promoción, booking— se puede llevar a distancia.'
+    a: 'El sello está en Igualada, el estudio en la Masia Agullons (Sant Joan de Mediona) y la mayoría de nuestro roster es del área de Barcelona, pero trabajamos con artistas de toda España. La grabación de voces es en el estudio; la mezcla, el mastering, la distribución, la promoción y el booking funcionan también a distancia.'
   },
   {
     q: '¿Qué géneros lleváis?',
@@ -129,10 +130,12 @@ function DiscograficaBarcelona () {
       <SeoSection title="Por qué en Barcelona">
         <SeoProse>
           <p>
-            Barcelona concentra buena parte de la escena urbana del país, pero también concentra la prisa. Nosotros
-            estamos a 45 minutos, en Igualada, y eso nos permite trabajar con calma: sesiones largas, sin reloj y sin
-            compartir el estudio con otros tres proyectos el mismo día. Los artistas del roster son en su mayoría del
-            área metropolitana de Barcelona y de la Anoia, y tocan por toda Cataluña.
+            Barcelona concentra buena parte de la escena urbana del país, pero también concentra la prisa. El sello
+            está en Igualada y el estudio en la{' '}
+            <a href={STUDIO_LOCATION.mapsUrl} target="_blank" rel="noopener noreferrer">Masia Agullons</a>, en Sant
+            Joan de Mediona, a una hora de Barcelona y en plena naturaleza. Eso nos permite trabajar con calma:
+            sesiones largas, sin reloj y sin compartir el estudio con otros tres proyectos el mismo día. Los artistas
+            del roster son en su mayoría del área metropolitana de Barcelona y de la Anoia, y tocan por toda Cataluña.
           </p>
           <p>
             Puedes ver a quién llevamos en la página de <Link to="/artistas">artistas</Link> y escuchar lo que hemos
