@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useToast } from '../contexts/ToastContext'
+import { trackEvent } from '../utils/analytics'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -46,6 +47,8 @@ export function useBeatPurchase() {
       toast.info('Redirigiendo a la pasarela de pago...')
 
       // Redirigir a Stripe Checkout
+      // Conversión (Umami): se va a la pasarela de Stripe.
+      trackEvent('beat-checkout', { licencia: licenseId })
       window.location.href = data.url
 
       return data

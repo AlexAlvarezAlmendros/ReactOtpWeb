@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { STUDIO_SERVICES, STUDIO_LOCATION, studioServicePath } from '../data/studioServices'
+import { trackEvent } from '../utils/analytics'
+import '../pages/Landing.css'
 import './Estudios.css'
 import './ListingPage.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
@@ -34,7 +37,7 @@ const ESTUDIO_JSONLD = {
           itemOffered: {
             '@type': 'Service',
             name,
-            areaServed: { '@type': 'AdministrativeArea', name: 'Barcelona' },
+            areaServed: { '@type': 'Country', name: 'España' },
             provider: { '@id': 'https://www.otherpeople.es/#organization' }
           }
         }))
@@ -44,7 +47,7 @@ const ESTUDIO_JSONLD = {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
-        { '@type': 'ListItem', position: 2, name: 'Estudio de grabación', item: 'https://www.otherpeople.es/estudios' }
+        { '@type': 'ListItem', position: 2, name: 'Estudio de grabación', item: 'https://www.otherpeople.es/estudio' }
       ]
     }
   ]
@@ -52,8 +55,9 @@ const ESTUDIO_JSONLD = {
 
 function Estudios () {
   usePageMeta({
-    title: 'Estudio de grabación en Barcelona — Mezcla y mastering',
-    description: 'Estudio de grabación profesional en Sant Joan de Mediona: grabación de voces, mezcla, mastering, producción de beats y sesiones de composición. Reserva tu sesión.'
+    title: 'Estudio de grabación y producción musical cerca de Barcelona',
+    description: 'Estudio de grabación, producción musical, mezcla y mastering de trap y música urbana en la Masia Agullons (Sant Joan de Mediona, Barcelona). Mezcla y mastering online para toda España.',
+    url: '/estudio'
   })
 
   useJsonLd(ESTUDIO_JSONLD)
@@ -61,6 +65,12 @@ function Estudios () {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const { enviarReserva, isLoading, error } = useReserva()
+
+  // /estudio?reservar=1 (desde las páginas de servicio) abre la reserva.
+  const [searchParams] = useSearchParams()
+  useEffect(() => {
+    if (searchParams.get('reservar') === '1') setIsModalOpen(true)
+  }, [searchParams])
 
   const services = [
     {
@@ -89,21 +99,21 @@ function Estudios () {
       title: 'Producción de Beats',
       description: 'Creación de instrumentales personalizadas',
       type: 'image',
-      image: '/img/studio/prod.png'
+      image: '/img/studio/prod.webp'
     },
     {
       id: 5,
       title: 'Sesiones de Composición',
       description: 'Espacios creativos para desarrollar tus ideas musicales',
       type: 'image',
-      image: '/img/studio/comp.png'
+      image: '/img/studio/comp.webp'
     },
     {
       id: 6,
-      title: 'Pulido de Volcales Pro',
+      title: 'Pulido de Vocales Pro',
       description: 'Mejora de la calidad vocal en grabaciones',
       type: 'image',
-      image: '/img/studio/vocal.png'
+      image: '/img/studio/vocal.webp'
     }
   ]
 
@@ -165,6 +175,7 @@ function Estudios () {
   const handleSubmitReserva = async (datosReserva) => {
     try {
       await enviarReserva(datosReserva)
+      trackEvent('reserva-estudio')
       setShowSuccessMessage(true)
       setTimeout(() => {
         setShowSuccessMessage(false)
@@ -183,10 +194,11 @@ function Estudios () {
           <h1 className="estudios-title">ESTUDIO DE GRABACIÓN</h1>
           <div className="estudios-underline"></div>
           <p className="estudios-intro">
-            Grabamos, mezclamos y masterizamos en nuestro estudio de Sant Joan de Mediona, a 1 hora
-            de Barcelona en la Masia {' '}
-            <Link to="https://www.google.com/maps/place/Masia+Agullons/@41.4786912,1.5878298,827m/data=!3m2!1e3!4b1!4m6!3m5!1s0x12a46c2fa4d3840d:0x2f99fa16b0f0a188!8m2!3d41.4786872!4d1.5904047!16s%2Fg%2F11ckqr7mm9?entry=ttu&g_ep=EgoyMDI2MDgwNS4xIKXMDSoASAFQAw%3D%3D">Ales Agullons</Link>{' '}situada en un entorno natural 
-            que ayuda a crear un ambiente propicio para la creatividad.
+            Grabamos, producimos, mezclamos y masterizamos en nuestro estudio de Sant Joan de Mediona, a 1 hora
+            de Barcelona, en la{' '}
+            <a href={STUDIO_LOCATION.mapsUrl} target="_blank" rel="noopener noreferrer">Masia Agullons</a>, situada en un entorno natural
+            que ayuda a crear un ambiente propicio para la creatividad. La mezcla, el mastering y la producción también
+            funcionan online para artistas de toda España.
           </p>
         </header>
 
@@ -250,6 +262,25 @@ function Estudios () {
               Reserva una Sesión
             </GlassSurface>
         </div>
+      </div>
+
+      {/* Una página por servicio: son las que posicionan por cada búsqueda. */}
+      <div className="estudios-container estudios-services-links">
+        <h2 className="estudios-subtitle">Servicios del estudio</h2>
+        <ul className="seo-cards">
+          {STUDIO_SERVICES.map(service => (
+            <li key={service.slug}>
+              <Link to={studioServicePath(service)} className="seo-card">
+                <strong>{service.name}</strong>
+                <span>{service.short}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <p className="estudios-intro">
+          ¿Buscas instrumental? Escucha el <Link to="/beats">catálogo de beats</Link>. ¿Quieres firmar con el sello?
+          Mira cómo trabajamos con <Link to="/nuevos-talentos">nuevos talentos</Link>.
+        </p>
       </div>
 
       {/* Mensaje de éxito */}

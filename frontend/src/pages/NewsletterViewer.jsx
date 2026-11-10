@@ -7,7 +7,9 @@ import EventsCard from '../components/EventsCard/EventsCard'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import { useNewsletter } from '../hooks/useNewsletter'
 import { useAuth } from '../hooks/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 import './NewsletterViewer.css'
+import { eventPath } from '../utils/paths'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -33,6 +35,19 @@ function NewsletterViewer () {
     checkStatus,
     reset: resetNewsletter 
   } = useNewsletter()
+
+  // Sin esto, /news/:slug heredaba el title y el canonical de la página anterior.
+  const newsletterDate = newsletter?.createdAt
+    ? new Date(newsletter.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
+    : null
+  usePageMeta({
+    title: newsletter?.title ? `${newsletter.title} — Newsletter` : 'Newsletter',
+    description: newsletter?.title
+      ? `${newsletter.title}${newsletterDate ? ` (${newsletterDate})` : ''}: lanzamientos, beats y eventos de Other People Records, sello independiente de trap y música urbana.`
+      : undefined,
+    url: `/news/${slug}`,
+    type: 'article'
+  })
 
   // Actualizar estado al cambiar el tamaño de ventana
   useEffect(() => {
@@ -306,7 +321,7 @@ function NewsletterViewer () {
                           </a>
                         ) : events[0].ticketsEnabled && events[0].availableTickets > 0 ? (
                           <Link 
-                            to={`/eventos/${events[0].id}`} 
+                            to={eventPath(events[0])} 
                             className='evento-destacado-btn-comprar'
                           >
                             <FontAwesomeIcon icon={['fas', 'ticket-alt']} />
@@ -314,7 +329,7 @@ function NewsletterViewer () {
                           </Link>
                         ) : (
                           <Link 
-                            to={`/eventos/${events[0].id}`} 
+                            to={eventPath(events[0])} 
                             className='evento-destacado-btn-detalles'
                           >
                             Ver Detalles

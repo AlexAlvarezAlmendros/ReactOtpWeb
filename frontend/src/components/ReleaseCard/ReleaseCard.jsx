@@ -5,6 +5,7 @@ import LazyImage from '../LazyImage/LazyImage'
 import GlassSurface from '../GlassSurface'
 import { motion } from 'motion/react'
 import { useTilt } from '../../hooks/useTilt'
+import { releasePath } from '../../utils/paths'
 
 function ReleaseCard ({ card }) {
   const availableLinks = [
@@ -21,12 +22,21 @@ function ReleaseCard ({ card }) {
 
   return (
     <GlassSurface as={motion.article} {...tilt} className='card'>
-      <div className="card-image-link">
-        <LazyImage src={card.img} alt={`Portada de ${card.title}`} />
-      </div>
+      {/* Sin id (p. ej. tarjetas de ejemplo) no hay ficha a la que enlazar. */}
+      {card.id
+        ? (
+          <NavLink to={releasePath(card)} className="card-image-link">
+            <LazyImage src={card.img} alt={`Portada de ${card.title}`} />
+          </NavLink>
+          )
+        : (
+          <div className="card-image-link">
+            <LazyImage src={card.img} alt={`Portada de ${card.title}`} />
+          </div>
+          )}
       <div className='card-content'>
         <div>
-          <h2>{card.title}</h2>
+          <h2>{card.id ? <NavLink to={releasePath(card)} className="card-title-link">{card.title}</NavLink> : card.title}</h2>
           {card.subtitle && <p>{card.subtitle}</p>}
         </div>
         <div className='card__buttons'>

@@ -2,6 +2,7 @@ const Beat = require('../models/Beat');
 const User = require('../models/User');
 const Purchase = require('../models/Purchase');
 const mongoose = require('mongoose');
+const { findByIdOrSlug, ensureSlug } = require('../utils/slug');
 const { isUserAdmin } = require('../utils/authHelpers');
 const { buildFilter, buildQueryOptions, validateFilters, FILTER_CONFIGS } = require('../utils/filterHelpers');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -120,7 +121,7 @@ const getBeats = async (req, res) => {
 
         // Execute query with filters
         const beats = await Beat.find(filter)
-            .populate('producer', 'name artistType img') // Populate producer info from Artist
+            .populate('producer', 'name artistType img slug') // Populate producer info from Artist
             .sort(options.sort)
             .limit(options.limit)
             .skip(options.skip);
@@ -155,14 +156,13 @@ const getBeats = async (req, res) => {
 // GET a single beat
 const getBeat = async (req, res) => {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'ID de beat no válido' });
-    }
     try {
-        const beat = await Beat.findById(id).populate('producer', 'name artistType img');
+        // Acepta el ObjectId (URLs antiguas) o el slug (URLs nuevas).
+        const beat = await findByIdOrSlug(Beat, id).populate('producer', 'name artistType img slug');
         if (!beat) {
             return res.status(404).json({ error: 'Beat no encontrado' });
         }
+        await ensureSlug(Beat, beat);
 
         // Si el usuario está autenticado (página de edición), devolver datos completos con WAV/ZIP
         // Si es público, solo devolver MP3

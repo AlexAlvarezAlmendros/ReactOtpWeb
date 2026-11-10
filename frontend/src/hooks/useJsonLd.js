@@ -1,4 +1,5 @@
-import { useEffect, useMemo } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
+import { HeadContext } from '../ssr/HeadContext'
 
 /**
  * Inyecta un bloque <script type="application/ld+json"> en el <head> mientras
@@ -16,6 +17,10 @@ export function useJsonLd (data) {
   // Serializamos aquí para que la dependencia del efecto sea estable aunque el
   // objeto se reconstruya en cada render.
   const json = useMemo(() => (data ? JSON.stringify(data) : null), [data])
+
+  // Prerender del build: se apunta en el contexto (ver ssr/HeadContext.js).
+  const head = useContext(HeadContext)
+  if (head && json && !head.jsonLd.includes(json)) head.jsonLd.push(json)
 
   useEffect(() => {
     if (!json) return

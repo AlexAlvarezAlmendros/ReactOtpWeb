@@ -51,6 +51,22 @@
   animation: heroZoom 22s ease-out infinite alternate;
 }
 
+/* Póster y vídeo se apilan: el vídeo aparece encima en cuanto reproduce. */
+.hero-poster,
+.hero-video--live {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-video--live {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero-video--live.is-playing {
+  opacity: 1;
+}
+
 @keyframes heroZoom {
   from { transform: scale(1); }
   to   { transform: scale(1.08); }

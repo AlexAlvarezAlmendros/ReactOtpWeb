@@ -8,4 +8,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
+# Los buscadores con IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended…)
+# están permitidos a propósito: queremos que el sello salga en sus respuestas.
+# Resumen para ellos: https://www.otherpeople.es/llms.txt
+
 Sitemap: https://www.otherpeople.es/sitemap.xml

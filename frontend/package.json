@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --manifest && node scripts/copy-404.mjs && vite build --config vite.ssr.config.js --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "test": "jest",
     "test:watch": "jest --watch",

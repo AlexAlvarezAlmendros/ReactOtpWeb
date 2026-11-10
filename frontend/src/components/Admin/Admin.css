@@ -1,0 +1,99 @@
+.admin-list,
+.admin-post-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-actions button,
+.admin-table__actions button,
+.admin-table__actions a {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.admin-actions button:hover,
+.admin-actions button.is-active,
+.admin-table__actions button:hover {
+  border-color: #ff003c;
+}
+
+.admin-actions input,
+.admin-actions select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+}
+
+.admin-actions input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.admin-message {
+  color: #ffb3c4;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #222;
+  vertical-align: top;
+}
+
+.admin-table__meta {
+  display: block;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.admin-table__actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.admin-table__actions > * + * {
+  margin-left: 0.4rem;
+}
+
+.admin-demo {
+  padding: 1rem;
+  border: 1px solid #262626;
+  border-radius: 12px;
+}
+
+.admin-demo header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: baseline;
+}
+
+.admin-demo a {
+  color: #ff003c;
+  overflow-wrap: anywhere;
+}
+
+.admin-demo__message {
+  white-space: pre-wrap;
+  color: rgba(255, 255, 255, 0.75);
+}

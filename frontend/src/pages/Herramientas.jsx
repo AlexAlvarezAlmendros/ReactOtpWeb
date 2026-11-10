@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useJsonLd } from '../hooks/useJsonLd'
+import { TOOL_PAGES, findToolPage, toolPagePath } from '../data/toolPages'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import QRGenerator from '../components/Tools/QRGenerator/QRGenerator.jsx'
 import AudioAnalyzer from '../components/Tools/AudioAnalyzer/AudioAnalyzer.jsx'
@@ -83,12 +84,51 @@ function ReleasePromo ({ release }) {
 }
 
 function Herramientas () {
+  // /herramientas es el hub; /herramientas/<slug> es la página de cada herramienta.
+  const { pathname } = useLocation()
+  const slug = pathname.split('/')[2]
+  const toolPage = slug ? findToolPage(slug) : null
+
   usePageMeta({
-    title: 'Detector de BPM y tonalidad online gratis',
-    description: 'Herramientas gratuitas para productores: detecta el BPM y la tonalidad de cualquier canción desde el navegador y genera códigos QR para tus lanzamientos.'
+    title: toolPage ? toolPage.title : 'Herramientas gratis para productores: BPM, tonalidad y QR',
+    description: toolPage
+      ? toolPage.description
+      : 'Herramientas gratuitas para productores: detecta el BPM y la tonalidad de cualquier canción desde el navegador y genera códigos QR para tus lanzamientos.',
+    url: toolPage ? toolPagePath(toolPage) : '/herramientas'
   })
 
-  const [activeTool, setActiveTool] = useState(TOOLS[0].id)
+  useJsonLd(toolPage
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'WebApplication',
+            name: `${toolPage.name} — Other People Records`,
+            url: `https://www.otherpeople.es${toolPagePath(toolPage)}`,
+            description: toolPage.description,
+            applicationCategory: 'MultimediaApplication',
+            operatingSystem: 'Cualquiera (navegador)',
+            isAccessibleForFree: true,
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+            publisher: { '@id': 'https://www.otherpeople.es/#organization' }
+          },
+          {
+            '@type': 'FAQPage',
+            mainEntity: toolPage.faq.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.otherpeople.es/' },
+              { '@type': 'ListItem', position: 2, name: 'Herramientas', item: 'https://www.otherpeople.es/herramientas' },
+              { '@type': 'ListItem', position: 3, name: toolPage.name, item: `https://www.otherpeople.es${toolPagePath(toolPage)}` }
+            ]
+          }
+        ]
+      }
+    : null)
+
+  const activeTool = toolPage ? toolPage.tool : 'audio-analyzer'
   const { releases, loading: relLoading } = useReleases({ count: 1, sortBy: 'date', sortOrder: 'desc' })
   const { beats,    loading: bLoading   } = useBeats({    count: 3, sortBy: 'createdAt', sortOrder: 'desc' })
 
@@ -102,10 +142,11 @@ function Herramientas () {
         <header className="tools-hero">
           <div className="tools-hero__inner">
             <span className="tools-hero__eyebrow">Other People Records</span>
-            <h1 className="tools-hero__title">Herramientas para productores</h1>
+            <h1 className="tools-hero__title">{toolPage ? toolPage.h1 : 'Herramientas para productores'}</h1>
             <p className="tools-hero__sub">
-              Detector de BPM y tonalidad y generador de QR. Gratis, sin registro y sin
-              subir tus archivos a ningún servidor.
+              {toolPage
+                ? toolPage.intro
+                : 'Detector de BPM y tonalidad y generador de QR. Gratis, sin registro y sin subir tus archivos a ningún servidor.'}
             </p>
           </div>
         </header>
@@ -114,21 +155,27 @@ function Herramientas () {
           {/* ── Tool list sidebar ── */}
           <aside className="tools-sidebar">
             <p className="tools-sidebar__label">Disponibles</p>
-            {TOOLS.map(tool => (
-              <button
-                key={tool.id}
-                className={`tools-sidebar__item ${activeTool === tool.id ? 'tools-sidebar__item--active' : ''}`}
-                onClick={() => setActiveTool(tool.id)}
-              >
-                <span className="tools-sidebar__icon">
-                  <FontAwesomeIcon icon={['fas', tool.icon]} />
-                </span>
-                <span className="tools-sidebar__info">
-                  <span className="tools-sidebar__name">{tool.label}</span>
-                  <span className="tools-sidebar__desc">{tool.description}</span>
-                </span>
-              </button>
-            ))}
+            {/* Enlaces (no botones): cada herramienta tiene su propia URL. */}
+            {TOOL_PAGES.map(page => {
+              const tool = TOOLS.find(t => t.id === page.tool)
+              const isActive = toolPage ? toolPage.slug === page.slug : page.slug === 'detector-bpm'
+              return (
+                <Link
+                  key={page.slug}
+                  to={toolPagePath(page)}
+                  className={`tools-sidebar__item ${isActive ? 'tools-sidebar__item--active' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <span className="tools-sidebar__icon">
+                    <FontAwesomeIcon icon={['fas', tool.icon]} />
+                  </span>
+                  <span className="tools-sidebar__info">
+                    <span className="tools-sidebar__name">{page.name}</span>
+                    <span className="tools-sidebar__desc">{tool.description}</span>
+                  </span>
+                </Link>
+              )
+            })}
           </aside>
 
           {/* ── Active tool ── */}
@@ -148,6 +195,29 @@ function Herramientas () {
           {/* ── Latest release promo ── */}
           {!relLoading && <ReleasePromo release={latestRelease} />}
         </div>
+
+        {/* ── Guía y preguntas de la herramienta ── */}
+        {toolPage && (
+          <section className="tools-guide">
+            {toolPage.guide.map(block => (
+              <div key={block.h2}>
+                <h2>{block.h2}</h2>
+                <p>{block.p}</p>
+              </div>
+            ))}
+            <h2>Preguntas frecuentes</h2>
+            {toolPage.faq.map(({ q, a }) => (
+              <div key={q} className="tools-guide__faq">
+                <h3>{q}</h3>
+                <p>{a}</p>
+              </div>
+            ))}
+            <p>
+              ¿Produces? Prueba también nuestro <Link to="/plugins/opr-w1">plugin gratuito OPR-W1</Link> o mira los{' '}
+              <Link to="/estudio/mezcla-y-mastering">servicios de mezcla y mastering</Link>.
+            </p>
+          </section>
+        )}
 
         {/* ── Latest beats promo ── */}
         <div className="tools-beats">

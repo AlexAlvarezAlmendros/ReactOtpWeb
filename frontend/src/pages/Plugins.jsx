@@ -126,8 +126,8 @@ function PluginShowcase ({ plugin }) {
 
 function Plugins () {
   usePageMeta({
-    title: 'Plugins',
-    description: 'Plugins de audio VST3/AU de Other People Records: gratuitos y de código abierto.'
+    title: 'Plugins VST3/AU gratis para productores',
+    description: 'Plugins de audio VST3/AU gratuitos y de código abierto de Other People Records, pensados para producir trap y música urbana.'
   })
 
   return (

@@ -2,7 +2,10 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/webp" href="/img/logoLowRes.webp" />  <!-- Todo: Change icon to other people records logo -->
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <!-- Pinta oscuro desde el primer frame: sin destello blanco al (re)cargar,
          antes de que llegue el CSS del bundle. -->
     <style>
@@ -14,9 +17,8 @@
     <link rel="stylesheet" href="/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Discográfica en Barcelona y booking urbano | Other People Records</title>
-    <meta name="description" content="Sello discográfico independiente en Barcelona. Artistas urbanos de trap, rap y drill: booking, producción, distribución y estudio de grabación en Igualada." />
-    <link rel="canonical" href="https://www.otherpeople.es/" />
+    <title>Discográfica independiente de trap y música urbana | Other People Records</title>
+    <meta name="description" content="Sello independiente de trap y música urbana. Firmamos y desarrollamos nuevos talentos: producción, mezcla y mastering, distribución, booking y beats con licencia." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#000000" />
     <meta name="author" content="Other People Records" />
@@ -27,19 +29,18 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Other People Records" />
     <meta property="og:locale" content="es_ES" />
-    <meta property="og:title" content="Discográfica en Barcelona y booking urbano | Other People Records" />
-    <meta property="og:description" content="Sello discográfico independiente en Barcelona. Artistas urbanos de trap, rap y drill: booking, producción, distribución y estudio de grabación en Igualada." />
-    <meta property="og:url" content="https://www.otherpeople.es/" />
-    <meta property="og:image" content="https://www.otherpeople.es/img/hero/portada1.png" />
-    <meta property="og:image:width" content="1920" />
-    <meta property="og:image:height" content="1080" />
+    <meta property="og:title" content="Discográfica independiente de trap y música urbana | Other People Records" />
+    <meta property="og:description" content="Sello independiente de trap y música urbana. Firmamos y desarrollamos nuevos talentos: producción, mezcla y mastering, distribución, booking y beats con licencia." />
+    <meta property="og:image" content="https://www.otherpeople.es/img/og/otp-og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Other People Records — sello discográfico independiente" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Discográfica en Barcelona y booking urbano | Other People Records" />
-    <meta name="twitter:description" content="Sello discográfico independiente en Barcelona. Artistas urbanos de trap, rap y drill: booking, producción, distribución y estudio de grabación en Igualada." />
-    <meta name="twitter:image" content="https://www.otherpeople.es/img/hero/portada1.png" />
+    <meta name="twitter:title" content="Discográfica independiente de trap y música urbana | Other People Records" />
+    <meta name="twitter:description" content="Sello independiente de trap y música urbana. Firmamos y desarrollamos nuevos talentos: producción, mezcla y mastering, distribución, booking y beats con licencia." />
+    <meta name="twitter:image" content="https://www.otherpeople.es/img/og/otp-og.jpg" />
 
     <!-- Datos estructurados: identidad del sello + ficha local del estudio -->
     <script type="application/ld+json">
@@ -53,9 +54,12 @@
           "alternateName": "OTP Records",
           "url": "https://www.otherpeople.es/",
           "logo": "https://www.otherpeople.es/img/otpLogo2.png",
-          "image": "https://www.otherpeople.es/img/hero/portada1.png",
-          "description": "Sello discográfico independiente de música urbana con base en Igualada (Barcelona). Representación y booking de artistas, producción, estudio de grabación y distribución digital.",
+          "image": "https://www.otherpeople.es/img/og/otp-og.jpg",
+          "description": "Sello discográfico independiente de trap y música urbana con base en Igualada (Barcelona). Firma y desarrollo de nuevos talentos, producción, estudio de grabación, distribución digital y booking de artistas en toda España.",
+          "knowsAbout": ["Trap", "Rap", "Drill", "Reggaetón", "Música urbana", "Producción musical", "Mezcla y mastering"],
           "foundingDate": "2020",
+          "foundingLocation": { "@type": "Place", "name": "Igualada, Barcelona" },
+          "slogan": "Sello independiente de trap y música urbana",
           "email": "justsomeotherpeople@gmail.com",
           "telephone": "+34625029056",
           "areaServed": [
@@ -89,20 +93,28 @@
           "@type": "EntertainmentBusiness",
           "@id": "https://www.otherpeople.es/#estudio",
           "name": "Other People Records — Estudio de grabación",
-          "url": "https://www.otherpeople.es/estudios",
-          "image": "https://www.otherpeople.es/img/studio/prod.png",
-          "description": "Estudio de grabación, mezcla, mastering y producción de beats en Igualada, provincia de Barcelona.",
+          "url": "https://www.otherpeople.es/estudio",
+          "image": "https://www.otherpeople.es/img/studio/prod.webp",
+          "description": "Estudio de grabación, producción musical, mezcla y mastering de trap y música urbana en la Masia Agullons (Sant Joan de Mediona, Barcelona). Mezcla y mastering online para toda España.",
           "parentOrganization": { "@id": "https://www.otherpeople.es/#organization" },
           "email": "justsomeotherpeople@gmail.com",
           "telephone": "+34625029056",
+          "priceRange": "€€",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Carrer de Dinamarca, 35 (Av. Europa)",
-            "postalCode": "08700",
-            "addressLocality": "Igualada",
+            "streetAddress": "Masia Agullons",
+            "postalCode": "08773",
+            "addressLocality": "Sant Joan de Mediona",
             "addressRegion": "Barcelona",
             "addressCountry": "ES"
-          }
+          },
+          "geo": { "@type": "GeoCoordinates", "latitude": 41.4786872, "longitude": 1.5904047 },
+          "areaServed": [
+            { "@type": "AdministrativeArea", "name": "Anoia" },
+            { "@type": "AdministrativeArea", "name": "Alt Penedès" },
+            { "@type": "AdministrativeArea", "name": "Barcelona" },
+            { "@type": "Country", "name": "España" }
+          ]
         }
       ]
     }

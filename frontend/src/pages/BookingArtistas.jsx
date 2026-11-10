@@ -3,6 +3,10 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import { useJsonLd } from '../hooks/useJsonLd'
 import Footer from '../components/Footer/Footer'
 import GlassSurface from '../components/GlassSurface'
+import { useEvents } from '../hooks/useEvents'
+import { useArtists } from '../hooks/useArtists'
+import { artistPath } from '../utils/paths'
+import { trackEvent } from '../utils/analytics'
 import './Landing.css'
 
 const URL = 'https://www.otherpeople.es/booking-artistas'
@@ -66,8 +70,13 @@ const JSONLD = {
 }
 
 function BookingArtistas () {
+  const { artists } = useArtists()
+  const { events } = useEvents({ count: 50, sortBy: 'date', sortOrder: 'desc' })
+  // Salas y ciudades donde ya ha tocado el roster (sale de los eventos reales).
+  const venues = [...new Set(events.map(e => (e.subtitle || '').trim()).filter(Boolean))].slice(0, 12)
+
   usePageMeta({
-    title: 'Booking de artistas urbanos en Barcelona',
+    title: 'Booking de artistas de trap y rap en toda España',
     description: 'Contrata artistas de trap, rap y drill para tu sala, festival o fiesta. Booking en Barcelona, Cataluña y toda España con presupuesto cerrado y rider claro.',
     url: '/booking-artistas'
   })
@@ -78,11 +87,11 @@ function BookingArtistas () {
     <>
       <article className="seo-landing">
         <span className="seo-landing__eyebrow">Booking</span>
-        <h1>Booking de artistas urbanos en Barcelona</h1>
+        <h1>Booking de artistas de trap y música urbana</h1>
         <p className="seo-landing__lead">
           Gestionamos la contratación de los artistas de Other People Records para salas,
-          festivales, fiestas mayores y eventos privados. Trap, rap y drill, con
-          presupuesto cerrado y rider por escrito antes de confirmar la fecha.
+          festivales, fiestas mayores y eventos privados de toda España. Trap, rap, drill y
+          reggaetón, con presupuesto cerrado y rider por escrito antes de confirmar la fecha.
         </p>
 
         <h2>Para quién trabajamos</h2>
@@ -122,14 +131,34 @@ function BookingArtistas () {
           la fecha desde nuestros canales para ayudarte a vender entradas.
         </p>
 
+        {venues.length > 0 && (
+          <>
+            <h2>Dónde hemos tocado</h2>
+            <p>Algunas de las salas y ciudades de los últimos eventos del sello:</p>
+            <ul className="seo-roster">
+              {venues.map(venue => <li key={venue}>{venue}</li>)}
+            </ul>
+          </>
+        )}
+
         <h2>Qué artistas puedes contratar</h2>
+        {artists.length > 0 && (
+          <ul className="seo-roster">
+            {artists.map(artist => (
+              <li key={artist.id}>
+                <Link to={artistPath(artist)}>{artist.title}</Link>
+                {artist.artistType && <span> · {artist.artistType}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
         <p>
           Todo el roster está en la página de <Link to="/artistas">artistas</Link>, con su
           música para que escuches antes de decidir. Si quieres hacerte una idea del tipo
           de directo que montamos, echa un vistazo a los{' '}
           <Link to="/eventos">eventos</Link> que ya hemos hecho. Y si además del directo te
           interesa la parte de sello, lo explicamos en{' '}
-          <Link to="/discografica-barcelona">discográfica en Barcelona</Link>.
+          <Link to="/discografica">qué hace el sello</Link>.
         </p>
 
         <h2>Preguntas frecuentes</h2>
@@ -148,7 +177,7 @@ function BookingArtistas () {
             Escríbenos con la ciudad y el día y te decimos en 48 horas qué artistas están
             disponibles y por cuánto.
           </p>
-          <Link to="/contacto" className="seo-cta__button">
+          <Link to="/contacto" className="seo-cta__button" onClick={() => trackEvent('booking-presupuesto')}>
             Pedir presupuesto de booking
           </Link>
         </GlassSurface>

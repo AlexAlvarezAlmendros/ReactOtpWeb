@@ -3,13 +3,14 @@ import { Hero } from '../components/Landing/Hero'
 import { ProximosEventos } from '../components/Landing/ProximosEventos'
 import { UltimosLanzamientos } from '../components/Landing/UltimosLanzamientos'
 import { UltimosBeats } from '../components/Landing/UltimosBeats'
+import { QueHacemos } from '../components/Landing/QueHacemos'
 import Footer from '../components/Footer/Footer'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 function Inicio () {
   usePageMeta({
-    title: 'Discográfica en Barcelona y booking urbano | Other People Records',
-    description: 'Sello discográfico independiente en Barcelona. Artistas urbanos de trap, rap y drill: booking, producción, distribución y estudio de grabación en Igualada.',
+    title: 'Discográfica independiente de trap y música urbana | Other People Records',
+    description: 'Sello independiente de trap y música urbana. Firmamos y desarrollamos nuevos talentos: producción, mezcla y mastering, distribución, booking y beats con licencia.',
     url: '/',
     appendSiteName: false
   })
@@ -17,6 +18,7 @@ function Inicio () {
   return (
     <>
       <Hero/>
+      <QueHacemos />
       <ProximosEventos />
       <UltimosLanzamientos />
       <UltimosBeats />

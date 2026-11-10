@@ -1,43 +1,71 @@
 /**
- * Vercel Serverless Function — sitemap.xml
+ * Vercel Serverless Function — sitemaps.
  *
- * Genera el sitemap a partir de las rutas estáticas de la SPA más las fichas
- * de artistas, eventos, lanzamientos y beats que devuelve la API.
+ *   /sitemap.xml               índice de sitemaps
+ *   /sitemap-paginas.xml       páginas fijas y categorías de beats
+ *   /sitemap-artistas.xml      fichas de artista (con imagen)
+ *   /sitemap-eventos.xml       fichas de evento (con imagen)
+ *   /sitemap-lanzamientos.xml  fichas de lanzamiento (con portada)
+ *   /sitemap-beats.xml         beats indexables (con portada)
+ *   /sitemap-revista.xml       artículos publicados
  *
- * Si la API falla, devolvemos igualmente el sitemap con las rutas estáticas:
- * es preferible un sitemap incompleto a un 500 que Search Console marque
- * como error.
+ * (vercel.json reescribe /sitemap-<tipo>.xml a /api/sitemap?type=<tipo>.)
+ *
+ * Solo lleva URLs que queremos indexadas. Los beats sin descripción propia
+ * (o desactivados) se quedan fuera: son plantillas casi idénticas y api/og.js
+ * los sirve con noindex. Un sitemap con URLs noindex es una señal
+ * contradictoria para Google. Lo mismo las categorías de beats con menos de
+ * MIN_CATEGORY_BEATS beats.
+ *
+ * Sin <priority> ni <changefreq>: Google los ignora. Sí <lastmod> real.
+ *
+ * Si la API falla, devolvemos igualmente lo que tengamos: es preferible un
+ * sitemap incompleto a un 500 que Search Console marque como error.
  */
 
 const API_URL = process.env.VITE_API_URL
 const SITE_URL = 'https://www.otherpeople.es'
 
-/** Rutas estáticas indexables, con su prioridad y frecuencia de cambio. */
+/** Páginas fijas indexables. Si añades una ruta pública, añádela aquí. */
 const STATIC_ROUTES = [
-  { path: '/', priority: '1.0', changefreq: 'weekly' },
-  { path: '/discografica-barcelona', priority: '0.9', changefreq: 'monthly' },
-  { path: '/booking-artistas', priority: '0.9', changefreq: 'monthly' },
-  { path: '/artistas', priority: '0.9', changefreq: 'weekly' },
-  { path: '/eventos', priority: '0.9', changefreq: 'daily' },
-  { path: '/discografia', priority: '0.8', changefreq: 'weekly' },
-  { path: '/beats', priority: '0.8', changefreq: 'weekly' },
-  { path: '/estudios', priority: '0.8', changefreq: 'monthly' },
-  { path: '/plugins', priority: '0.7', changefreq: 'monthly' },
-  { path: '/plugins/opr-w1', priority: '0.7', changefreq: 'monthly' },
-  { path: '/contacto', priority: '0.7', changefreq: 'yearly' },
-  { path: '/herramientas', priority: '0.6', changefreq: 'monthly' },
-  { path: '/newsletters', priority: '0.4', changefreq: 'weekly' },
-  { path: '/privacidad', priority: '0.2', changefreq: 'yearly' },
-  { path: '/terminos', priority: '0.2', changefreq: 'yearly' },
-  { path: '/cookies', priority: '0.2', changefreq: 'yearly' }
+  '/',
+  '/discografica',
+  '/discografica-barcelona',
+  '/nuevos-talentos',
+  '/enviar-maqueta',
+  '/artistas',
+  '/discografia',
+  '/eventos',
+  '/beats',
+  '/estudio',
+  '/estudio/produccion-musical',
+  '/estudio/grabacion',
+  '/estudio/mezcla-y-mastering',
+  '/estudio/beats-a-medida',
+  '/booking-artistas',
+  '/revista',
+  '/herramientas',
+  '/herramientas/detector-bpm',
+  '/herramientas/detector-tonalidad',
+  '/herramientas/generador-qr',
+  '/plugins',
+  '/plugins/opr-w1',
+  '/contacto',
+  '/newsletters',
+  '/privacidad',
+  '/terminos',
+  '/cookies'
 ]
 
-/** Colecciones de la API que generan URLs de detalle. */
-const COLLECTIONS = [
-  { endpoint: 'artists', prefix: '/artistas', priority: '0.8', changefreq: 'monthly' },
-  { endpoint: 'events', prefix: '/eventos', priority: '0.7', changefreq: 'weekly' },
-  { endpoint: 'beats', prefix: '/beats', priority: '0.6', changefreq: 'monthly' }
+/** Categorías de beats (ver src/data/beatCategories.js). */
+const BEAT_CATEGORIES = [
+  { slug: 'trap', tokens: ['trap'] },
+  { slug: 'hoodtrap', tokens: ['hoodtrap'] },
+  { slug: 'reggaeton', tokens: ['reggaeton'] },
+  { slug: 'jerk', tokens: ['jerk', 'jerketon'] },
+  { slug: 'drill', tokens: ['drill'] }
 ]
+const MIN_CATEGORY_BEATS = 8
 
 function esc (str) {
   return String(str)
@@ -56,15 +84,40 @@ function toLastmod (value) {
   return date.toISOString().slice(0, 10)
 }
 
-function urlEntry ({ path, priority, changefreq, lastmod }) {
+function keyOf (item) {
+  return item.slug || item._id || item.id
+}
+
+function genreTokens (genre) {
+  return String(genre || '')
+    .split(',')
+    .map(g => g.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''))
+    .filter(Boolean)
+}
+
+/** Un beat solo se indexa si tiene texto propio y sigue a la venta. */
+function isIndexableBeat (beat) {
+  return beat.active !== false && typeof beat.description === 'string' && beat.description.trim() !== ''
+}
+
+function urlEntry ({ path, lastmod, image, imageTitle }) {
   return [
     '  <url>',
     `    <loc>${esc(SITE_URL + path)}</loc>`,
     lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
-    `    <changefreq>${changefreq}</changefreq>`,
-    `    <priority>${priority}</priority>`,
+    image && /^https?:\/\//.test(image)
+      ? `    <image:image><image:loc>${esc(image)}</image:loc>${imageTitle ? `<image:title>${esc(imageTitle)}</image:title>` : ''}</image:image>`
+      : null,
     '  </url>'
   ].filter(Boolean).join('\n')
+}
+
+function urlset (entries) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${entries.join('\n')}
+</urlset>
+`
 }
 
 // La API rechaza con 400 cualquier count > 100, así que paginamos.
@@ -75,16 +128,16 @@ const MAX_PAGES = 20
 
 /**
  * Descarga una colección completa de la API paginando de 100 en 100.
- * Devuelve lo que haya conseguido hasta el momento del fallo: un sitemap
- * incompleto es mejor que un 500 que Search Console marque como error.
+ * Devuelve lo que haya conseguido hasta el momento del fallo.
  */
-async function fetchCollection (endpoint) {
+async function fetchCollection (endpoint, extraQuery = '') {
+  if (!API_URL) return []
   const items = []
 
   for (let page = 1; page <= MAX_PAGES; page++) {
     let body
     try {
-      const res = await fetch(`${API_URL}/${endpoint}?count=${PAGE_SIZE}&page=${page}`, {
+      const res = await fetch(`${API_URL}/${endpoint}?count=${PAGE_SIZE}&page=${page}${extraQuery}`, {
         headers: { accept: 'application/json' }
       })
       if (!res.ok) {
@@ -111,35 +164,86 @@ async function fetchCollection (endpoint) {
   return items
 }
 
-export default async function handler (req, res) {
-  const entries = STATIC_ROUTES.map(urlEntry)
+/** Generadores de cada sitemap hijo: devuelven las entradas <url>. */
+const SITEMAPS = {
+  async paginas () {
+    const beats = (await fetchCollection('beats')).filter(b => b.active !== false)
+    const categories = BEAT_CATEGORIES
+      .filter(c => beats.filter(b => genreTokens(b.genre).some(t => c.tokens.includes(t))).length >= MIN_CATEGORY_BEATS)
+      .map(c => `/beats/${c.slug}`)
+    return [...STATIC_ROUTES, ...categories].map(path => urlEntry({ path }))
+  },
 
-  if (API_URL) {
-    const results = await Promise.all(
-      COLLECTIONS.map(async (collection) => {
-        const items = await fetchCollection(collection.endpoint)
-        return items
-          .map((item) => {
-            const id = item._id || item.id
-            if (!id) return null
-            return urlEntry({
-              path: `${collection.prefix}/${id}`,
-              priority: collection.priority,
-              changefreq: collection.changefreq,
-              lastmod: toLastmod(item.updatedAt || item.createdAt || item.date)
-            })
-          })
-          .filter(Boolean)
-      })
-    )
-    results.forEach((group) => entries.push(...group))
+  async artistas () {
+    return (await fetchCollection('artists')).map(a => urlEntry({
+      path: `/artistas/${keyOf(a)}`,
+      lastmod: toLastmod(a.updatedAt || a.createdAt),
+      image: a.img,
+      imageTitle: a.name
+    }))
+  },
+
+  async eventos () {
+    return (await fetchCollection('events')).map(e => urlEntry({
+      path: `/eventos/${keyOf(e)}`,
+      lastmod: toLastmod(e.updatedAt || e.createdAt || e.date),
+      image: e.img,
+      imageTitle: e.name
+    }))
+  },
+
+  async lanzamientos () {
+    return (await fetchCollection('releases')).map(r => urlEntry({
+      path: `/discografia/${keyOf(r)}`,
+      lastmod: toLastmod(r.updatedAt || r.date),
+      image: r.img,
+      imageTitle: r.title
+    }))
+  },
+
+  async beats () {
+    return (await fetchCollection('beats')).filter(isIndexableBeat).map(b => urlEntry({
+      path: `/beats/${keyOf(b)}`,
+      lastmod: toLastmod(b.updatedAt || b.createdAt),
+      image: b.coverUrl,
+      imageTitle: b.title
+    }))
+  },
+
+  async revista () {
+    return (await fetchCollection('posts', '&status=published')).map(p => urlEntry({
+      path: `/revista/${p.slug}`,
+      lastmod: toLastmod(p.updatedAt || p.publishedAt),
+      image: p.coverImage,
+      imageTitle: p.title
+    }))
   }
+}
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.join('\n')}
-</urlset>
+function sitemapIndex () {
+  const today = new Date().toISOString().slice(0, 10)
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${Object.keys(SITEMAPS).map(type => `  <sitemap>
+    <loc>${SITE_URL}/sitemap-${type}.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>`).join('\n')}
+</sitemapindex>
 `
+}
+
+export default async function handler (req, res) {
+  const type = req.query?.type
+
+  let xml
+  if (!type) {
+    xml = sitemapIndex()
+  } else if (SITEMAPS[type]) {
+    xml = urlset(await SITEMAPS[type]())
+  } else {
+    res.status(404).send('Not found')
+    return
+  }
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8')
   // Cache de 1 h en el CDN; los bots no necesitan verlo más fresco.

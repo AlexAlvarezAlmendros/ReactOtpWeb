@@ -6,6 +6,7 @@ import { useBeatPurchase } from '../../hooks/useBeatPurchase'
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext'
 import LazyImage from '../LazyImage/LazyImage'
 import './BeatListRow.css'
+import { beatPath } from '../../utils/paths'
 
 const fmt = (s) => {
   if (!s || isNaN(s)) return '0:00'
@@ -180,7 +181,7 @@ function BeatListRow ({ card }) {
         {/* Info + timeline */}
         <div className="beat-list-row__center">
           <div className="beat-list-row__info">
-            <Link to={`/beats/${beatId}`} className="beat-list-row__title-link">
+            <Link to={beatPath(card)} className="beat-list-row__title-link">
               <span className="beat-list-row__title">{card.title}</span>
             </Link>
             <div className="beat-list-row__info-meta">

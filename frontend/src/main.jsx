@@ -1,40 +1,9 @@
 import { createRoot } from 'react-dom/client'
 import { Auth0Provider } from '@auth0/auth0-react'
-import Inicio from './pages/Inicio.jsx'
-import Artistas from './pages/Artistas.jsx'
-import ArtistaDetalle from './pages/ArtistaDetalle.jsx'
-import Contacto from './pages/Contacto.jsx'
-import Estudios from './pages/Estudios.jsx'
-import Eventos from './pages/Eventos.jsx'
-import EventoDetalle from './pages/EventoDetalle.jsx'
-import Create from './pages/Create.jsx'
-import Discografia from './pages/Discografia.jsx'
-import Beats from './pages/Beats.jsx'
-import BeatDetalle from './pages/BeatDetalle.jsx'
-import Privacidad from './pages/Privacidad.jsx'
-import Terminos from './pages/Terminos.jsx'
-import Cookies from './pages/Cookies.jsx'
-import NotFound from './pages/NotFound.jsx'
-import TicketInfo from './pages/TicketInfo.jsx'
-import Scanner from './pages/Scanner.jsx'
-import NewsletterBuilder from './pages/NewsletterBuilder.jsx'
-import NewsletterViewer from './pages/NewsletterViewer.jsx'
-import Newsletters from './pages/Newsletters.jsx'
-import Unsubscribe from './pages/Unsubscribe.jsx'
-import Perfil from './pages/Perfil.jsx'
-import Herramientas from './pages/Herramientas.jsx'
-import Plugins from './pages/Plugins.jsx'
-import PluginOprW1 from './pages/PluginOprW1.jsx'
-import RuralMafia from './pages/RuralMafia.jsx'
-import LinksPage from './pages/LinksPage.jsx'
-import DiscograficaBarcelona from './pages/DiscograficaBarcelona.jsx'
-import BookingArtistas from './pages/BookingArtistas.jsx'
 import './fontawesome.js'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import RootLayout from './layouts/RootLayout.jsx'
-import AnalyticsRoot from './layouts/AnalyticsRoot.jsx'
+import { createBrowserRouter, matchRoutes, RouterProvider } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-import { Analytics } from "@vercel/analytics/react"
+import { routes } from './routes.jsx'
 
 
 // Importación lazy de SpeedInsights para evitar problemas de build
@@ -43,137 +12,6 @@ const SpeedInsights = lazy(() =>
     default: module.SpeedInsights
   })).catch(() => ({ default: () => null }))
 )
-
-const router = createBrowserRouter([
-  {
-    // Envoltorio de analítica: cubre toda la app, dentro y fuera de RootLayout
-    element: <AnalyticsRoot />,
-    children: [
-      {
-        path: '/l/:slug',
-        element: <LinksPage />
-      },
-      {
-        element: <RootLayout />, // 1. El Layout es el elemento padre
-        // 2. Las páginas se renderizan como hijos dentro del <Outlet /> del Layout
-        children: [
-          {
-            path: '/',
-            element: <Inicio />
-          },
-          {
-            path: '/artistas',
-            element: <Artistas />
-          },
-          {
-            path: '/artistas/:id',
-            element: <ArtistaDetalle />
-          },
-          {
-            path: '/contacto',
-            element: <Contacto />
-          },
-          {
-            path: '/estudios',
-            element: <Estudios />
-          },
-          {
-            path: '/discografica-barcelona',
-            element: <DiscograficaBarcelona />
-          },
-          {
-            path: '/booking-artistas',
-            element: <BookingArtistas />
-          },
-          {
-            path: '/eventos',
-            element: <Eventos />
-          },
-          {
-            path: '/eventos/:id',
-            element: <EventoDetalle />
-          },
-          {
-            path: '/discografia',
-            element: <Discografia />
-          },
-          {
-            path: '/beats',
-            element: <Beats />
-          },
-          {
-            path: '/beats/:id',
-            element: <BeatDetalle />
-          },
-          {
-            path: '/crear',
-            element: <Create />
-          },
-          {
-            path: '/privacidad',
-            element: <Privacidad />
-          },
-          {
-            path: '/terminos',
-            element: <Terminos />
-          },
-          {
-            path: '/cookies',
-            element: <Cookies />
-          },
-          {
-            path: '/ticket/:validationCode',
-            element: <TicketInfo />
-          },
-          {
-            path: '/scanner',
-            element: <Scanner />
-          },
-          {
-            path: '/admin/newsletter',
-            element: <NewsletterBuilder />
-          },
-          {
-            path: '/newsletters',
-            element: <Newsletters />
-          },
-          {
-            path: '/news/:slug',
-            element: <NewsletterViewer />
-          },
-          {
-            path: '/unsubscribe',
-            element: <Unsubscribe />
-          },
-          {
-            path: '/perfil',
-            element: <Perfil />
-          },
-          {
-            path: '/herramientas',
-            element: <Herramientas />
-          },
-          {
-            path: '/plugins',
-            element: <Plugins />
-          },
-          {
-            path: '/plugins/opr-w1',
-            element: <PluginOprW1 />
-          },
-          {
-            path: '/ruralmafia',
-            element: <RuralMafia />
-          },
-          {
-            path: '*',
-            element: <NotFound />
-          }
-        ]
-      }
-    ]
-  }
-])
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
@@ -190,17 +28,43 @@ if (audience) {
   authorizationParams.audience = audience
 }
 
-createRoot(document.getElementById('root')).render(
-  <Auth0Provider
-    domain={domain}
-    clientId={clientId}
-    authorizationParams={authorizationParams}
-    useRefreshTokens={true}
-    cacheLocation="localstorage"
-  >
-    <Suspense fallback={null}>
-      <SpeedInsights />
-    </Suspense>
-    <RouterProvider router={router} />
-  </Auth0Provider>
-)
+/**
+ * Carga antes de pintar la página de la ruta actual. Si no, el router arranca
+ * sin ella y el HTML prerenderizado se sustituye por una pantalla vacía
+ * mientras llega el chunk.
+ */
+async function preloadCurrentRoute () {
+  const matches = matchRoutes(routes, window.location) || []
+  await Promise.all(matches
+    .filter(match => match.route.lazy)
+    .map(async ({ route }) => {
+      const resolved = await route.lazy()
+      Object.assign(route, resolved, { lazy: undefined })
+    }))
+}
+
+function render () {
+  const router = createBrowserRouter(routes)
+
+  createRoot(document.getElementById('root')).render(
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      authorizationParams={authorizationParams}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+    >
+      <Suspense fallback={null}>
+        <SpeedInsights />
+      </Suspense>
+      <RouterProvider router={router} />
+    </Auth0Provider>
+  )
+}
+
+// El JSON-LD del HTML prerenderizado (scripts/prerender.mjs) lo vuelve a poner
+// cada página con useJsonLd: quitamos el estático para no duplicarlo.
+document.querySelectorAll('script[type="application/ld+json"][data-prerender]').forEach(el => el.remove())
+
+// Si falla la precarga (red caída), arrancamos igual: el router la reintenta.
+preloadCurrentRoute().catch(() => {}).finally(render)

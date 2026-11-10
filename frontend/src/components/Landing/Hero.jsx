@@ -1,12 +1,45 @@
 import './Hero.css'
 import { NavLink } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useArtists } from '../../hooks/useArtists'
 import { useEvents } from '../../hooks/useEvents'
 import GlassSurface from '../GlassSurface'
+import { eventPath } from '../../utils/paths'
+
+/**
+ * ¿Merece la pena cargar el vídeo? No con ahorro de datos, conexiones lentas
+ * ni movimiento reducido: ahí se queda el póster, que ya es el LCP.
+ */
+function canPlayHeroVideo () {
+  if (typeof window === 'undefined') return false
+  const connection = navigator.connection
+  if (connection?.saveData) return false
+  if (/(^|-)2g$/.test(connection?.effectiveType || '')) return false
+  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return false
+  return true
+}
+
+/** El vídeo entra cuando el navegador queda libre, sin competir con el LCP. */
+function useDeferredHeroVideo () {
+  const [enabled, setEnabled] = useState(false)
+  useEffect(() => {
+    if (!canPlayHeroVideo()) return
+    const enable = () => setEnabled(true)
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(enable, { timeout: 2500 })
+      return () => window.cancelIdleCallback(id)
+    }
+    const id = window.setTimeout(enable, 1200)
+    return () => window.clearTimeout(id)
+  }, [])
+  return enabled
+}
 
 export function Hero () {
+  const videoEnabled = useDeferredHeroVideo()
+  const [videoPlaying, setVideoPlaying] = useState(false)
+
   const { artists } = useArtists()
   const tags = artists.length > 0
     ? artists.map((a) => a.title.toUpperCase())
@@ -24,22 +57,45 @@ export function Hero () {
 
   const formatEventDate = (dateStr) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('Milanes-ES', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()
+    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()
   }
 
   return (
     <section className='hero-section'>
       <div className='hero-video-container'>
-        <video
-          loop
-          muted
-          autoPlay
-          playsInline
-          poster="/img/hero/portada1.png"
-          className='hero-video'
-        >
-          <source src="/video/hero1.mp4" type="video/mp4" />
-        </video>
+        {/* Póster: es el LCP, así que va como imagen ligera y con prioridad alta. */}
+        <picture>
+          <source
+            type="image/avif"
+            srcSet="/img/hero/portada1-828.avif 828w, /img/hero/portada1-1280.avif 1280w, /img/hero/portada1-1920.avif 1920w"
+            sizes="100vw"
+          />
+          <img
+            src="/img/hero/portada1-1280.webp"
+            srcSet="/img/hero/portada1-828.webp 828w, /img/hero/portada1-1280.webp 1280w, /img/hero/portada1-1920.webp 1920w"
+            sizes="100vw"
+            width="1920"
+            height="1080"
+            alt=""
+            fetchPriority="high"
+            className='hero-video hero-poster'
+          />
+        </picture>
+        {videoEnabled && (
+          <video
+            loop
+            muted
+            autoPlay
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className={`hero-video hero-video--live${videoPlaying ? ' is-playing' : ''}`}
+            onPlaying={() => setVideoPlaying(true)}
+          >
+            <source src="/video/hero1-720.webm" type="video/webm" />
+            <source src="/video/hero1-720.mp4" type="video/mp4" />
+          </video>
+        )}
         <div className='hero-overlay'></div>
         <div className='hero-vignette'></div>
         <div className='hero-grid'></div>
@@ -57,7 +113,7 @@ export function Hero () {
           ? (
             <a
               className='hero-badge'
-              href={nextEvent.externalTicketUrl || `/eventos/${nextEvent.id}`}
+              href={nextEvent.externalTicketUrl || eventPath(nextEvent)}
               target={nextEvent.externalTicketUrl ? '_blank' : undefined}
               rel={nextEvent.externalTicketUrl ? 'noopener noreferrer' : undefined}
             >
@@ -69,7 +125,7 @@ export function Hero () {
             <></>
           )}
 
-        <img src="/img/logo.gif" alt="Other People Records" className='hero-logo' />
+        <img src="/img/logo-anim.webp" alt="Other People Records" width="220" height="220" className='hero-logo' />
 
         <div className='hero-text'>
           <h1 className='hero-title'>

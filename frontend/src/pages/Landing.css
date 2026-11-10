@@ -139,3 +139,210 @@
     transform: none;
   }
 }
+
+/* Rejilla de tarjetas enlazadas (pilares, servicios) */
+.seo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-cards li {
+  margin: 0;
+}
+
+.seo-card {
+  display: block;
+  height: 100%;
+  padding: 1.25rem;
+  border: 1px solid #262626;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.seo-landing a.seo-card,
+.seo-landing a.seo-card:hover {
+  border-bottom: 1px solid #262626;
+}
+
+a.seo-card:hover,
+a.seo-card:focus-visible {
+  border-color: #ff003c;
+  transform: translateY(-2px);
+}
+
+.seo-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.seo-card span {
+  display: block;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* Pasos numerados */
+.seo-steps {
+  counter-reset: step;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-steps li {
+  position: relative;
+  padding-left: 2.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.seo-steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: #ff003c;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: grid;
+  place-items: center;
+}
+
+/* Formularios de las landings (enviar maqueta) */
+.seo-form {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.seo-form__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.seo-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.seo-form input,
+.seo-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #333;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font: inherit;
+}
+
+.seo-form input:focus,
+.seo-form textarea:focus {
+  outline: none;
+  border-color: #ff003c;
+}
+
+.seo-form__check {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.6rem;
+}
+
+.seo-form__check input {
+  width: auto;
+  margin-top: 0.2rem;
+}
+
+.seo-form__hint {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.seo-form__trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.seo-form__error {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ff003c;
+  border-radius: 10px;
+  color: #ffb3c4;
+}
+
+.seo-form__success {
+  padding: 1.5rem;
+  border: 1px solid #1f7a3a;
+  border-radius: 14px;
+  background: rgba(31, 122, 58, 0.12);
+}
+
+.seo-form button[type='submit'] {
+  justify-self: start;
+  cursor: pointer;
+}
+
+.seo-form button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Datos destacados (cifras sacadas de la API) */
+.seo-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-stats li {
+  margin: 0;
+}
+
+.seo-stats strong {
+  display: block;
+  font-size: 2rem;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.seo-stats span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+/* Lista del roster */
+.seo-roster {
+  columns: 2 220px;
+  column-gap: 2rem;
+}
+
+.seo-roster li {
+  break-inside: avoid;
+}
+
+.seo-roster span {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}

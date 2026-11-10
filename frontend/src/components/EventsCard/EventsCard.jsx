@@ -5,6 +5,7 @@ import LazyImage from '../LazyImage/LazyImage'
 import GlassSurface from '../GlassSurface'
 import { motion } from 'motion/react'
 import { useTilt } from '../../hooks/useTilt'
+import { eventPath } from '../../utils/paths'
 
 function EventsCard ({ card }) {
   const availableLinks = [
@@ -53,7 +54,7 @@ function EventsCard ({ card }) {
   }
 
   const ticketsAvailable = hasAvailableTickets()
-  const targetPath = card.customLink || `/eventos/${card.id}`
+  const targetPath = card.customLink || eventPath(card)
   const hasCustomLink = Boolean(card.customLink)
 
   const tilt = useTilt()
@@ -103,7 +104,7 @@ function EventsCard ({ card }) {
             </a>
           ) : (
             <NavLink
-              to={`/eventos/${card.id}`}
+              to={eventPath(card)}
               className="btn-buy-tickets-card"
             >
               <FontAwesomeIcon icon={['fas', 'ticket-alt']} />

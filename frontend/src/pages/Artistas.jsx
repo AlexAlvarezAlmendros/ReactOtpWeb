@@ -12,8 +12,8 @@ const ARTISTS_ENDPOINT = `${API_URL}/artists`
 
 function Artistas () {
   usePageMeta({
-    title: 'Artistas urbanos en Barcelona',
-    description: 'Roster de Other People Records: cantantes, raperos y productores en Barcelona. Escucha su música y contrata su booking.'
+    title: 'Artistas de trap, rap y drill — Roster del sello',
+    description: 'Roster de Other People Records: raperos, cantantes y productores de trap, drill y música urbana. Escucha su música y contrata su booking para tu sala o festival.'
   })
 
   const fetchArtists = useCallback(async (options) => {

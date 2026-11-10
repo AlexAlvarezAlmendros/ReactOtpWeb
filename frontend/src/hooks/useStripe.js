@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useToast } from '../contexts/ToastContext'
+import { trackEvent } from '../utils/analytics'
 
 export function useStripe () {
   const [loading, setLoading] = useState(false)
@@ -40,6 +41,8 @@ export function useStripe () {
         toast.removeToast(loadingToastId)
         toast.info('Redirigiendo a la pasarela de pago...')
         
+        // Conversión (Umami): se va a la pasarela de Stripe.
+        trackEvent('entradas-checkout', { cantidad: quantity })
         window.location.href = url
       } else {
         throw new Error('No se recibió la URL de checkout')

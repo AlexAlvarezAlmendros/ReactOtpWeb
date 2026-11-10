@@ -1038,7 +1038,7 @@ OTP Records
                     <div>
                         <h3 style="margin: 0; font-size: 20px;">${event.name}</h3>
                         <p style="color: #ddd; margin: 8px 0;">📍 ${event.location} | 🕒 ${new Date(event.date).toLocaleDateString()}</p>
-                        <a href="https://www.otherpeople.es/eventos/${event._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block;">Comprar Entradas</a>
+                        <a href="https://www.otherpeople.es/eventos/${event.slug || event._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block;">Comprar Entradas</a>
                     </div>
                 </div>`;
             });
@@ -1054,7 +1054,7 @@ OTP Records
                     <div>
                         <h3 style="margin: 0; font-size: 18px;">${beat.title}</h3>
                         <p style="color: #ccc; margin: 4px 0;">${beat.key} • ${beat.bpm} BPM</p>
-                        <a href="https://www.otherpeople.es/beats/${beat._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 8px;">${beat.price === 0 ? 'Descargar' : `${beat.price}€`}</a>
+                        <a href="https://www.otherpeople.es/beats/${beat.slug || beat._id}" style="background-color: #ff003c; color: white; padding: 10px 12px; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 8px;">${beat.price === 0 ? 'Descargar' : `${beat.price}€`}</a>
                     </div>
                 </div>`;
             });
@@ -1083,7 +1083,7 @@ OTP Records
         <body style="background-color: #000000; font-family: Arial, sans-serif; color: #ffffff; margin: 0; padding: 0;">
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                 <div style="text-align: center; background-color: #111; padding: 24px;">
-                    <img src="https://www.otherpeople.es/img/OTPNewsletter.png" width="200" alt="Other People Records" style="max-width: 50%; height: auto;" />
+                    <img src="https://www.otherpeople.es/img/OTPNewsletter-600.png" width="200" alt="Other People Records" style="max-width: 50%; height: auto;" />
                     <h1 style="font-size: 28px; margin: 16px 0 0;">${title}</h1>
                 </div>
                 

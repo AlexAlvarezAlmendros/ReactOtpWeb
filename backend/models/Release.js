@@ -27,6 +27,19 @@ const releaseSchema = new Schema({
         default: 'manual'
     },
     artistIds: [{ type: Schema.Types.ObjectId, ref: 'Artist' }],
+    // Ficha pública /discografia/:slug: texto propio y créditos. Los créditos
+    // con inHouse=true enlazan a los servicios del estudio (hace de portfolio).
+    description: { type: String, trim: true, maxlength: 3000, default: '' },
+    credits: [{
+        _id: false,
+        role: {
+            type: String,
+            enum: ['Producción', 'Composición', 'Grabación', 'Mezcla', 'Mastering', 'Beat', 'Videoclip', 'Portada'],
+            required: true
+        },
+        name: { type: String, trim: true, required: true },
+        inHouse: { type: Boolean, default: false }
+    }],
     spotifySyncedAt: { type: Date, default: null }
 }, {
     timestamps: true // Esto añade createdAt y updatedAt automáticamente
@@ -40,6 +53,9 @@ releaseSchema.index({ artistIds: 1 });
 // Nota sobre el campo 'id':
 // Mongoose por defecto crea un campo virtual 'id' que es una representación en string del '_id' de MongoDB.
 // Así que no necesitamos definirlo explícitamente en el schema.
+
+releaseSchema.plugin(require('./plugins/slugPlugin'));
+releaseSchema.plugin(require('../services/indexNowService').indexNowPlugin);
 
 const Release = mongoose.model('Release', releaseSchema);
 

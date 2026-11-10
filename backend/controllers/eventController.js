@@ -1,3 +1,4 @@
+const { findByIdOrSlug, ensureSlug } = require('../utils/slug');
 const Event = require('../models/Event');
 const mongoose = require('mongoose');
 const connectDB = require('../utils/dbConnection');
@@ -51,14 +52,13 @@ const getEvents = async (req, res) => {
 // GET a single event
 const getEvent = async (req, res) => {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'ID de evento no válido' });
-    }
     try {
-        const event = await Event.findById(id);
+        // Acepta el ObjectId (URLs antiguas) o el slug (URLs nuevas).
+        const event = await findByIdOrSlug(Event, id);
         if (!event) {
             return res.status(404).json({ error: 'Evento no encontrado' });
         }
+        await ensureSlug(Event, event);
         res.status(200).json(event);
     } catch (error) {
         res.status(500).json({ error: error.message });

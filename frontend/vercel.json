@@ -1,10 +1,60 @@
 {
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(), geolocation=(), payment=(), usb=()"
+        },
+        {
+          "key": "Content-Security-Policy-Report-Only",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://analiticas.alexalvarez.dev https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: https://res.cloudinary.com https://*.amazonaws.com; font-src 'self' data:; connect-src 'self' https://otp-web-back.vercel.app https://*.auth0.com https://analiticas.alexalvarez.dev https://api.stripe.com https://api.cloudinary.com https://res.cloudinary.com https://*.amazonaws.com; frame-src https://open.spotify.com https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://js.stripe.com https://*.auth0.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; frame-ancestors 'self'"
+        }
+      ]
+    },
+    {
+      "source": "/(spa|404)(.html)?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/estudios",
+      "destination": "/estudio",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },
-
+    {
+      "source": "/sitemap-:type.xml",
+      "destination": "/api/sitemap?type=:type"
+    },
+    {
+      "source": "/revista/rss.xml",
+      "destination": "/api/rss"
+    },
     {
       "source": "/artistas/:id",
       "has": [
@@ -28,7 +78,7 @@
       "destination": "/api/og?type=events&id=:id&mode=index"
     },
     {
-      "source": "/beats/:id",
+      "source": "/beats/:id((?!(?:trap|hoodtrap|reggaeton|jerk|drill)$)[^/]+)",
       "has": [
         {
           "type": "header",
@@ -38,7 +88,28 @@
       ],
       "destination": "/api/og?type=beats&id=:id&mode=index"
     },
-
+    {
+      "source": "/discografia/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
+        }
+      ],
+      "destination": "/api/og?type=releases&id=:id&mode=index"
+    },
+    {
+      "source": "/revista/:id((?!rss\\.xml$)[^/]+)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(googlebot|google-inspectiontool|storebot-google|google-extended|bingbot|adidxbot|applebot|duckduckbot|yandex|baiduspider|slurp|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|perplexitybot|amazonbot|bytespider).*"
+        }
+      ],
+      "destination": "/api/og?type=posts&id=:id&mode=index"
+    },
     {
       "source": "/artistas/:id",
       "has": [
@@ -62,7 +133,7 @@
       "destination": "/api/og?type=events&id=:id&mode=social"
     },
     {
-      "source": "/beats/:id",
+      "source": "/beats/:id((?!(?:trap|hoodtrap|reggaeton|jerk|drill)$)[^/]+)",
       "has": [
         {
           "type": "header",
@@ -72,10 +143,175 @@
       ],
       "destination": "/api/og?type=beats&id=:id&mode=social"
     },
-
     {
-      "source": "/(.*)",
+      "source": "/discografia/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=releases&id=:id&mode=social"
+    },
+    {
+      "source": "/revista/:id((?!rss\\.xml$)[^/]+)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Telegram|Twitterbot|Slackbot|Discordbot|LinkedInBot|Pinterest|Embedly|Quora|Outbrain|vkShare|Redditbot).*"
+        }
+      ],
+      "destination": "/api/og?type=posts&id=:id&mode=social"
+    },
+    {
+      "source": "/discografica",
+      "destination": "/discografica/index.html"
+    },
+    {
+      "source": "/discografica-barcelona",
+      "destination": "/discografica-barcelona/index.html"
+    },
+    {
+      "source": "/nuevos-talentos",
+      "destination": "/nuevos-talentos/index.html"
+    },
+    {
+      "source": "/enviar-maqueta",
+      "destination": "/enviar-maqueta/index.html"
+    },
+    {
+      "source": "/artistas",
+      "destination": "/artistas/index.html"
+    },
+    {
+      "source": "/discografia",
+      "destination": "/discografia/index.html"
+    },
+    {
+      "source": "/eventos",
+      "destination": "/eventos/index.html"
+    },
+    {
+      "source": "/beats",
+      "destination": "/beats/index.html"
+    },
+    {
+      "source": "/beats/trap",
+      "destination": "/beats/trap/index.html"
+    },
+    {
+      "source": "/beats/hoodtrap",
+      "destination": "/beats/hoodtrap/index.html"
+    },
+    {
+      "source": "/beats/reggaeton",
+      "destination": "/beats/reggaeton/index.html"
+    },
+    {
+      "source": "/beats/jerk",
+      "destination": "/beats/jerk/index.html"
+    },
+    {
+      "source": "/estudio",
+      "destination": "/estudio/index.html"
+    },
+    {
+      "source": "/estudio/produccion-musical",
+      "destination": "/estudio/produccion-musical/index.html"
+    },
+    {
+      "source": "/estudio/grabacion",
+      "destination": "/estudio/grabacion/index.html"
+    },
+    {
+      "source": "/estudio/mezcla-y-mastering",
+      "destination": "/estudio/mezcla-y-mastering/index.html"
+    },
+    {
+      "source": "/estudio/beats-a-medida",
+      "destination": "/estudio/beats-a-medida/index.html"
+    },
+    {
+      "source": "/booking-artistas",
+      "destination": "/booking-artistas/index.html"
+    },
+    {
+      "source": "/revista",
+      "destination": "/revista/index.html"
+    },
+    {
+      "source": "/herramientas",
+      "destination": "/herramientas/index.html"
+    },
+    {
+      "source": "/herramientas/detector-bpm",
+      "destination": "/herramientas/detector-bpm/index.html"
+    },
+    {
+      "source": "/herramientas/detector-tonalidad",
+      "destination": "/herramientas/detector-tonalidad/index.html"
+    },
+    {
+      "source": "/herramientas/generador-qr",
+      "destination": "/herramientas/generador-qr/index.html"
+    },
+    {
+      "source": "/plugins",
+      "destination": "/plugins/index.html"
+    },
+    {
+      "source": "/plugins/opr-w1",
+      "destination": "/plugins/opr-w1/index.html"
+    },
+    {
+      "source": "/contacto",
+      "destination": "/contacto/index.html"
+    },
+    {
+      "source": "/newsletters",
+      "destination": "/newsletters/index.html"
+    },
+    {
+      "source": "/privacidad",
+      "destination": "/privacidad/index.html"
+    },
+    {
+      "source": "/terminos",
+      "destination": "/terminos/index.html"
+    },
+    {
+      "source": "/cookies",
+      "destination": "/cookies/index.html"
+    },
+    {
+      "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/:page(artistas|eventos|beats|discografia|discografica|discografica-barcelona|nuevos-talentos|enviar-maqueta|booking-artistas|estudio|revista|contacto|herramientas|plugins|newsletters|privacidad|terminos|cookies|ruralmafia|crear|scanner|perfil|unsubscribe)",
+      "destination": "/spa.html"
+    },
+    {
+      "source": "/:section(artistas|eventos|beats|discografia|revista|news|ticket|l)/:id",
+      "destination": "/spa.html"
+    },
+    {
+      "source": "/plugins/opr-w1",
+      "destination": "/spa.html"
+    },
+    {
+      "source": "/estudio/:servicio(produccion-musical|grabacion|mezcla-y-mastering|beats-a-medida)",
+      "destination": "/spa.html"
+    },
+    {
+      "source": "/herramientas/:herramienta(detector-bpm|detector-tonalidad|generador-qr)",
+      "destination": "/spa.html"
+    },
+    {
+      "source": "/admin/newsletter",
+      "destination": "/spa.html"
     }
   ]
 }

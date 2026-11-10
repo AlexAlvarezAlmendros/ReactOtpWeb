@@ -1,0 +1,96 @@
+.que-hacemos {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.que-hacemos__title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  margin: 0 0 1rem;
+}
+
+.que-hacemos__lead {
+  max-width: 62ch;
+  margin: 0 auto 2rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.que-hacemos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.que-hacemos__card {
+  display: block;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.que-hacemos__card:hover,
+.que-hacemos__card:focus-visible {
+  transform: translateY(-3px);
+}
+
+.que-hacemos__card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.que-hacemos__card p {
+  margin: 0 0 1rem;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.que-hacemos__more {
+  color: #ff003c;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.que-hacemos__stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 3rem;
+  margin: 2.5rem 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.que-hacemos__stats strong {
+  display: block;
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+.que-hacemos__stats span {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.que-hacemos__cta {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.que-hacemos__cta a {
+  color: #ff003c;
+}

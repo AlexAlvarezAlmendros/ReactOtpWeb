@@ -1,0 +1,42 @@
+# Other People Records
+
+> Other People Records (también «OTP Records») es un sello discográfico independiente de trap y música urbana con base en Igualada (Barcelona, España), en activo desde 2020. Firma y desarrolla nuevos talentos de trap, rap, drill, R&B, reggaetón, hoodtrap y jerk, y tiene estudio propio de grabación, producción musical, mezcla y mastering en la Masia Agullons (Sant Joan de Mediona, Barcelona). Trabaja con artistas de toda España.
+
+No confundir con «Other People», el sello de Nicolas Jaar, ni con otros proyectos del mismo nombre.
+
+## El sello
+
+- [Discográfica independiente de trap y música urbana](https://www.otherpeople.es/discografica): qué hace el sello por un artista, cómo firma y preguntas frecuentes.
+- [Nuevos talentos](https://www.otherpeople.es/nuevos-talentos): programa de desarrollo de artistas y convocatorias.
+- [Enviar maqueta](https://www.otherpeople.es/enviar-maqueta): formulario para enviar música al sello (gratis, abierto todo el año).
+- [Artistas](https://www.otherpeople.es/artistas): roster del sello, con una ficha por artista.
+- [Discografía](https://www.otherpeople.es/discografia): lanzamientos del sello, con una página por lanzamiento y sus créditos.
+- [Conciertos y eventos](https://www.otherpeople.es/eventos): agenda de conciertos, showcases y fiestas del sello.
+- [Booking de artistas](https://www.otherpeople.es/booking-artistas): contratación de los artistas del roster en toda España.
+- [Discográfica en Barcelona](https://www.otherpeople.es/discografica-barcelona): el sello para artistas del área de Barcelona.
+
+## Estudio y servicios
+
+- [Estudio](https://www.otherpeople.es/estudio): estudio de grabación en la Masia Agullons, a una hora de Barcelona.
+- [Producción musical](https://www.otherpeople.es/estudio/produccion-musical): producción de temas de trap y música urbana, presencial u online.
+- [Grabación de voces](https://www.otherpeople.es/estudio/grabacion): sesiones de grabación en el estudio.
+- [Mezcla y mastering](https://www.otherpeople.es/estudio/mezcla-y-mastering): mezcla y mastering online para artistas de toda España.
+- [Beats a medida](https://www.otherpeople.es/estudio/beats-a-medida): instrumentales hechos a medida con exclusiva y stems.
+- [Beats](https://www.otherpeople.es/beats): catálogo de beats con licencia (MP3, WAV y stems), por estilos: [trap](https://www.otherpeople.es/beats/trap), [reggaetón](https://www.otherpeople.es/beats/reggaeton), [hoodtrap](https://www.otherpeople.es/beats/hoodtrap) y [jerk](https://www.otherpeople.es/beats/jerk).
+
+## Herramientas gratuitas
+
+- [Detector de BPM](https://www.otherpeople.es/herramientas/detector-bpm): tempo de una canción, en el navegador.
+- [Detector de tonalidad](https://www.otherpeople.es/herramientas/detector-tonalidad): tonalidad y código Camelot de una canción.
+- [Generador de QR](https://www.otherpeople.es/herramientas/generador-qr): códigos QR para lanzamientos y conciertos.
+- [OPR-W1](https://www.otherpeople.es/plugins/opr-w1): plugin gratuito de ensanchamiento estéreo (VST3/AU).
+
+## Revista
+
+- [Revista](https://www.otherpeople.es/revista): guías para artistas, escena urbana y producción. [RSS](https://www.otherpeople.es/revista/rss.xml).
+
+## Contacto
+
+- [Contacto](https://www.otherpeople.es/contacto): booking, maquetas, estudio y colaboraciones.
+- Instagram: https://www.instagram.com/otherpeople.records/
+- YouTube: https://www.youtube.com/@otherpeoplerecords

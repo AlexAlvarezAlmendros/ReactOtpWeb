@@ -65,6 +65,7 @@ export function useArtistReleases (artistName, limit = 3) {
       // nuestros componentes. Esto nos protege de cambios en la API.
       const mappedReleases = releasesFromApi.map((release) => ({
         id: release._id || release.id,
+        slug: release.slug || null,
         title: release.title,
         subtitle: release.subtitle,
         spotifyLink: release.spotifyLink,
