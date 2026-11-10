@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useJsonLd } from '../hooks/useJsonLd'
-import Footer from '../components/Footer/Footer'
-import GlassSurface from '../components/GlassSurface'
+import { SeoLayout } from '../components/SeoPage/SeoPage'
+import { SeoChips, SeoFeatures, SeoProse, SeoSection, SeoSteps } from '../components/SeoPage/SeoBlocks'
 import { useEvents } from '../hooks/useEvents'
 import { useArtists } from '../hooks/useArtists'
 import { artistPath } from '../utils/paths'
 import { trackEvent } from '../utils/analytics'
-import './Landing.css'
 
 const URL = 'https://www.otherpeople.es/booking-artistas'
 
@@ -84,107 +83,74 @@ function BookingArtistas () {
   useJsonLd(JSONLD)
 
   return (
-    <>
-      <article className="seo-landing">
-        <span className="seo-landing__eyebrow">Booking</span>
-        <h1>Booking de artistas de trap y música urbana</h1>
-        <p className="seo-landing__lead">
-          Gestionamos la contratación de los artistas de Other People Records para salas,
-          festivales, fiestas mayores y eventos privados de toda España. Trap, rap, drill y
-          reggaetón, con presupuesto cerrado y rider por escrito antes de confirmar la fecha.
-        </p>
+    <SeoLayout
+      eyebrow="Booking"
+      h1="Booking de artistas de trap y música urbana"
+      lead="Gestionamos la contratación de los artistas de Other People Records para salas, festivales, fiestas mayores y eventos privados de toda España. Trap, rap, drill y reggaetón, con presupuesto cerrado y rider por escrito antes de confirmar la fecha."
+      crumbs={[{ label: 'Booking de artistas' }]}
+      actions={[
+        { label: 'Pedir presupuesto', to: '/contacto', icon: 'arrow-right', onClick: () => trackEvent('booking-presupuesto') },
+        { label: 'Ver el roster', to: '/artistas', variant: 'secondary' }
+      ]}
+      faq={FAQ}
+      cta={{
+        title: '¿Tienes una fecha en mente?',
+        text: 'Escríbenos con la ciudad y el día y te decimos en 48 horas qué artistas están disponibles y por cuánto.',
+        to: '/contacto',
+        label: 'Pedir presupuesto de booking',
+        onClick: () => trackEvent('booking-presupuesto')
+      }}
+    >
+      <SeoSection title="Para quién trabajamos">
+        <SeoFeatures
+          items={[
+            { icon: 'music', title: 'Salas y clubs', text: 'Que programan música urbana entre semana o en fin de semana.' },
+            { icon: 'campground', title: 'Festivales', text: 'Que necesitan cerrar un escenario urbano con artistas emergentes contrastados.' },
+            { icon: 'users', title: 'Ayuntamientos y fiestas mayores', text: 'De Barcelona y comarcas, con la facturación y los seguros en regla.' },
+            { icon: 'martini-glass-citrus', title: 'Marcas y eventos privados', text: 'Que buscan un directo corto y potente.' }
+          ]}
+        />
+      </SeoSection>
 
-        <h2>Para quién trabajamos</h2>
-        <ul>
-          <li>
-            <strong>Salas y clubs</strong> que programan música urbana entre semana o fin
-            de semana.
-          </li>
-          <li>
-            <strong>Festivales</strong> que necesitan cerrar un escenario urbano con
-            artistas emergentes contrastados.
-          </li>
-          <li>
-            <strong>Ayuntamientos y fiestas mayores</strong> de Barcelona y comarcas, con
-            la facturación y los seguros en regla.
-          </li>
-          <li>
-            <strong>Marcas y eventos privados</strong> que buscan un directo corto y
-            potente.
-          </li>
-        </ul>
+      <SeoSection title="Cómo funciona">
+        <SeoSteps
+          items={[
+            { title: 'Nos cuentas la fecha', text: 'Ciudad, aforo, tipo de evento y presupuesto orientativo. Con eso ya te decimos qué artistas del roster encajan y cuáles tienen la fecha libre.' },
+            { title: 'Presupuesto cerrado', text: 'Un solo número que incluye caché, desplazamiento y técnico si hace falta. Sin extras de última hora.' },
+            { title: 'Contrato, rider y confirmación', text: 'Firmamos, te enviamos el rider técnico y el material de promoción, y anunciamos la fecha desde nuestros canales para ayudarte a vender entradas.' }
+          ]}
+        />
+      </SeoSection>
 
-        <h2>Cómo funciona</h2>
-        <h3>1. Nos cuentas la fecha</h3>
-        <p>
-          Ciudad, aforo, tipo de evento y presupuesto orientativo. Con eso ya te decimos
-          qué artistas del roster encajan y cuáles tienen la fecha libre.
-        </p>
-        <h3>2. Presupuesto cerrado</h3>
-        <p>
-          Un solo número que incluye caché, desplazamiento y técnico si hace falta. Sin
-          extras de última hora.
-        </p>
-        <h3>3. Contrato, rider y confirmación</h3>
-        <p>
-          Firmamos, te enviamos el rider técnico y el material de promoción, y anunciamos
-          la fecha desde nuestros canales para ayudarte a vender entradas.
-        </p>
+      {venues.length > 0 && (
+        <SeoSection title="Dónde hemos tocado" intro="Algunas de las salas y ciudades de los últimos eventos del sello.">
+          <SeoChips items={venues.map(venue => ({ label: venue }))} />
+        </SeoSection>
+      )}
 
-        {venues.length > 0 && (
-          <>
-            <h2>Dónde hemos tocado</h2>
-            <p>Algunas de las salas y ciudades de los últimos eventos del sello:</p>
-            <ul className="seo-roster">
-              {venues.map(venue => <li key={venue}>{venue}</li>)}
-            </ul>
-          </>
-        )}
-
-        <h2>Qué artistas puedes contratar</h2>
+      <SeoSection title="Qué artistas puedes contratar">
         {artists.length > 0 && (
-          <ul className="seo-roster">
-            {artists.map(artist => (
-              <li key={artist.id}>
-                <Link to={artistPath(artist)}>{artist.title}</Link>
-                {artist.artistType && <span> · {artist.artistType}</span>}
-              </li>
-            ))}
-          </ul>
+          <SeoChips
+            round
+            items={artists.map(artist => ({
+              key: artist.id,
+              to: artistPath(artist),
+              label: artist.title,
+              meta: artist.artistType || artist.genre,
+              img: artist.img
+            }))}
+          />
         )}
-        <p>
-          Todo el roster está en la página de <Link to="/artistas">artistas</Link>, con su
-          música para que escuches antes de decidir. Si quieres hacerte una idea del tipo
-          de directo que montamos, echa un vistazo a los{' '}
-          <Link to="/eventos">eventos</Link> que ya hemos hecho. Y si además del directo te
-          interesa la parte de sello, lo explicamos en{' '}
-          <Link to="/discografica">qué hace el sello</Link>.
-        </p>
-
-        <h2>Preguntas frecuentes</h2>
-        <div className="seo-faq">
-          {FAQ.map(({ q, a }) => (
-            <div className="seo-faq__item" key={q}>
-              <h3>{q}</h3>
-              <p>{a}</p>
-            </div>
-          ))}
-        </div>
-
-        <GlassSurface as="section" className="seo-cta" borderRadius={16}>
-          <h2>¿Tienes una fecha en mente?</h2>
+        <SeoProse>
           <p>
-            Escríbenos con la ciudad y el día y te decimos en 48 horas qué artistas están
-            disponibles y por cuánto.
+            Todo el roster está en la página de <Link to="/artistas">artistas</Link>, con su música para que escuches
+            antes de decidir. Si quieres hacerte una idea del tipo de directo que montamos, echa un vistazo a los{' '}
+            <Link to="/eventos">eventos</Link> que ya hemos hecho. Y si además del directo te interesa la parte de
+            sello, lo explicamos en <Link to="/discografica">qué hace el sello</Link>.
           </p>
-          <Link to="/contacto" className="seo-cta__button" onClick={() => trackEvent('booking-presupuesto')}>
-            Pedir presupuesto de booking
-          </Link>
-        </GlassSurface>
-      </article>
-
-      <Footer />
-    </>
+        </SeoProse>
+      </SeoSection>
+    </SeoLayout>
   )
 }
 

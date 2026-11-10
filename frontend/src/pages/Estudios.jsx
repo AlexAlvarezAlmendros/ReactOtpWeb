@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { STUDIO_SERVICES, STUDIO_LOCATION, studioServicePath } from '../data/studioServices'
 import { trackEvent } from '../utils/analytics'
-import '../pages/Landing.css'
 import './Estudios.css'
 import './ListingPage.css'
 import ReservaModal from '../components/ReservaModal/ReservaModal'
@@ -11,6 +10,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import { useJsonLd } from '../hooks/useJsonLd'
 import Footer from '../components/Footer/Footer'
 import GlassSurface from '../components/GlassSurface'
+import { SeoFeatures } from '../components/SeoPage/SeoBlocks'
 
 /**
  * Catálogo de servicios del estudio en JSON-LD. Cuelga del nodo
@@ -266,18 +266,23 @@ function Estudios () {
 
       {/* Una página por servicio: son las que posicionan por cada búsqueda. */}
       <div className="estudios-container estudios-services-links">
-        <h2 className="estudios-subtitle">Servicios del estudio</h2>
-        <ul className="seo-cards">
-          {STUDIO_SERVICES.map(service => (
-            <li key={service.slug}>
-              <Link to={studioServicePath(service)} className="seo-card">
-                <strong>{service.name}</strong>
-                <span>{service.short}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <p className="estudios-intro">
+        <header className="estudios-header">
+          <h2 className="estudios-subtitle">Servicios del estudio</h2>
+          <div className="estudios-underline"></div>
+          <p className="estudios-intro">
+            Cada servicio tiene su página con cómo trabajamos, qué incluye y preguntas frecuentes.
+          </p>
+        </header>
+        <SeoFeatures
+          more="Ver servicio"
+          items={STUDIO_SERVICES.map(service => ({
+            icon: service.icon,
+            title: service.name,
+            text: service.short,
+            to: studioServicePath(service)
+          }))}
+        />
+        <p className="estudios-intro estudios-services-links__more">
           ¿Buscas instrumental? Escucha el <Link to="/beats">catálogo de beats</Link>. ¿Quieres firmar con el sello?
           Mira cómo trabajamos con <Link to="/nuevos-talentos">nuevos talentos</Link>.
         </p>

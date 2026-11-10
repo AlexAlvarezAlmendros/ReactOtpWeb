@@ -3,11 +3,12 @@ import './Breadcrumbs.css'
 
 /**
  * Migas de pan visibles (el JSON-LD BreadcrumbList lo pone cada página).
- * @param {{ items: Array<{ label: string, to?: string }> }} props  El último sin `to`.
+ * @param {{ items: Array<{ label: string, to?: string }>, align?: 'start' | 'center' }} props
+ *   El último item, sin `to`.
  */
-export default function Breadcrumbs ({ items }) {
+export default function Breadcrumbs ({ items, align = 'start' }) {
   return (
-    <nav className="breadcrumbs" aria-label="Migas de pan">
+    <nav className={`breadcrumbs${align === 'center' ? ' breadcrumbs--center' : ''}`} aria-label="Migas de pan">
       <ol>
         {items.map((item, i) => (
           <li key={`${item.label}-${i}`}>

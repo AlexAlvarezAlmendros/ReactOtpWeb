@@ -1,3 +1,5 @@
+/* Ficha de lanzamiento: reutiliza la cabecera y las secciones de
+   ArtistaDetalle.css; aquí solo lo propio (créditos, enlaces, cierre). */
 .release-detail__cover {
   border-radius: 12px;
 }
@@ -14,82 +16,137 @@
   border-radius: 12px;
 }
 
-.release-detail__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.release-detail__list a,
-.release-detail__credits a,
-.release-detail__more a {
-  color: #ff003c;
-  text-decoration: none;
-}
-
-.release-detail__list a:hover,
-.release-detail__credits a:hover,
-.release-detail__more a:hover {
-  text-decoration: underline;
-}
-
+/* === CRÉDITOS === */
 .release-detail__credits {
-  margin: 0;
-  display: grid;
-  gap: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 920px;
+  margin: 0 auto;
 }
 
 .release-detail__credit {
-  display: grid;
-  grid-template-columns: minmax(7rem, max-content) 1fr;
-  gap: 1rem;
+  box-sizing: border-box;
+  flex: 0 1 260px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center;
 }
 
 .release-detail__credit dt {
-  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
+  color: #ff003c;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  padding-top: 0.15rem;
 }
 
 .release-detail__credit dd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.85);
 }
 
+.release-detail__credit-name {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.release-detail__credit-service {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #aaa;
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.release-detail__credit-service svg {
+  width: 0.8em;
+  color: #ff003c;
+}
+
+.release-detail__credit-service:hover {
+  color: #fff;
+}
+
+/* === ESCÚCHALO === */
 .release-detail__listen {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 10px;
 }
 
 .release-detail__listen-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  color: white;
+  gap: 10px;
+  padding: 12px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
   text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.release-detail__listen-link svg {
+  width: 18px;
+  height: 18px;
 }
 
 .release-detail__listen-link:hover {
   border-color: #ff003c;
+  background: rgba(255, 0, 60, 0.1);
+  transform: translateY(-2px);
+}
+
+/* === CIERRE === */
+.release-detail__actions {
+  margin-top: 0;
 }
 
 .release-detail__more {
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.7;
+  margin: 24px 0 0;
+  color: #999;
+  font-size: 0.9rem;
 }
 
-@media (max-width: 480px) {
+.release-detail__more a {
+  color: #ff003c;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 0, 60, 0.4);
+}
+
+@media (max-width: 640px) {
   .release-detail__credit {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
+    flex-basis: 100%;
+  }
+
+  .release-detail__actions .seo-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .release-detail__listen-link {
+    transition: none;
+  }
+
+  .release-detail__listen-link:hover {
+    transform: none;
   }
 }

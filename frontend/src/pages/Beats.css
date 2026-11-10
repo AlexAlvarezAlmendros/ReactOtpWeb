@@ -62,45 +62,75 @@
   }
 }
 
-/* Enlaces a las categorías (/beats/trap…) */
+/* Enlaces a las categorías (/beats/trap…): navegan, no filtran,
+   así que van en rojo para distinguirlos de las etiquetas del filtro. */
 .beats-categories {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0 0 1.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 1.75rem;
+}
+
+.beats-categories__label {
+  margin-right: 6px;
+  color: #888;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .beats-categories__link {
-  padding: 0.4rem 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 7px 16px;
+  border: 1px solid rgba(255, 0, 60, 0.35);
   border-radius: 999px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.85rem;
+  background: rgba(255, 0, 60, 0.06);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
   text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .beats-categories__link:hover,
 .beats-categories__link:focus-visible {
   border-color: #ff003c;
-  color: white;
+  background: #ff003c;
 }
 
-/* Página de categoría */
+.beats-categories__link:focus-visible {
+  outline: 2px solid #ff003c;
+  outline-offset: 2px;
+}
+
+/* === PÁGINA DE CATEGORÍA (/beats/trap…) === */
 .beats-category__header {
-  text-align: left;
-  /* Alineado con la rejilla de tarjetas, que va con 4rem de margen. */
-  padding: 0 4rem;
+  max-width: 820px;
+  margin: 8px auto 48px;
+  text-align: center;
 }
 
-@media (max-width: 768px) {
-  .beats-category__header {
-    padding: 0 1rem;
-  }
+.beats-category__header .breadcrumbs ol {
+  margin-bottom: 24px;
+}
+
+.beats-category__title {
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .beats-category__intro {
-  max-width: 70ch;
-  color: rgba(255, 255, 255, 0.75);
+  max-width: 640px;
+  margin: 24px auto 0;
+  color: #aaa;
+  font-size: 1.02rem;
   line-height: 1.7;
 }
 
@@ -108,42 +138,68 @@
   margin: 0 0 0.75rem;
 }
 
+.beats-category__intro p:last-child {
+  margin-bottom: 0;
+}
+
 .beats-category__facts {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.beats-category__facts li {
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.beats-category__facts strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 .beats-category__empty {
-  color: rgba(255, 255, 255, 0.7);
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #bbb;
+  text-align: center;
 }
 
-.beats-category__empty a,
-.beats-category__others a {
-  color: #ff003c;
+.beats-category__empty p {
+  margin: 0;
+}
+
+.beats-category__empty .seo-actions {
+  margin-top: 24px;
 }
 
 .beats-category__others {
-  margin-top: 2.5rem;
-  padding: 0 4rem;
+  max-width: 1000px;
+  margin: 96px auto 0;
+  padding: 0 0 88px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .beats-category__others {
-    padding: 0 1rem;
+    margin-top: 64px;
+    padding-bottom: 64px;
   }
 }
 
-.beats-category__others h2 {
-  font-size: 1.1rem;
-  margin: 0 0 0.75rem;
-}
-
-.beats-category__others ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+@media (prefers-reduced-motion: reduce) {
+  .beats-categories__link {
+    transition: none;
+  }
 }

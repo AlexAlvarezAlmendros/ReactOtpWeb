@@ -1,277 +1,152 @@
 /* =========================================
-   LANDINGS SEO (discográfica / booking)
-   Estructura de artículo largo sobre el fondo
-   Silk que monta RootLayout.
+   PÁGINAS DE CONTENIDO (SeoPage)
+   Cabecera, cuerpo y formulario. Los bloques
+   (tarjetas, pasos, FAQ…) están en
+   components/SeoPage/SeoBlocks.css.
    ========================================= */
-.seo-landing {
+.seo-page {
   position: relative;
   z-index: 2;
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 0 1.5rem 4rem;
-  text-align: start;
-}
-
-.seo-landing__eyebrow {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #ff003c;
-  margin-bottom: 0.75rem;
-}
-
-.seo-landing h1 {
-  font-size: 2.8rem;
-  line-height: 1.15;
-  margin: 0 0 1rem;
-}
-
-.seo-landing__lead {
-  font-size: 1.15rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.78);
-  margin: 0 0 2.5rem;
-}
-
-.seo-landing h2 {
-  font-size: 1.75rem;
-  margin: 2.75rem 0 1rem;
-}
-
-.seo-landing h3 {
-  font-size: 1.15rem;
-  margin: 1.75rem 0 0.5rem;
-}
-
-.seo-landing p,
-.seo-landing li {
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 1.02rem;
-  line-height: 1.75;
-}
-
-.seo-landing p {
-  margin: 0 0 1rem;
-}
-
-.seo-landing ul {
-  padding-left: 1.25rem;
-  margin: 0 0 1rem;
-}
-
-.seo-landing li {
-  margin-bottom: 0.5rem;
-}
-
-.seo-landing a {
-  color: #ff003c;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 0, 60, 0.4);
-  transition: border-color 0.2s ease;
-}
-
-.seo-landing a:hover {
-  border-bottom-color: #ff003c;
-}
-
-/* Bloque de preguntas frecuentes */
-.seo-faq__item {
-  border-top: 1px solid #262626;
-  padding: 1.25rem 0;
-}
-
-.seo-faq__item h3 {
-  margin-top: 0;
-}
-
-/* Llamada a la acción final */
-.seo-cta {
-  margin-top: 3rem;
-  padding: 2rem;
-  border: 1px solid #333;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+  color: #fff;
   text-align: center;
 }
 
-.seo-cta h2 {
-  margin-top: 0;
+.seo-page *,
+.seo-page *::before,
+.seo-page *::after {
+  box-sizing: border-box;
 }
 
-.seo-cta__button {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.85rem 1.75rem;
-  border: none;
-  border-bottom: none;
-  border-radius: 999px;
-  background: #ff003c;
-  color: #fff;
-  font-weight: 700;
-  text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease;
+/* === CABECERA === */
+.seo-hero {
+  max-width: 920px;
+  margin: 24px auto 88px;
+  padding: 0 24px;
 }
 
-.seo-cta__button:hover {
-  background: #d90033;
-  border-bottom: none;
-  transform: translateY(-2px);
+.seo-hero .breadcrumbs ol {
+  margin-bottom: 28px;
 }
 
-@media (max-width: 768px) {
-  .seo-landing h1 {
-    font-size: 2.1rem;
-  }
-
-  .seo-landing h2 {
-    font-size: 1.45rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .seo-cta__button {
-    transition: none;
-  }
-
-  .seo-cta__button:hover {
-    transform: none;
-  }
-}
-
-/* Rejilla de tarjetas enlazadas (pilares, servicios) */
-.seo-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0 2rem;
-  padding: 0;
-  list-style: none;
-}
-
-.seo-cards li {
+.seo-hero__title {
   margin: 0;
-}
-
-.seo-card {
-  display: block;
-  height: 100%;
-  padding: 1.25rem;
-  border: 1px solid #262626;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.02);
-  text-decoration: none;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.seo-landing a.seo-card,
-.seo-landing a.seo-card:hover {
-  border-bottom: 1px solid #262626;
-}
-
-a.seo-card:hover,
-a.seo-card:focus-visible {
-  border-color: #ff003c;
-  transform: translateY(-2px);
-}
-
-.seo-card strong {
-  display: block;
-  margin-bottom: 0.35rem;
-  color: #fff;
-  font-size: 1.05rem;
-}
-
-.seo-card span {
-  display: block;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.92rem;
-  line-height: 1.55;
-}
-
-/* Pasos numerados */
-.seo-steps {
-  counter-reset: step;
-  padding: 0;
-  list-style: none;
-}
-
-.seo-steps li {
-  position: relative;
-  padding-left: 2.75rem;
-  margin-bottom: 1.25rem;
-}
-
-.seo-steps li::before {
-  counter-increment: step;
-  content: counter(step);
-  position: absolute;
-  left: 0;
-  top: 0.1rem;
-  width: 1.9rem;
-  height: 1.9rem;
-  border-radius: 50%;
-  background: #ff003c;
-  color: #fff;
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
   font-weight: 700;
-  font-size: 0.9rem;
-  display: grid;
-  place-items: center;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
-/* Formularios de las landings (enviar maqueta) */
+.seo-hero__lead {
+  max-width: 640px;
+  margin: 28px auto 0;
+  color: #aaa;
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* === CUERPO === */
+.seo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 104px;
+}
+
+.seo-body :is(p, li, dd) a:not([class]) {
+  color: #ff003c;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 0, 60, 0.4);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.seo-body :is(p, li, dd) a:not([class]):hover {
+  color: #ff3361;
+  border-bottom-color: #ff003c;
+}
+
+/* === FORMULARIO (enviar maqueta), como el de Contacto === */
 .seo-form {
   display: grid;
-  gap: 1rem;
-  margin: 1.5rem 0 2rem;
+  gap: 20px;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: left;
 }
 
 .seo-form__row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-.seo-form label {
+.seo-form__field {
   display: grid;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.85);
+  gap: 8px;
 }
 
-.seo-form input,
+.seo-form__label {
+  color: #ccc;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.seo-form__required {
+  color: #ff003c;
+}
+
+.seo-form input:not([type='checkbox']),
 .seo-form textarea {
   width: 100%;
-  box-sizing: border-box;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid #333;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.35);
   color: #fff;
-  font: inherit;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.seo-form input:focus,
+.seo-form textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.seo-form input::placeholder,
+.seo-form textarea::placeholder {
+  color: #555;
+}
+
+.seo-form input:not([type='checkbox']):focus,
 .seo-form textarea:focus {
   outline: none;
   border-color: #ff003c;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .seo-form__check {
-  grid-template-columns: auto 1fr;
-  align-items: start;
-  gap: 0.6rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #aaa;
+  font-size: 0.85rem;
+  line-height: 1.55;
 }
 
 .seo-form__check input {
-  width: auto;
-  margin-top: 0.2rem;
-}
-
-.seo-form__hint {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.8rem;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: #ff003c;
 }
 
 .seo-form__trap {
@@ -282,67 +157,89 @@ a.seo-card:focus-visible {
   overflow: hidden;
 }
 
+.seo-form__footer {
+  display: grid;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.seo-form__footer .seo-button {
+  width: 100%;
+}
+
+.seo-form__hint {
+  margin: 0;
+  color: #777;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
 .seo-form__error {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ff003c;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
   border-radius: 10px;
-  color: #ffb3c4;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  font-size: 0.875rem;
 }
 
 .seo-form__success {
-  padding: 1.5rem;
-  border: 1px solid #1f7a3a;
-  border-radius: 14px;
-  background: rgba(31, 122, 58, 0.12);
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 16px;
+  background: rgba(34, 197, 94, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-.seo-form button[type='submit'] {
-  justify-self: start;
-  cursor: pointer;
+.seo-form__success h3 {
+  margin: 0 0 10px;
+  color: #22c55e;
+  font-size: 1.3rem;
 }
 
-.seo-form button[type='submit']:disabled {
-  opacity: 0.6;
-  cursor: wait;
+.seo-form__success p {
+  margin: 0 0 8px;
+  color: #bbb;
+  line-height: 1.6;
 }
 
-/* Datos destacados (cifras sacadas de la API) */
-.seo-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 2.5rem;
-  margin: 1.5rem 0;
-  padding: 0;
-  list-style: none;
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .seo-hero {
+    margin-bottom: 64px;
+  }
+
+  .seo-body {
+    gap: 72px;
+  }
 }
 
-.seo-stats li {
-  margin: 0;
-}
+@media (max-width: 640px) {
+  .seo-hero {
+    margin-top: 8px;
+    padding: 0 4px;
+  }
 
-.seo-stats strong {
-  display: block;
-  font-size: 2rem;
-  color: #fff;
-  line-height: 1.1;
-}
+  .seo-hero__lead {
+    font-size: 1.02rem;
+  }
 
-.seo-stats span {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
-}
+  .seo-body {
+    gap: 64px;
+    padding: 0 4px 72px;
+  }
 
-/* Lista del roster */
-.seo-roster {
-  columns: 2 220px;
-  column-gap: 2rem;
-}
+  .seo-form,
+  .seo-form__success {
+    padding: 26px 18px;
+  }
 
-.seo-roster li {
-  break-inside: avoid;
-}
-
-.seo-roster span {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.9rem;
+  .seo-form__row {
+    grid-template-columns: 1fr;
+  }
 }

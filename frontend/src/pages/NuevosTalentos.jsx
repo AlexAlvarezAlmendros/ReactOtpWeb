@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SeoPage from '../components/SeoPage/SeoPage'
+import { SeoChips, SeoCta, SeoFeatures, SeoProse, SeoSection, SeoSteps } from '../components/SeoPage/SeoBlocks'
 import { useEvents } from '../hooks/useEvents'
 import { CONVOCATORIA_ACTUAL } from '../data/convocatorias'
 import { eventPath } from '../utils/paths'
@@ -44,6 +45,10 @@ function NuevosTalentos () {
       h1="Una discográfica para artistas que están empezando"
       lead="Buscamos artistas nuevos de trap, rap, drill, R&B y música urbana con música propia y algo que contar. No pedimos números: pedimos temas. Si encajas, te acompañamos desde el primer tema grabado hasta el primer escenario."
       crumbs={[{ label: 'Discográfica', to: '/discografica' }, { label: 'Nuevos talentos' }]}
+      actions={[
+        { label: open ? 'Presentarme a la convocatoria' : 'Enviar mi maqueta', to: '/enviar-maqueta', icon: 'arrow-right' },
+        { label: 'Qué hace el sello', to: '/discografica', variant: 'secondary' }
+      ]}
       faq={FAQ}
       cta={{
         title: open ? `${call.nombre}: abierta` : 'Las maquetas están abiertas',
@@ -55,70 +60,92 @@ function NuevosTalentos () {
       }}
     >
       {open && (
-        <section className="seo-cta" aria-label="Convocatoria abierta">
-          <span className="seo-landing__eyebrow">Convocatoria abierta</span>
-          <h2>{call.nombre}</h2>
-          <p>{call.texto}</p>
-          <p><strong>Fecha límite:</strong> {formatDate(call.cierre)}{call.showcase && <><br /><strong>Showcase:</strong> {call.showcase}</>}</p>
-          <Link to="/enviar-maqueta" className="seo-cta__button">Presentarme</Link>
-        </section>
+        <SeoCta eyebrow="Convocatoria abierta" title={call.nombre} text={call.texto} to="/enviar-maqueta" label="Presentarme">
+          <p className="seo-cta__details">
+            <span><strong>Fecha límite</strong>{formatDate(call.cierre)}</span>
+            {call.showcase && <span><strong>Showcase</strong>{call.showcase}</span>}
+          </p>
+        </SeoCta>
       )}
 
-      <h2>Cómo es el programa de desarrollo</h2>
-      <ol className="seo-steps">
-        <li>
-          <strong>Escucha y primera reunión.</strong> Escuchamos tu maqueta y, si encaja, nos vemos para hablar de tu
-          música y de hacia dónde quieres llevarla.
-        </li>
-        <li>
-          <strong>Estudio.</strong> Sesiones en el <Link to="/estudio">estudio del sello</Link> para grabar, producir y
-          terminar los temas con <Link to="/estudio/produccion-musical">producción</Link> y{' '}
-          <Link to="/estudio/mezcla-y-mastering">mezcla y mastering</Link> profesionales.
-        </li>
-        <li>
-          <strong>Plan de lanzamiento.</strong> Qué sale primero, cuándo y cómo: portada, fechas, distribución y
-          promoción, para que cada tema llegue preparado a las plataformas.
-        </li>
-        <li>
-          <strong>Directo.</strong> Los primeros conciertos en los eventos del sello, con público de la escena, y después{' '}
-          <Link to="/booking-artistas">booking</Link> en salas y festivales.
-        </li>
-      </ol>
+      <SeoSection
+        title="Cómo es el programa de desarrollo"
+        intro="Cuatro pasos, siempre con el mismo equipo: de la primera escucha al primer escenario."
+      >
+        <SeoSteps
+          items={[
+            {
+              title: 'Escucha y primera reunión',
+              text: 'Escuchamos tu maqueta y, si encaja, nos vemos para hablar de tu música y de hacia dónde quieres llevarla.'
+            },
+            {
+              title: 'Estudio',
+              text: (
+                <>
+                  Sesiones en el <Link to="/estudio">estudio del sello</Link> para grabar, producir y terminar los temas
+                  con <Link to="/estudio/produccion-musical">producción</Link> y{' '}
+                  <Link to="/estudio/mezcla-y-mastering">mezcla y mastering</Link> profesionales.
+                </>
+              )
+            },
+            {
+              title: 'Plan de lanzamiento',
+              text: 'Qué sale primero, cuándo y cómo: portada, fechas, distribución y promoción, para que cada tema llegue preparado a las plataformas.'
+            },
+            {
+              title: 'Directo',
+              text: (
+                <>
+                  Los primeros conciertos en los eventos del sello, con público de la escena, y después{' '}
+                  <Link to="/booking-artistas">booking</Link> en salas y festivales.
+                </>
+              )
+            }
+          ]}
+        />
+      </SeoSection>
 
-      <h2>Convocatorias</h2>
-      <p>
-        Varias veces al año abrimos convocatorias con fecha límite para proyectos concretos. Los seleccionados trabajan en
-        el estudio y presentan su música en un showcase dentro de un evento del sello. Se anuncian en la{' '}
-        <Link to="/revista">revista</Link>, en la <Link to="/newsletters">newsletter</Link> y en Instagram.
-        {!open && ' Ahora mismo no hay ninguna abierta, pero las maquetas siguen abiertas todo el año.'}
-      </p>
+      <SeoSection title="Convocatorias">
+        <SeoProse>
+          <p>
+            Varias veces al año abrimos convocatorias con fecha límite para proyectos concretos. Los seleccionados
+            trabajan en el estudio y presentan su música en un showcase dentro de un evento del sello. Se anuncian en
+            la <Link to="/revista">revista</Link>, en la <Link to="/newsletters">newsletter</Link> y en Instagram.
+            {!open && ' Ahora mismo no hay ninguna abierta, pero las maquetas siguen abiertas todo el año.'}
+          </p>
+        </SeoProse>
+      </SeoSection>
 
       {events.length > 0 && (
-        <>
-          <h2>Dónde tocan los artistas del sello</h2>
-          <p>Algunos de los últimos eventos que hemos organizado:</p>
-          <ul>
-            {events.map(event => (
-              <li key={event.id}>
-                <Link to={eventPath(event)}>{event.title}</Link>
-                {event.subtitle && <span> · {event.subtitle}</span>}
-              </li>
-            ))}
-          </ul>
-        </>
+        <SeoSection title="Dónde tocan los artistas del sello" intro="Algunos de los últimos eventos que hemos organizado.">
+          <SeoChips
+            items={events.map(event => ({
+              key: event.id,
+              to: eventPath(event),
+              label: event.title,
+              meta: [event.subtitle, event.date && formatDate(event.date)].filter(Boolean).join(' · '),
+              img: event.img
+            }))}
+          />
+        </SeoSection>
       )}
 
-      <h2>Qué necesitas para empezar</h2>
-      <ul>
-        <li>Dos o tres temas propios, aunque estén grabados en casa.</li>
-        <li>Un enlace donde escucharlos: Spotify, SoundCloud, YouTube o Drive.</li>
-        <li>Ganas de trabajar en equipo y a medio plazo.</li>
-      </ul>
-      <p>
-        Si quieres saber qué mirar antes de firmar con cualquier sello, en la <Link to="/revista">revista</Link>{' '}
-        publicamos guías para artistas. Y si lo que necesitas es solo producir un tema, mira los{' '}
-        <Link to="/estudio">servicios del estudio</Link>.
-      </p>
+      <SeoSection title="Qué necesitas para empezar">
+        <SeoFeatures
+          items={[
+            { icon: 'music', title: 'Dos o tres temas', text: 'Propios, aunque estén grabados en casa. Mejor pocos y terminados que muchos bocetos.' },
+            { icon: 'link', title: 'Un enlace', text: 'Donde escucharlos: Spotify, SoundCloud, YouTube o una carpeta de Drive.' },
+            { icon: 'user-group', title: 'Ganas de equipo', text: 'Un sello es un proyecto a medio plazo: trabajamos juntos, no de single en single.' }
+          ]}
+        />
+        <SeoProse>
+          <p>
+            Si quieres saber qué mirar antes de firmar con cualquier sello, en la <Link to="/revista">revista</Link>{' '}
+            publicamos guías para artistas. Y si lo que necesitas es solo producir un tema, mira los{' '}
+            <Link to="/estudio">servicios del estudio</Link>.
+          </p>
+        </SeoProse>
+      </SeoSection>
     </SeoPage>
   )
 }

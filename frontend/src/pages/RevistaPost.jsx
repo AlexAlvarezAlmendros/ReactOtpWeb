@@ -5,6 +5,7 @@ import { useJsonLd } from '../hooks/useJsonLd'
 import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs'
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import Footer from '../components/Footer/Footer'
+import { SeoButton, SeoCta } from '../components/SeoPage/SeoBlocks'
 import { excerpt, htmlToText, wordCount } from '../utils/seoText'
 import NotFound from './NotFound'
 import './Landing.css'
@@ -69,34 +70,47 @@ function RevistaPost () {
 
   return (
     <>
-      <article className="seo-landing revista-post">
-        <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Revista', to: '/revista' }, { label: post.title }]} />
-        <span className="seo-landing__eyebrow">{POST_CATEGORIES[post.category]}</span>
-        <h1>{post.title}</h1>
-        <p className="revista-post__byline">
-          Por {post.author?.url
-            ? <a href={post.author.url}>{post.author.name}</a>
-            : post.author?.name}{' '}
-          · <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time> · {minutes} min de lectura
-        </p>
-        {post.excerpt && <p className="seo-landing__lead">{post.excerpt}</p>}
-        {post.coverImage && (
-          <img className="revista-post__cover" src={post.coverImage} alt="" width="1200" height="675" />
-        )}
-        {/* HTML del editor del panel (lo escribe el equipo). */}
-        <div className="revista-post__content" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <article className="seo-page revista-post">
+        <header className="seo-hero revista-post__header">
+          <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Revista', to: '/revista' }, { label: post.title }]} align="center" />
+          <span className="seo-eyebrow">{POST_CATEGORIES[post.category]}</span>
+          <h1 className="revista-post__title">{post.title}</h1>
+          <div className="seo-accent" aria-hidden="true" />
+          <p className="revista-post__byline">
+            Por {post.author?.url
+              ? <a href={post.author.url}>{post.author.name}</a>
+              : post.author?.name}{' '}
+            · <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time> · {minutes} min de lectura
+          </p>
+          {post.excerpt && <p className="seo-hero__lead">{post.excerpt}</p>}
+        </header>
 
-        {post.tags?.length > 0 && (
-          <p className="revista-post__tags">{post.tags.map(tag => `#${tag}`).join(' ')}</p>
-        )}
+        <div className="seo-body revista-post__body">
+          <div>
+            {post.coverImage && (
+              <img className="revista-post__cover" src={post.coverImage} alt="" width="1200" height="675" />
+            )}
+            {/* HTML del editor del panel (lo escribe el equipo). */}
+            <div className="revista-post__content" dangerouslySetInnerHTML={{ __html: post.content }} />
 
-        <aside className="seo-cta">
-          <h2>¿Eres artista?</h2>
-          <p>Escuchamos maquetas de trap y música urbana de toda España.</p>
-          <Link to="/enviar-maqueta" className="seo-cta__button">Enviar mi maqueta</Link>
-        </aside>
+            {post.tags?.length > 0 && (
+              <ul className="revista-post__tags" aria-label="Etiquetas">
+                {post.tags.map(tag => <li key={tag}>#{tag}</li>)}
+              </ul>
+            )}
+          </div>
 
-        <p><Link to="/revista">← Volver a la revista</Link></p>
+          <SeoCta
+            title="¿Eres artista?"
+            text="Escuchamos maquetas de trap y música urbana de toda España."
+            to="/enviar-maqueta"
+            label="Enviar mi maqueta"
+          />
+
+          <p className="revista-post__back">
+            <SeoButton to="/revista" variant="secondary">Volver a la revista</SeoButton>
+          </p>
+        </div>
       </article>
       <Footer />
     </>

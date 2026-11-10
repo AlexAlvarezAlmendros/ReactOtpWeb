@@ -122,6 +122,7 @@ function Beats () {
 
         {/* Enlaces a las categorías: son las páginas que posicionan por estilo. */}
         <nav className="beats-categories" aria-label="Beats por estilo">
+          <span className="beats-categories__label">Explora por estilo</span>
           {BEAT_CATEGORIES.map(c => (
             <Link key={c.slug} to={categoryPath(c)} className="beats-categories__link">{c.name}</Link>
           ))}

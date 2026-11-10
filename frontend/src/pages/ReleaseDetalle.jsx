@@ -10,6 +10,7 @@ import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'
 import LazyImage from '../components/LazyImage/LazyImage'
 import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs'
 import Footer from '../components/Footer/Footer'
+import { SeoButton, SeoChips, SeoCta } from '../components/SeoPage/SeoBlocks'
 import { getSpotifyUrlType, extractSpotifyId } from '../utils/spotifyHelpers'
 import { artistPath, releasePath } from '../utils/paths'
 import { excerpt } from '../utils/seoText'
@@ -194,14 +195,16 @@ function ReleaseDetalle () {
                 <h2>Artistas</h2>
                 <div className="artista-detail__section-line" />
               </div>
-              <ul className="release-detail__list">
-                {releaseArtists.map(artist => (
-                  <li key={artist.id}>
-                    <Link to={artistPath(artist)}>{artist.title}</Link>
-                    {artist.artistType && <span> · {artist.artistType}</span>}
-                  </li>
-                ))}
-              </ul>
+              <SeoChips
+                round
+                items={releaseArtists.map(artist => ({
+                  key: artist.id,
+                  to: artistPath(artist),
+                  label: artist.title,
+                  meta: artist.artistType || artist.genre,
+                  img: artist.img
+                }))}
+              />
             </div>
           )}
 
@@ -218,9 +221,12 @@ function ReleaseDetalle () {
                     <div key={`${credit.role}-${i}`} className="release-detail__credit">
                       <dt>{credit.role}</dt>
                       <dd>
-                        {credit.name}
+                        <span className="release-detail__credit-name">{credit.name}</span>
                         {service && (
-                          <> · <Link to={studioServicePath(service)}>{service.name} en Other People Records</Link></>
+                          <Link to={studioServicePath(service)} className="release-detail__credit-service">
+                            {service.name} en Other People Records
+                            <FontAwesomeIcon icon={['fas', 'arrow-right']} aria-hidden="true" />
+                          </Link>
                         )}
                       </dd>
                     </div>
@@ -247,11 +253,18 @@ function ReleaseDetalle () {
             </div>
           )}
 
-          <p className="release-detail__more">
-            Más música del sello en la <Link to="/discografia">discografía</Link>. ¿Quieres sacar tu próximo tema con nosotros?
-            Mira cómo trabajamos en <Link to="/estudio/produccion-musical">producción musical</Link> o{' '}
-            <Link to="/enviar-maqueta">envíanos tu maqueta</Link>.
-          </p>
+          <SeoCta
+            title="¿Tu próximo tema, con nosotros?"
+            text="Producimos, grabamos, mezclamos y lanzamos música urbana con artistas de toda España."
+          >
+            <div className="seo-actions release-detail__actions">
+              <SeoButton to="/enviar-maqueta" icon="arrow-right">Envíanos tu maqueta</SeoButton>
+              <SeoButton to="/estudio/produccion-musical" variant="secondary">Producción musical</SeoButton>
+            </div>
+            <p className="release-detail__more">
+              Más música del sello en la <Link to="/discografia">discografía</Link>.
+            </p>
+          </SeoCta>
         </div>
       </section>
       <Footer />

@@ -1,17 +1,20 @@
-import { Link } from 'react-router-dom'
 import { usePageMeta } from '../../hooks/usePageMeta'
 import { useJsonLd } from '../../hooks/useJsonLd'
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
 import Footer from '../Footer/Footer'
-import GlassSurface from '../GlassSurface'
+import { SeoButton, SeoCta, SeoFaq, SeoSection } from './SeoBlocks'
 import '../../pages/Landing.css'
 
 const SITE_URL = 'https://www.otherpeople.es'
 
 /**
- * Plantilla de las páginas de contenido (pilares y servicios): cabecera,
- * migas de pan, cuerpo, preguntas frecuentes, llamada a la acción y JSON-LD
+ * Plantilla de las páginas de contenido (pilares y servicios): cabecera
+ * centrada como la de Estudio o Contacto, migas de pan, cuerpo hecho con los
+ * bloques de SeoBlocks, preguntas frecuentes, llamada a la acción y JSON-LD
  * (WebPage + BreadcrumbList + FAQPage + lo que añada la página).
+ *
+ * `actions`: botones bajo la entradilla ({ label, to | href, variant, icon }).
+ * `hero`: algo más dentro de la cabecera, como la franja de cifras.
  *
  * Las FAQ ya no dan resultado enriquecido en Google (solo webs de gobierno y
  * salud desde 2023), pero siguen sirviendo como contenido y para la búsqueda
@@ -25,6 +28,8 @@ export default function SeoPage ({
   h1,
   lead,
   crumbs = [],
+  actions = [],
+  hero,
   faq = [],
   cta,
   jsonLd = [],
@@ -71,38 +76,56 @@ export default function SeoPage ({
   })
 
   return (
+    <SeoLayout
+      eyebrow={eyebrow}
+      h1={h1}
+      lead={lead}
+      crumbs={crumbs}
+      actions={actions}
+      hero={hero}
+      faq={faq}
+      cta={cta}
+    >
+      {children}
+    </SeoLayout>
+  )
+}
+
+/**
+ * Solo la parte visual de SeoPage, para las páginas que ya montan sus propios
+ * metadatos y JSON-LD (discográfica en Barcelona, booking).
+ */
+export function SeoLayout ({ eyebrow, h1, lead, crumbs = [], actions = [], hero, faq = [], cta, children }) {
+  return (
     <>
-      <article className="seo-landing">
-        <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, ...crumbs]} />
-        {eyebrow && <span className="seo-landing__eyebrow">{eyebrow}</span>}
-        <h1>{h1}</h1>
-        {lead && <p className="seo-landing__lead">{lead}</p>}
-
-        {children}
-
-        {faq.length > 0 && (
-          <>
-            <h2>Preguntas frecuentes</h2>
-            <div className="seo-faq">
-              {faq.map(({ q, a }) => (
-                <div className="seo-faq__item" key={q}>
-                  <h3>{q}</h3>
-                  <p>{a}</p>
-                </div>
+      <article className="seo-page">
+        <header className="seo-hero">
+          <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, ...crumbs]} align="center" />
+          {eyebrow && <span className="seo-eyebrow">{eyebrow}</span>}
+          <h1 className="seo-hero__title">{h1}</h1>
+          <div className="seo-accent seo-accent--hero" aria-hidden="true" />
+          {lead && <p className="seo-hero__lead">{lead}</p>}
+          {actions.length > 0 && (
+            <div className="seo-actions">
+              {actions.map(({ label, ...action }) => (
+                <SeoButton key={label} {...action}>{label}</SeoButton>
               ))}
             </div>
-          </>
-        )}
+          )}
+          {hero}
+        </header>
 
-        {cta && (
-          <GlassSurface as="section" className="seo-cta" borderRadius={16}>
-            <h2>{cta.title}</h2>
-            {cta.text && <p>{cta.text}</p>}
-            {cta.href
-              ? <a href={cta.href} className="seo-cta__button" onClick={cta.onClick}>{cta.label}</a>
-              : <Link to={cta.to} className="seo-cta__button" onClick={cta.onClick}>{cta.label}</Link>}
-          </GlassSurface>
-        )}
+        <div className="seo-body">
+          {children}
+
+          {faq.length > 0 && (
+            <SeoSection title="Preguntas frecuentes">
+              <SeoFaq items={faq} />
+            </SeoSection>
+          )}
+
+          {cta && <SeoCta {...cta} />}
+        </div>
       </article>
       <Footer />
     </>
