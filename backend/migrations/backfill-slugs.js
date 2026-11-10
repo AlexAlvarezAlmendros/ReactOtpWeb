@@ -19,7 +19,14 @@ const dryRun = process.argv.includes('--dry');
 async function main() {
     await mongoose.connect(process.env.MONGO_URI);
     for (const Model of MODELS) {
-        await Model.syncIndexes();
+        // createIndexes y no syncIndexes: este borra los índices de la base que
+        // no estén en el esquema. En la simulación solo se enseña la diferencia.
+        if (dryRun) {
+            const { toCreate, toDrop } = await Model.diffIndexes();
+            console.log(`\n${Model.modelName}: índices por crear ${JSON.stringify(toCreate)}; fuera del esquema (no se tocan) ${JSON.stringify(toDrop)}`);
+        } else {
+            await Model.createIndexes();
+        }
         const docs = await Model.find({ $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }] });
         console.log(`\n${Model.modelName}: ${docs.length} sin slug`);
         for (const doc of docs) {
