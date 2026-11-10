@@ -10,6 +10,7 @@
     "migrate:licenses": "node migrations/init-license-templates.js",
     "sync:discography": "node migrations/backfill-spotify-discography.js",
     "migrate:slugs": "node migrations/backfill-slugs.js",
+    "migrate:textos": "node migrations/seo-texts.js",
     "test:license": "node tests/test-license-generation.js"
   },
   "keywords": [],

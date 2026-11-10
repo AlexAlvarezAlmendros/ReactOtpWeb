@@ -35,9 +35,9 @@
 
 | Fase | Código | Lo que falta (no es código) |
 |---|---|---|
-| 0 — Indexación | ✅ Hecho (ver «Estado de la Fase 0») | 308 en el panel de Vercel; exportar URLs de Search Console; escribir 12 bios y 78 descripciones de beats |
+| 0 — Indexación | ✅ Hecho (ver «Estado de la Fase 0»). 308 de `otherpeople.es` a `www` puesto en Vercel (10-11-2026). Borradores de las 12 bios y las 78 descripciones de beats en `backend/migrations/data/seo-texts.json` | Revisar esos borradores y aplicarlos con `npm run migrate:textos`; exportar URLs de Search Console |
 | 1 — Rendimiento | ✅ Lazy por rutas (chunk inicial 618 → 193 KB gzip), vídeo 34 MB → 1,9/4 MB, póster AVIF/WebP precargado, logo GIF 26 MB → WebP 2 MB, imágenes y fuentes optimizadas (`public/img` 36 → 5 MB) | Medir en pagespeed.web.dev tras desplegar. La tarjeta 3D de Contacto (Lanyard, en otra rama) sigue pendiente de Draco/meshopt |
-| 2 — HTML para bots | ✅ Prerender en el build de 31 páginas (`scripts/prerender.mjs`); fichas con `api/og.js` | Comprobar con `curl` tras desplegar que `/estudio` devuelve el HTML prerenderizado |
+| 2 — HTML para bots | ✅ Prerender en el build de 31 páginas (`scripts/prerender.mjs`); fichas con `api/og.js`. Comprobado en el despliegue de prueba de Vercel (PR #44): 31/31 en el build, cada página con su H1 y canonical, `/estudios` → `/estudio`, `og.js` con 404 reales y beats sin descripción en noindex | Repetir la comprobación con `curl` en producción |
 | 3 — URLs y entidades | ✅ Slugs con 301, `/discografia/:slug`, categorías `/beats/:estilo`, ficha de artista ampliada, sitemap índice con imágenes, IndexNow, migas de pan, NAP en JSON-LD | `npm run migrate:slugs` en el backend (una vez); rellenar ciudad, año, prensa y vídeos de cada artista y créditos de cada lanzamiento |
 | 4 — Contenido | ✅ Home, `/discografica`, `/nuevos-talentos`, `/enviar-maqueta` (con backend y bandeja en el panel), estudio por servicios, `/revista` (con editor y RSS), herramientas con URL propia, booking nacional | Revisar los textos; publicar 1 artículo por semana; abrir convocatorias (`src/data/convocatorias.js`) |
 | 5 — Local y marca | — | Todo en `docs/SEO_OFFSITE.md`: ficha de Google, reseñas, directorios, Wikidata, MusicBrainz, Discogs |
@@ -48,8 +48,9 @@
 **Despliegue, en este orden:**
 1. Backend (modelos nuevos, slugs, maquetas, revista, IndexNow).
 2. `npm run migrate:slugs -- --dry` y después `npm run migrate:slugs` contra la base de producción.
-3. Frontend.
-4. Search Console: reenviar el sitemap, inspeccionar la home y `http://otherpeople.es/`.
+3. `npm run migrate:textos -- --dry` y después `npm run migrate:textos` (bios, descripciones de beats y etiquetas limpias; no pisa textos ya escritos).
+4. Frontend.
+5. Search Console: enviar `https://www.otherpeople.es/sitemap.xml` (la propiedad de dominio no tenía ningún sitemap enviado) e inspeccionar la home.
 
 ---
 

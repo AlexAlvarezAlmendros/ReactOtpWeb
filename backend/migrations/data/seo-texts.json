@@ -1,0 +1,959 @@
+{
+  "artists": [
+    {
+      "id": "69939e079b523c5b6d904248",
+      "name": "PlugBoy",
+      "bio": "PlugBoy hace trap desde Barcelona y publica música desde 2019, cuando salió «Dirty Clothes». Es de los nombres más prolíficos del roster de Other People Records: en 2025 lanzó el álbum «NEW TSUNAMI» y los EP «Never Like Me» y «PLUGITO PUÑETA», y en 2026 el álbum «BARTER55». Entre disco y disco no ha parado de sacar singles, como «USA», «NO STYLIST», «BANANA», «POPPIN», «JOVEN MORO» o «WAYNA», su último lanzamiento.",
+      "city": "Barcelona",
+      "activeSince": 2019
+    },
+    {
+      "id": "698727939346b4dc61234490",
+      "name": "OGYBORY",
+      "bio": "OGYBORY hace música urbana y produce. Su nombre aparece en el catálogo de Other People Records desde 2023, casi siempre junto a LilBru: con él firma «TIME DAGA$», «PÁNICO», «INESTABLE» y «7 AM», y ya en 2026 «OTRA VEZ» y «amor y ice». Ese mismo año publicó en solitario «Need for speed». También coproduce beats del sello, como «My Collection».",
+      "city": "",
+      "activeSince": 2023
+    },
+    {
+      "id": "698727649346b4dc61234469",
+      "name": "Santamaria",
+      "bio": "Santamaria se mueve entre el trap, el jerk y la música urbana, y publica desde finales de 2023, cuando salió «MONROE». Desde entonces su nombre está en temas con YNXEF y LilBru («ynxef la sauce», «geeknelstu», «#diaryjerk»), con Blue Lacey y Rodricc («Tooth Gems», «So SicK!») y con 9cyon («Philip plein», «Keep Up»). En octubre de 2026 publicó «Barcelona» con Kifykify. También coproduce beats del catálogo del sello, como «Maliantosa», «Chopsticks» o «Glow Up».",
+      "city": "",
+      "activeSince": 2023
+    },
+    {
+      "id": "698726ebc8c6987ff78070a4",
+      "name": "Markus Bach",
+      "bio": "Markus Bach canta música urbana en castellano y en catalán, y publica desde 2024, cuando salieron «El Último Baile» y «Raíces». Tiene una línea de singles en solitario que incluye «Alas Cortas», «Aquestes Coses», «Pálido» y «Lodo». Con BZEN ha sacado «RICH OR DIE» y «Verbena»; con YNXEF, Stress Kidd y LilBru, «b4 dm pa custom jeans», y en octubre de 2026 publicó «OTRO ROUND» junto a Giadda, Trave y Prokkimo.",
+      "city": "",
+      "activeSince": 2024
+    },
+    {
+      "id": "688c99c93d99208588e0bf16",
+      "name": "Stress Kidd",
+      "bio": "Stress Kidd hace trap y publica desde 2024, cuando salió «Slide Capp» con Black Face. Alterna temas en solitario, como «ALL GIRLZ», «ZAZA ENJOYER», «NIGHTMARE» o «ADR3NOKROMO», con colaboraciones dentro del roster de Other People Records: con YNXEF y LilBru firma el EP «denim tears» (2026), y con Guila «POISON», «OCARINA OF DRANK» y «REBOLA». Su último lanzamiento es «DR4NK», con Nano Flame y Wasp444.",
+      "city": "",
+      "activeSince": 2024
+    },
+    {
+      "id": "688c986d3d99208588e0bebf",
+      "name": "Sanxo",
+      "bio": "Sanxo hace trap y trabaja con LilBru desde 2022: juntos han publicado «Trasto», «Schoolbag», «BISCOTTI» y «CULO». Con OGYBORY y Olesti aparece en «TIME DAGA$» (2023), y con Øskar en «PILL.UKI» (2024).",
+      "city": "",
+      "activeSince": 2022
+    },
+    {
+      "id": "688c95663d99208588e0be6d",
+      "name": "Aina<3",
+      "bio": "Aina<3 hace música experimental y publica desde 2022. Sus cuatro temas son en solitario: «Ulls blaus», en catalán, «Paradise Confusing», «Until I fall asleep» y «hey» (2024).",
+      "city": "",
+      "activeSince": 2022
+    },
+    {
+      "id": "688c94183d99208588e0be48",
+      "name": "Saint Jabir",
+      "bio": "Saint Jabir es DJ y productor, nacido y criado en Barcelona. Llegó a la electrónica por artistas como Skrillex o Knife Party y ha producido hip hop y vaporwave, aunque hoy se mueve sobre todo entre el UK garage, el bassline y el house latino. Publica desde 2021, con temas como «Metal Roar», «SIPPIN», «Hot Spicy» o «Problem Area». En 2025 sacó «SAINT SINS», «Escape Lullaby» con tumx y «NEXUS» con LilBru.",
+      "city": "Barcelona",
+      "activeSince": 2021
+    },
+    {
+      "id": "687e52a7e18d88b26ea38150",
+      "name": "Black Face",
+      "bio": "Black Face hace trap y publica desde 2024, cuando salieron «Slide Capp» con Stress Kidd y «Splash» con LilBru. En 2025 lanzó el EP «La C» y desde entonces ha encadenado singles en solitario como «making lucas», «you», «veneco steppa», «neverland», «ruido.» o «latina y cara». Con LilBru comparte además «BILLETES», «0800blackface», «okay» y «Sexo x Venganza».",
+      "city": "",
+      "activeSince": 2024
+    },
+    {
+      "id": "687e5270e18d88b26ea38140",
+      "name": "Øskar",
+      "bio": "Øskar produce trap y publica desde 2023. Trabaja sobre todo con LilBru, con quien firma «SO LOW», «RESET» y el álbum «DPRVTN» (2025), y con YNXEF, en temas como «sleep is the COD», «+ q ayer», «swaG talk», «loot» o «go dumb». En 2026 aparece en «POISON», con Stress Kidd, Guila y LilBru. También coproduce beats del catálogo de Other People Records, como «Shock», «My Place» o «Espera».",
+      "city": "",
+      "activeSince": 2023
+    },
+    {
+      "id": "687e5115e18d88b26ea380f6",
+      "name": "YNXEF",
+      "bio": "YNXEF es una de las voces más activas de Other People Records: desde 2024 ha publicado más de treinta temas, la mayoría junto a LilBru, de «SHARK BITE» y «JRK.flp» a «No lace max» o «hago el flex». En 2026 sacó el álbum «Demonio del swag» y, con LilBru y Stress Kidd, el EP «denim tears». Con Øskar firma «sleep is the COD», «loot» o «go dumb»; con BigMyron, «Backwoods» y «Dinero», y su último lanzamiento es «Whole Lotta Peace» (2026).",
+      "city": "",
+      "activeSince": 2024
+    },
+    {
+      "id": "687cfc1601b314edbe1f15ba",
+      "name": "LilBru",
+      "bio": "LilBru produce trap y es el nombre que más se repite en el catálogo de Other People Records: más de cincuenta lanzamientos desde 2022, del álbum «OTP: The Magic Truco» y el EP «PHARMUSIC» de ese año a «Cali Burners & Drank Sippers» (2025). Con Øskar firma el álbum «DPRVTN» y con YNXEF y Stress Kidd el EP «denim tears» (2026). Ha trabajado con casi todo el roster, de YNXEF y Black Face a Sanxo, OGYBORY o Stress Kidd, y todos los beats de la tienda del sello son suyos.",
+      "city": "",
+      "activeSince": 2022
+    }
+  ],
+  "beats": [
+    {
+      "id": "6a58ae1e739471892282250f",
+      "title": "Lies",
+      "description": "Beat de trap oscuro a 88 BPM, en Do# menor: «Lies», de LilBru con twe4k. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a686ff2886e804e7a12f724",
+      "title": "Lil Demon",
+      "description": "LilBru firma «Lil Demon», un instrumental de trap oscuro a 140 BPM, en Fa# menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a67166974ad04774a4609ae",
+      "title": "Limit",
+      "description": "LilBru firma «Limit», un instrumental de trap oscuro a 130 BPM, en Fa menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a63185eeb8f4221d5e26c30",
+      "title": "End of the game",
+      "description": "Beat de trap oscuro a 160 BPM, en Re menor: «End of the game», de LilBru con Cornhoo. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a6310acc7bd400df2b03054",
+      "title": "Súbele",
+      "description": "LilBru y Yepes firman «Súbele», un instrumental de jerk, reggaetón y hoodtrap a 96 BPM, en La# menor. Tiene aire latino. Licencias desde 29,94 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a61aada719a579d05025fc9",
+      "title": "Ballin'",
+      "description": "Beat de trap oscuro a 80 BPM, en Si menor: «Ballin'», de LilBru. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a607706db996a821b1fa1eb",
+      "title": "My Collection",
+      "description": "«My Collection» es un beat de trap oscuro a 136 BPM, en Sol mayor, producido por LilBru con OGYBORY. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a5fa38008d717a14364e611",
+      "title": "Freaky",
+      "description": "«Freaky» es un beat de jerk, reggaetón y hoodtrap a 100 BPM, en Re# menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a5f880df2ae269581788d8a",
+      "title": "First Off",
+      "description": "Beat de trap oscuro a 135 BPM, en Si menor: «First Off», de LilBru. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a5de0cad723583b3621cc56",
+      "title": "Diablita",
+      "description": "LilBru y Yepes firman «Diablita», un instrumental de jerk, reggaetón y hoodtrap a 88 BPM, en Fa# menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a689e680d5f33516dfae4c9",
+      "title": "Baby",
+      "description": "«Baby» es un beat de jerk, reggaetón y hoodtrap a 100 BPM, en Do menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a5527f58c7f37227ef2786f",
+      "title": "Conmigo",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 87 BPM, en Do# menor: «Conmigo», de LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a55158d6ab7f5bfd73d629d",
+      "title": "Muñeca",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 90 BPM, en Do# menor: «Muñeca», de LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a4d3561fec29b5652456a96",
+      "title": "Multiorgásmica",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 87 BPM, en Mi menor: «Multiorgásmica», de LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a4cac27f861729886cc952d",
+      "title": "Guava",
+      "description": "«Guava» es un beat de hoodtrap, reggaetón y jerk a 90 BPM, en Fa# menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a4b98d70cb2735142410081",
+      "title": "Olvídame",
+      "description": "Beat de jerk, reggaetón y hoodtrap a 85 BPM, en Fa# menor: «Olvídame», de LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a44b15bf3094f8a24e46932",
+      "title": "Encima",
+      "description": "LilBru y Yepes firman «Encima», un instrumental de hoodtrap, reggaetón y jerk a 99 BPM, en Fa menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a39992aaa8595cbf769f201",
+      "title": "Baddie",
+      "description": "LilBru y Yepes firman «Baddie», un instrumental de hoodtrap, reggaetón y jerk a 87 BPM, en Mi menor. Tiene aire latino. Licencias desde 29,98 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a32d4d70d9fb114d6bacd20",
+      "title": "Chapiadora",
+      "description": "«Chapiadora» es un beat de hoodtrap, reggaetón y jerketon a 93 BPM, en Sol menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a30e5d9739b31bbf018c427",
+      "title": "Peligrosa",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 90 BPM, en Sol menor: «Peligrosa», de LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a7a1d7f8d9f022723b7953c",
+      "title": "No idea",
+      "description": "LilBru firma «No idea», un instrumental de trap oscuro a 142 BPM, en Si menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6ace697b7d857e8344e616de",
+      "title": "THX",
+      "description": "LilBru firma «THX», un instrumental de trap oscuro a 147 BPM, en Do menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6ab7bac7977d308f61ee596c",
+      "title": "Maliantosa",
+      "description": "LilBru y Santamaria firman «Maliantosa», un instrumental de reggaetón a 92 BPM, en Re# menor. Tiene el estilo de Ñengo Flow y aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "reggaeton",
+        "ñengo flow",
+        "latin"
+      ]
+    },
+    {
+      "id": "6ab104ffd98351d263d645af",
+      "title": "Low Life",
+      "description": "Beat de trap oscuro a 132 BPM, en Fa menor: «Low Life», de LilBru con Cornho. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a990eb3503ccf01e2070265",
+      "title": "Tu eres pa' mi",
+      "description": "«Tu eres pa' mi» es un beat de hoodtrap, reggaetón y jerk a 90 BPM, en Re# menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a927988af5a4ac9ba3b8b2c",
+      "title": "Esa Mami",
+      "description": "LilBru y Yepes firman «Esa Mami», un instrumental de jerk, reggaetón y hoodtrap a 92 BPM, en Mi menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a8df44d4af890c8dda4e3a1",
+      "title": "Ran to Atlanta",
+      "description": "Beat de trap oscuro: «Ran to Atlanta», de LilBru con Cornho. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a8c9a95c09141d71cf0511a",
+      "title": "Sexología",
+      "description": "«Sexología» es un beat de hoodtrap, reggaetón y jerk a 92 BPM, en Do menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a7b85927dbcee02040e38ce",
+      "title": "Asia",
+      "description": "Beat de trap oscuro a 155 BPM, en Mi menor: «Asia», de LilBru con Cornho. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a7ac54c7fdbbace18dd0caf",
+      "title": "Otra mas",
+      "description": "«Otra mas» es un beat de jerk, reggaetón y hoodtrap a 92 BPM, en Sol menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a305198270dba91c53bf300",
+      "title": "Las Vegas",
+      "description": "LilBru firma «Las Vegas», un instrumental de hoodtrap, reggaetón y jerk a 95 BPM, en Si menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a7597726c763d27e9dadf3c",
+      "title": "Vente",
+      "description": "LilBru y Yepes firman «Vente», un instrumental de jerk, reggaetón y hoodtrap a 93 BPM, en Do menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a74a81dd80f00c8f9fafd9f",
+      "title": "Whipped",
+      "description": "LilBru y Cornho firman «Whipped», un instrumental de trap oscuro a 158 BPM, en Fa# menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a72e197741ec9aa85b0dcff",
+      "title": "The Prince",
+      "description": "«The Prince» es un beat de trap oscuro a 136 BPM, en Mi menor, producido por LilBru. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,96 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a70f33fbb546bd70670459f",
+      "title": "Dellusion",
+      "description": "Beat de trap oscuro a 77 BPM, en Mi menor: «Dellusion», de LilBru con Xtro. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a6ef41f8c3d8ba04e68fbf6",
+      "title": "Opps",
+      "description": "Beat de trap oscuro a 136 BPM, en Do# menor: «Opps», de LilBru con Juy. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a6c3acf4652337fb77f35be",
+      "title": "On hold",
+      "description": "LilBru y Juy firman «On hold», un instrumental de trap oscuro a 154 BPM, en Do menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6a6b443d92aecea6abdead05",
+      "title": "Como lo mueve",
+      "description": "«Como lo mueve» es un beat de jerk, reggaetón y hoodtrap a 98 BPM, en Si menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a69a241a259e821ea807d49",
+      "title": "Shock",
+      "description": "LilBru y Øskar firman «Shock», un instrumental de trap oscuro a 144 BPM, en Mi menor. Tiene el sonido de Atlanta y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "future",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "69a8b32ea8451a9fc9b8b033",
+      "title": "Mañana",
+      "description": "«Mañana» es un beat de hoodtrap, reggaetón y jerk a 93 BPM, en Mi menor, producido por LilBru con Yepes. Licencias desde 29,95 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "hoodtrap"
+      ]
+    },
+    {
+      "id": "69f30c28341d00358febea27",
+      "title": "Last Night",
+      "description": "LilBru y Yepes firman «Last Night», un instrumental de hoodtrap, reggaetón y jerk a 89 BPM, en La# menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "jerketon",
+        "hoodtrap",
+        "latin"
+      ]
+    },
+    {
+      "id": "69f1ad0891944d6ac0462aeb",
+      "title": "Duro",
+      "description": "LilBru y Yepes firman «Duro», un instrumental de hoodtrap, reggaetón y jerk a 95 BPM, en Sol# menor. Tiene aire latino. Licencias desde 29,94 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap"
+      ]
+    },
+    {
+      "id": "69f1aa333a22637d8fb7f612",
+      "title": "Balas",
+      "description": "LilBru y Yepes firman «Balas», un instrumental de hoodtrap, reggaetón y jerk a 91 BPM, en Mi menor. Tiene toques de dancehall y aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "dancehall",
+        "jerketon",
+        "latin",
+        "hoodtrap"
+      ]
+    },
+    {
+      "id": "69ea36cc8ba3268fbdfe0729",
+      "title": "Lust",
+      "description": "«Lust» es un beat de trap oscuro y duro a 140 BPM, en Re# menor, producido por LilBru con Markus Bach. Tiene el sonido de Filadelfia. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "philly",
+        "dark",
+        "hard"
+      ]
+    },
+    {
+      "id": "69e9254956d7ae1792ee6a2c",
+      "title": "Como tu",
+      "description": "LilBru y Yepes firman «Como tu», un instrumental de hoodtrap, reggaetón y jerk a 94 BPM, en Do# menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "hoodtrap",
+        "latin"
+      ]
+    },
+    {
+      "id": "69e923fd4b26c457aab7e6f1",
+      "title": "U can't",
+      "description": "Beat de trap oscuro a 146 BPM, en Mi menor: «U can't», de LilBru. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "dark",
+        "trap"
+      ]
+    },
+    {
+      "id": "69e91fade4454ae7ce715177",
+      "title": "Maracuyá",
+      "description": "LilBru y Yepes firman «Maracuyá», un instrumental de hoodtrap y reggaetón tropical y de verano a 92 BPM, en Sol menor. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "tropical",
+        "summer vibes"
+      ]
+    },
+    {
+      "id": "69badcef443ccf9648bbd731",
+      "title": "Dark Path",
+      "description": "Beat de trap oscuro y duro a 147 BPM, en Re mayor: «Dark Path», de LilBru. Tiene el sonido de Atlanta. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "dark",
+        "hard",
+        "atlanta"
+      ]
+    },
+    {
+      "id": "69adca45286a1e16b25f5b71",
+      "title": "Espera",
+      "description": "LilBru y Øskar firman «Espera», un instrumental de trap oscuro a 140 BPM, en Re menor. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "dark"
+      ]
+    },
+    {
+      "id": "69f91004fe3c9f66619aed35",
+      "title": "Sin ti",
+      "description": "LilBru y Yepes firman «Sin ti», un instrumental de hoodtrap, reggaetón y jerk a 90 BPM, en Sol# menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "69a6922174abee95380cc2dc",
+      "title": "Bleedin'",
+      "description": "«Bleedin'» es un beat de hoodtrap, trap y jerk a 172 BPM, en Sol# menor, producido por LilBru. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "jerk",
+        "hoodtrap"
+      ]
+    },
+    {
+      "id": "69a5b514c99a061c69c271ab",
+      "title": "Diferente",
+      "description": "LilBru y Yepes firman «Diferente», un instrumental de trap a 168 BPM, en Fa# menor. Tiene un sample vocal. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "vocal sample"
+      ]
+    },
+    {
+      "id": "69a5b35cc99a061c69c271a2",
+      "title": "Velvet",
+      "description": "Beat de trap duro a 158 BPM, en Si menor: «Velvet», de LilBru. Va en la línea de Osamason. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "osamason",
+        "trap",
+        "hard"
+      ]
+    },
+    {
+      "id": "69a031e85fd2dfc4c6359d5f",
+      "title": "Prophecy",
+      "description": "Beat de trap oscuro a 168 BPM, en Fa# menor: «Prophecy», de LilBru con Xtro. Tiene el sonido de Atlanta. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "6994809f8ae13d5bb103a2d8",
+      "title": "Bricks",
+      "description": "LilBru firma «Bricks», un instrumental de trap oscuro a 137 BPM, en Do# menor. Tiene el sonido de Atlanta. Licencias desde 24,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "atlanta",
+        "dark"
+      ]
+    },
+    {
+      "id": "69939b58b0ce0379f2cd8718",
+      "title": "Bloodline",
+      "description": "«Bloodline» es un beat de trap duro a 142 BPM, en Re menor, producido por LilBru. Tiene la onda Opium y va en la línea de Osamason. Licencias desde 24,94 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "opium",
+        "hard",
+        "osamason"
+      ]
+    },
+    {
+      "id": "69931779441b9d6379fb65fa",
+      "title": "CLOSER",
+      "description": "«CLOSER» es un beat de trap y jerk tranquilo y místico a 155 BPM, en Re menor, producido por LilBru con baitflp. Licencias desde 25 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "chill",
+        "mystical"
+      ]
+    },
+    {
+      "id": "698e05cae4dc0b9aa8688e72",
+      "title": "Real",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 91 BPM, en Mi menor: «Real», de LilBru con Yepes. Tiene reggaetón de la vieja escuela y aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "old reggaeton",
+        "hoodtrap",
+        "latin"
+      ]
+    },
+    {
+      "id": "698b16b7bb3c3f6dbcb4687f",
+      "title": "Chopsticks",
+      "description": "LilBru y Santamaria firman «Chopsticks», un instrumental de hoodtrap, crank y trap a 158 BPM, en Mi menor. Licencias desde 25 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "crank",
+        "hoodtrap",
+        "trap"
+      ]
+    },
+    {
+      "id": "6a15f2ad021a1b217f8d3e7c",
+      "title": "My Place",
+      "description": "LilBru y Øskar firman «My Place», un instrumental de trap a 149 BPM, en Re# menor. Tiene el sonido de Atlanta y un sample y va en la línea de Nine Vicious. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "atlanta",
+        "sample",
+        "nine vicious"
+      ]
+    },
+    {
+      "id": "6a2c34d4020cc01d515b86c4",
+      "title": "Substancia",
+      "description": "LilBru firma «Substancia», un instrumental de hoodtrap, reggaetón y jerk a 103 BPM, en La menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a28f60c237b3cb5f1c86942",
+      "title": "Raptor",
+      "description": "LilBru y YoungVlady firman «Raptor», un instrumental de trap duro a 150 BPM, en Do menor. Tiene la onda Opium y va en la línea de Osamason. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "opium",
+        "hard",
+        "osamason"
+      ]
+    },
+    {
+      "id": "6a28820501ea5476b7d31b6e",
+      "title": "Culo",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 96 BPM, en La menor: «Culo», de LilBru. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a27e2424e10f09ddbcb8f50",
+      "title": "Xingoteo",
+      "description": "LilBru firma «Xingoteo», un instrumental de hoodtrap, reggaetón y jerk a 93 BPM, en Re menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a271dc9275f6208afd9f193",
+      "title": "Tropicanna Cherry",
+      "description": "Beat de trap duro a 140 BPM, en Mi menor: «Tropicanna Cherry», de LilBru. Tiene la onda Opium y va en la línea de Osamason. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "opium",
+        "hard",
+        "osamason"
+      ]
+    },
+    {
+      "id": "6a26fe6cf7229432548dd734",
+      "title": "Juntos",
+      "description": "«Juntos» es un beat de hoodtrap, reggaetón y jerk a 93 BPM, en Re menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a25d4fea069e94db7f8f0fd",
+      "title": "Una Noche",
+      "description": "LilBru firma «Una Noche», un instrumental de trap, jerk y reggaetón a 100 BPM, en La menor. Tiene aire latino. Licencias desde 29,95 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a21b17b5e6b4c098a6df047",
+      "title": "Nunca",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 188 BPM, en Si mayor: «Nunca», de LilBru con Yepes. Tiene aire latino. Licencias desde 29,97 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "hoodtrap",
+        "jerketon"
+      ]
+    },
+    {
+      "id": "6a1de8b31891cf4bb831149f",
+      "title": "Choca",
+      "description": "«Choca» es un beat de hoodtrap, reggaetón y jerk a 94 BPM, en Sol menor, producido por LilBru con Yepes. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "hoodtrap",
+        "latin"
+      ]
+    },
+    {
+      "id": "698b0812797dd0bad955713d",
+      "title": "Dead End",
+      "description": "«Dead End» es un beat de trap oscuro a 158 BPM, en Mi menor, producido por LilBru. Licencias desde 25 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "dark",
+        "trap",
+        "usa"
+      ]
+    },
+    {
+      "id": "6a1541675f70fa0d6a3b0814",
+      "title": "Daylight",
+      "description": "«Daylight» es un beat de trap a 145 BPM, en Sol menor, producido por LilBru con Cornhoo. Tiene el sonido de Atlanta y un sample y va en la línea de Future. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "atlanta",
+        "sample",
+        "future"
+      ]
+    },
+    {
+      "id": "6a13f14dced78713a4cc8ffd",
+      "title": "Come Back",
+      "description": "«Come Back» es un beat de hoodtrap, reggaetón y jerk a 93 BPM, en Sol# menor, producido por LilBru con Yepes. Tiene aire latino y pegada de club. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "hoodtrap",
+        "latin",
+        "club"
+      ]
+    },
+    {
+      "id": "6a12b9a86aa479ca1bf24ca2",
+      "title": "Glow Up",
+      "description": "LilBru y Santamaria firman «Glow Up», un instrumental de hoodtrap, reggaetón y jerk a 93 BPM, en Re menor. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "hoodtrap",
+        "latin"
+      ]
+    },
+    {
+      "id": "6a1034f31b0d74d505a72fed",
+      "title": "Mírame",
+      "description": "«Mírame» es un beat de hoodtrap, reggaetón y jerk a 92 BPM, en La menor, producido por LilBru. Tiene aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "hoodtrap",
+        "latin",
+        "dance"
+      ]
+    },
+    {
+      "id": "6a0e0d06002805f089a8fe3c",
+      "title": "Bakano",
+      "description": "Beat de hoodtrap, reggaetón y jerk en La# menor: «Bakano», de LilBru. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "jerketon",
+        "hoodtrap"
+      ]
+    },
+    {
+      "id": "6a05ef7dc20b9a2dc428c5f7",
+      "title": "Perdida",
+      "description": "LilBru firma «Perdida», un instrumental de hoodtrap, reggaetón y jerk a 95 BPM, en Si menor. Tiene aire latino y pegada de club. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "latin",
+        "club"
+      ]
+    },
+    {
+      "id": "6a034022e1c53da634269ac4",
+      "title": "Un Beso",
+      "description": "Beat de hoodtrap, reggaetón y jerk a 167 BPM, en La menor: «Un Beso», de LilBru. Tiene reggaetón de la vieja escuela y aire latino. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "jerk",
+        "reggaeton",
+        "old school reggaeton",
+        "latin",
+        "hoodtrap"
+      ]
+    },
+    {
+      "id": "6a01066e279c4820a8c9caab",
+      "title": "Bright",
+      "description": "LilBru firma «Bright», un instrumental de trap a 129 BPM, en La menor. Tiene pluggnb y va en la línea de Gunna y Gucci Mane. Licencias desde 29,99 € en MP3; las superiores incluyen el WAV y las pistas por separado (stems).",
+      "tags": [
+        "trap",
+        "pluggnb",
+        "gunna",
+        "gucci mane"
+      ]
+    }
+  ]
+}
