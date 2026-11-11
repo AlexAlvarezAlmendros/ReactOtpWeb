@@ -2,6 +2,7 @@ const Artist = require('../models/Artist');
 const Release = require('../models/Release');
 const SpotifyService = require('./spotifyService');
 const connectDB = require('../utils/dbConnection');
+const { syncModeOf } = require('../utils/releaseStatus');
 
 /**
  * Sincroniza la discografía de los artistas registrados desde la API de Spotify.
@@ -9,6 +10,11 @@ const connectDB = require('../utils/dbConnection');
  * Cada artista con `spotifyLink` se resuelve a un ID de Spotify, se piden todos
  * sus álbumes (/artists/{id}/albums) y se hace upsert en la colección de releases
  * usando `spotifyAlbumId` como clave de idempotencia.
+ *
+ * Los releases nuevos se publican solos si el artista está en modo «auto»
+ * (`spotifyAutoPublish`); si no, entran como borradores (`status: 'draft'`) y
+ * hay que aceptarlos o rechazarlos en el panel. Los rechazados se conservan
+ * para que el cron no vuelva a importarlos.
  *
  * Llamado por Vercel Cron vía /api/cron/sync-discography y por el script
  * migrations/backfill-spotify-discography.js para la carga inicial.
@@ -95,10 +101,12 @@ const dedupeAlbums = (albums) => {
 
 /**
  * Mapea un álbum de Spotify a los campos del modelo Release.
+ * El estado depende del modo del artista: publicado (auto) o borrador (revisión).
  */
 const mapAlbumToRelease = (album, artist) => {
   const date = parseReleaseDate(album.releaseDate);
   const img = album.images?.[0]?.url || '';
+  const status = syncModeOf(artist) === 'auto' ? 'published' : 'draft';
 
   return {
     title: album.name,
@@ -109,6 +117,7 @@ const mapAlbumToRelease = (album, artist) => {
     spotifyLink: album.spotifyUrl,
     spotifyAlbumId: album.id,
     source: 'spotify',
+    status,
     artistIds: artist ? [artist._id] : [],
     spotifySyncedAt: new Date(),
     userId: SYNC_USER_ID
@@ -138,15 +147,18 @@ const resolveSpotifyArtistId = (artist, spotifyService) => {
  * @param {object} options
  * @param {SpotifyService} options.spotifyService
  * @param {boolean} [options.dryRun=false] - No escribe en BD, solo informa
- * @returns {Promise<object>} Resumen: created / updated / linked / skipped
+ * @returns {Promise<object>} Resumen: created (drafts de ellos como borrador) /
+ *   updated / linked / rejected (ignorados por estar rechazados) / skipped
  */
 const syncArtistDiscography = async (artist, { spotifyService, dryRun = false } = {}) => {
   const summary = {
     artistId: String(artist._id),
     artistName: artist.name,
     created: 0,
+    drafts: 0,
     updated: 0,
     linked: 0,
+    rejected: 0,
     skipped: 0,
     total: 0
   };
@@ -198,6 +210,12 @@ const syncArtistDiscography = async (artist, { spotifyService, dryRun = false } 
     }
 
     const existing = bySpotifyId.get(album.id);
+
+    // Rechazado en el panel: se queda como está, ni se actualiza ni se reimporta.
+    if (existing?.status === 'rejected') {
+      summary.rejected++;
+      continue;
+    }
 
     if (existing) {
       // Un release manual "adoptado" conserva sus textos e imagen editados a mano.
@@ -258,6 +276,7 @@ const syncArtistDiscography = async (artist, { spotifyService, dryRun = false } 
       }
     }
     summary.created++;
+    if (mapped.status === 'draft') summary.drafts++;
   }
 
   if (!dryRun) {
@@ -312,7 +331,7 @@ const syncAllDiscographies = async (options = {}) => {
   console.log(`   📊 ${artists.length} artista(s) en el lote`);
 
   const results = [];
-  const totals = { created: 0, updated: 0, linked: 0, skipped: 0 };
+  const totals = { created: 0, drafts: 0, updated: 0, linked: 0, rejected: 0, skipped: 0 };
   let processed = 0;
   let rateLimited = false;
 
@@ -325,14 +344,12 @@ const syncAllDiscographies = async (options = {}) => {
     try {
       const summary = await syncArtistDiscography(artist, { spotifyService, dryRun });
       results.push(summary);
-      totals.created += summary.created;
-      totals.updated += summary.updated;
-      totals.linked += summary.linked;
-      totals.skipped += summary.skipped;
+      for (const key of Object.keys(totals)) totals[key] += summary[key] || 0;
       processed++;
 
       console.log(
-        `   ✅ ${artist.name}: +${summary.created} nuevos, ${summary.updated} actualizados, ` +
+        `   ✅ ${artist.name}: +${summary.created} nuevos (${summary.drafts} en borrador), ` +
+        `${summary.updated} actualizados, ` +
         `${summary.linked} enlazados, ${summary.skipped} omitidos`
       );
     } catch (error) {

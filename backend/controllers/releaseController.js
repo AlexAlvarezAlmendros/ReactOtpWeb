@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const connectDB = require('../utils/dbConnection');
 const { isUserAdmin } = require('../utils/authHelpers');
 const { buildFilter, buildQueryOptions, validateFilters, FILTER_CONFIGS } = require('../utils/filterHelpers');
+const { publicReleaseFilter, isReleaseHidden } = require('../utils/releaseStatus');
 const axios = require('axios');
 const FormData = require('form-data');
 
@@ -55,8 +56,9 @@ const getReleases = async (req, res) => {
             });
         }
 
-        // Build filter and options
-        const filter = buildFilter(req.query, FILTER_CONFIGS.releases);
+        // Build filter and options. Los borradores de Spotify y los rechazados
+        // solo se ven en el panel (/api/spotify-sync/releases).
+        const filter = { ...buildFilter(req.query, FILTER_CONFIGS.releases), ...publicReleaseFilter() };
         const options = buildQueryOptions(req.query);
 
         // Execute query with filters
@@ -90,7 +92,7 @@ const getRelease = async (req, res) => {
     try {
         // Acepta el ObjectId (URLs antiguas) o el slug (URLs nuevas).
         const release = await findByIdOrSlug(Release, id);
-        if (!release) {
+        if (!release || isReleaseHidden(release)) {
             return res.status(404).json({ error: 'Release no encontrado' });
         }
         await ensureSlug(Release, release);
@@ -114,8 +116,10 @@ const createRelease = async (req, res) => {
             imageUrl = await uploadImageToImgBB(req.file.buffer, req.body.title);
         }
         
+        // El estado solo se cambia desde el panel de borradores.
+        const { status, reviewedAt, ...body } = req.body || {};
         const releaseData = {
-            ...req.body,
+            ...body,
             img: imageUrl,
             userId: userId // Asegurar que el userId viene del token
         };
@@ -151,7 +155,8 @@ const updateRelease = async (req, res) => {
             }
         }
         
-        let updateData = { ...req.body };
+        // El estado solo se cambia desde el panel de borradores.
+        const { status, reviewedAt, ...updateData } = req.body || {};
         
         // Si se subió una nueva imagen, subirla a ImgBB
         if (req.file) {
@@ -187,7 +192,8 @@ const getReleasesByArtist = async (req, res) => {
         const filter = {
             subtitle: { 
                 $regex: new RegExp(artist.trim(), 'i') 
-            }
+            },
+            ...publicReleaseFilter()
         };
 
         // Execute query with pagination

@@ -51,6 +51,9 @@ const artistSchema = new Schema({
 	// Sincronización de discografía desde Spotify
 	spotifyArtistId: { type: String, default: null },
 	spotifySyncEnabled: { type: Boolean, default: true },
+	// true: los lanzamientos nuevos se publican solos. false (por defecto):
+	// entran como borradores y hay que aceptarlos en el panel. Ver utils/releaseStatus.js.
+	spotifyAutoPublish: { type: Boolean, default: false },
 	spotifySyncedAt: { type: Date, default: null },
 	spotifySyncError: { type: String, default: null }
 }, {

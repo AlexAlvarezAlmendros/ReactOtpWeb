@@ -83,12 +83,14 @@ import {
   faMugHot,
   faGear,
   faNewspaper,
-  faInbox
+  faInbox,
+  faArrowsRotate
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faNewspaper,
   faInbox,
+  faArrowsRotate,
   faSpotify, faInstagram, faYoutube, faApple, faSoundcloud,
   faTiktok, faXTwitter, faFacebook, faWhatsapp, faTelegram,
   faTwitch, faDiscord, faLinkedin, faWindows, faLinux, faGithub,

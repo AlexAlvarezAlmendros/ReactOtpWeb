@@ -278,5 +278,53 @@ describe('discographySyncService', () => {
 
       expect(summary).toMatchObject({ created: 0, skipped: 1 });
     });
+
+    describe('borradores según el modo del artista', () => {
+      test('un artista en revisión (por defecto) crea los releases nuevos como borrador', async () => {
+        const spotifyService = buildSpotifyService([buildAlbum()]);
+
+        const summary = await syncArtistDiscography(buildArtist(), { spotifyService });
+
+        expect(summary).toMatchObject({ created: 1, drafts: 1 });
+        expect(Release.create).toHaveBeenCalledWith(expect.objectContaining({ status: 'draft' }));
+      });
+
+      test('un artista en automático los publica directamente', async () => {
+        const spotifyService = buildSpotifyService([buildAlbum()]);
+
+        const summary = await syncArtistDiscography(
+          buildArtist({ spotifyAutoPublish: true }),
+          { spotifyService }
+        );
+
+        expect(summary).toMatchObject({ created: 1, drafts: 0 });
+        expect(Release.create).toHaveBeenCalledWith(expect.objectContaining({ status: 'published' }));
+      });
+
+      test('no reimporta ni actualiza un release rechazado', async () => {
+        Release.find = jest.fn()
+          .mockResolvedValueOnce([{ _id: 'r1', spotifyAlbumId: 'album1', source: 'spotify', status: 'rejected' }])
+          .mockResolvedValueOnce([]);
+        const spotifyService = buildSpotifyService([buildAlbum()]);
+
+        const summary = await syncArtistDiscography(buildArtist(), { spotifyService });
+
+        expect(summary).toMatchObject({ created: 0, updated: 0, rejected: 1 });
+        expect(Release.create).not.toHaveBeenCalled();
+        expect(Release.updateOne).not.toHaveBeenCalled();
+      });
+
+      test('al actualizar un borrador no le cambia el estado', async () => {
+        Release.find = jest.fn()
+          .mockResolvedValueOnce([{ _id: 'r1', spotifyAlbumId: 'album1', source: 'spotify', status: 'draft' }])
+          .mockResolvedValueOnce([]);
+        const spotifyService = buildSpotifyService([buildAlbum()]);
+
+        await syncArtistDiscography(buildArtist({ spotifyAutoPublish: true }), { spotifyService });
+
+        const [, update] = Release.updateOne.mock.calls[0];
+        expect(update.$set.status).toBeUndefined();
+      });
+    });
   });
 });
