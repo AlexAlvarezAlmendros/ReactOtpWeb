@@ -106,6 +106,31 @@
   color: #ff003c;
 }
 
+/* Borradores de Spotify pendientes de revisar */
+.dashboard__nav-badge {
+  margin-left: auto;
+  min-width: 20px;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: #ff003c;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard__toggle-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff003c;
+}
+
 /* =====================
    MAIN CONTENT
    ===================== */
@@ -149,6 +174,7 @@
 }
 
 .dashboard__mobile-toggle {
+  position: relative;
   display: none;
   align-items: center;
   justify-content: center;

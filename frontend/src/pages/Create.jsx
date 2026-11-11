@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuth } from '../hooks/useAuth.js'
+import { usePermissions } from '../hooks/usePermissions'
 import ReleaseForm from '../components/Forms/ReleaseForm.jsx'
 import ArtistForm from '../components/Forms/ArtistForm.jsx'
 import EventForm from '../components/Forms/EventForm.jsx'
@@ -10,6 +11,9 @@ import ManageCards from '../components/ManageCards/ManageCards.jsx'
 import QRGenerator from '../components/Tools/QRGenerator/QRGenerator.jsx'
 import PostsManager from '../components/Admin/PostsManager.jsx'
 import DemosManager from '../components/Admin/DemosManager.jsx'
+import SpotifyDrafts from '../components/Admin/SpotifyDrafts.jsx'
+import SpotifySyncSettings from '../components/Admin/SpotifySyncSettings.jsx'
+import { useSpotifySyncApi } from '../components/Admin/useSpotifySyncApi'
 import './Create.css'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -31,24 +35,51 @@ const NAV = {
     { type: 'posts',        label: 'Revista',      icon: 'newspaper' },
     { type: 'demos',        label: 'Maquetas',     icon: 'inbox' },
   ],
+  // Solo administradores: la API de /spotify-sync exige admin:all.
+  spotify: [
+    { type: 'drafts', label: 'Borradores',     icon: 'list-check' },
+    { type: 'sync',   label: 'Sincronización', icon: 'gear' },
+  ],
   tools: [
     { type: 'qr-generator', label: 'Generador QR', icon: 'qrcode' },
   ],
 }
 
-const ALL_ITEMS = [
-  ...NAV.create.map(i => ({ ...i, key: `create:${i.type}` })),
-  ...NAV.manage.map(i => ({ ...i, key: `manage:${i.type}` })),
-  ...NAV.tools.map(i => ({ ...i, key: `tools:${i.type}` })),
+const SECTIONS = [
+  { key: 'create',  label: 'Crear nuevo' },
+  { key: 'manage',  label: 'Gestionar' },
+  { key: 'spotify', label: 'Spotify', adminOnly: true },
+  { key: 'tools',   label: 'Herramientas' },
 ]
+
+const ALL_ITEMS = SECTIONS.flatMap(section =>
+  NAV[section.key].map(i => ({ ...i, key: `${section.key}:${i.type}` }))
+)
 
 function Create () {
   usePageMeta({ title: 'Panel de gestión', noindex: true })
 
   const { isAuthenticated } = useAuth()
+  const { isAdmin } = usePermissions()
+  const spotifyApi = useSpotifySyncApi()
   const [activeView, setActiveView] = useState('create:release')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const [draftCount, setDraftCount] = useState(0)
+  const [draftsArtistId, setDraftsArtistId] = useState('')
+
+  // Contador de borradores pendientes para el menú.
+  const refreshDraftCount = useCallback(async () => {
+    if (!isAuthenticated || !isAdmin) return
+    try {
+      const body = await spotifyApi('/releases?status=draft&count=1')
+      setDraftCount(body.pagination?.total || 0)
+    } catch {
+      // Sin contador no pasa nada: la cola se ve igual al entrar.
+    }
+  }, [isAuthenticated, isAdmin, spotifyApi])
+
+  useEffect(() => { refreshDraftCount() }, [refreshDraftCount])
 
   if (!isAuthenticated) {
     return (
@@ -62,6 +93,7 @@ function Create () {
 
   const [section, type] = activeView.split(':')
   const activeItem = ALL_ITEMS.find(i => i.key === activeView)
+  const activeSection = SECTIONS.find(s => s.key === section)
 
   const handleNavClick = (key) => {
     setActiveView(key)
@@ -72,6 +104,11 @@ function Create () {
   const handleSuccess = (msg) => {
     setSuccessMessage(msg || '¡Creado correctamente!')
     setTimeout(() => setSuccessMessage(''), 4000)
+  }
+
+  const openDrafts = (artistId = '') => {
+    setDraftsArtistId(artistId)
+    handleNavClick('spotify:drafts')
   }
 
   const renderContent = () => {
@@ -91,6 +128,11 @@ function Create () {
         default:             return null
       }
     }
+    if (section === 'spotify') {
+      return type === 'drafts'
+        ? <SpotifyDrafts artistId={draftsArtistId} onArtistChange={setDraftsArtistId} onChanged={refreshDraftCount} />
+        : <SpotifySyncSettings onOpenDrafts={openDrafts} onChanged={refreshDraftCount} />
+    }
     if (type === 'posts') return <PostsManager />
     if (type === 'demos') return <DemosManager />
     return <ManageCards activeTab={type} />
@@ -109,50 +151,28 @@ function Create () {
         </div>
 
         <nav className="dashboard__nav">
-          <p className="dashboard__nav-label">Crear nuevo</p>
-          {NAV.create.map(item => {
-            const key = `create:${item.type}`
-            return (
-              <button
-                key={key}
-                className={`dashboard__nav-item ${activeView === key ? 'dashboard__nav-item--active' : ''}`}
-                onClick={() => handleNavClick(key)}
-              >
-                <FontAwesomeIcon icon={['fas', item.icon]} />
-                {item.label}
-              </button>
-            )
-          })}
-
-          <p className="dashboard__nav-label">Gestionar</p>
-          {NAV.manage.map(item => {
-            const key = `manage:${item.type}`
-            return (
-              <button
-                key={key}
-                className={`dashboard__nav-item ${activeView === key ? 'dashboard__nav-item--active' : ''}`}
-                onClick={() => handleNavClick(key)}
-              >
-                <FontAwesomeIcon icon={['fas', item.icon]} />
-                {item.label}
-              </button>
-            )
-          })}
-
-          <p className="dashboard__nav-label">Herramientas</p>
-          {NAV.tools.map(item => {
-            const key = `tools:${item.type}`
-            return (
-              <button
-                key={key}
-                className={`dashboard__nav-item ${activeView === key ? 'dashboard__nav-item--active' : ''}`}
-                onClick={() => handleNavClick(key)}
-              >
-                <FontAwesomeIcon icon={['fas', item.icon]} />
-                {item.label}
-              </button>
-            )
-          })}
+          {SECTIONS.filter(s => !s.adminOnly || isAdmin).map(group => (
+            <Fragment key={group.key}>
+              <p className="dashboard__nav-label">{group.label}</p>
+              {NAV[group.key].map(item => {
+                const key = `${group.key}:${item.type}`
+                const badge = key === 'spotify:drafts' && draftCount > 0 ? draftCount : null
+                return (
+                  <button
+                    key={key}
+                    className={`dashboard__nav-item ${activeView === key ? 'dashboard__nav-item--active' : ''}`}
+                    onClick={() => (key === 'spotify:drafts' ? openDrafts() : handleNavClick(key))}
+                  >
+                    <FontAwesomeIcon icon={['fas', item.icon]} />
+                    {item.label}
+                    {badge !== null && (
+                      <span className="dashboard__nav-badge" aria-label={`${badge} pendientes`}>{badge > 99 ? '99+' : badge}</span>
+                    )}
+                  </button>
+                )
+              })}
+            </Fragment>
+          ))}
         </nav>
       </aside>
 
@@ -164,12 +184,11 @@ function Create () {
             aria-label="Abrir menú"
           >
             <FontAwesomeIcon icon={['fas', 'bars']} />
+            {draftCount > 0 && isAdmin && <span className="dashboard__toggle-dot" aria-hidden="true" />}
           </button>
 
           <div className="dashboard__main-header-text">
-            <span className="dashboard__breadcrumb">
-              {section === 'create' ? 'Crear nuevo' : section === 'tools' ? 'Herramientas' : 'Gestionar'}
-            </span>
+            <span className="dashboard__breadcrumb">{activeSection?.label}</span>
             <h1 className="dashboard__main-title">
               {section === 'create' ? `Nuevo ${activeItem?.label}` : activeItem?.label}
             </h1>

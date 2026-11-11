@@ -31,7 +31,7 @@ Esto lo junta todo en una sola web, con su panel detrás.
 | | |
 |---|---|
 | **Artistas** | Fichas, releases y beats por artista, y una página de enlaces (`/links`) por artista para la bio de redes |
-| **Discografía** | Sincronizada desde **Spotify**: `sync:discography` rellena el catálogo en vez de teclearlo |
+| **Discografía** | Sincronizada desde **Spotify**: `sync:discography` rellena el catálogo en vez de teclearlo. En *Panel → Spotify* se elige por artista si lo nuevo se publica solo o entra como borrador para aceptarlo o rechazarlo |
 | **Eventos** | Con venta de entradas, QR y validación en puerta |
 | **Beats** | Tienda con reproductor, compra por Stripe y **licencia en PDF** emitida al momento |
 | **Estudios** | Reserva de las salas del sello |
