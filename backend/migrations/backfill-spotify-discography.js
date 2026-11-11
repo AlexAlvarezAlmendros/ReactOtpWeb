@@ -36,8 +36,10 @@ async function backfill() {
     console.log('\n📊 Resumen:');
     console.log(`   Artistas procesados: ${result.artistsProcessed}/${result.artistsInBatch}`);
     console.log(`   Releases creados:    ${result.totals.created}`);
+    console.log(`     de ellos, en borrador: ${result.totals.drafts} (pendientes de revisar en el panel)`);
     console.log(`   Releases actualizados: ${result.totals.updated}`);
     console.log(`   Releases enlazados:  ${result.totals.linked}`);
+    console.log(`   Rechazados ignorados: ${result.totals.rejected}`);
     console.log(`   Álbumes omitidos:    ${result.totals.skipped}`);
 
     if (result.rateLimited) {

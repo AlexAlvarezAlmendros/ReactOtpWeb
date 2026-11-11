@@ -9,6 +9,8 @@
  *
  * Desactivado en tests y con INDEXNOW_DISABLED=true.
  */
+const { isReleaseHidden } = require('../utils/releaseStatus');
+
 const SITE_URL = 'https://www.otherpeople.es';
 const HOST = 'www.otherpeople.es';
 const KEY = process.env.INDEXNOW_KEY || 'd48e5d37f374c357498fb3325989885b';
@@ -57,8 +59,18 @@ async function submit(urls) {
     }
 }
 
+/**
+ * Documentos que nunca han estado en la web: ni su ficha ni el listado
+ * cambian. Los borradores de Spotify se crean con `save()` y, sin esto,
+ * avisarían al crearse. Al aceptarlos, el panel avisa a mano.
+ */
+const HIDDEN = {
+    Release: isReleaseHidden
+};
+
 /** URLs afectadas por un cambio en un documento de `modelName`. */
 function urlsFor(modelName, doc) {
+    if (HIDDEN[modelName]?.(doc)) return [];
     const path = PATHS[modelName]?.(doc);
     return [path && SITE_URL + path, LISTS[modelName] && SITE_URL + LISTS[modelName]].filter(Boolean);
 }
@@ -69,7 +81,10 @@ function urlsFor(modelName, doc) {
  * responder y un aviso en segundo plano se perdería.
  */
 /** Campos internos: si una edición solo toca estos, la página pública no cambia. */
-const INTERNAL_FIELDS = new Set(['availableTickets', 'ticketsSold', 'slug', 'updatedAt', 'spotifySyncedAt', 'spotifySyncError'])
+const INTERNAL_FIELDS = new Set([
+    'availableTickets', 'ticketsSold', 'slug', 'updatedAt',
+    'spotifySyncedAt', 'spotifySyncError', 'spotifyArtistId', 'spotifySyncEnabled', 'spotifyAutoPublish', 'reviewedAt'
+])
 
 /** ¿La actualización cambia algo visible? (p. ej. vender una entrada, no). */
 function touchesPublicFields(update) {

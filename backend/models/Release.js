@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { RELEASE_STATUSES } = require('../utils/releaseStatus');
 
 const Schema = mongoose.Schema;
 
@@ -27,6 +28,14 @@ const releaseSchema = new Schema({
         default: 'manual'
     },
     artistIds: [{ type: Schema.Types.ObjectId, ref: 'Artist' }],
+    // published | draft | rejected. Los borradores y los rechazados no se ven
+    // en la web. Ver utils/releaseStatus.js.
+    status: {
+        type: String,
+        enum: RELEASE_STATUSES,
+        default: 'published'
+    },
+    reviewedAt: { type: Date, default: null },
     // Ficha pública /discografia/:slug: texto propio y créditos. Los créditos
     // con inHouse=true enlazan a los servicios del estudio (hace de portfolio).
     description: { type: String, trim: true, maxlength: 3000, default: '' },
